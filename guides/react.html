@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>React за один вечер — Владимир</title>
+  <meta name="description" content="Минимум, чтобы уверенно писать компоненты: JSX, состояние, эффекты, формы, контекст и свои хуки. Примеры на TypeScript.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%235b4cf0'/><text x='16' y='21' font-family='monospace' font-size='13' font-weight='700' fill='white' text-anchor='middle'>&lt;/&gt;</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="../docs.css">
+  <script src="../theme.js"></script>
+  <script src="../layout.js" data-base="../" data-page="guides" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js" defer></script>
+</head>
+<body>
+  <header class="site-header" data-layout="header"></header>
+
+  <main class="wrap">
+    <div class="doc-hero" style="--hero-bg: radial-gradient(50% 90% at 85% 15%, rgba(97, 218, 251, .45) 0%, transparent 60%), linear-gradient(135deg, #0f131a, #1a2230 60%, #1f3346)">
+      <div>
+        <div class="crumbs"><a href="../guides.html">Гайды</a> / Frontend · React</div>
+        <h1>React <b>за один вечер</b></h1>
+        <p>Минимум, чтобы уверенно писать компоненты: JSX, состояние, эффекты, формы, контекст и свои хуки. Примеры на TypeScript.</p>
+        <div class="hero-facts"><span>React 19 · TypeScript</span><span>8 уроков</span><span>~20 минут</span></div>
+      </div>
+      <div class="icon i-react"><svg viewBox="-11.5 -10.2 23 20.5" fill="none" stroke="#61dafb" stroke-width="1"><circle r="2.05" fill="#61dafb" stroke="none"/><ellipse rx="11" ry="4.2"/><ellipse rx="11" ry="4.2" transform="rotate(60)"/><ellipse rx="11" ry="4.2" transform="rotate(120)"/></svg></div>
+    </div>
+
+    <div class="guide">
+      <aside class="toc">
+        <h4>Содержание</h4>
+        <ol><li><a href="#components">Компоненты и JSX</a></li><li><a href="#state">Состояние: useState</a></li><li><a href="#effects">Эффекты: useEffect</a></li><li><a href="#lists">Списки и ключи</a></li><li><a href="#forms">Формы</a></li><li><a href="#context">Общее состояние и контекст</a></li><li><a href="#hooks">Свои хуки</a></li><li><a href="#tooling">Инструменты</a></li></ol>
+      </aside>
+
+      <div>
+        <section class="lesson" id="components">
+          <h2><span>01</span>Компоненты и JSX</h2>
+          <p>Компонент — это функция, которая принимает <strong>props</strong> и возвращает разметку. JSX похож на HTML, но это JavaScript: вместо <code>class</code> пишут <code>className</code>, а выражения вставляют в фигурных скобках.</p>
+          <pre data-file="src/components/PartCard.tsx"><code class="language-tsx">type PartCardProps = {
+  title: string;
+  price: number;
+  inStock: boolean;
+};
+
+export function PartCard({ title, price, inStock }: PartCardProps) {
+  return (
+    &lt;article className="card"&gt;
+      &lt;h3&gt;{title}&lt;/h3&gt;
+      &lt;p&gt;{price.toLocaleString('ru-RU')} ₽&lt;/p&gt;
+      {inStock ? &lt;span&gt;В наличии&lt;/span&gt; : &lt;span&gt;Под заказ&lt;/span&gt;}
+    &lt;/article&gt;
+  );
+}
+
+// Использование
+&lt;PartCard title="Фильтр масляный" price={890} inStock /&gt;</code></pre>
+          <ul><li>Имя компонента пишется с большой буквы, иначе React примет его за HTML-тег.</li><li>Компонент возвращает <strong>один</strong> корневой элемент. Если обёртка не нужна — используйте фрагмент <code>&lt;&gt;...&lt;/&gt;</code>.</li></ul>
+        </section>
+        <section class="lesson" id="state">
+          <h2><span>02</span>Состояние: useState</h2>
+          <p>Состояние — данные, которые меняются со временем. Когда вызывается функция-сеттер, React перерисовывает компонент с новым значением.</p>
+          <pre data-file="src/components/Counter.tsx"><code class="language-tsx">import { useState } from 'react';
+
+export function Counter() {
+  const [count, setCount] = useState(0);
+
+  return (
+    &lt;button onClick={() =&gt; setCount(c =&gt; c + 1)}&gt;
+      В корзине: {count}
+    &lt;/button&gt;
+  );
+}</code></pre>
+          <p>Состояние <strong>нельзя менять напрямую</strong>. Для массивов и объектов создавайте новую копию — иначе React не заметит изменений.</p>
+          <pre><code class="language-tsx">const [items, setItems] = useState&lt;CartItem[]&gt;([]);
+
+// ❌ мутация — экран не обновится
+items.push(newItem);
+
+// ✅ новый массив
+setItems(prev =&gt; [...prev, newItem]);
+setItems(prev =&gt; prev.filter(i =&gt; i.id !== id));
+setItems(prev =&gt; prev.map(i =&gt; (i.id === id ? { ...i, qty: i.qty + 1 } : i)));</code></pre>
+        </section>
+        <section class="lesson" id="effects">
+          <h2><span>03</span>Эффекты: useEffect</h2>
+          <p><code>useEffect</code> нужен для синхронизации с внешним миром: запросы к API, подписки, таймеры. Второй аргумент — массив зависимостей: эффект перезапускается, когда меняется любая из них.</p>
+          <pre data-file="src/components/PartList.tsx"><code class="language-tsx">import { useEffect, useState } from 'react';
+
+export function PartList({ query }: { query: string }) {
+  const [parts, setParts] = useState&lt;Part[]&gt;([]);
+
+  useEffect(() =&gt; {
+    const controller = new AbortController();
+
+    fetch(`/api/parts?q=${encodeURIComponent(query)}`, { signal: controller.signal })
+      .then(res =&gt; res.json())
+      .then(setParts)
+      .catch(err =&gt; {
+        if (err.name !== 'AbortError') console.error(err);
+      });
+
+    return () =&gt; controller.abort(); // очистка: отменяем старый запрос при смене query
+  }, [query]);
+
+  return &lt;ul&gt;{parts.map(p =&gt; &lt;li key={p.id}&gt;{p.title}&lt;/li&gt;)}&lt;/ul&gt;;
+}</code></pre>
+          <ul><li><code>[]</code> — эффект выполнится один раз после первой отрисовки.</li><li>Без массива — после <strong>каждой</strong> отрисовки. Почти всегда это ошибка.</li><li>Функция, которую вернул эффект, — очистка: она вызывается перед следующим запуском и при удалении компонента.</li></ul>
+          <p>В реальных проектах загрузку данных удобнее отдать <strong>TanStack Query</strong>: он сам кеширует ответы, повторяет запросы и хранит статус загрузки.</p>
+        </section>
+        <section class="lesson" id="lists">
+          <h2><span>04</span>Списки и ключи</h2>
+          <p>Списки рендерят через <code>map</code>. Каждому элементу нужен стабильный уникальный <code>key</code> — по нему React понимает, какой элемент изменился.</p>
+          <pre><code class="language-tsx">&lt;ul&gt;
+  {orders.map(order =&gt; (
+    &lt;li key={order.id}&gt;
+      Заказ №{order.number} — {order.status}
+    &lt;/li&gt;
+  ))}
+&lt;/ul&gt;</code></pre>
+          <p>Не используйте индекс массива как <code>key</code>, если список можно сортировать или удалять из него элементы: состояние «переедет» к соседним строкам.</p>
+        </section>
+        <section class="lesson" id="forms">
+          <h2><span>05</span>Формы</h2>
+          <p>В <strong>управляемом</strong> поле значение хранится в состоянии, а <code>onChange</code> обновляет его на каждый ввод.</p>
+          <pre data-file="src/components/SearchForm.tsx"><code class="language-tsx">import { useState, type FormEvent } from 'react';
+
+export function SearchForm({ onSearch }: { onSearch: (q: string) =&gt; void }) {
+  const [query, setQuery] = useState('');
+
+  function handleSubmit(e: FormEvent&lt;HTMLFormElement&gt;) {
+    e.preventDefault(); // не перезагружать страницу
+    onSearch(query.trim());
+  }
+
+  return (
+    &lt;form onSubmit={handleSubmit}&gt;
+      &lt;input value={query} onChange={e =&gt; setQuery(e.target.value)} placeholder="Артикул или название" /&gt;
+      &lt;button type="submit" disabled={!query.trim()}&gt;Найти&lt;/button&gt;
+    &lt;/form&gt;
+  );
+}</code></pre>
+          <p>Для больших форм с валидацией берите <strong>React Hook Form + Zod</strong>: меньше перерисовок и вся валидация в одной схеме.</p>
+        </section>
+        <section class="lesson" id="context">
+          <h2><span>06</span>Общее состояние и контекст</h2>
+          <p>Если двум компонентам нужны одни данные, состояние <strong>поднимают</strong> в ближайшего общего родителя и передают вниз через props. Когда props приходится пробрасывать через много уровней, используют <strong>контекст</strong>.</p>
+          <pre data-file="src/context/CartContext.tsx"><code class="language-tsx">import { createContext, useContext, useState, type ReactNode } from 'react';
+
+type CartContextValue = { count: number; add: () =&gt; void };
+
+const CartContext = createContext&lt;CartContextValue | null&gt;(null);
+
+export function CartProvider({ children }: { children: ReactNode }) {
+  const [count, setCount] = useState(0);
+  return (
+    &lt;CartContext.Provider value={{ count, add: () =&gt; setCount(c =&gt; c + 1) }}&gt;
+      {children}
+    &lt;/CartContext.Provider&gt;
+  );
+}
+
+export function useCart() {
+  const ctx = useContext(CartContext);
+  if (!ctx) throw new Error('useCart нужно вызывать внутри CartProvider');
+  return ctx;
+}</code></pre>
+          <p>Контекст не заменяет менеджер состояния: при каждом изменении перерисуются все его потребители. Для частых обновлений есть Zustand или Redux Toolkit.</p>
+        </section>
+        <section class="lesson" id="hooks">
+          <h2><span>07</span>Свои хуки</h2>
+          <p>Свой хук — функция с именем на <code>use</code>, которая собирает повторяющуюся логику из других хуков.</p>
+          <pre data-file="src/hooks/useDebounce.ts"><code class="language-tsx">import { useEffect, useState } from 'react';
+
+export function useDebounce&lt;T&gt;(value: T, delay = 300): T {
+  const [debounced, setDebounced] = useState(value);
+
+  useEffect(() =&gt; {
+    const id = setTimeout(() =&gt; setDebounced(value), delay);
+    return () =&gt; clearTimeout(id);
+  }, [value, delay]);
+
+  return debounced;
+}
+
+// Поиск не дёргает API на каждую букву
+const debouncedQuery = useDebounce(query, 400);</code></pre>
+          <ul><li>Хуки вызываются только на верхнем уровне компонента — не внутри <code>if</code>, циклов и колбэков.</li><li>Порядок вызова хуков должен быть одинаковым при каждой отрисовке.</li></ul>
+        </section>
+        <section class="lesson" id="tooling">
+          <h2><span>08</span>Инструменты</h2>
+          <pre><code class="language-bash">npm create vite@latest my-app -- --template react-ts
+cd my-app
+npm install
+npm run dev</code></pre>
+          <ul><li><strong>Vite</strong> — сборка и dev-сервер.</li><li><strong>React Router</strong> — страницы и навигация.</li><li><strong>TanStack Query</strong> — загрузка и кеширование данных с сервера.</li><li><strong>Tailwind CSS + shadcn/ui</strong> — стили и готовые компоненты.</li><li><strong>React Hook Form + Zod</strong> — формы и валидация.</li></ul>
+          <div class="tiles"><div class="good"><h4>Запомнить</h4><ul><li>Интерфейс — функция от состояния: меняйте данные, а не DOM.</li><li>Состояние иммутабельно: новые объекты и массивы вместо мутаций.</li><li>У каждого элемента списка — стабильный <code>key</code>.</li><li>Эффект — только для синхронизации с внешним миром.</li></ul></div><div class="bad"><h4>Частые ошибки</h4><ul><li>Забытая зависимость в массиве <code>useEffect</code> — устаревшие данные.</li><li><code>useEffect</code> для вычислений, которые можно сделать прямо при рендере.</li><li>Хранить в состоянии то, что выводится из других данных (например, сумму корзины).</li><li>Вызов хука внутри условия.</li></ul></div></div>
+        </section>
+        <section class="lesson" id="next">
+          <h2>Что дальше</h2>
+          <p>Соберите маленькое приложение: каталог с поиском, корзина на контексте и загрузка данных через TanStack Query. Это покрывает большую часть вопросов по React на собеседованиях.</p>
+          <div class="next-steps"><a class="pill" href="../guides.html">Все гайды</a><a class="pill ghost" href="https://react.dev/learn" target="_blank" rel="noopener">Документация React ↗</a><a class="pill ghost" href="typescript.html">Учебник по TypeScript</a></div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer" data-layout="footer"></footer>
+</body>
+</html>

@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Машинное обучение для разработчика — Владимир</title>
+  <meta name="description" content="Как обучаются модели, первая модель на scikit-learn, метрики, переобучение, компьютерное зрение и как встроить модель в веб-сервис.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%235b4cf0'/><text x='16' y='21' font-family='monospace' font-size='13' font-weight='700' fill='white' text-anchor='middle'>&lt;/&gt;</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="../docs.css">
+  <script src="../theme.js"></script>
+  <script src="../layout.js" data-base="../" data-page="guides" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js" defer></script>
+</head>
+<body>
+  <header class="site-header" data-layout="header"></header>
+
+  <main class="wrap">
+    <div class="doc-hero" style="--hero-bg: radial-gradient(50% 90% at 88% 12%, rgba(255, 170, 200, .45) 0%, transparent 60%), linear-gradient(135deg, #4a0d2c, #8c1c48 55%, #c2305f)">
+      <div>
+        <div class="crumbs"><a href="../guides.html">Гайды</a> / Data · ML</div>
+        <h1>Машинное обучение <b>для разработчика</b></h1>
+        <p>Как обучаются модели, первая модель на scikit-learn, метрики, переобучение, компьютерное зрение и как встроить модель в веб-сервис.</p>
+        <div class="hero-facts"><span>Python · scikit-learn</span><span>8 уроков</span><span>~25 минут</span></div>
+      </div>
+      <div class="icon i-ml">ML</div>
+    </div>
+
+    <div class="guide">
+      <aside class="toc">
+        <h4>Содержание</h4>
+        <ol><li><a href="#basics">Что такое машинное обучение</a></li><li><a href="#data">Данные и разбиение</a></li><li><a href="#model">Первая модель</a></li><li><a href="#metrics">Метрики качества</a></li><li><a href="#overfitting">Переобучение и кросс-валидация</a></li><li><a href="#cv">Компьютерное зрение и нейросети</a></li><li><a href="#deploy">Модель в веб-сервисе</a></li><li><a href="#process">Как устроен ML-проект</a></li></ol>
+      </aside>
+
+      <div>
+        <section class="lesson" id="basics">
+          <h2><span>01</span>Что такое машинное обучение</h2>
+          <p>Вместо того чтобы писать правила руками, мы показываем модели примеры, и она сама находит закономерности.</p>
+          <ul><li><strong>Обучение с учителем</strong> — правильные ответы известны. <strong>Классификация</strong> предсказывает класс (закажет снова или нет), <strong>регрессия</strong> — число (цена детали).</li><li><strong>Обучение без учителя</strong> — ответов нет, ищем структуру: сегменты клиентов, аномалии.</li><li><strong>Признаки</strong> (features) — входные данные модели. <strong>Целевая переменная</strong> (target) — то, что предсказываем.</li></ul>
+        </section>
+        <section class="lesson" id="data">
+          <h2><span>02</span>Данные и разбиение</h2>
+          <pre><code class="language-python">import pandas as pd
+from sklearn.model_selection import train_test_split
+
+df = pd.read_csv("orders.csv")
+print(df.head())          # первые строки
+print(df.describe())      # статистика по числовым колонкам
+print(df.isna().sum())    # пропуски по колонкам
+
+X = df[["total", "items_count", "days_since_last_order", "city"]]
+y = df["will_reorder"]    # 1 — сделал повторный заказ, 0 — нет
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42, stratify=y
+)</code></pre>
+          <p>Тестовую выборку откладывают <strong>до</strong> обучения и используют один раз — для честной оценки. Модель, проверенная на тех же данных, на которых училась, всегда выглядит лучше, чем есть.</p>
+        </section>
+        <section class="lesson" id="model">
+          <h2><span>03</span>Первая модель</h2>
+          <p><code>Pipeline</code> склеивает подготовку данных и модель в один объект — одинаковая обработка гарантированно применится и при обучении, и при предсказании.</p>
+          <pre><code class="language-python">from sklearn.compose import ColumnTransformer
+from sklearn.linear_model import LogisticRegression
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
+
+preprocess = ColumnTransformer([
+    ("num", StandardScaler(), ["total", "items_count", "days_since_last_order"]),
+    ("cat", OneHotEncoder(handle_unknown="ignore"), ["city"]),
+])
+
+model = Pipeline([
+    ("prep", preprocess),
+    ("clf", LogisticRegression(max_iter=1000)),
+])
+
+model.fit(X_train, y_train)                         # обучение
+predictions = model.predict(X_test)                 # ответы: 0 или 1
+probabilities = model.predict_proba(X_test)[:, 1]   # вероятность класса 1</code></pre>
+        </section>
+        <section class="lesson" id="metrics">
+          <h2><span>04</span>Метрики качества</h2>
+          <pre><code class="language-python">from sklearn.metrics import classification_report, confusion_matrix
+
+print(confusion_matrix(y_test, predictions))
+print(classification_report(y_test, predictions))</code></pre>
+          <ul><li><strong>Accuracy</strong> — доля верных ответов. Обманчива при дисбалансе: если повторно заказывают 5%, модель «никто не закажет» получит 95%.</li><li><strong>Precision</strong> — из тех, кого модель назвала «закажет», сколько действительно заказали.</li><li><strong>Recall</strong> — из всех, кто заказал, скольких модель нашла.</li><li><strong>F1</strong> — баланс precision и recall.</li><li>Для регрессии: <strong>MAE</strong> (средняя ошибка в единицах цели) и <strong>RMSE</strong> (сильнее штрафует за большие ошибки).</li></ul>
+        </section>
+        <section class="lesson" id="overfitting">
+          <h2><span>05</span>Переобучение и кросс-валидация</h2>
+          <p><strong>Переобучение</strong> — модель запомнила обучающие примеры, но плохо работает на новых. Признак: высокое качество на train и заметно ниже на test.</p>
+          <pre><code class="language-python">from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import cross_val_score
+
+forest = Pipeline([
+    ("prep", preprocess),
+    ("clf", RandomForestClassifier(n_estimators=300, max_depth=8, random_state=42)),
+])
+
+scores = cross_val_score(forest, X_train, y_train, cv=5, scoring="f1")
+print(scores.mean(), scores.std())   # средний F1 и разброс по 5 разбиениям</code></pre>
+          <p>Кросс-валидация обучает модель 5 раз на разных частях данных, и оценка получается устойчивее, чем на одном разбиении. С переобучением борются простыми моделями, ограничением глубины, регуляризацией и бóльшим объёмом данных.</p>
+        </section>
+        <section class="lesson" id="cv">
+          <h2><span>06</span>Компьютерное зрение и нейросети</h2>
+          <p>Для изображений, текста и звука используют нейросети. Обычно их не обучают с нуля, а берут <strong>предобученную</strong> модель и дообучают на своих данных.</p>
+          <pre><code class="language-python">from ultralytics import YOLO
+
+model = YOLO("yolov8n.pt")           # предобученная модель детекции
+results = model("parts_photo.jpg")    # найти объекты на фото
+
+for box in results[0].boxes:
+    name = results[0].names[int(box.cls)]
+    print(name, float(box.conf), box.xyxy.tolist())
+
+# Дообучение на своих классах (описание датасета — в data.yaml)
+model.train(data="data.yaml", epochs=50, imgsz=640)</code></pre>
+          <ul><li><strong>Детекция</strong> — где на картинке объекты (рамки). <strong>Классификация</strong> — что изображено. <strong>Сегментация</strong> — точные контуры.</li><li>Инструменты: <strong>PyTorch</strong> для своих моделей, <strong>Ultralytics YOLO</strong> для детекции, <strong>OpenCV</strong> для обработки изображений.</li></ul>
+        </section>
+        <section class="lesson" id="deploy">
+          <h2><span>07</span>Модель в веб-сервисе</h2>
+          <p>Обученную модель сохраняют в файл и загружают в API один раз при старте.</p>
+          <pre data-file="train.py"><code class="language-python">import joblib
+
+joblib.dump(model, "reorder_model.joblib")</code></pre>
+          <pre data-file="app/main.py"><code class="language-python">import joblib
+import pandas as pd
+from fastapi import FastAPI
+from pydantic import BaseModel
+
+app = FastAPI()
+model = joblib.load("reorder_model.joblib")   # загружаем один раз при старте
+
+
+class Customer(BaseModel):
+    total: float
+    items_count: int
+    days_since_last_order: int
+    city: str
+
+
+@app.post("/predict")
+def predict(customer: Customer):
+    X = pd.DataFrame([customer.model_dump()])
+    return {"reorder_probability": float(model.predict_proba(X)[0, 1])}</code></pre>
+        </section>
+        <section class="lesson" id="process">
+          <h2><span>08</span>Как устроен ML-проект</h2>
+          <ul><li><strong>Постановка:</strong> что предсказываем и какая метрика важна бизнесу.</li><li><strong>Данные:</strong> сбор, очистка, пропуски, выбросы.</li><li><strong>Бейзлайн:</strong> простая модель или даже правило «как в прошлом месяце» — точка отсчёта.</li><li><strong>Итерации:</strong> признаки, модели, подбор параметров — каждый шаг сравнивается с бейзлайном.</li><li><strong>Внедрение и мониторинг:</strong> данные со временем меняются, качество модели нужно отслеживать.</li></ul>
+          <div class="tiles"><div class="good"><h4>Запомнить</h4><ul><li>Тестовая выборка откладывается до обучения и используется один раз.</li><li>Подготовка данных — внутри <code>Pipeline</code>.</li><li>Метрика выбирается под задачу; accuracy подходит не всегда.</li><li>Начинайте с простого бейзлайна.</li></ul></div><div class="bad"><h4>Частые ошибки</h4><ul><li>Утечка данных: признак, который «знает» ответ (например, дата повторного заказа).</li><li>Масштабирование на всех данных до разбиения на train и test.</li><li>Accuracy на несбалансированных классах.</li><li>Сразу нейросеть там, где хватит логистической регрессии.</li></ul></div></div>
+        </section>
+        <section class="lesson" id="next">
+          <h2>Что дальше</h2>
+          <p>Возьмите данные своего проекта — например, заказы — и попробуйте предсказать повторную покупку. Даже простая модель с честной оценкой — сильный пункт в резюме.</p>
+          <div class="next-steps"><a class="pill" href="../guides.html">Все гайды</a><a class="pill ghost" href="https://scikit-learn.org/stable/getting_started.html" target="_blank" rel="noopener">Начало работы со scikit-learn ↗</a><a class="pill ghost" href="https://docs.ultralytics.com/" target="_blank" rel="noopener">Документация Ultralytics YOLO ↗</a></div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer" data-layout="footer"></footer>
+</body>
+</html>

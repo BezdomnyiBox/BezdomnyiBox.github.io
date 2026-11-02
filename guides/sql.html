@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SQL на примерах PostgreSQL — Владимир</title>
+  <meta name="description" content="Выборки, соединения, группировки, CTE, оконные функции, индексы и транзакции — на схеме интернет-магазина.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%235b4cf0'/><text x='16' y='21' font-family='monospace' font-size='13' font-weight='700' fill='white' text-anchor='middle'>&lt;/&gt;</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="../docs.css">
+  <script src="../theme.js"></script>
+  <script src="../layout.js" data-base="../" data-page="guides" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js" defer></script>
+</head>
+<body>
+  <header class="site-header" data-layout="header"></header>
+
+  <main class="wrap">
+    <div class="doc-hero" style="--hero-bg: radial-gradient(50% 90% at 88% 12%, rgba(255, 196, 90, .45) 0%, transparent 60%), linear-gradient(135deg, #182c44, #24476b 55%, #336791)">
+      <div>
+        <div class="crumbs"><a href="../guides.html">Гайды</a> / Базы данных · SQL</div>
+        <h1>SQL <b>на примерах PostgreSQL</b></h1>
+        <p>Выборки, соединения, группировки, CTE, оконные функции, индексы и транзакции — на схеме интернет-магазина.</p>
+        <div class="hero-facts"><span>PostgreSQL 16</span><span>8 уроков</span><span>~25 минут</span></div>
+      </div>
+      <div class="icon i-sql">SQL</div>
+    </div>
+
+    <div class="guide">
+      <aside class="toc">
+        <h4>Содержание</h4>
+        <ol><li><a href="#schema">Схема для примеров</a></li><li><a href="#select">SELECT и фильтры</a></li><li><a href="#join">JOIN</a></li><li><a href="#group">GROUP BY и агрегаты</a></li><li><a href="#cte">Подзапросы и CTE</a></li><li><a href="#window">Оконные функции</a></li><li><a href="#indexes">Индексы и EXPLAIN</a></li><li><a href="#tx">Транзакции и N+1</a></li></ol>
+      </aside>
+
+      <div>
+        <section class="lesson" id="schema">
+          <h2><span>01</span>Схема для примеров</h2>
+          <pre data-file="schema.sql"><code class="language-sql">CREATE TABLE customers (
+  id   INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  name TEXT NOT NULL,
+  city TEXT
+);
+
+CREATE TABLE orders (
+  id          INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  customer_id INT NOT NULL REFERENCES customers (id),
+  status      TEXT NOT NULL DEFAULT 'new',
+  total       NUMERIC(10, 2) NOT NULL,
+  created_at  TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+CREATE TABLE parts (
+  id    INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  title TEXT NOT NULL,
+  stock INT NOT NULL DEFAULT 0
+);
+
+CREATE TABLE order_items (
+  order_id INT REFERENCES orders (id),
+  part_id  INT REFERENCES parts (id),
+  qty      INT NOT NULL,
+  PRIMARY KEY (order_id, part_id)
+);</code></pre>
+          <p><code>REFERENCES</code> — внешний ключ: база не даст создать заказ несуществующего клиента. <code>NUMERIC</code> — точный тип для денег; <code>FLOAT</code> для денег не используют из-за ошибок округления.</p>
+        </section>
+        <section class="lesson" id="select">
+          <h2><span>02</span>SELECT и фильтры</h2>
+          <pre><code class="language-sql">SELECT id, total, created_at
+FROM orders
+WHERE status = 'paid'
+  AND total &gt;= 5000
+  AND created_at &gt;= now() - interval '30 days'
+ORDER BY created_at DESC
+LIMIT 20 OFFSET 40;   -- третья страница по 20 штук</code></pre>
+          <ul><li><code>status IN ('paid', 'shipped')</code> — одно из значений.</li><li><code>title ILIKE '%фильтр%'</code> — поиск по подстроке без учёта регистра.</li><li><code>city IS NULL</code> — проверка на NULL. Сравнение <code>= NULL</code> не работает никогда.</li></ul>
+        </section>
+        <section class="lesson" id="join">
+          <h2><span>03</span>JOIN</h2>
+          <pre><code class="language-sql">-- JOIN (он же INNER JOIN): только строки, у которых нашлась пара
+SELECT o.id, c.name, o.total
+FROM orders o
+JOIN customers c ON c.id = o.customer_id;
+
+-- LEFT JOIN: все клиенты, даже без заказов
+SELECT c.name, o.id AS order_id
+FROM customers c
+LEFT JOIN orders o ON o.customer_id = c.id;
+
+-- Клиенты, которые ни разу не заказывали
+SELECT c.name
+FROM customers c
+LEFT JOIN orders o ON o.customer_id = c.id
+WHERE o.id IS NULL;</code></pre>
+          <p><code>LEFT JOIN</code> сохраняет все строки левой таблицы, а поля правой, для которых пары нет, заполняет <code>NULL</code>. На этом построен приём «найти записи без пары».</p>
+        </section>
+        <section class="lesson" id="group">
+          <h2><span>04</span>GROUP BY и агрегаты</h2>
+          <pre><code class="language-sql">SELECT c.city,
+       COUNT(*)               AS orders_count,
+       SUM(o.total)           AS revenue,
+       ROUND(AVG(o.total), 2) AS avg_check
+FROM orders o
+JOIN customers c ON c.id = o.customer_id
+WHERE o.status = 'paid'
+GROUP BY c.city
+HAVING SUM(o.total) &gt; 100000   -- фильтр по агрегату
+ORDER BY revenue DESC;</code></pre>
+          <p>Порядок выполнения: <code>FROM/JOIN</code> → <code>WHERE</code> → <code>GROUP BY</code> → <code>HAVING</code> → <code>SELECT</code> → <code>ORDER BY</code> → <code>LIMIT</code>. Поэтому в <code>WHERE</code> нельзя использовать агрегаты — для них есть <code>HAVING</code>.</p>
+        </section>
+        <section class="lesson" id="cte">
+          <h2><span>05</span>Подзапросы и CTE</h2>
+          <p>CTE (<code>WITH</code>) — именованный подзапрос. Сложный запрос читается как набор шагов.</p>
+          <pre><code class="language-sql">WITH customer_stats AS (
+  SELECT customer_id, COUNT(*) AS orders, SUM(total) AS spent
+  FROM orders
+  WHERE status = 'paid'
+  GROUP BY customer_id
+)
+SELECT c.name, s.orders, s.spent
+FROM customer_stats s
+JOIN customers c ON c.id = s.customer_id
+WHERE s.spent &gt; (SELECT AVG(spent) FROM customer_stats)   -- больше среднего
+ORDER BY s.spent DESC;</code></pre>
+        </section>
+        <section class="lesson" id="window">
+          <h2><span>06</span>Оконные функции</h2>
+          <p>Оконная функция считает значение по группе строк, но, в отличие от <code>GROUP BY</code>, <strong>не схлопывает</strong> строки.</p>
+          <pre><code class="language-sql">-- Последний заказ каждого клиента
+SELECT *
+FROM (
+  SELECT o.*,
+         ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY created_at DESC) AS rn
+  FROM orders o
+) t
+WHERE rn = 1;
+
+-- Выручка по дням и накопительный итог
+SELECT created_at::date AS day,
+       SUM(total) AS revenue,
+       SUM(SUM(total)) OVER (ORDER BY created_at::date) AS revenue_cumulative
+FROM orders
+GROUP BY created_at::date
+ORDER BY day;</code></pre>
+          <p>Задача «последняя запись в каждой группе» — один из самых частых вопросов на собеседованиях.</p>
+        </section>
+        <section class="lesson" id="indexes">
+          <h2><span>07</span>Индексы и EXPLAIN</h2>
+          <p>Индекс — отсортированная структура (обычно B-tree), по которой база находит строки без полного перебора таблицы.</p>
+          <pre><code class="language-sql">CREATE INDEX idx_orders_customer ON orders (customer_id);
+-- Составной индекс: подходит для WHERE status = ... ORDER BY created_at
+CREATE INDEX idx_orders_status_created ON orders (status, created_at DESC);
+
+EXPLAIN ANALYZE
+SELECT * FROM orders WHERE status = 'paid' ORDER BY created_at DESC LIMIT 20;
+-- Seq Scan   — полный перебор таблицы: на больших таблицах медленно
+-- Index Scan — поиск по индексу: быстро</code></pre>
+          <ul><li>Индексируйте внешние ключи и поля из частых <code>WHERE</code>, <code>JOIN</code>, <code>ORDER BY</code>.</li><li>Порядок полей в составном индексе важен: индекс <code>(status, created_at)</code> поможет запросу по <code>status</code>, но не запросу только по <code>created_at</code>.</li><li>Индексы ускоряют чтение, но замедляют запись — не создавайте их «на всякий случай».</li></ul>
+        </section>
+        <section class="lesson" id="tx">
+          <h2><span>08</span>Транзакции и N+1</h2>
+          <p>Транзакция выполняет несколько запросов как одно целое: применяются либо все, либо ни один (свойства <strong>ACID</strong>).</p>
+          <pre><code class="language-sql">BEGIN;
+
+UPDATE parts SET stock = stock - 1 WHERE id = 42 AND stock &gt; 0;
+INSERT INTO order_items (order_id, part_id, qty) VALUES (1001, 42, 1);
+
+COMMIT;   -- или ROLLBACK, если что-то пошло не так</code></pre>
+          <p>Проблема <strong>N+1</strong> — частая беда ORM: один запрос за списком заказов и ещё по запросу на клиента каждого заказа. Решение — загрузить связь сразу: <code>JOIN</code> в SQL, <code>leftJoin()-&gt;addSelect()</code> в Doctrine, <code>selectinload()</code> в SQLAlchemy.</p>
+          <div class="tiles"><div class="good"><h4>Запомнить</h4><ul><li>Сначала <code>WHERE</code>, потом <code>GROUP BY</code>, потом <code>HAVING</code>.</li><li><code>LEFT JOIN ... WHERE right.id IS NULL</code> — поиск записей без пары.</li><li><code>ROW_NUMBER() OVER (PARTITION BY ...)</code> — топ-N в каждой группе.</li><li>Медленный запрос → <code>EXPLAIN ANALYZE</code> → индекс.</li></ul></div><div class="bad"><h4>Частые ошибки</h4><ul><li>Склейка SQL из строк с пользовательским вводом — SQL-инъекция. Только параметры.</li><li><code>= NULL</code> вместо <code>IS NULL</code>.</li><li><code>SELECT *</code> в коде приложения: лишние данные и поломки при изменении схемы.</li><li>N+1 запросов в цикле.</li></ul></div></div>
+        </section>
+        <section class="lesson" id="next">
+          <h2>Что дальше</h2>
+          <p>Потренируйтесь на своей базе: найдите топ-3 клиентов по выручке в каждом городе (CTE + оконная функция) и ускорьте индексом самый медленный запрос проекта.</p>
+          <div class="next-steps"><a class="pill" href="../guides.html">Все гайды</a><a class="pill ghost" href="https://www.postgresql.org/docs/current/" target="_blank" rel="noopener">Документация PostgreSQL ↗</a><a class="pill ghost" href="docker.html">Учебник по Docker</a></div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer" data-layout="footer"></footer>
+</body>
+</html>

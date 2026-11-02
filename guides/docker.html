@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Docker для разработчика — Владимир</title>
+  <meta name="description" content="Образы, контейнеры, Dockerfile и Docker Compose — всё, чтобы поднять проект с базой и кешем одной командой.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%235b4cf0'/><text x='16' y='21' font-family='monospace' font-size='13' font-weight='700' fill='white' text-anchor='middle'>&lt;/&gt;</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="../docs.css">
+  <script src="../theme.js"></script>
+  <script src="../layout.js" data-base="../" data-page="guides" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js" defer></script>
+</head>
+<body>
+  <header class="site-header" data-layout="header"></header>
+
+  <main class="wrap">
+    <div class="doc-hero" style="--hero-bg: radial-gradient(50% 90% at 90% 10%, rgba(120, 210, 255, .5) 0%, transparent 60%), linear-gradient(135deg, #0b2f6b, #1d63ed 60%, #2496ed)">
+      <div>
+        <div class="crumbs"><a href="../guides.html">Гайды</a> / DevOps · Docker</div>
+        <h1>Docker <b>для разработчика</b></h1>
+        <p>Образы, контейнеры, Dockerfile и Docker Compose — всё, чтобы поднять проект с базой и кешем одной командой.</p>
+        <div class="hero-facts"><span>Docker · Compose v2</span><span>7 уроков</span><span>~20 минут</span></div>
+      </div>
+      <div class="icon i-docker">Do</div>
+    </div>
+
+    <div class="guide">
+      <aside class="toc">
+        <h4>Содержание</h4>
+        <ol><li><a href="#concepts">Образ и контейнер</a></li><li><a href="#dockerfile">Dockerfile</a></li><li><a href="#commands">Основные команды</a></li><li><a href="#compose">Docker Compose</a></li><li><a href="#network">Сети и тома</a></li><li><a href="#multistage">Многоэтапная сборка</a></li><li><a href="#practice">Хорошие практики</a></li></ol>
+      </aside>
+
+      <div>
+        <section class="lesson" id="concepts">
+          <h2><span>01</span>Образ и контейнер</h2>
+          <ul><li><strong>Образ</strong> — неизменяемый шаблон: система, зависимости и код. Собирается по <code>Dockerfile</code>.</li><li><strong>Контейнер</strong> — запущенный экземпляр образа. Из одного образа можно запустить сколько угодно контейнеров.</li><li><strong>Реестр</strong> (Docker Hub) — хранилище готовых образов: <code>postgres:16</code>, <code>redis:7</code>, <code>nginx</code>.</li></ul>
+          <p>Главная польза: у всех разработчиков и на сервере одинаковое окружение. Фраза «у меня работает» перестаёт быть проблемой.</p>
+        </section>
+        <section class="lesson" id="dockerfile">
+          <h2><span>02</span>Dockerfile</h2>
+          <p>Dockerfile — рецепт сборки образа. Пример для бэкенда на FastAPI:</p>
+          <pre data-file="backend/Dockerfile"><code class="language-docker">FROM python:3.12-slim
+
+WORKDIR /app
+
+# Сначала только зависимости: этот слой кешируется и не пересобирается при правке кода
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Потом код
+COPY . .
+
+EXPOSE 8000
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]</code></pre>
+          <p>Каждая инструкция создаёт <strong>слой</strong>. Docker переиспользует слои, пока их входные файлы не изменились, — поэтому редко меняющееся ставят выше, а код копируют последним.</p>
+        </section>
+        <section class="lesson" id="commands">
+          <h2><span>03</span>Основные команды</h2>
+          <pre><code class="language-bash">docker build -t zapchasti-api ./backend               # собрать образ с именем
+docker run -d -p 8000:8000 --name api zapchasti-api  # запустить в фоне: порт хоста:порт контейнера
+docker ps                                            # запущенные контейнеры
+docker logs -f api                                   # логи в реальном времени
+docker exec -it api sh                               # зайти внутрь контейнера
+docker stop api &amp;&amp; docker rm api                     # остановить и удалить
+docker images                                        # список образов
+docker system prune                                  # удалить всё неиспользуемое</code></pre>
+        </section>
+        <section class="lesson" id="compose">
+          <h2><span>04</span>Docker Compose</h2>
+          <p>Compose описывает несколько сервисов в одном файле и запускает их вместе. Типичный набор — приложение, PostgreSQL и Redis.</p>
+          <pre data-file="compose.yaml"><code class="language-yaml">services:
+  api:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    env_file: .env
+    depends_on:
+      db:
+        condition: service_healthy   # ждать, пока база действительно готова
+
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: app
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U app"]
+      interval: 5s
+      retries: 5
+
+  redis:
+    image: redis:7
+
+volumes:
+  pgdata:</code></pre>
+          <pre><code class="language-bash">docker compose up -d --build        # собрать и запустить всё
+docker compose logs -f api          # логи одного сервиса
+docker compose exec db psql -U app  # консоль базы
+docker compose down                 # остановить (данные в томе сохранятся)</code></pre>
+        </section>
+        <section class="lesson" id="network">
+          <h2><span>05</span>Сети и тома</h2>
+          <ul><li>Сервисы одного Compose-файла видят друг друга <strong>по имени</strong>: из <code>api</code> база доступна как <code>db:5432</code>, а не <code>localhost</code>.</li><li><code>localhost</code> внутри контейнера — это сам контейнер.</li><li><strong>Именованный том</strong> (<code>pgdata</code>) хранит данные базы между перезапусками. <code>docker compose down -v</code> удалит и его — осторожно.</li><li><strong>Bind mount</strong> (<code>./backend:/app</code>) пробрасывает папку с компьютера: удобно в разработке, код обновляется без пересборки.</li></ul>
+          <pre data-file=".env"><code class="language-bash">DATABASE_URL=postgresql://app:secret@db:5432/app
+REDIS_URL=redis://redis:6379/0</code></pre>
+        </section>
+        <section class="lesson" id="multistage">
+          <h2><span>06</span>Многоэтапная сборка</h2>
+          <p>Фронтенду Node.js нужен только для сборки. Многоэтапный Dockerfile собирает проект в одном образе, а в итоговый кладёт лишь готовые файлы и nginx — образ получается в десятки раз меньше.</p>
+          <pre data-file="frontend/Dockerfile"><code class="language-docker"># Этап 1: сборка
+FROM node:22-alpine AS build
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci
+COPY . .
+RUN npm run build
+
+# Этап 2: только статика и nginx
+FROM nginx:alpine
+COPY --from=build /app/dist /usr/share/nginx/html
+EXPOSE 80</code></pre>
+        </section>
+        <section class="lesson" id="practice">
+          <h2><span>07</span>Хорошие практики</h2>
+          <pre data-file=".dockerignore"><code class="language-ignore">node_modules
+.git
+.env
+__pycache__
+dist</code></pre>
+          <div class="tiles"><div class="good"><h4>Запомнить</h4><ul><li>Фиксируйте версии образов: <code>postgres:16</code>, а не <code>postgres:latest</code>.</li><li>Зависимости копируйте до кода — сборка будет быстрой.</li><li>Добавьте <code>.dockerignore</code>, чтобы не тащить в образ <code>node_modules</code> и <code>.git</code>.</li><li>Для зависимостей между сервисами — <code>healthcheck</code> и <code>condition: service_healthy</code>.</li></ul></div><div class="bad"><h4>Частые ошибки</h4><ul><li>Секреты внутри образа (<code>COPY .env</code>): их увидит любой, у кого есть образ.</li><li>Обращение к базе по <code>localhost</code> из другого контейнера.</li><li><code>docker compose down -v</code> на сервере — и данные базы удалены.</li><li>Порт базы (<code>5432:5432</code>), открытый наружу на продакшене.</li></ul></div></div>
+        </section>
+        <section class="lesson" id="next">
+          <h2>Что дальше</h2>
+          <p>Упакуйте свой проект в Compose: приложение, база, Redis и nginx. Если <code>docker compose up</code> поднимает всё с нуля на чистой машине — вы знаете Docker на уровне, который ждут от разработчика.</p>
+          <div class="next-steps"><a class="pill" href="../guides.html">Все гайды</a><a class="pill ghost" href="https://docs.docker.com/get-started/" target="_blank" rel="noopener">Документация Docker ↗</a><a class="pill ghost" href="sql.html">Учебник по SQL</a></div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer" data-layout="footer"></footer>
+</body>
+</html>

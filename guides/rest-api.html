@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HTTP и REST API для бэкендера — Владимир</title>
+  <meta name="description" content="Как устроен HTTP, как проектировать ресурсы, коды ответов, формат ошибок, аутентификация и CORS — с примерами на Symfony.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%235b4cf0'/><text x='16' y='21' font-family='monospace' font-size='13' font-weight='700' fill='white' text-anchor='middle'>&lt;/&gt;</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="../docs.css">
+  <script src="../theme.js"></script>
+  <script src="../layout.js" data-base="../" data-page="guides" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js" defer></script>
+</head>
+<body>
+  <header class="site-header" data-layout="header"></header>
+
+  <main class="wrap">
+    <div class="doc-hero" style="--hero-bg: radial-gradient(50% 90% at 88% 12%, rgba(150, 240, 200, .45) 0%, transparent 60%), linear-gradient(135deg, #0b3d2e, #13855c 55%, #22b07d)">
+      <div>
+        <div class="crumbs"><a href="../guides.html">Гайды</a> / Backend · API</div>
+        <h1>HTTP и REST API <b>для бэкендера</b></h1>
+        <p>Как устроен HTTP, как проектировать ресурсы, коды ответов, формат ошибок, аутентификация и CORS — с примерами на Symfony.</p>
+        <div class="hero-facts"><span>HTTP · REST</span><span>8 уроков</span><span>~20 минут</span></div>
+      </div>
+      <div class="icon i-link">API</div>
+    </div>
+
+    <div class="guide">
+      <aside class="toc">
+        <h4>Содержание</h4>
+        <ol><li><a href="#http">Запрос и ответ</a></li><li><a href="#methods">Методы</a></li><li><a href="#codes">Коды ответов</a></li><li><a href="#design">Проектирование ресурсов</a></li><li><a href="#symfony">Эндпоинты на Symfony</a></li><li><a href="#errors">Формат ошибок</a></li><li><a href="#auth">Аутентификация</a></li><li><a href="#cors">CORS и безопасность</a></li></ol>
+      </aside>
+
+      <div>
+        <section class="lesson" id="http">
+          <h2><span>01</span>Запрос и ответ</h2>
+          <pre data-file="Запрос"><code class="language-http">POST /api/orders HTTP/1.1
+Host: shop.example.ru
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOi...
+
+{"items": [{"partId": 42, "qty": 1}], "delivery": "courier"}</code></pre>
+          <pre data-file="Ответ"><code class="language-http">HTTP/1.1 201 Created
+Location: /api/orders/1001
+Content-Type: application/json
+
+{"id": 1001, "status": "new", "total": 1490}</code></pre>
+          <p>В запросе есть <strong>метод</strong>, <strong>путь</strong>, <strong>заголовки</strong> и иногда <strong>тело</strong>. В ответе — <strong>код статуса</strong>, заголовки и тело.</p>
+        </section>
+        <section class="lesson" id="methods">
+          <h2><span>02</span>Методы</h2>
+          <ul><li><code>GET</code> — получить. Не меняет данные, можно кешировать.</li><li><code>POST</code> — создать или запустить действие.</li><li><code>PUT</code> — заменить ресурс целиком.</li><li><code>PATCH</code> — изменить часть полей.</li><li><code>DELETE</code> — удалить.</li></ul>
+          <p><strong>Идемпотентность</strong> — повтор запроса даёт тот же результат. <code>GET</code>, <code>PUT</code> и <code>DELETE</code> идемпотентны, а <code>POST</code> нет: два одинаковых <code>POST /orders</code> создадут два заказа. Поэтому для платежей передают заголовок <code>Idempotency-Key</code>, по которому сервер узнаёт повтор.</p>
+        </section>
+        <section class="lesson" id="codes">
+          <h2><span>03</span>Коды ответов</h2>
+          <ul><li><code>200 OK</code> — успех. <code>201 Created</code> — создано (плюс заголовок <code>Location</code>). <code>204 No Content</code> — успех без тела.</li><li><code>400 Bad Request</code> — некорректный запрос. <code>422 Unprocessable Content</code> — ошибки валидации.</li><li><code>401 Unauthorized</code> — не аутентифицирован («кто вы?»). <code>403 Forbidden</code> — нет прав («знаем, кто вы, но нельзя»).</li><li><code>404 Not Found</code> — ресурса нет. <code>409 Conflict</code> — конфликт состояния (заказ уже оплачен).</li><li><code>429 Too Many Requests</code> — превышен лимит запросов.</li><li><code>5xx</code> — ошибка сервера, клиент в ней не виноват.</li></ul>
+        </section>
+        <section class="lesson" id="design">
+          <h2><span>04</span>Проектирование ресурсов</h2>
+          <pre><code class="language-text">GET    /api/parts?brand=bosch&amp;inStock=true&amp;page=2&amp;limit=20   список с фильтрами
+GET    /api/parts/42                                         одна деталь
+POST   /api/orders                                           создать заказ
+GET    /api/orders/1001/items                                вложенный ресурс
+PATCH  /api/orders/1001        {"status": "cancelled"}       изменить поле
+POST   /api/orders/1001/payments                             действие как ресурс</code></pre>
+          <ul><li>Существительные во множественном числе: <code>/orders</code>, а не <code>/getOrders</code>.</li><li>Фильтры, сортировка и пагинация — в query-параметрах.</li><li>Списки возвращайте с метаданными: <code>{"data": [...], "total": 135, "page": 2}</code>.</li><li>Версию API указывайте в пути (<code>/api/v1/</code>) или заголовке; ломающие изменения — только в новой версии.</li></ul>
+        </section>
+        <section class="lesson" id="symfony">
+          <h2><span>05</span>Эндпоинты на Symfony</h2>
+          <pre data-file="src/Controller/OrderController.php"><code class="language-php">use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
+use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Validator\Constraints as Assert;
+
+final class CreateOrderRequest
+{
+    public function __construct(
+        #[Assert\Count(min: 1)]
+        public readonly array $items,
+        #[Assert\Choice(['courier', 'pickup'])]
+        public readonly string $delivery,
+    ) {}
+}
+
+#[Route('/api/orders')]
+final class OrderController extends AbstractController
+{
+    #[Route('', methods: ['POST'])]
+    public function create(#[MapRequestPayload] CreateOrderRequest $request, CheckoutService $checkout): JsonResponse
+    {
+        $order = $checkout-&gt;create($request);   // невалидное тело → 422 автоматически
+
+        return $this-&gt;json($order, Response::HTTP_CREATED, [
+            'Location' =&gt; '/api/orders/' . $order-&gt;getId(),
+        ]);
+    }
+
+    #[Route('/{id}', methods: ['GET'])]
+    public function show(Order $order): JsonResponse   // 404, если такого заказа нет
+    {
+        return $this-&gt;json($order);
+    }
+}</code></pre>
+          <p><code>#[MapRequestPayload]</code> превращает JSON в объект и валидирует его, а сущность <code>Order</code> Symfony сам находит в базе по <code>{id}</code>.</p>
+        </section>
+        <section class="lesson" id="errors">
+          <h2><span>06</span>Формат ошибок</h2>
+          <p>Клиенту нужен единый и предсказуемый формат ошибок. Стандарт — <strong>Problem Details</strong> (RFC 9457) с типом <code>application/problem+json</code>. Symfony с установленным Serializer отвечает на ошибки в JSON-запросах именно так:</p>
+          <pre><code class="language-json">{
+  "type": "https://symfony.com/errors/validation",
+  "title": "Validation Failed",
+  "status": 422,
+  "detail": "delivery: The value you selected is not a valid choice.",
+  "violations": [
+    { "propertyPath": "delivery", "title": "The value you selected is not a valid choice." }
+  ]
+}</code></pre>
+          <ul><li>Не отдавайте наружу текст исключений и стектрейсы — это утечка информации.</li><li>Один формат для всех ошибок позволяет фронтенду обрабатывать их одним кодом.</li></ul>
+        </section>
+        <section class="lesson" id="auth">
+          <h2><span>07</span>Аутентификация</h2>
+          <ul><li><strong>Сессия и cookie</strong> — сервер хранит сессию, браузер сам отправляет cookie. Просто и безопасно для своего фронтенда на том же домене. Флаги cookie: <code>HttpOnly</code>, <code>Secure</code>, <code>SameSite</code>.</li><li><strong>JWT</strong> — подписанный токен с данными пользователя в заголовке <code>Authorization: Bearer ...</code>. Удобен для мобильных приложений и общения сервисов. Минус — токен сложно отозвать до истечения срока, поэтому access-токен живёт недолго, а для продления используют refresh-токен.</li><li>Пароли хранят только в виде хеша (<code>password_hash</code>, bcrypt или argon2) — никогда в открытом виде.</li></ul>
+        </section>
+        <section class="lesson" id="cors">
+          <h2><span>08</span>CORS и безопасность</h2>
+          <p><strong>CORS</strong> — правило браузера: скрипт со страницы <code>site-a.ru</code> не может читать ответы API на <code>api-b.ru</code>, пока сервер явно не разрешит. Это защита пользователя, а не сервера: curl и Postman CORS не проверяют.</p>
+          <pre><code class="language-http">Access-Control-Allow-Origin: https://shop.example.ru
+Access-Control-Allow-Methods: GET, POST, PATCH, DELETE
+Access-Control-Allow-Headers: Content-Type, Authorization
+Access-Control-Allow-Credentials: true</code></pre>
+          <p>В Symfony CORS удобно настраивать бандлом <strong>NelmioCorsBundle</strong>.</p>
+          <div class="tiles"><div class="good"><h4>Запомнить</h4><ul><li>Ресурс — существительное, действие — метод.</li><li>Правильный код статуса важнее текста сообщения.</li><li><code>POST</code> не идемпотентен — для платежей нужен <code>Idempotency-Key</code>.</li><li>Единый формат ошибок (Problem Details).</li></ul></div><div class="bad"><h4>Частые ошибки</h4><ul><li><code>200 OK</code> с <code>{"error": "..."}</code> в теле.</li><li>Глаголы в URL: <code>/api/getOrders</code>, <code>/api/deleteOrder</code>.</li><li><code>Access-Control-Allow-Origin: *</code> для API с личными данными.</li><li>Стектрейсы и SQL в ответах на продакшене.</li></ul></div></div>
+        </section>
+        <section class="lesson" id="next">
+          <h2>Что дальше</h2>
+          <p>Опишите API своего проекта в OpenAPI (в Symfony — NelmioApiDocBundle, в FastAPI документация генерируется сама) и проверьте, что каждый эндпоинт отвечает правильными кодами.</p>
+          <div class="next-steps"><a class="pill" href="../guides.html">Все гайды</a><a class="pill ghost" href="https://developer.mozilla.org/ru/docs/Web/HTTP" target="_blank" rel="noopener">HTTP на MDN ↗</a><a class="pill ghost" href="symfony-patterns.html">Паттерны в Symfony</a></div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer" data-layout="footer"></footer>
+</body>
+</html>

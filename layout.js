@@ -55,7 +55,9 @@
         '<div><h4>Гайды</h4><ul>' +
           '<li><a href="' + base + 'guides.html">Все гайды</a></li>' +
           '<li><a href="' + base + 'guides/symfony-patterns.html">Паттерны в Symfony</a></li>' +
-          '<li><a href="' + base + 'guide.html">Учебник по стилям</a></li>' +
+          '<li><a href="' + base + 'guides/rest-api.html">HTTP и REST API</a></li>' +
+          '<li><a href="' + base + 'guides/sql.html">SQL</a></li>' +
+          '<li><a href="' + base + 'guides/react.html">React</a></li>' +
         '</ul></div>' +
         '<div><h4>Обо мне</h4><ul>' +
           '<li>' + ext(LINKS.resume, 'Резюме') + '</li>' +

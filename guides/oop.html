@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ООП на PHP 8 — Владимир</title>
+  <meta name="description" content="Классы, инкапсуляция, наследование, интерфейсы, композиция, SOLID и объекты-значения — на современном PHP.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%235b4cf0'/><text x='16' y='21' font-family='monospace' font-size='13' font-weight='700' fill='white' text-anchor='middle'>&lt;/&gt;</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="../docs.css">
+  <script src="../theme.js"></script>
+  <script src="../layout.js" data-base="../" data-page="guides" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js" defer></script>
+</head>
+<body>
+  <header class="site-header" data-layout="header"></header>
+
+  <main class="wrap">
+    <div class="doc-hero" style="--hero-bg: radial-gradient(50% 90% at 88% 12%, rgba(224, 92, 245, .45) 0%, transparent 60%), linear-gradient(135deg, #2e3166, #4f5394 55%, #6c70b8)">
+      <div>
+        <div class="crumbs"><a href="../guides.html">Гайды</a> / Основы · ООП</div>
+        <h1>ООП <b>на PHP 8</b></h1>
+        <p>Классы, инкапсуляция, наследование, интерфейсы, композиция, SOLID и объекты-значения — на современном PHP.</p>
+        <div class="hero-facts"><span>PHP 8.2+</span><span>8 уроков</span><span>~25 минут</span></div>
+      </div>
+      <div class="icon i-php">ООП</div>
+    </div>
+
+    <div class="guide">
+      <aside class="toc">
+        <h4>Содержание</h4>
+        <ol><li><a href="#classes">Класс и объект</a></li><li><a href="#encapsulation">Инкапсуляция</a></li><li><a href="#inheritance">Наследование и абстрактные классы</a></li><li><a href="#interfaces">Интерфейсы и полиморфизм</a></li><li><a href="#composition">Композиция вместо наследования</a></li><li><a href="#solid">SOLID</a></li><li><a href="#modern">Современный PHP: enum, readonly, final</a></li><li><a href="#value">Объекты-значения</a></li></ol>
+      </aside>
+
+      <div>
+        <section class="lesson" id="classes">
+          <h2><span>01</span>Класс и объект</h2>
+          <p>Класс — описание: какие данные хранит объект и что он умеет делать. Объект — конкретный экземпляр класса.</p>
+          <pre data-file="src/Entity/Part.php"><code class="language-php">final class Part
+{
+    // Свойства объявлены прямо в конструкторе (constructor promotion)
+    public function __construct(
+        private readonly int $id,
+        private string $title,
+        private int $priceKopecks,
+    ) {}
+
+    public function title(): string
+    {
+        return $this-&gt;title;
+    }
+
+    public function rename(string $title): void
+    {
+        $this-&gt;title = $title;
+    }
+}
+
+$filter = new Part(1, 'Фильтр масляный', 89000);
+echo $filter-&gt;title();</code></pre>
+        </section>
+        <section class="lesson" id="encapsulation">
+          <h2><span>02</span>Инкапсуляция</h2>
+          <p>Объект сам защищает свои правила (<strong>инварианты</strong>). Данные закрыты (<code>private</code>), а менять их можно только через методы, которые проверяют корректность.</p>
+          <pre data-file="src/Cart/Cart.php"><code class="language-php">final class Cart
+{
+    /** @var array&lt;int, int&gt; partId =&gt; количество */
+    private array $items = [];
+
+    public function add(int $partId, int $qty = 1): void
+    {
+        if ($qty &lt; 1) {
+            throw new \InvalidArgumentException('Количество должно быть больше нуля');
+        }
+        $this-&gt;items[$partId] = ($this-&gt;items[$partId] ?? 0) + $qty;
+    }
+
+    public function count(): int
+    {
+        return array_sum($this-&gt;items);
+    }
+}</code></pre>
+          <ul><li><code>public</code> — доступно всем.</li><li><code>protected</code> — классу и его наследникам.</li><li><code>private</code> — только самому классу. По умолчанию делайте всё <code>private</code> и открывайте по необходимости.</li></ul>
+        </section>
+        <section class="lesson" id="inheritance">
+          <h2><span>03</span>Наследование и абстрактные классы</h2>
+          <pre><code class="language-php">abstract class Notification
+{
+    public function __construct(protected readonly string $recipient) {}
+
+    // Общий алгоритм для всех наследников
+    public function send(): void
+    {
+        $this-&gt;deliver($this-&gt;render());
+    }
+
+    abstract protected function render(): string;            // каждый наследник реализует сам
+    abstract protected function deliver(string $text): void;
+}
+
+final class SmsNotification extends Notification
+{
+    protected function render(): string
+    {
+        return 'Заказ готов к выдаче';
+    }
+
+    protected function deliver(string $text): void
+    {
+        // отправка SMS на $this-&gt;recipient
+    }
+}</code></pre>
+          <p>Наследование выражает отношение <strong>«является»</strong>: SMS-уведомление является уведомлением. Если хочется унаследоваться ради пары полезных методов — это сигнал использовать композицию.</p>
+        </section>
+        <section class="lesson" id="interfaces">
+          <h2><span>04</span>Интерфейсы и полиморфизм</h2>
+          <p>Интерфейс — контракт: какие методы есть у объекта, без реализации. <strong>Полиморфизм</strong> — код работает с любым объектом, который выполняет контракт.</p>
+          <pre><code class="language-php">interface PaymentGateway
+{
+    public function charge(int $amountKopecks, string $orderId): string;
+}
+
+final class CardGateway implements PaymentGateway
+{
+    public function charge(int $amountKopecks, string $orderId): string
+    {
+        return 'card-tx-' . $orderId;
+    }
+}
+
+final class SbpGateway implements PaymentGateway
+{
+    public function charge(int $amountKopecks, string $orderId): string
+    {
+        return 'sbp-tx-' . $orderId;
+    }
+}
+
+// Сервису всё равно, какой шлюз ему передали
+final class Checkout
+{
+    public function __construct(private readonly PaymentGateway $gateway) {}
+
+    public function pay(Order $order): string
+    {
+        return $this-&gt;gateway-&gt;charge($order-&gt;totalKopecks(), $order-&gt;id());
+    }
+}</code></pre>
+        </section>
+        <section class="lesson" id="composition">
+          <h2><span>05</span>Композиция вместо наследования</h2>
+          <p>Композиция — объект <strong>содержит</strong> другие объекты и делегирует им работу. Её проще менять и тестировать, чем глубокие иерархии наследования.</p>
+          <pre><code class="language-php">// ❌ Наследование ради кода: разве CachedPriceList «является» PriceList?
+class CachedPriceList extends PriceList { /* ... */ }
+
+// ✅ Композиция: объект собирается из других объектов
+final class PriceService
+{
+    public function __construct(
+        private readonly PriceList $prices,
+        private readonly DiscountPolicy $discounts,
+    ) {}
+
+    public function finalPrice(int $partId, Customer $customer): int
+    {
+        $base = $this-&gt;prices-&gt;priceOf($partId);
+        return $this-&gt;discounts-&gt;apply($base, $customer);
+    }
+}</code></pre>
+        </section>
+        <section class="lesson" id="solid">
+          <h2><span>06</span>SOLID</h2>
+          <ul><li><strong>S — Single Responsibility.</strong> У класса одна причина для изменения. <code>OrderService</code> не должен формировать PDF и отправлять письма.</li><li><strong>O — Open/Closed.</strong> Новое поведение добавляется новым классом, а не правкой старого (стратегии, события).</li><li><strong>L — Liskov Substitution.</strong> Наследник подставляется вместо родителя без сюрпризов: не бросает новых исключений и не ослабляет гарантии.</li><li><strong>I — Interface Segregation.</strong> Несколько маленьких интерфейсов лучше одного огромного: <code>Readable</code> и <code>Writable</code> вместо <code>Storage</code> на 20 методов.</li><li><strong>D — Dependency Inversion.</strong> Зависьте от абстракций: конструктор принимает <code>PaymentGateway</code>, а не <code>CardGateway</code>.</li></ul>
+          <p>На собеседовании мало перечислить принципы — приведите пример нарушения из своего кода и расскажите, как исправили.</p>
+        </section>
+        <section class="lesson" id="modern">
+          <h2><span>07</span>Современный PHP: enum, readonly, final</h2>
+          <pre data-file="src/Order/OrderStatus.php"><code class="language-php">enum OrderStatus: string
+{
+    case New = 'new';
+    case Paid = 'paid';
+    case Shipped = 'shipped';
+
+    public function label(): string
+    {
+        return match ($this) {
+            self::New =&gt; 'Новый',
+            self::Paid =&gt; 'Оплачен',
+            self::Shipped =&gt; 'Отправлен',
+        };
+    }
+}
+
+$status = OrderStatus::from('paid');   // OrderStatus::Paid
+echo $status-&gt;label();                  // «Оплачен»</code></pre>
+          <ul><li><code>enum</code> вместо строковых констант: опечатка в статусе станет ошибкой.</li><li><code>readonly</code> — свойство нельзя изменить после конструктора.</li><li><code>final</code> — запрет наследования. Ставьте по умолчанию, снимайте осознанно.</li><li><code>static</code> — принадлежит классу, а не объекту. Подходит для фабричных методов, но статическое состояние — это глобальные переменные.</li><li><strong>Трейты</strong> (<code>trait</code>) копируют методы в класс. Используйте редко: это не замена композиции.</li></ul>
+        </section>
+        <section class="lesson" id="value">
+          <h2><span>08</span>Объекты-значения</h2>
+          <p>Объект-значение (Value Object) описывает значение, а не сущность: деньги, адрес, телефон. Он <strong>неизменяем</strong>, проверяет себя при создании и сравнивается по содержимому.</p>
+          <pre data-file="src/Customer/Phone.php"><code class="language-php">final readonly class Phone
+{
+    public string $value;
+
+    public function __construct(string $raw)
+    {
+        $digits = preg_replace('/\D+/', '', $raw);
+        if (strlen($digits) !== 11) {
+            throw new \InvalidArgumentException("Некорректный телефон: $raw");
+        }
+        $this-&gt;value = '+7' . substr($digits, 1);
+    }
+
+    public function equals(self $other): bool
+    {
+        return $this-&gt;value === $other-&gt;value;
+    }
+}
+
+new Phone('8 (914) 123-45-67');   // +79141234567</code></pre>
+          <div class="tiles"><div class="good"><h4>Запомнить</h4><ul><li>Данные закрыты, изменения — через методы с проверками.</li><li>Зависимости — через конструктор и интерфейсы.</li><li>Композиция по умолчанию, наследование — для отношения «является».</li><li>Value Objects для денег, телефонов, адресов.</li></ul></div><div class="bad"><h4>Частые ошибки</h4><ul><li>Публичные свойства, которые меняют откуда угодно.</li><li>Наследование на 4+ уровня ради переиспользования кода.</li><li>«Божественный» класс на 2000 строк, который делает всё.</li><li>Статические хелперы с состоянием вместо сервисов.</li></ul></div></div>
+        </section>
+        <section class="lesson" id="next">
+          <h2>Что дальше</h2>
+          <p>Закрепите ООП паттернами — они показывают, как эти принципы работают в настоящем фреймворке.</p>
+          <div class="next-steps"><a class="pill" href="../guides.html">Все гайды</a><a class="pill ghost" href="symfony-patterns.html">Паттерны в Symfony</a><a class="pill ghost" href="https://www.php.net/manual/ru/language.oop5.php" target="_blank" rel="noopener">Руководство PHP: классы и объекты ↗</a></div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer" data-layout="footer"></footer>
+</body>
+</html>

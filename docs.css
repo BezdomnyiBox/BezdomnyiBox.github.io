@@ -50,7 +50,40 @@ pre[data-file]::before {
 .token.punctuation, .token.operator { color: var(--muted); }
 .token.php.language-php, .token.delimiter.important { color: var(--muted); }
 
+/* Первый экран учебника: фон задаётся переменной --hero-bg прямо на блоке */
+.doc-hero {
+  position: relative; overflow: hidden; margin-top: 16px;
+  border-radius: var(--radius-xl); color: #fff;
+  padding: 64px 48px 72px;
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 32px;
+  background: var(--hero-bg, linear-gradient(135deg, #4b3ee0, #b14cf0));
+}
+.doc-hero .crumbs { font-size: 14px; opacity: .75; margin-bottom: 20px; }
+.doc-hero .crumbs a:hover { text-decoration: underline; }
+.doc-hero h1 { font-weight: 400; font-size: clamp(32px, 5vw, 52px); line-height: 1.08; letter-spacing: -.02em; }
+.doc-hero h1 b { font-weight: 600; }
+.doc-hero p { font-size: 18px; opacity: .85; max-width: 620px; margin-top: 16px; }
+.hero-facts { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 28px; }
+.hero-facts span { padding: 7px 14px; border-radius: 999px; background: rgba(255, 255, 255, .14); font-size: 14px; }
+.doc-hero .icon { width: 160px; font-size: 48px; }
+
+/* Плитки «Запомнить / Частые ошибки» */
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-top: 20px; }
+.tiles > div { background: var(--tile); border-radius: var(--radius-lg); padding: 22px 24px; }
+.tiles h4 { font-size: 13px; font-weight: 500; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 8px; }
+.tiles .good h4 { color: #22b07d; }
+.tiles .bad h4 { color: #e0692b; }
+.lesson .tiles ul { margin: 0; padding-left: 18px; }
+.lesson .tiles li { color: var(--text); font-size: 15px; max-width: none; }
+.lesson .tiles li + li { margin-top: 6px; }
+
+.next-steps { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
+
 @media (max-width: 900px) {
   .guide { grid-template-columns: minmax(0, 1fr); gap: 24px; }
   .toc { position: static; max-height: none; }
+}
+@media (max-width: 720px) {
+  .doc-hero { grid-template-columns: minmax(0, 1fr); padding: 48px 20px 56px; border-radius: var(--radius-lg); }
+  .doc-hero .icon { display: none; }
 }

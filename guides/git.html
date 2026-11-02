@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Git для командной работы — Владимир</title>
+  <meta name="description" content="Ежедневный цикл, ветки, хорошие коммиты, отмена изменений, конфликты и pull request — то, что нужно с первого дня в команде.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%235b4cf0'/><text x='16' y='21' font-family='monospace' font-size='13' font-weight='700' fill='white' text-anchor='middle'>&lt;/&gt;</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="../docs.css">
+  <script src="../theme.js"></script>
+  <script src="../layout.js" data-base="../" data-page="guides" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js" defer></script>
+</head>
+<body>
+  <header class="site-header" data-layout="header"></header>
+
+  <main class="wrap">
+    <div class="doc-hero" style="--hero-bg: radial-gradient(50% 90% at 88% 12%, rgba(255, 190, 150, .45) 0%, transparent 60%), linear-gradient(135deg, #4d1409, #a12d17 55%, #e04a2b)">
+      <div>
+        <div class="crumbs"><a href="../guides.html">Гайды</a> / Инструменты · Git</div>
+        <h1>Git <b>для командной работы</b></h1>
+        <p>Ежедневный цикл, ветки, хорошие коммиты, отмена изменений, конфликты и pull request — то, что нужно с первого дня в команде.</p>
+        <div class="hero-facts"><span>Git 2.40+</span><span>7 уроков</span><span>~15 минут</span></div>
+      </div>
+      <div class="icon i-git">git</div>
+    </div>
+
+    <div class="guide">
+      <aside class="toc">
+        <h4>Содержание</h4>
+        <ol><li><a href="#basics">Ежедневный цикл</a></li><li><a href="#branches">Ветки</a></li><li><a href="#commits">Хорошие коммиты</a></li><li><a href="#undo">Отмена изменений</a></li><li><a href="#conflicts">Конфликты</a></li><li><a href="#pr">Pull request и ревью</a></li><li><a href="#safety">Что не должно попасть в репозиторий</a></li></ol>
+      </aside>
+
+      <div>
+        <section class="lesson" id="basics">
+          <h2><span>01</span>Ежедневный цикл</h2>
+          <pre><code class="language-bash">git status                     # что изменилось
+git diff                       # сами изменения
+git add src/Cart.php           # добавить файл в коммит (git add -p — по кусочкам)
+git commit -m "feat(cart): лимит количества товара"
+git pull --rebase              # забрать чужие изменения и поставить свои поверх
+git push</code></pre>
+          <p>Путь изменения: <strong>рабочая папка</strong> → <code>git add</code> → <strong>индекс</strong> → <code>git commit</code> → <strong>локальный репозиторий</strong> → <code>git push</code> → <strong>удалённый репозиторий</strong> (GitHub).</p>
+        </section>
+        <section class="lesson" id="branches">
+          <h2><span>02</span>Ветки</h2>
+          <pre><code class="language-bash">git switch -c feature/cart-limit    # создать ветку и перейти в неё
+# ... коммиты ...
+git push -u origin feature/cart-limit
+
+git switch main
+git pull
+git merge feature/cart-limit        # влить ветку (в команде — через pull request)
+git branch -d feature/cart-limit    # удалить влитую ветку</code></pre>
+          <p>Правило команды: в <code>main</code> напрямую не коммитят. Каждая задача — своя ветка и pull request.</p>
+        </section>
+        <section class="lesson" id="commits">
+          <h2><span>03</span>Хорошие коммиты</h2>
+          <ul><li><strong>Один коммит — одно логическое изменение.</strong> Исправление бага и рефакторинг — разные коммиты.</li><li>Сообщение отвечает на вопрос «что изменилось и зачем», а не «что я делал».</li><li>Популярный формат — Conventional Commits: <code>feat:</code>, <code>fix:</code>, <code>docs:</code>, <code>refactor:</code>, <code>test:</code>.</li></ul>
+          <pre><code class="language-bash"># ❌
+git commit -m "fix"
+git commit -m "правки"
+
+# ✅
+git commit -m "fix(checkout): не списывать остаток при отмене оплаты"
+git commit -m "feat(catalog): фильтр по марке автомобиля"</code></pre>
+        </section>
+        <section class="lesson" id="undo">
+          <h2><span>04</span>Отмена изменений</h2>
+          <pre><code class="language-bash">git restore src/Cart.php           # отменить правки в файле (до git add)
+git restore --staged src/Cart.php  # убрать из индекса, правки останутся
+git commit --amend                 # поправить последний коммит (пока он не запушен!)
+git reset --soft HEAD~1            # отменить последний коммит, изменения останутся в индексе
+git revert a1b2c3d                 # новый коммит, отменяющий старый, — безопасно для main
+git stash                          # спрятать незакоммиченное, чтобы переключить ветку
+git stash pop                      # вернуть спрятанное</code></pre>
+          <p><strong>Главное правило:</strong> не переписывайте историю, которую уже отправили в общую ветку (<code>--amend</code>, <code>reset</code>, <code>rebase</code>). Для отмены опубликованного есть <code>git revert</code>.</p>
+        </section>
+        <section class="lesson" id="conflicts">
+          <h2><span>05</span>Конфликты</h2>
+          <p>Конфликт возникает, когда двое изменили одни и те же строки. Git останавливается и размечает оба варианта:</p>
+          <pre data-file="src/cart.ts"><code class="language-text">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+const LIMIT = 10;
+=======
+const LIMIT = 20;
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; feature/cart-limit</code></pre>
+          <ul><li>Оставьте нужный вариант (или объедините оба) и удалите маркеры.</li><li><code>git add</code> файл, затем <code>git commit</code> (при merge) или <code>git rebase --continue</code> (при rebase).</li><li>Чтобы конфликтов было меньше: короткие ветки, частый <code>git pull --rebase</code>, форматирование и логика — в разных коммитах.</li></ul>
+        </section>
+        <section class="lesson" id="pr">
+          <h2><span>06</span>Pull request и ревью</h2>
+          <ul><li>Перед PR подтяните <code>main</code>, прогоните тесты и линтер, перечитайте свой diff.</li><li>В описании PR: что сделано, зачем и как проверить. Для интерфейса — скриншоты.</li><li>PR на 300–400 строк ревьюят внимательно, а на 2000 строк ставят «LGTM» не глядя.</li><li>Комментарии в ревью — про код, а не про человека. На замечание отвечайте исправлением или аргументом.</li></ul>
+        </section>
+        <section class="lesson" id="safety">
+          <h2><span>07</span>Что не должно попасть в репозиторий</h2>
+          <pre data-file=".gitignore"><code class="language-ignore">.env
+.env.local
+node_modules/
+vendor/
+__pycache__/
+*.log
+.idea/</code></pre>
+          <p>Если секрет (пароль, токен, ключ) попал в коммит — <strong>сразу смените его</strong>. Удаление файла следующим коммитом не помогает: секрет остаётся в истории.</p>
+          <div class="tiles"><div class="good"><h4>Запомнить</h4><ul><li>Ветка на задачу, pull request на ветку.</li><li>Маленькие коммиты с понятным сообщением.</li><li><code>git pull --rebase</code> перед пушем.</li><li><code>git revert</code> для отмены опубликованного.</li></ul></div><div class="bad"><h4>Частые ошибки</h4><ul><li>Коммит <code>.env</code> с паролями.</li><li><code>push --force</code> в общую ветку.</li><li>Один гигантский коммит «сделал задачу».</li><li>Сообщения вида «fix», «wip», «правки».</li></ul></div></div>
+        </section>
+        <section class="lesson" id="next">
+          <h2>Что дальше</h2>
+          <p>Заведите привычку: каждая задача — ветка, pull request и осмысленные коммиты, даже в личных проектах. Работодатели смотрят историю коммитов на GitHub.</p>
+          <div class="next-steps"><a class="pill" href="../guides.html">Все гайды</a><a class="pill ghost" href="https://git-scm.com/book/ru/v2" target="_blank" rel="noopener">Pro Git на русском ↗</a><a class="pill ghost" href="https://www.conventionalcommits.org/ru/v1.0.0/" target="_blank" rel="noopener">Conventional Commits ↗</a></div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer" data-layout="footer"></footer>
+</body>
+</html>

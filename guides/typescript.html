@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TypeScript без лишней теории — Владимир</title>
+  <meta name="description" content="Типы, которые ловят ошибки до запуска: базовые типы, интерфейсы, дженерики, сужение типов, утилиты и проверка данных с сервера.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%235b4cf0'/><text x='16' y='21' font-family='monospace' font-size='13' font-weight='700' fill='white' text-anchor='middle'>&lt;/&gt;</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="../docs.css">
+  <script src="../theme.js"></script>
+  <script src="../layout.js" data-base="../" data-page="guides" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js" defer></script>
+</head>
+<body>
+  <header class="site-header" data-layout="header"></header>
+
+  <main class="wrap">
+    <div class="doc-hero" style="--hero-bg: radial-gradient(50% 90% at 90% 10%, rgba(140, 200, 255, .5) 0%, transparent 60%), linear-gradient(135deg, #123a6b, #1d5fae 55%, #2f7fd4)">
+      <div>
+        <div class="crumbs"><a href="../guides.html">Гайды</a> / Frontend · TypeScript</div>
+        <h1>TypeScript <b>без лишней теории</b></h1>
+        <p>Типы, которые ловят ошибки до запуска: базовые типы, интерфейсы, дженерики, сужение типов, утилиты и проверка данных с сервера.</p>
+        <div class="hero-facts"><span>TypeScript 5</span><span>8 уроков</span><span>~20 минут</span></div>
+      </div>
+      <div class="icon i-ts">TS</div>
+    </div>
+
+    <div class="guide">
+      <aside class="toc">
+        <h4>Содержание</h4>
+        <ol><li><a href="#why">Зачем TypeScript</a></li><li><a href="#basics">Базовые типы и вывод типов</a></li><li><a href="#objects">Объекты: type и interface</a></li><li><a href="#functions">Функции</a></li><li><a href="#generics">Дженерики</a></li><li><a href="#narrowing">Сужение типов</a></li><li><a href="#utility">Утилитарные типы</a></li><li><a href="#unknown">any, unknown и проверка данных</a></li></ol>
+      </aside>
+
+      <div>
+        <section class="lesson" id="why">
+          <h2><span>01</span>Зачем TypeScript</h2>
+          <p>TypeScript — это JavaScript с типами. Компилятор проверяет код <strong>до запуска</strong> и подсказывает в редакторе. В браузер уходит обычный JavaScript.</p>
+          <pre><code class="language-typescript">function total(price: number, qty: number): number {
+  return price * qty;
+}
+
+total(890, '2'); // ❌ ошибка компиляции: string нельзя передать вместо number</code></pre>
+          <p>Включайте строгий режим — без него TypeScript пропускает половину ошибок:</p>
+          <pre data-file="tsconfig.json"><code class="language-json">{
+  "compilerOptions": {
+    "strict": true,
+    "noUncheckedIndexedAccess": true
+  }
+}</code></pre>
+        </section>
+        <section class="lesson" id="basics">
+          <h2><span>02</span>Базовые типы и вывод типов</h2>
+          <pre><code class="language-typescript">let title: string = 'Фильтр';
+let price = 890;              // тип number выведен автоматически
+const status = 'paid';        // тип — литерал 'paid', а не просто string
+let tags: string[] = ['двигатель', 'ТО'];
+let point: [number, number] = [43.1, 131.9]; // кортеж
+
+// Объединение (union): одно из нескольких значений
+type OrderStatus = 'new' | 'paid' | 'shipped' | 'cancelled';
+let orderStatus: OrderStatus = 'new';
+orderStatus = 'lost'; // ❌ такого значения нет в типе</code></pre>
+          <p>Пишите типы явно там, где их не вывести: параметры функций, публичные API, пустое состояние <code>useState&lt;Part[]&gt;([])</code>. В остальных местах доверяйте выводу.</p>
+        </section>
+        <section class="lesson" id="objects">
+          <h2><span>03</span>Объекты: type и interface</h2>
+          <pre><code class="language-typescript">interface Part {
+  readonly id: number;   // нельзя изменить после создания
+  title: string;
+  price: number;
+  brand?: string;        // необязательное поле: string | undefined
+}
+
+type Order = {
+  id: number;
+  items: Part[];
+  status: OrderStatus;
+};
+
+// Расширение
+interface ExpressOrder extends Order {
+  deliveryHours: number;
+}
+type PaidOrder = Order &amp; { paidAt: Date };</code></pre>
+          <p>Разница небольшая: <code>interface</code> можно расширять и дополнять, а <code>type</code> умеет объединения и сложные выражения. Частое правило — <code>interface</code> для объектов, <code>type</code> для всего остального. Главное — единообразие в проекте.</p>
+        </section>
+        <section class="lesson" id="functions">
+          <h2><span>04</span>Функции</h2>
+          <pre><code class="language-typescript">// Параметр по умолчанию и необязательный параметр
+function formatPrice(value: number, currency = '₽', compact?: boolean): string {
+  return compact ? `${Math.round(value / 1000)}к ${currency}` : `${value} ${currency}`;
+}
+
+// Тип функции — например, для колбэка в props
+type OnSelect = (partId: number) =&gt; void;
+
+// Асинхронная функция возвращает Promise
+async function fetchPart(id: number): Promise&lt;Part&gt; {
+  const res = await fetch(`/api/parts/${id}`);
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  return res.json() as Promise&lt;Part&gt;;
+}</code></pre>
+          <p>Обратите внимание: <code>as Promise&lt;Part&gt;</code> ничего не проверяет, а только <strong>обещает</strong> компилятору тип. Данные с сервера надёжнее проверять схемой — об этом последний урок.</p>
+        </section>
+        <section class="lesson" id="generics">
+          <h2><span>05</span>Дженерики</h2>
+          <p>Дженерик — тип-параметр. Функция или тип работают с любым типом, но сохраняют связь между входом и выходом.</p>
+          <pre><code class="language-typescript">function first&lt;T&gt;(items: T[]): T | undefined {
+  return items[0];
+}
+
+const part = first(parts);      // Part | undefined
+const tag = first(['a', 'b']);  // string | undefined
+
+// Обёртка ответа API для любых данных
+interface ApiResponse&lt;T&gt; {
+  data: T;
+  total: number;
+  page: number;
+}
+
+async function getJson&lt;T&gt;(url: string): Promise&lt;T&gt; {
+  const res = await fetch(url);
+  return res.json() as Promise&lt;T&gt;;
+}
+
+const list = await getJson&lt;ApiResponse&lt;Part[]&gt;&gt;('/api/parts?page=1');
+list.data[0]?.title; // автодополнение работает
+
+// Ограничение: у T обязательно есть поле id
+function byId&lt;T extends { id: number }&gt;(items: T[], id: number): T | undefined {
+  return items.find(i =&gt; i.id === id);
+}</code></pre>
+        </section>
+        <section class="lesson" id="narrowing">
+          <h2><span>06</span>Сужение типов</h2>
+          <p>Когда у значения тип-объединение, TypeScript <strong>сужает</strong> его после проверок <code>typeof</code>, <code>in</code>, <code>instanceof</code> или сравнения поля.</p>
+          <pre><code class="language-typescript">type Payment =
+  | { method: 'card'; cardLast4: string }
+  | { method: 'cash' }
+  | { method: 'invoice'; inn: string };
+
+function describe(p: Payment): string {
+  switch (p.method) {
+    case 'card':
+      return `Карта •• ${p.cardLast4}`;   // здесь TypeScript знает про cardLast4
+    case 'cash':
+      return 'Наличными курьеру';
+    case 'invoice':
+      return `Счёт для ИНН ${p.inn}`;
+    default: {
+      const unreachable: never = p;      // ошибка, если забыли обработать новый вариант
+      return unreachable;
+    }
+  }
+}</code></pre>
+          <p>Такой тип называется <strong>размеченным объединением</strong> (discriminated union): общее поле <code>method</code> говорит, какой это вариант. Ветка с <code>never</code> заставит обработать новый способ оплаты, когда его добавят.</p>
+        </section>
+        <section class="lesson" id="utility">
+          <h2><span>07</span>Утилитарные типы</h2>
+          <pre><code class="language-typescript">type PartPreview = Pick&lt;Part, 'id' | 'title'&gt;;       // только эти поля
+type NewPart = Omit&lt;Part, 'id'&gt;;                       // всё, кроме id
+type PartPatch = Partial&lt;Part&gt;;                        // все поля необязательные
+type StrictPart = Required&lt;Part&gt;;                      // все поля обязательные
+type PricesByBrand = Record&lt;string, number&gt;;           // объект-словарь
+type Status = Order['status'];                         // тип одного поля
+type Loaded = Awaited&lt;ReturnType&lt;typeof fetchPart&gt;&gt;;   // Part — результат функции</code></pre>
+          <p>Утилиты избавляют от копирования: тип для формы создания — это <code>Omit&lt;Part, 'id'&gt;</code>, а не новый интерфейс, который со временем разойдётся с оригиналом.</p>
+        </section>
+        <section class="lesson" id="unknown">
+          <h2><span>08</span>any, unknown и проверка данных</h2>
+          <ul><li><code>any</code> выключает проверку типов — ошибки доживут до продакшена. Избегайте.</li><li><code>unknown</code> — «что-то неизвестное»: использовать можно только после проверки.</li></ul>
+          <p>Данные из сети, <code>localStorage</code> и форм на самом деле <code>unknown</code>. Схема <strong>Zod</strong> проверяет их во время выполнения и сама выводит тип:</p>
+          <pre><code class="language-typescript">import { z } from 'zod';
+
+const PartSchema = z.object({
+  id: z.number(),
+  title: z.string().min(1),
+  price: z.number().nonnegative(),
+  brand: z.string().optional(),
+});
+
+type Part = z.infer&lt;typeof PartSchema&gt;; // тип выводится из схемы — не нужно описывать дважды
+
+const json: unknown = await res.json();
+const part = PartSchema.parse(json);    // бросит ошибку, если сервер прислал не то</code></pre>
+          <div class="tiles"><div class="good"><h4>Запомнить</h4><ul><li><code>strict: true</code> с первого дня.</li><li>Типизируйте границы: параметры функций, props, ответы API.</li><li>Размеченные объединения вместо пачки необязательных полей.</li><li>Внешние данные — через схему (Zod), а не через <code>as</code>.</li></ul></div><div class="bad"><h4>Частые ошибки</h4><ul><li><code>any</code>, «чтобы заработало».</li><li><code>as</code> вместо проверки: тип совпадает только на бумаге.</li><li>Копии типов вместо <code>Pick</code> и <code>Omit</code>.</li><li>Выключенный <code>strict</code> в старом проекте «на потом».</li></ul></div></div>
+        </section>
+        <section class="lesson" id="next">
+          <h2>Что дальше</h2>
+          <p>Включите <code>strict</code> в своём проекте и избавьтесь от всех <code>any</code> — это лучшая практика по TypeScript. Затем переведите ответы API на схемы Zod.</p>
+          <div class="next-steps"><a class="pill" href="../guides.html">Все гайды</a><a class="pill ghost" href="https://www.typescriptlang.org/docs/handbook/intro.html" target="_blank" rel="noopener">TypeScript Handbook ↗</a><a class="pill ghost" href="react.html">Учебник по React</a></div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer" data-layout="footer"></footer>
+</body>
+</html>
