@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Учебник по стилям — Владимир</title>
+  <meta name="description" content="Разбор CSS-приёмов, на которых построен сайт: токены, тёмная тема, градиенты, объёмные иконки, сетки, шапка и подвал.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%235b4cf0'/><text x='16' y='21' font-family='monospace' font-size='13' font-weight='700' fill='white' text-anchor='middle'>&lt;/&gt;</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="theme.js"></script>
+  <style>
+    .guide { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 48px; padding-top: 48px; }
+    .toc { position: sticky; top: 84px; align-self: start; font-size: 14px; }
+    .toc h4 { font-size: 13px; font-weight: 400; color: var(--muted); margin-bottom: 12px; }
+    .toc ol { padding-left: 20px; display: flex; flex-direction: column; gap: 8px; }
+    .toc a { color: var(--muted); }
+    .toc a:hover { color: var(--text); }
+
+    .intro h1 { font-weight: 400; font-size: clamp(32px, 5vw, 48px); line-height: 1.1; letter-spacing: -.02em; }
+    .intro h1 b { font-weight: 600; }
+    .intro p { color: var(--muted); font-size: 18px; margin-top: 16px; max-width: 680px; }
+
+    .lesson { padding-top: 56px; scroll-margin-top: 72px; }
+    .lesson h2 { font-weight: 500; font-size: 26px; letter-spacing: -.01em; }
+    .lesson h2 span { color: var(--accent); margin-right: 8px; }
+    .lesson p, .lesson li { color: var(--muted); max-width: 720px; }
+    .lesson p { margin-top: 12px; }
+    .lesson ul { margin-top: 12px; padding-left: 20px; }
+    .lesson li { margin: 4px 0; }
+    .lesson strong { color: var(--text); font-weight: 500; }
+    code { font: 14px/1.5 "JetBrains Mono", monospace; }
+    p code, li code { background: var(--tile); padding: 1px 6px; border-radius: 6px; color: var(--text); font-size: 13px; }
+    pre {
+      margin-top: 16px; padding: 20px; overflow-x: auto;
+      background: var(--tile); border-radius: 16px; border: 1px solid var(--line);
+    }
+    .demo {
+      margin-top: 16px; padding: 28px; border-radius: 16px; border: 1px dashed var(--line);
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 16px;
+    }
+    .demo-label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; margin-top: 20px; }
+
+    /* Демо-элементы */
+    .swatch { width: 120px; border-radius: 12px; overflow: hidden; border: 1px solid var(--line); font-size: 12px; }
+    .swatch div { height: 56px; }
+    .swatch span { display: block; padding: 6px 8px; color: var(--muted); font-family: "JetBrains Mono", monospace; }
+    .demo-gradient {
+      width: 100%; height: 160px; border-radius: 24px;
+      background:
+        radial-gradient(60% 80% at 15% 20%, #8f7dff 0%, transparent 60%),
+        radial-gradient(50% 70% at 90% 80%, #e05cf5 0%, transparent 60%),
+        linear-gradient(135deg, #4b3ee0, #7b4cf0 55%, #b14cf0);
+    }
+    .demo-radius { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+    .demo-radius div { width: 88px; height: 88px; background: var(--tile); display: grid; place-items: end center; padding-bottom: 8px; font-size: 12px; color: var(--muted); }
+    .demo-tabs { display: flex; padding: 4px; gap: 4px; background: var(--tile); border-radius: 999px; }
+    .demo-tabs button { border: 0; background: transparent; cursor: pointer; font: 500 14px/1 Onest, sans-serif; color: var(--text); padding: 12px 20px; border-radius: 999px; }
+    .demo-tabs button[aria-selected="true"] { background: var(--bg); box-shadow: 0 2px 8px rgba(20, 20, 40, .12); }
+    .icon3d {
+      width: 96px; aspect-ratio: 1; border-radius: 30%; display: grid; place-items: center; position: relative;
+      color: #fff; font: 700 32px/1 Onest, sans-serif; text-shadow: 0 2px 0 rgba(0, 0, 0, .18);
+      background: linear-gradient(160deg, #5aa7f2, #2f7fd4 55%, #1d5fae);
+    }
+    .icon3d.s1 { box-shadow: none; }
+    .icon3d.s2 { box-shadow: inset 0 -10px 18px rgba(0, 0, 0, .22), inset 0 10px 18px rgba(255, 255, 255, .35); }
+    .icon3d.s3, .icon3d.s4 { box-shadow: inset 0 -10px 18px rgba(0, 0, 0, .22), inset 0 10px 18px rgba(255, 255, 255, .35), 0 18px 30px -10px rgba(47, 127, 212, .6); }
+    .icon3d.s4::before { content: ""; position: absolute; top: 8%; left: 14%; width: 46%; height: 26%; border-radius: 50%; background: rgba(255, 255, 255, .35); filter: blur(4px); }
+    .step { display: flex; flex-direction: column; align-items: center; gap: 8px; font-size: 12px; color: var(--muted); }
+    .demo-grid { width: 100%; display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 12px; }
+    .demo-grid div { height: 64px; border-radius: 12px; background: var(--tile); }
+    .demo-blur { position: relative; width: 100%; height: 140px; border-radius: 16px; overflow: hidden; background: repeating-linear-gradient(45deg, #5b4cf0 0 14px, #e05cf5 14px 28px); }
+    .demo-blur div { position: absolute; inset: 0 0 auto 0; height: 52px; background: var(--header-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); display: flex; align-items: center; padding: 0 16px; font-weight: 600; }
+
+    @media (max-width: 900px) {
+      .guide { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+      .toc { position: static; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="logo" href="./"><i>&lt;/&gt;</i>Владимир</a>
+      <nav class="site-nav">
+        <a href="./#tech">Технологии</a>
+        <a href="guide.html" aria-current="page">Учебник по стилям</a>
+        <a href="./#contact">Контакты</a>
+      </nav>
+      <div class="header-actions">
+        <button class="theme-toggle" type="button" aria-label="Переключить тему">
+          <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        </button>
+        <a class="btn-outline" href="https://vladivostok.hh.ru/resume/4f7e2fceff09cc13af0039ed1f6261486c3437" target="_blank" rel="noopener">Резюме</a>
+      </div>
+    </div>
+  </header>
+
+  <div class="wrap guide">
+    <aside class="toc">
+      <h4>Содержание</h4>
+      <ol>
+        <li><a href="#tokens">Дизайн-токены</a></li>
+        <li><a href="#theme">Тёмная тема</a></li>
+        <li><a href="#type">Типографика</a></li>
+        <li><a href="#radius">Скругления и блоки</a></li>
+        <li><a href="#gradient">Градиент первого экрана</a></li>
+        <li><a href="#pills">Кнопки-пилюли</a></li>
+        <li><a href="#tabs">Сегментированный переключатель</a></li>
+        <li><a href="#icons">Объёмные иконки на CSS</a></li>
+        <li><a href="#grid">Адаптивная сетка</a></li>
+        <li><a href="#header">Липкая шапка с размытием</a></li>
+        <li><a href="#footer">Подвал</a></li>
+      </ol>
+    </aside>
+
+    <main>
+      <div class="intro">
+        <h1>Учебник по стилям: <b>как устроен этот сайт</b></h1>
+        <p>Стиль вдохновлён лендингом Яндекс Практикума: светлая основа, крупные скругления, цветные акцентные блоки и объёмные иконки. Здесь разобран каждый приём — с живым примером и кодом, который можно взять себе.</p>
+      </div>
+
+      <section class="lesson" id="tokens">
+        <h2><span>01</span>Дизайн-токены</h2>
+        <p>Все цвета, радиусы и тени заданы <strong>один раз</strong> в CSS-переменных на <code>:root</code>. Компоненты используют только переменные, а не конкретные значения. Поэтому, чтобы поменять акцентный цвет на всём сайте, достаточно одной строки.</p>
+        <div class="demo">
+          <div class="swatch"><div style="background: var(--bg)"></div><span>--bg</span></div>
+          <div class="swatch"><div style="background: var(--tile)"></div><span>--tile</span></div>
+          <div class="swatch"><div style="background: var(--text)"></div><span>--text</span></div>
+          <div class="swatch"><div style="background: var(--muted)"></div><span>--muted</span></div>
+          <div class="swatch"><div style="background: var(--accent)"></div><span>--accent</span></div>
+        </div>
+<pre><code>:root {
+  --bg: #ffffff;
+  --tile: #f2f3f5;      /* фон плиток и серых блоков */
+  --text: #1a1a1f;      /* не чисто чёрный — мягче для глаз */
+  --muted: #6b6f7a;     /* второстепенный текст */
+  --accent: #5b4cf0;
+  --radius-xl: 32px;
+}
+
+.card .tile { background: var(--tile); border-radius: var(--radius-lg); }</code></pre>
+      </section>
+
+      <section class="lesson" id="theme">
+        <h2><span>02</span>Тёмная тема</h2>
+        <p>Благодаря токенам тёмная тема — это просто <strong>другой набор значений тех же переменных</strong>. Компоненты не меняются вообще. Нажмите на кнопку с солнцем или луной в шапке — образцы цветов выше перекрасятся.</p>
+        <ul>
+          <li>Тема хранится в атрибуте <code>data-theme</code> на <code>&lt;html&gt;</code>.</li>
+          <li>При первом визите берётся системная настройка через <code>prefers-color-scheme</code>.</li>
+          <li>Выбор пользователя сохраняется в <code>localStorage</code>.</li>
+          <li>Скрипт подключён в <code>&lt;head&gt;</code> без <code>defer</code>: тема ставится до отрисовки, поэтому страница не «мигает» белым.</li>
+        </ul>
+<pre><code>:root[data-theme="dark"] {
+  --bg: #121214;
+  --tile: #1e1f23;
+  --text: #ececf0;
+  --accent: #8f83ff;   /* в тёмной теме акцент светлее, чтобы читался */
+  color-scheme: dark;  /* тёмные скроллбары и поля ввода */
+}
+
+// theme.js
+var saved = localStorage.getItem('theme');
+var system = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+document.documentElement.dataset.theme = saved || system;</code></pre>
+      </section>
+
+      <section class="lesson" id="type">
+        <h2><span>03</span>Типографика</h2>
+        <p>Крупные заголовки набраны <strong>тонким начертанием (400)</strong>, а важная часть фразы выделена жирным. Это приём Практикума: заголовок выглядит легко, но акцент считывается сразу. Размер задан через <code>clamp()</code> — он плавно растёт с шириной экрана без медиазапросов.</p>
+        <div class="demo">
+          <h3 style="font-weight: 400; font-size: clamp(24px, 4vw, 40px); line-height: 1.15; letter-spacing: -.02em; text-align: center;">Показываю, что умею: <b style="font-weight: 600">каждая технология — с примером</b></h3>
+        </div>
+<pre><code>h1 {
+  font-weight: 400;
+  font-size: clamp(32px, 5vw, 56px);  /* минимум, «резиновое» значение, максимум */
+  line-height: 1.12;                   /* крупному тексту нужен плотный интерлиньяж */
+  letter-spacing: -.02em;              /* и чуть сжатый трекинг */
+}
+h1 b { font-weight: 600; }</code></pre>
+        <p>Шрифт — <strong>Onest</strong> из Google Fonts: бесплатный, создан с хорошей поддержкой кириллицы.</p>
+      </section>
+
+      <section class="lesson" id="radius">
+        <h2><span>04</span>Скругления и блоки</h2>
+        <p>Страница собрана из <strong>крупных скруглённых блоков</strong>: первый экран, плитки, тёмный блок контактов. Радиус зависит от размера: чем больше блок, тем больше скругление. На телефоне радиусы уменьшаются, иначе углы «съедают» содержимое.</p>
+        <div class="demo demo-radius">
+          <div style="border-radius: 8px">8px</div>
+          <div style="border-radius: 16px">16px</div>
+          <div style="border-radius: 24px">24px</div>
+          <div style="border-radius: 32px">32px</div>
+          <div style="border-radius: 999px">999px</div>
+        </div>
+<pre><code>.hero  { border-radius: var(--radius-xl); }  /* 32px — большие секции */
+.tile  { border-radius: var(--radius-lg); }  /* 24px — плитки */
+.pill  { border-radius: 999px; }             /* «пилюля»: всегда полукруглые края */
+
+@media (max-width: 640px) {
+  .hero { border-radius: var(--radius-lg); }
+}</code></pre>
+      </section>
+
+      <section class="lesson" id="gradient">
+        <h2><span>05</span>Градиент первого экрана</h2>
+        <p>Мягкий «живой» фон — это <strong>несколько градиентов друг на друге</strong>. Внизу базовый линейный градиент, сверху два радиальных пятна, которые растворяются в <code>transparent</code>. Так получается эффект подсветки без картинок.</p>
+        <div class="demo"><div class="demo-gradient"></div></div>
+<pre><code>.hero {
+  background:
+    radial-gradient(60% 80% at 15% 20%, #8f7dff 0%, transparent 60%),  /* пятно слева вверху */
+    radial-gradient(50% 70% at 90% 80%, #e05cf5 0%, transparent 60%),  /* пятно справа внизу */
+    linear-gradient(135deg, #4b3ee0, #7b4cf0 55%, #b14cf0);            /* основа */
+}</code></pre>
+        <p>Слои перечисляются через запятую, и <strong>первый лежит сверху</strong>.</p>
+      </section>
+
+      <section class="lesson" id="pills">
+        <h2><span>06</span>Кнопки-пилюли</h2>
+        <p>Основные действия — белые кнопки с полностью круглыми краями. При наведении кнопка <strong>приподнимается на 1px и получает тень</strong>: это даёт ощущение физической кнопки.</p>
+        <div class="demo">
+          <a class="pill" href="#pills">Обычная</a>
+          <a class="pill ghost" href="#pills">Серая (ghost)</a>
+          <a class="btn-outline" href="#pills">В рамке, как в шапке</a>
+        </div>
+<pre><code>.pill {
+  padding: 12px 22px;
+  border-radius: 999px;
+  transition: transform .15s, box-shadow .15s;
+}
+.pill:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(20, 20, 40, .12);
+}</code></pre>
+      </section>
+
+      <section class="lesson" id="tabs">
+        <h2><span>07</span>Сегментированный переключатель</h2>
+        <p>Серая «капсула», внутри кнопки; активная — белая с тенью, будто приподнята. Состояние хранится в <code>aria-selected</code>: этот атрибут нужен экранным читалкам, и он же служит селектором для стилей.</p>
+        <div class="demo">
+          <div class="demo-tabs" role="tablist">
+            <button role="tab" aria-selected="true">Все</button>
+            <button role="tab" aria-selected="false">Backend</button>
+            <button role="tab" aria-selected="false">Frontend</button>
+          </div>
+        </div>
+<pre><code>.tabs { display: flex; padding: 4px; gap: 4px; background: var(--tile); border-radius: 999px; }
+.tabs button[aria-selected="true"] { background: var(--bg); box-shadow: 0 2px 8px rgba(20, 20, 40, .12); }
+
+tabs.forEach(tab => tab.addEventListener('click', () => {
+  tabs.forEach(t => t.setAttribute('aria-selected', t === tab));
+  // ...и скрываем карточки чужой категории через атрибут hidden
+}));</code></pre>
+      </section>
+
+      <section class="lesson" id="icons">
+        <h2><span>08</span>Объёмные иконки на CSS</h2>
+        <p>У Практикума иконки — 3D-рендеры. Здесь тот же эффект собран <strong>одними тенями</strong>, без картинок. По шагам:</p>
+        <div class="demo">
+          <div class="step"><div class="icon3d s1">TS</div>1. Градиент</div>
+          <div class="step"><div class="icon3d s2">TS</div>2. Внутренние тени</div>
+          <div class="step"><div class="icon3d s3">TS</div>3. Цветная тень</div>
+          <div class="step"><div class="icon3d s4">TS</div>4. Блик</div>
+        </div>
+<pre><code>.icon {
+  border-radius: 30%;  /* «скруглённый квадрат», как у иконок приложений */
+  background: linear-gradient(160deg, #5aa7f2, #2f7fd4 55%, #1d5fae);  /* 1: свет сверху-слева */
+  box-shadow:
+    inset 0 -10px 18px rgba(0, 0, 0, .22),        /* 2: затемнение снизу */
+    inset 0 10px 18px rgba(255, 255, 255, .35),   /*    подсветка сверху */
+    0 18px 30px -10px var(--glow);                /* 3: тень цвета самой иконки */
+}
+.icon::before {                                   /* 4: размытый блик */
+  content: ""; position: absolute; top: 8%; left: 14%;
+  width: 46%; height: 26%; border-radius: 50%;
+  background: rgba(255, 255, 255, .35); filter: blur(4px);
+}</code></pre>
+        <p>Цвет тени задан переменной <code>--glow</code> на каждой иконке, поэтому синяя иконка отбрасывает синюю тень, а фиолетовая — фиолетовую.</p>
+      </section>
+
+      <section class="lesson" id="grid">
+        <h2><span>09</span>Адаптивная сетка</h2>
+        <p>Карточки раскладываются одной строкой CSS — <strong>без медиазапросов</strong>. Браузер сам решает, сколько колонок шириной от 260px поместится, и растягивает их на всю ширину. Измените ширину окна, чтобы увидеть, как перестраивается пример.</p>
+        <div class="demo"><div class="demo-grid"><div></div><div></div><div></div><div></div><div></div></div></div>
+<pre><code>.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 20px;
+}</code></pre>
+      </section>
+
+      <section class="lesson" id="header">
+        <h2><span>10</span>Липкая шапка с размытием</h2>
+        <p>Шапка как у сервисов Яндекса: логотип слева, ссылки и кнопка в рамке справа. Она <strong>прилипает к верху</strong> при прокрутке, а фон под ней размывается, как матовое стекло.</p>
+        <div class="demo"><div class="demo-blur"><div>Шапка поверх контента</div></div></div>
+<pre><code>.site-header {
+  position: sticky; top: 0; z-index: 20;
+  background: var(--header-bg);          /* полупрозрачный фон */
+  backdrop-filter: saturate(180%) blur(12px);
+  border-bottom: 1px solid var(--line);
+}</code></pre>
+        <p><code>position: sticky</code> лучше, чем <code>fixed</code>: шапка остаётся в потоке документа, и под неё не нужно делать отступ.</p>
+      </section>
+
+      <section class="lesson" id="footer">
+        <h2><span>11</span>Подвал</h2>
+        <p>Подвал повторяет структуру Практикума:</p>
+        <ul>
+          <li><strong>Верхняя строка:</strong> логотип слева, серые кнопки-пилюли соцсетей справа.</li>
+          <li><strong>Колонки ссылок:</strong> маленький серый заголовок, под ним список. Колонки строятся той же сеткой <code>auto-fit</code>.</li>
+          <li><strong>Промоблок:</strong> серая скруглённая плашка с призывом к действию.</li>
+          <li><strong>Нижняя строка:</strong> крупный контакт слева, мелкий служебный текст справа.</li>
+        </ul>
+<pre><code>.footer-cols {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 32px;
+}
+.footer-cols h4 { font-size: 13px; font-weight: 400; color: var(--muted); }</code></pre>
+        <p>Посмотреть на него можно внизу этой страницы.</p>
+      </section>
+    </main>
+  </div>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="footer-top">
+        <a class="logo" href="./"><i>&lt;/&gt;</i>Владимир</a>
+        <div class="footer-social">
+          <a class="pill ghost sm" href="https://t.me/BojooYkt" target="_blank" rel="noopener">Telegram</a>
+          <a class="pill ghost sm" href="https://vladivostok.hh.ru/resume/4f7e2fceff09cc13af0039ed1f6261486c3437" target="_blank" rel="noopener">HH.ru</a>
+          <a class="pill ghost sm" href="https://github.com/BezdomnyiBox" target="_blank" rel="noopener">GitHub</a>
+        </div>
+      </div>
+
+      <div class="footer-cols">
+        <div>
+          <h4>Технологии</h4>
+          <ul>
+            <li><a href="./#tech">PHP</a></li>
+            <li><a href="./#tech">Symfony</a></li>
+            <li><a href="./#tech">React</a></li>
+            <li><a href="./#tech">TypeScript</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Обо мне</h4>
+          <ul>
+            <li><a href="https://vladivostok.hh.ru/resume/4f7e2fceff09cc13af0039ed1f6261486c3437" target="_blank" rel="noopener">Резюме</a></li>
+            <li><a href="https://github.com/BezdomnyiBox" target="_blank" rel="noopener">Репозитории на GitHub</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Этот сайт</h4>
+          <ul>
+            <li><a href="guide.html">Учебник по стилям</a></li>
+            <li><a href="https://github.com/BezdomnyiBox/BezdomnyiBox.github.io" target="_blank" rel="noopener">Исходный код</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-promo">
+        <div>
+          <h3>Ищу команду, где смогу расти<br>и приносить пользу</h3>
+          <p>Отвечу в Telegram в течение дня.</p>
+        </div>
+        <a class="pill" href="https://t.me/BojooYkt" target="_blank" rel="noopener">Написать в Telegram</a>
+      </div>
+
+      <div class="footer-bottom">
+        <div class="footer-contact">@BojooYkt<small>Telegram — самый быстрый способ связаться</small></div>
+        <p class="footer-legal">© 2026 Владимир. Сайт свёрстан вручную на HTML, CSS и чистом JavaScript, без фреймворков.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Переключатель в демо урока 07
+    document.querySelectorAll('.demo-tabs').forEach(group => {
+      const btns = group.querySelectorAll('button');
+      btns.forEach(b => b.addEventListener('click', () => btns.forEach(x => x.setAttribute('aria-selected', x === b))));
+    });
+  </script>
+</body>
+</html>
