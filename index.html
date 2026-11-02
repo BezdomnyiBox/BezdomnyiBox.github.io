@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Владимир — fullstack-разработчик</title>
-  <meta name="description" content="Портфолио fullstack-разработчика: PHP (Symfony), React + TypeScript.">
+  <meta name="description" content="Fullstack-разработчик: PHP (Symfony), React + TypeScript. Технологии и живые примеры на них.">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%234f46e5'/><text x='16' y='22' font-family='monospace' font-size='16' font-weight='700' fill='white' text-anchor='middle'>&lt;/&gt;</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,7 +18,7 @@
       --border: #e2e8f0;
       --accent: #4f46e5;
       --accent-soft: #eef2ff;
-      --tag-bg: #f1f5f9;
+      --skeleton: #e2e8f0;
       --shadow: 0 1px 2px rgba(15, 23, 42, .04), 0 8px 24px rgba(15, 23, 42, .06);
     }
     @media (prefers-color-scheme: dark) {
@@ -30,7 +30,7 @@
         --border: #1f2a44;
         --accent: #818cf8;
         --accent-soft: #1e1b4b;
-        --tag-bg: #1a2440;
+        --skeleton: #1f2a44;
         --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 8px 24px rgba(0, 0, 0, .25);
       }
     }
@@ -43,7 +43,6 @@
       -webkit-font-smoothing: antialiased;
     }
     a { color: var(--accent); text-decoration: none; }
-    a:hover { text-decoration: underline; }
     .wrap { max-width: 960px; margin: 0 auto; padding: 0 20px; }
 
     /* Навигация */
@@ -58,18 +57,11 @@
     .logo span { color: var(--accent); }
     nav ul { display: flex; gap: 22px; list-style: none; padding: 0; }
     nav ul a { color: var(--muted); font-size: 14px; font-weight: 500; }
-    nav ul a:hover { color: var(--text); text-decoration: none; }
+    nav ul a:hover { color: var(--text); }
 
     /* Первый экран */
     .hero { padding: 88px 0 72px; }
-    .badge {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 4px 12px; border-radius: 999px;
-      background: var(--accent-soft); color: var(--accent);
-      font-size: 13px; font-weight: 600;
-    }
-    .badge::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #22c55e; }
-    h1 { font-size: clamp(36px, 6vw, 56px); line-height: 1.1; letter-spacing: -.03em; margin: 20px 0 16px; font-weight: 800; }
+    h1 { font-size: clamp(36px, 6vw, 56px); line-height: 1.1; letter-spacing: -.03em; margin-bottom: 16px; font-weight: 800; }
     h1 em { font-style: normal; color: var(--accent); }
     .lead { font-size: 19px; color: var(--muted); max-width: 640px; }
     .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
@@ -80,44 +72,34 @@
       border: 1px solid var(--border); background: var(--surface); color: var(--text);
       transition: transform .15s, border-color .15s;
     }
-    .btn:hover { text-decoration: none; transform: translateY(-1px); border-color: var(--accent); }
+    .btn:hover { transform: translateY(-1px); border-color: var(--accent); }
     .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
-    .btn svg { width: 18px; height: 18px; fill: currentColor; }
 
-    /* Секции */
+    /* Технология — пример */
     section { padding: 56px 0; }
     h2 { font-size: 28px; letter-spacing: -.02em; margin-bottom: 8px; }
     .section-sub { color: var(--muted); margin-bottom: 32px; }
-
-    /* Карточки проектов */
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
-    .card {
+    .tech-list { display: flex; flex-direction: column; gap: 20px; }
+    .tech {
+      display: grid; grid-template-columns: 1fr 1.4fr; gap: 24px;
       background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
       padding: 24px; box-shadow: var(--shadow);
-      display: flex; flex-direction: column; gap: 14px;
-      transition: transform .15s, border-color .15s;
     }
-    .card:hover { transform: translateY(-2px); border-color: color-mix(in srgb, var(--accent) 40%, var(--border)); }
-    .card.featured { grid-column: 1 / -1; }
-    .card-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
-    .card h3 { font-size: 20px; letter-spacing: -.01em; }
-    .status { font-size: 12px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
-    .card p { color: var(--muted); }
-    .card ul.points { padding-left: 18px; color: var(--muted); font-size: 15px; }
-    .card ul.points li { margin: 2px 0; }
-    .featured .cols { display: grid; grid-template-columns: 1.2fr 1fr; gap: 24px; }
-    .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; }
-    .tag {
-      font-family: "JetBrains Mono", monospace; font-size: 12px;
-      padding: 3px 9px; border-radius: 6px; background: var(--tag-bg); color: var(--text);
-    }
-    .card-links { display: flex; gap: 16px; font-size: 14px; font-weight: 600; }
+    .tech-label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: var(--accent); }
+    .tech h3 { font-size: 22px; letter-spacing: -.01em; margin: 6px 0 8px; }
+    .tech p { color: var(--muted); }
 
-    /* Стек */
-    .stack { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
-    .stack div { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 18px 20px; }
-    .stack h4 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: var(--accent); margin-bottom: 10px; }
-    .stack p { font-size: 15px; }
+    /* Мок примера */
+    .mock {
+      border: 1px dashed var(--border); border-radius: 12px;
+      padding: 16px; min-height: 180px;
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .mock-bar { display: flex; gap: 6px; margin-bottom: 6px; }
+    .mock-bar i { width: 10px; height: 10px; border-radius: 50%; background: var(--skeleton); }
+    .line { height: 12px; border-radius: 6px; background: var(--skeleton); }
+    .line.w80 { width: 80%; } .line.w60 { width: 60%; } .line.w40 { width: 40%; }
+    .mock-note { margin-top: auto; font-size: 13px; color: var(--muted); font-family: "JetBrains Mono", monospace; }
 
     /* Контакты */
     .contact {
@@ -130,7 +112,7 @@
     @media (max-width: 640px) {
       nav ul { display: none; }
       .hero { padding: 56px 0 40px; }
-      .featured .cols { grid-template-columns: 1fr; }
+      .tech { grid-template-columns: 1fr; }
       .contact { padding: 28px 20px; }
     }
   </style>
@@ -140,9 +122,7 @@
     <div class="wrap">
       <a class="logo" href="#"><span>~/</span>bezdomnyibox</a>
       <ul>
-        <li><a href="#projects">Проекты</a></li>
-        <li><a href="#study">Учёба</a></li>
-        <li><a href="#stack">Стек</a></li>
+        <li><a href="#tech">Технологии</a></li>
         <li><a href="#contact">Контакты</a></li>
       </ul>
     </div>
@@ -150,107 +130,61 @@
 
   <header class="hero">
     <div class="wrap">
-      <span class="badge">Открыт к предложениям</span>
       <h1>Привет, я Владимир —<br><em>fullstack-разработчик</em></h1>
-      <p class="lead">Делаю веб-сервисы под реальные бизнес-задачи: CRM, личные кабинеты, сервисы заказов и автоматизацию процессов. Бэкенд на PHP (Symfony), фронтенд на React + TypeScript.</p>
+      <p class="lead">Здесь каждая технология, с которой я работаю, показана на живом примере.</p>
       <div class="actions">
-        <a class="btn primary" href="#projects">Смотреть проекты</a>
-        <a class="btn" href="https://github.com/BezdomnyiBox" target="_blank" rel="noopener">
-          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-          GitHub
-        </a>
+        <a class="btn primary" href="https://vladivostok.hh.ru/resume/4f7e2fceff09cc13af0039ed1f6261486c3437" target="_blank" rel="noopener">Резюме на HH.ru</a>
         <a class="btn" href="https://t.me/BojooYkt" target="_blank" rel="noopener">Telegram</a>
       </div>
     </div>
   </header>
 
   <main>
-    <section id="projects">
+    <section id="tech">
       <div class="wrap">
-        <h2>Проекты</h2>
-        <p class="section-sub">Работы, которые лучше всего показывают, как я пишу код.</p>
-        <div class="grid">
+        <h2>Технологии и примеры</h2>
+        <p class="section-sub">Слева технология, справа пример на ней.</p>
+        <div class="tech-list">
 
-          <article class="card featured">
-            <div class="card-head">
-              <h3>zapchasti</h3>
-              <span class="status">Главный проект</span>
+          <article class="tech">
+            <div>
+              <span class="tech-label">Backend</span>
+              <h3>PHP · Symfony</h3>
+              <p>Описание технологии и того, что на ней сделано.</p>
             </div>
-            <div class="cols">
-              <div>
-                <p>Сервис заказа и доставки автозапчастей. Клиент оформляет заказ по ссылке на деталь или оставляет заявку на подбор, курьер забирает деталь у продавца, перевозчик доставляет её клиенту.</p>
-              </div>
-              <ul class="points">
-                <li>Кабинеты клиента, курьера, перевозчика и админа</li>
-                <li>Каталог, корзина, заявки на подбор, отзывы</li>
-                <li>JWT-авторизация и rate limiting</li>
-                <li>CI: тесты, линт и сборка; CD: деплой по SSH</li>
-              </ul>
+            <div class="mock" aria-label="Место для примера">
+              <div class="mock-bar"><i></i><i></i><i></i></div>
+              <div class="line w80"></div><div class="line w60"></div><div class="line w40"></div>
+              <span class="mock-note">// пример скоро</span>
             </div>
-            <div class="tags">
-              <span class="tag">FastAPI</span><span class="tag">SQLAlchemy 2</span><span class="tag">PostgreSQL</span><span class="tag">Redis</span><span class="tag">MinIO / S3</span><span class="tag">React</span><span class="tag">TypeScript</span><span class="tag">Tailwind</span><span class="tag">Docker</span><span class="tag">GitHub Actions</span>
-            </div>
-            <div class="card-links"><a href="https://github.com/BezdomnyiBox/zapchasti" target="_blank" rel="noopener">Код на GitHub →</a></div>
           </article>
 
-          <article class="card">
-            <div class="card-head">
-              <h3>crm-platform</h3>
-              <span class="status">В разработке</span>
+          <article class="tech">
+            <div>
+              <span class="tech-label">Frontend</span>
+              <h3>React · TypeScript</h3>
+              <p>Описание технологии и того, что на ней сделано.</p>
             </div>
-            <p>Каркас CRM с настраиваемой моделью данных: организация задаёт собственные типы сущностей и их атрибуты, не меняя код.</p>
-            <div class="tags">
-              <span class="tag">Symfony 7</span><span class="tag">Doctrine</span><span class="tag">PostgreSQL</span><span class="tag">Docker</span><span class="tag">Kubernetes</span>
+            <div class="mock" aria-label="Место для примера">
+              <div class="mock-bar"><i></i><i></i><i></i></div>
+              <div class="line w80"></div><div class="line w60"></div><div class="line w40"></div>
+              <span class="mock-note">// пример скоро</span>
             </div>
-            <div class="card-links"><a href="https://github.com/BezdomnyiBox/crm-platform" target="_blank" rel="noopener">Код на GitHub →</a></div>
           </article>
 
-          <article class="card">
-            <div class="card-head">
-              <h3>forum</h3>
-              <span class="status">Пет-проект</span>
+          <article class="tech">
+            <div>
+              <span class="tech-label">Технология</span>
+              <h3>Название</h3>
+              <p>Описание технологии и того, что на ней сделано.</p>
             </div>
-            <p>Форум на чистом PHP в окружении LEMP. Поднимается одной командой через docker-compose.</p>
-            <div class="tags">
-              <span class="tag">PHP</span><span class="tag">MySQL</span><span class="tag">nginx</span><span class="tag">php-fpm</span><span class="tag">Docker</span>
+            <div class="mock" aria-label="Место для примера">
+              <div class="mock-bar"><i></i><i></i><i></i></div>
+              <div class="line w80"></div><div class="line w60"></div><div class="line w40"></div>
+              <span class="mock-note">// пример скоро</span>
             </div>
-            <div class="card-links"><a href="https://github.com/BezdomnyiBox/forum" target="_blank" rel="noopener">Код на GitHub →</a></div>
           </article>
 
-        </div>
-      </div>
-    </section>
-
-    <section id="study">
-      <div class="wrap">
-        <h2>Учебные работы</h2>
-        <p class="section-sub">Самые объёмные работы из университетских курсов.</p>
-        <div class="grid">
-          <article class="card">
-            <div class="card-head"><h3>IIS</h3><span class="status">Инженерия интернет-систем</span></div>
-            <p>Лабораторные и практические: REST API, React-приложения, интерфейсы на MUI.</p>
-            <div class="tags"><span class="tag">TypeScript</span><span class="tag">React</span><span class="tag">MUI</span></div>
-            <div class="card-links"><a href="https://github.com/BezdomnyiBox/IIS" target="_blank" rel="noopener">Код на GitHub →</a></div>
-          </article>
-          <article class="card">
-            <div class="card-head"><h3>VisualizationLabs</h3><span class="status">Обработка данных</span></div>
-            <p>Обработка и визуализация больших объёмов графических данных: обработка изображений и детекция объектов.</p>
-            <div class="tags"><span class="tag">Python</span><span class="tag">OpenCV</span><span class="tag">YOLO</span><span class="tag">NumPy</span></div>
-            <div class="card-links"><a href="https://github.com/BezdomnyiBox/VisualizationLabs" target="_blank" rel="noopener">Код на GitHub →</a></div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section id="stack">
-      <div class="wrap">
-        <h2>Стек</h2>
-        <p class="section-sub">С чем работаю каждый день.</p>
-        <div class="stack">
-          <div><h4>Backend</h4><p>PHP 8, Symfony, Doctrine, Python, FastAPI, Flask, SQLAlchemy</p></div>
-          <div><h4>Frontend</h4><p>TypeScript, React, Vite, Tailwind CSS, shadcn/ui, TanStack Query</p></div>
-          <div><h4>Данные</h4><p>PostgreSQL, MySQL, Redis, S3 / MinIO, Pandas</p></div>
-          <div><h4>Инфраструктура</h4><p>Docker, Docker Compose, Kubernetes, nginx, GitHub Actions, Linux</p></div>
         </div>
       </div>
     </section>
@@ -270,7 +204,7 @@
   </main>
 
   <footer>
-    <div class="wrap">© 2026 Владимир · <a href="https://github.com/BezdomnyiBox/BezdomnyiBox.github.io" target="_blank" rel="noopener">исходный код сайта</a></div>
+    <div class="wrap">© 2026 Владимир</div>
   </footer>
 </body>
 </html>
