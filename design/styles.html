@@ -4,14 +4,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Галерея стилей — Владимир</title>
-  <meta name="description" content="19 стилей веб-дизайна с живыми примерами и анимациями: глассморфизм, голография, неон, ASCII-арт, нео-брутализм, скевоморфизм, Y2K, Мемфис, пиксель-арт, Material You и другие.">
+  <meta name="description" content="29 стилей веб-дизайна с живыми примерами и анимациями: глассморфизм, Liquid Glass, неон, нео-брутализм, баухаус, ар-деко, конструктивизм, Y2K, Material You и другие.">
   <!-- og: создаётся tools/seo.py, не редактируйте вручную -->
   <link rel="canonical" href="https://bezdomnyibox.github.io/design/styles.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Владимир — fullstack-разработчик">
   <meta property="og:locale" content="ru_RU">
   <meta property="og:title" content="Галерея стилей — Владимир">
-  <meta property="og:description" content="19 стилей веб-дизайна с живыми примерами и анимациями: глассморфизм, голография, неон, ASCII-арт, нео-брутализм, скевоморфизм, Y2K, Мемфис, пиксель-арт, Material You и другие.">
+  <meta property="og:description" content="29 стилей веб-дизайна с живыми примерами и анимациями: глассморфизм, Liquid Glass, неон, нео-брутализм, баухаус, ар-деко, конструктивизм, Y2K, Material You и другие.">
   <meta property="og:url" content="https://bezdomnyibox.github.io/design/styles.html">
   <meta property="og:image" content="https://bezdomnyibox.github.io/og/design.png">
   <meta property="og:image:width" content="1200">
@@ -22,7 +22,7 @@
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%235b4cf0'/><text x='16' y='21' font-family='monospace' font-size='13' font-weight='700' fill='white' text-anchor='middle'>&lt;/&gt;</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Unbounded:wght@500;700;900&family=Comfortaa:wght@700&family=Russo+One&family=Press+Start+2P&family=PT+Serif&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Unbounded:wght@500;700;900&family=Comfortaa:wght@700&family=Russo+One&family=Press+Start+2P&family=Poiret+One&family=Oswald:wght@700&family=Caveat:wght@700&family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../styles.css">
   <link rel="stylesheet" href="../docs.css">
   <script src="../theme.js"></script>
@@ -392,8 +392,185 @@
     .pl-text b { display: block; font: 700 clamp(28px, 4vw, 40px)/1.1 Unbounded, sans-serif; text-shadow: 0 2px 20px rgba(0, 0, 0, .3); }
     .pl-text small { display: block; margin-top: 8px; opacity: .85; }
 
+    /* ===== 20. Liquid Glass ===== */
+    .st-liquid {
+      background:
+        radial-gradient(circle at 20% 30%, #ff9a5a 0 14%, transparent 38%),
+        radial-gradient(circle at 78% 66%, #4f8dff 0 16%, transparent 42%),
+        radial-gradient(circle at 62% 18%, #ff4f9a 0 10%, transparent 32%),
+        linear-gradient(135deg, #1a2a6c, #b21f6a 50%, #fdbb2d);
+      background-size: 160% 160%; animation: liquid-bg 12s ease-in-out infinite alternate;
+    }
+    @keyframes liquid-bg { to { background-position: 100% 100%; } }
+    .lg {
+      position: relative; isolation: isolate; color: #fff;
+      background: rgba(255, 255, 255, .08);
+      backdrop-filter: blur(5px) saturate(180%) brightness(1.08); -webkit-backdrop-filter: blur(5px) saturate(180%) brightness(1.08);
+      box-shadow: inset 0 1px 1px rgba(255, 255, 255, .85), inset 0 -1px 1px rgba(255, 255, 255, .25), inset 0 0 22px rgba(255, 255, 255, .2), 0 12px 30px rgba(0, 0, 0, .25);
+    }
+    .lg::before {
+      content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit; padding: 1.5px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, .95), rgba(255, 255, 255, .1) 40%, rgba(255, 255, 255, .1) 60%, rgba(255, 255, 255, .75));
+      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude;
+    }
+    .lg-wrap { display: flex; flex-direction: column; align-items: center; gap: 22px; }
+    .lg-now { display: flex; align-items: center; gap: 14px; padding: 12px 18px 12px 12px; border-radius: 26px; }
+    .lg-art { width: 46px; height: 46px; border-radius: 14px; background: linear-gradient(135deg, #ffd36e, #ff4f9a); }
+    .lg-now b { display: block; font-size: 15px; }
+    .lg-now small { font-size: 13px; opacity: .8; }
+    .lg-bar { display: flex; gap: 4px; padding: 6px; border-radius: 999px; }
+    .lg-bar span { position: relative; z-index: 1; width: 56px; height: 44px; display: grid; place-items: center; font-size: 20px; }
+    .lg-active { position: absolute; z-index: 0; left: 6px; top: 6px; width: 56px; height: 44px; border-radius: 999px; background: rgba(255, 255, 255, .25); box-shadow: inset 0 1px 1px rgba(255, 255, 255, .8); animation: lg-slide 6s cubic-bezier(.5, 0, .2, 1.3) infinite; }
+    @keyframes lg-slide { 0%, 20% { transform: translateX(0); } 25%, 45% { transform: translateX(60px); } 50%, 70% { transform: translateX(120px); } 75%, 95% { transform: translateX(180px); } 100% { transform: translateX(0); } }
+
+    /* ===== 21. Баухаус ===== */
+    .st-bauhaus { background: #f0e9dc; color: #111; }
+    .bh { display: grid; grid-template-columns: repeat(4, 72px); grid-template-rows: repeat(3, 72px); }
+    .bh > * { position: relative; overflow: hidden; }
+    .bh .red-c::after { content: ""; position: absolute; inset: 6px; border-radius: 50%; background: #d62d20; }
+    .bh .blue { background: #1d4fa3; }
+    .bh .tri::after { content: ""; position: absolute; inset: 8px; background: #f2b705; clip-path: polygon(50% 0, 100% 100%, 0 100%); animation: bh-tri 4s ease-in-out infinite; }
+    .bh .half::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 36px; border-radius: 36px 36px 0 0; background: #111; animation: bh-flip 4s ease-in-out infinite; transform-origin: bottom; }
+    .bh .quarter::after { content: ""; position: absolute; inset: 0; border-radius: 0 0 0 100%; background: #d62d20; animation: bh-turn 6s steps(4) infinite; }
+    .bh .yellow { background: #f2b705; }
+    .bh .ring::after { content: ""; position: absolute; inset: 14px; border-radius: 50%; border: 10px solid #1d4fa3; }
+    .bh .word { grid-column: span 2; display: grid; place-items: center; background: #111; color: #f0e9dc; font: 900 18px Unbounded, sans-serif; letter-spacing: .08em; }
+    .bh .stripes { background: repeating-linear-gradient(90deg, #111 0 8px, transparent 8px 16px); }
+    @keyframes bh-tri { 50% { transform: translateY(-8px) scale(.9); } }
+    @keyframes bh-flip { 50% { transform: scaleY(-1); } }
+    @keyframes bh-turn { to { transform: rotate(1turn); } }
+
+    /* ===== 22. Ар-деко ===== */
+    .st-deco { background: #0f0f12; color: #e8d29a; }
+    .st-deco::before {
+      content: ""; position: absolute; left: 50%; bottom: -60%; width: 900px; height: 900px; margin-left: -450px; z-index: -1; opacity: .18;
+      background: repeating-conic-gradient(from 0deg, #d4af37 0 2deg, transparent 2deg 8deg);
+      border-radius: 50%; animation: deco-spin 60s linear infinite;
+    }
+    @keyframes deco-spin { to { transform: rotate(1turn); } }
+    .deco-frame { position: relative; padding: 30px 44px; text-align: center; border: 2px solid #d4af37; outline: 1px solid #d4af37; outline-offset: 6px; }
+    .deco-frame::before, .deco-frame::after { content: ""; position: absolute; left: 50%; width: 120px; height: 60px; margin-left: -60px; background: repeating-conic-gradient(from -90deg at 50% 100%, #d4af37 0 6deg, transparent 6deg 15deg); clip-path: ellipse(50% 100% at 50% 100%); }
+    .deco-frame::before { top: -70px; }
+    .deco-frame::after { bottom: -70px; transform: scaleY(-1); }
+    .deco-title {
+      font: 400 clamp(30px, 4.6vw, 46px)/1.1 "Poiret One", sans-serif; letter-spacing: .14em;
+      background: linear-gradient(110deg, #a8832b 20%, #fff3c4 40%, #d4af37 50%, #a8832b 70%); background-size: 250% 100%;
+      -webkit-background-clip: text; background-clip: text; color: transparent; animation: deco-shine 4s linear infinite;
+    }
+    @keyframes deco-shine { from { background-position: 100% 0; } to { background-position: -150% 0; } }
+    .deco-sub { margin-top: 10px; font: 400 13px "Poiret One", sans-serif; letter-spacing: .5em; }
+
+    /* ===== 23. Конструктивизм ===== */
+    .st-constr { background: #efe6d2; color: #111; }
+    .cs-band { position: absolute; left: -20%; right: -20%; top: 42%; height: 70px; background: #d62828; transform: rotate(-24deg); animation: cs-band 5s ease-in-out infinite alternate; }
+    @keyframes cs-band { from { transform: rotate(-24deg) translateX(-30px); } to { transform: rotate(-24deg) translateX(30px); } }
+    .cs-circle { position: absolute; right: 12%; top: 12%; width: 110px; height: 110px; border-radius: 50%; background: #111; animation: cs-pulse 3s ease-in-out infinite; }
+    @keyframes cs-pulse { 50% { transform: scale(.85); } }
+    .cs-word { position: relative; z-index: 1; font: 700 clamp(40px, 6vw, 64px)/.95 Oswald, sans-serif; text-transform: uppercase; transform: rotate(-24deg); letter-spacing: .02em; }
+    .cs-word span { color: #efe6d2; background: #111; padding: 0 10px; }
+    .cs-note { position: absolute; left: 24px; bottom: 22px; font: 700 12px Oswald, sans-serif; letter-spacing: .2em; text-transform: uppercase; }
+
+    /* ===== 24. Зернистые градиенты ===== */
+    .st-grain {
+      color: #fff;
+      background:
+        radial-gradient(60% 80% at 15% 20%, #ff7a59 0%, transparent 60%),
+        radial-gradient(60% 80% at 85% 30%, #8b5cf6 0%, transparent 60%),
+        radial-gradient(70% 90% at 50% 100%, #14b8a6 0%, transparent 60%),
+        #241a3a;
+      background-size: 150% 150%; animation: grain-move 14s ease-in-out infinite alternate;
+    }
+    @keyframes grain-move { to { background-position: 100% 60%; } }
+    .st-grain::after {
+      content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .55; mix-blend-mode: overlay;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+    .grain-text { position: relative; z-index: 1; text-align: center; }
+    .grain-text b { display: block; font: 700 clamp(34px, 5vw, 52px)/1.05 Unbounded, sans-serif; letter-spacing: -.02em; }
+    .grain-text small { display: block; margin-top: 12px; font-size: 15px; opacity: .85; }
+
+    /* ===== 25. Кинетическая типографика ===== */
+    .st-kinetic { background: #0c0c0e; color: #fff; place-items: stretch; padding: 32px 0; }
+    .kin { display: flex; flex-direction: column; justify-content: center; gap: 18px; overflow: hidden; }
+    .kin-marquee { white-space: nowrap; font: 900 46px/1 Unbounded, sans-serif; color: transparent; -webkit-text-stroke: 1.5px #fff; }
+    .kin-marquee div { display: inline-block; animation: ticker 10s linear infinite; }
+    .kin-rotate { padding: 0 28px; display: flex; align-items: baseline; gap: 12px; font: 700 26px Unbounded, sans-serif; }
+    .kin-words { position: relative; height: 1.2em; overflow: hidden; color: #c6ff3d; }
+    .kin-words span { display: block; height: 1.2em; animation: kin-words 8s cubic-bezier(.7, 0, .2, 1) infinite; }
+    @keyframes kin-words { 0%, 20% { transform: translateY(0); } 25%, 45% { transform: translateY(-100%); } 50%, 70% { transform: translateY(-200%); } 75%, 95% { transform: translateY(-300%); } 100% { transform: translateY(0); } }
+    .kin-wave { padding: 0 28px; font: 900 44px/1 Unbounded, sans-serif; display: flex; }
+    .kin-wave span { display: inline-block; animation: kin-wave 1.6s ease-in-out infinite; animation-delay: calc(var(--i) * .1s); }
+    @keyframes kin-wave { 0%, 100% { transform: translateY(0); color: #fff; } 50% { transform: translateY(-14px); color: #ff4fd8; } }
+
+    /* ===== 26. Журнальный стиль ===== */
+    .st-editorial { background: #f4f1ea; color: #1b1b1b; place-items: stretch; padding: 28px 32px; }
+    .ed { font-family: "PT Serif", serif; }
+    .ed-mast { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 3px double #1b1b1b; padding-bottom: 8px; }
+    .ed-mast b { font: 700 28px/1 "PT Serif", serif; letter-spacing: -.01em; }
+    .ed-mast small { font: 12px Onest, sans-serif; letter-spacing: .12em; text-transform: uppercase; }
+    .ed-head { font: italic 700 clamp(24px, 3.4vw, 32px)/1.1 "PT Serif", serif; margin: 16px 0 6px; }
+    .ed-head span { background: linear-gradient(#e63946, #e63946) no-repeat 0 92% / 0% 3px; animation: ed-underline 4s ease-in-out infinite; }
+    @keyframes ed-underline { 40%, 80% { background-size: 100% 3px; } 100% { background-size: 100% 3px; opacity: .99; } }
+    .ed-lead { font: 13px Onest, sans-serif; color: #666; text-transform: uppercase; letter-spacing: .1em; margin-bottom: 12px; }
+    .ed-cols { columns: 2; column-gap: 24px; column-rule: 1px solid #cfc8b8; font-size: 14px; line-height: 1.55; text-align: justify; hyphens: auto; }
+    .ed-cols p::first-letter { float: left; font: 700 46px/.85 "PT Serif", serif; margin: 4px 6px 0 0; color: #e63946; }
+
+    /* ===== 27. Вейпорвейв ===== */
+    .st-vapor { background: linear-gradient(#ff9ad5, #c69cff 45%, #6ee7f9); }
+    .st-vapor::before {
+      content: ""; position: absolute; left: -50%; right: -50%; bottom: -25%; height: 55%; z-index: -1;
+      background-image: linear-gradient(#ff3fb4 2px, transparent 2px), linear-gradient(90deg, #ff3fb4 2px, transparent 2px); background-size: 40px 40px;
+      transform: perspective(240px) rotateX(60deg); transform-origin: top; animation: synth-grid 1.4s linear infinite;
+    }
+    .w95 { width: min(330px, 100%); background: #c0c0c0; border: 2px solid; border-color: #fff #404040 #404040 #fff; box-shadow: 1px 1px 0 #000; font: 13px "JetBrains Mono", monospace; color: #000; }
+    .w95-title { display: flex; justify-content: space-between; align-items: center; padding: 3px 4px 3px 8px; color: #fff; font-weight: 700; background: linear-gradient(90deg, #000080, #1084d0); }
+    .w95-btns { display: flex; gap: 2px; }
+    .w95-btns i { width: 18px; height: 16px; display: grid; place-items: center; background: #c0c0c0; color: #000; font-style: normal; font-size: 11px; border: 2px solid; border-color: #fff #404040 #404040 #fff; }
+    .w95-body { padding: 16px; text-align: center; }
+    .w95-body b { display: block; font: 900 26px Unbounded, sans-serif; letter-spacing: .3em; color: #ff3fb4; text-shadow: 2px 2px 0 #2ad3e8; margin-bottom: 12px; }
+    .w95-progress { height: 20px; padding: 2px; border: 2px solid; border-color: #404040 #fff #fff #404040; display: flex; gap: 2px; overflow: hidden; }
+    .w95-progress i { width: 12px; flex: none; background: #000080; animation: w95-fill 4s steps(1) infinite; }
+    .w95-progress i:nth-child(n) { animation-delay: calc(var(--i) * .2s); }
+    @keyframes w95-fill { 0% { opacity: 0; } 5%, 100% { opacity: 1; } }
+
+    /* ===== 28. Органический стиль ===== */
+    .st-organic { background: #f3efe6; color: #3d4a35; }
+    .org-wrap { display: flex; align-items: center; gap: 28px; flex-wrap: wrap; justify-content: center; }
+    .org-blob { width: 170px; height: 170px; background: linear-gradient(135deg, #a3b18a, #588157); animation: org-morph 8s ease-in-out infinite; box-shadow: inset -12px -14px 30px rgba(0, 0, 0, .12); }
+    .org-blob.small { position: absolute; width: 70px; height: 70px; background: #d4a373; top: 14%; right: 14%; animation-duration: 6s; animation-direction: reverse; }
+    @keyframes org-morph {
+      0%, 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+      33% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+      66% { border-radius: 50% 50% 40% 60% / 40% 50% 60% 50%; }
+    }
+    .org-text b { display: block; font: italic 400 30px/1.15 "PT Serif", serif; }
+    .org-text small { display: block; margin-top: 10px; font-size: 14px; opacity: .8; max-width: 200px; }
+    .org-pill { display: inline-block; margin-top: 14px; padding: 9px 20px; border-radius: 999px 600px 999px 800px; background: #588157; color: #f3efe6; font-size: 14px; }
+
+    /* ===== 29. Скетч ===== */
+    .st-sketch { background: #fffdf6; color: #222; font-family: Caveat, cursive; }
+    .st-sketch::before { content: ""; position: absolute; inset: 0; z-index: -1; background-image: linear-gradient(#dbe7f3 1px, transparent 1px), linear-gradient(90deg, #dbe7f3 1px, transparent 1px); background-size: 24px 24px; }
+    .sk-card { position: relative; width: min(300px, 100%); padding: 20px 22px; background: #fff; border: 2.5px solid #222; border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px; transform: rotate(-1.5deg); }
+    .sk-card b { display: block; font-size: 34px; line-height: 1; }
+    .sk-card mark { background: linear-gradient(100deg, transparent 2%, #ffe066 4% 96%, transparent 98%); padding: 0 4px; color: inherit; }
+    .sk-card p { font-size: 22px; line-height: 1.2; margin-top: 8px; }
+    .sk-btn { margin-top: 14px; font: 700 24px Caveat, cursive; padding: 6px 22px; background: #ff8fab; border: 2.5px solid #222; border-radius: 15px 225px 15px 255px / 255px 15px 225px 15px; cursor: pointer; transition: transform .15s; }
+    .sk-btn:hover { transform: rotate(-3deg) scale(1.05); }
+    .sk-arrow { position: absolute; right: -78px; top: 20px; width: 90px; }
+    .sk-arrow path { fill: none; stroke: #222; stroke-width: 2.5; stroke-linecap: round; stroke-dasharray: 160; stroke-dashoffset: 160; animation: sk-draw 3.5s ease-in-out infinite; }
+    @keyframes sk-draw { 40%, 85% { stroke-dashoffset: 0; } 100% { stroke-dashoffset: 0; opacity: 0; } }
+    .sk-note { position: absolute; right: -70px; top: -14px; font-size: 22px; transform: rotate(8deg); }
+    .sk-star { position: absolute; left: 12%; bottom: 14%; font-size: 40px; animation: sk-wobble 2s ease-in-out infinite; }
+    @keyframes sk-wobble { 50% { transform: rotate(12deg) scale(1.1); } }
+
     @media (max-width: 860px) {
       .style-head { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+    }
+    @media (max-width: 520px) {
+      .bh { grid-template-columns: repeat(4, 62px); grid-template-rows: repeat(3, 62px); }
+      .sk-arrow, .sk-note { display: none; }
+      .ed-cols { columns: 1; }
+      .st-editorial { padding: 22px 18px; }
     }
     @media (max-width: 520px) {
       .bento { grid-template-columns: repeat(2, 1fr); }
@@ -414,8 +591,8 @@
       <div>
         <div class="crumbs"><a href="../design.html">Дизайн</a> / Галерея стилей</div>
         <h1>Галерея <b>стилей</b></h1>
-        <p>Девятнадцать направлений веб-дизайна с живыми примерами и анимациями. У каждого — описание, где он уместен, и ключевой CSS, который можно взять себе. А как стили меняют один и тот же товар — смотрите в <a href="switcher.html" style="text-decoration: underline">переключателе стилей</a>.</p>
-        <div class="hero-facts"><span>19 стилей</span><span>Чистый CSS</span><span>Анимации</span></div>
+        <p>Двадцать девять направлений веб-дизайна с живыми примерами и анимациями. У каждого — описание, где он уместен, и ключевой CSS, который можно взять себе. А как стили меняют один и тот же товар — смотрите в <a href="switcher.html" style="text-decoration: underline">переключателе стилей</a>.</p>
+        <div class="hero-facts"><span>29 стилей</span><span>Чистый CSS</span><span>Анимации</span></div>
       </div>
       <div class="icon i-ml">UI</div>
     </div>
@@ -446,6 +623,16 @@
       <a class="pill ghost sm" href="#pixel">Пиксель-арт</a>
       <a class="pill ghost sm" href="#m3">Material You</a>
       <a class="pill ghost sm" href="#parallax">Параллакс</a>
+      <a class="pill ghost sm" href="#liquid">Liquid Glass</a>
+      <a class="pill ghost sm" href="#bauhaus">Баухаус</a>
+      <a class="pill ghost sm" href="#deco">Ар-деко</a>
+      <a class="pill ghost sm" href="#constr">Конструктивизм</a>
+      <a class="pill ghost sm" href="#grain">Зернистые градиенты</a>
+      <a class="pill ghost sm" href="#kinetic">Кинетическая типографика</a>
+      <a class="pill ghost sm" href="#editorial">Журнальный стиль</a>
+      <a class="pill ghost sm" href="#vapor">Вейпорвейв</a>
+      <a class="pill ghost sm" href="#organic">Органический</a>
+      <a class="pill ghost sm" href="#sketch">Скетч</a>
     </nav>
 
     <!-- 1 -->
@@ -1064,6 +1251,315 @@ addEventListener('scroll', () =&gt; requestAnimationFrame(update), { passive: tr
 @supports (animation-timeline: view()) {
   .layer { animation: rise linear both; animation-timeline: view(); }
   @keyframes rise { from { transform: translateY(60px); } to { transform: translateY(-60px); } }
+}</code></pre>
+      </details>
+    </section>
+
+    <!-- 20 -->
+    <section class="style-sec" id="liquid">
+      <div class="style-head">
+        <div class="style-info">
+          <span class="num">20</span>
+          <h2>Liquid Glass<small>«Жидкое стекло», Apple, 2025</small></h2>
+          <p>Новая версия стекла из iOS 26 и macOS: почти прозрачные элементы с сильными бликами по краю, будто линза поверх контента. В отличие от глассморфизма, размытия мало — стекло «преломляет», а не затуманивает. Активная вкладка перетекает между кнопками.</p>
+          <p><b>Подходит:</b> плавающие панели навигации, плееры, элементы поверх фото и видео.</p>
+          <div class="chips"><span>слабый blur</span><span>блик-рамка через mask</span><span>inset-тени</span></div>
+        </div>
+        <div class="stage st-liquid">
+          <div class="lg-wrap">
+            <div class="lg lg-now"><span class="lg-art"></span><div><b>Закат над морем</b><small>Сейчас играет</small></div></div>
+            <div class="lg lg-bar"><i class="lg-active"></i><span>⌂</span><span>⌕</span><span>♡</span><span>◉</span></div>
+          </div>
+        </div>
+      </div>
+      <details><summary>Показать CSS</summary>
+<pre><code class="language-css">.liquid {
+  background: rgba(255, 255, 255, .08);
+  backdrop-filter: blur(5px) saturate(180%);          /* размытия мало — стекло прозрачное */
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, .85),  /* блик сверху */
+              inset 0 0 22px rgba(255, 255, 255, .2),    /* объём внутри */
+              0 12px 30px rgba(0, 0, 0, .25);
+}
+.liquid::before {                                      /* светящаяся кромка */
+  content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1.5px;
+  background: linear-gradient(135deg, #fff, transparent 40% 60%, rgba(255, 255, 255, .75));
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+}</code></pre>
+      </details>
+    </section>
+
+    <!-- 21 -->
+    <section class="style-sec" id="bauhaus">
+      <div class="style-head">
+        <div class="style-info">
+          <span class="num">21</span>
+          <h2>Баухаус<small>Bauhaus, Германия, 1919</small></h2>
+          <p>Школа, которая придумала современный дизайн: круг, квадрат и треугольник, красный, синий и жёлтый, строгая сетка и жирная типографика. Форма следует функции, украшений нет.</p>
+          <p><b>Подходит:</b> выставки и музеи, архитектура, образование, яркие брендинги.</p>
+          <div class="chips"><span>CSS Grid</span><span>clip-path</span><span>3 основных цвета</span></div>
+        </div>
+        <div class="stage st-bauhaus">
+          <div class="bh" aria-hidden="true">
+            <i class="red-c"></i><i class="blue"></i><i class="tri"></i><i class="half"></i>
+            <b class="word">БАУХАУС</b><i class="quarter"></i><i class="yellow"></i>
+            <i class="ring"></i><i class="stripes"></i><i class="tri" style="background: #1d4fa3"></i><i class="red-c" style="background: #f2b705"></i>
+          </div>
+        </div>
+      </div>
+      <details><summary>Показать CSS</summary>
+<pre><code class="language-css">.bauhaus { display: grid; grid-template-columns: repeat(4, 72px); grid-template-rows: repeat(3, 72px); }
+.circle::after   { content: ""; position: absolute; inset: 6px; border-radius: 50%; background: #d62d20; }
+.triangle::after { content: ""; position: absolute; inset: 8px; background: #f2b705;
+                   clip-path: polygon(50% 0, 100% 100%, 0 100%); }
+.quarter::after  { content: ""; position: absolute; inset: 0; border-radius: 0 0 0 100%; background: #d62d20; }
+.word { grid-column: span 2; background: #111; color: #f0e9dc; }</code></pre>
+      </details>
+    </section>
+
+    <!-- 22 -->
+    <section class="style-sec" id="deco">
+      <div class="style-head">
+        <div class="style-info">
+          <span class="num">22</span>
+          <h2>Ар-деко<small>Art Deco, 1920–30-е</small></h2>
+          <p>Роскошь эпохи джаза: чёрный и золото, симметрия, веерные лучи, ступенчатые рамки и тонкий геометрический шрифт. По золотому заголовку пробегает блик.</p>
+          <p><b>Подходит:</b> рестораны и бары, отели, ювелирные бренды, приглашения на мероприятия.</p>
+          <div class="chips"><span>repeating-conic-gradient</span><span>outline-offset</span><span>Poiret One</span></div>
+        </div>
+        <div class="stage st-deco">
+          <div class="deco-frame"><div class="deco-title">ЗОЛОТОЙ ВЕК</div><div class="deco-sub">ГРАНД · ОТЕЛЬ · 1925</div></div>
+        </div>
+      </div>
+      <details><summary>Показать CSS</summary>
+<pre><code class="language-css">.sunburst {                            /* веер лучей */
+  background: repeating-conic-gradient(from 0deg, #d4af37 0 2deg, transparent 2deg 8deg);
+  border-radius: 50%;
+}
+.frame { border: 2px solid #d4af37; outline: 1px solid #d4af37; outline-offset: 6px; }   /* двойная рамка */
+.gold-title {
+  background: linear-gradient(110deg, #a8832b 20%, #fff3c4 40%, #d4af37 50%, #a8832b 70%);
+  background-size: 250% 100%;
+  background-clip: text; color: transparent;
+  animation: shine 4s linear infinite;   /* блик бежит по буквам */
+}</code></pre>
+      </details>
+    </section>
+
+    <!-- 23 -->
+    <section class="style-sec" id="constr">
+      <div class="style-head">
+        <div class="style-info">
+          <span class="num">23</span>
+          <h2>Конструктивизм<small>Советский авангард, 1920-е</small></h2>
+          <p>Плакаты Родченко и Лисицкого: красный, чёрный и цвет бумаги, резкие диагонали, крупный узкий гротеск и динамичная композиция. Энергия и движение без единой иллюстрации.</p>
+          <p><b>Подходит:</b> культурные проекты, мероприятия, смелые лендинги, музыка.</p>
+          <div class="chips"><span>transform: rotate</span><span>Oswald</span><span>3 цвета</span></div>
+        </div>
+        <div class="stage st-constr">
+          <span class="cs-band"></span><span class="cs-circle"></span>
+          <div class="cs-word">Вперёд<br><span>к делу!</span></div>
+          <span class="cs-note">Плакат № 1 · 1924</span>
+        </div>
+      </div>
+      <details><summary>Показать CSS</summary>
+<pre><code class="language-css">.band  { background: #d62828; transform: rotate(-24deg); }   /* главная диагональ */
+.title {
+  font: 700 84px/.9 Oswald, sans-serif;                        /* узкий гротеск с кириллицей */
+  text-transform: uppercase;
+  transform: rotate(-24deg);                                   /* текст идёт по той же диагонали */
+}
+.title span { background: #111; color: #efe6d2; }</code></pre>
+      </details>
+    </section>
+
+    <!-- 24 -->
+    <section class="style-sec" id="grain">
+      <div class="style-head">
+        <div class="style-info">
+          <span class="num">24</span>
+          <h2>Зернистые градиенты<small>Grainy gradients</small></h2>
+          <p>Мягкий градиент из нескольких пятен плюс шум, как у плёночной фотографии. Зерно делает «цифровой» градиент тёплым и тактильным — ответ на стерильную картинку. Шум сгенерирован SVG-фильтром прямо в CSS.</p>
+          <p><b>Подходит:</b> первые экраны, обложки, карточки статей, личные сайты.</p>
+          <div class="chips"><span>feTurbulence</span><span>mix-blend-mode: overlay</span><span>radial-gradient ×3</span></div>
+        </div>
+        <div class="stage st-grain">
+          <div class="grain-text"><b>Тёплый шум</b><small>Градиент + зерно = живая картинка</small></div>
+        </div>
+      </div>
+      <details><summary>Показать CSS</summary>
+<pre><code class="language-css">.hero {
+  background:
+    radial-gradient(60% 80% at 15% 20%, #ff7a59 0%, transparent 60%),
+    radial-gradient(60% 80% at 85% 30%, #8b5cf6 0%, transparent 60%),
+    radial-gradient(70% 90% at 50% 100%, #14b8a6 0%, transparent 60%),
+    #241a3a;
+}
+.hero::after {                        /* шум из SVG-фильтра, без картинок */
+  content: ""; position: absolute; inset: 0; opacity: .55; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'&gt;&lt;filter id='n'&gt;&lt;feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/&gt;&lt;/filter&gt;&lt;rect width='100%25' height='100%25' filter='url(%23n)'/&gt;&lt;/svg&gt;");
+}</code></pre>
+      </details>
+    </section>
+
+    <!-- 25 -->
+    <section class="style-sec" id="kinetic">
+      <div class="style-head">
+        <div class="style-info">
+          <span class="num">25</span>
+          <h2>Кинетическая типографика<small>Kinetic typography</small></h2>
+          <p>Текст — главный и единственный визуальный элемент, и он движется: бегущая строка из контурных букв, сменяющиеся слова, волна по буквам. Внимание без картинок.</p>
+          <p><b>Подходит:</b> промо и запуски, агентства, музыка, мероприятия, портфолио.</p>
+          <div class="chips"><span>-webkit-text-stroke</span><span>animation-delay по --i</span><span>overflow: hidden</span></div>
+        </div>
+        <div class="stage st-kinetic">
+          <div class="kin">
+            <div class="kin-marquee" aria-hidden="true"><div>ДВИЖЕНИЕ · ТЕКСТ · РИТМ · ДВИЖЕНИЕ · ТЕКСТ · РИТМ · ДВИЖЕНИЕ · ТЕКСТ · РИТМ · ДВИЖЕНИЕ · ТЕКСТ · РИТМ ·&nbsp;</div></div>
+            <div class="kin-rotate">Текст, который <span class="kin-words"><span>двигается</span><span>дышит</span><span>говорит</span><span>продаёт</span></span></div>
+            <div class="kin-wave" aria-label="Волна"><span style="--i: 0">В</span><span style="--i: 1">О</span><span style="--i: 2">Л</span><span style="--i: 3">Н</span><span style="--i: 4">А</span></div>
+          </div>
+        </div>
+      </div>
+      <details><summary>Показать CSS</summary>
+<pre><code class="language-css">.outline { color: transparent; -webkit-text-stroke: 1.5px #fff; }   /* контурные буквы */
+
+.words { height: 1.2em; overflow: hidden; }                       /* окно на одно слово */
+.words span { display: block; animation: words 8s infinite; }
+@keyframes words { 25%, 45% { transform: translateY(-100%); } 50%, 70% { transform: translateY(-200%); } }
+
+.wave span { display: inline-block; animation: wave 1.6s ease-in-out infinite;
+             animation-delay: calc(var(--i) * .1s); }             /* задержка по номеру буквы */
+@keyframes wave { 50% { transform: translateY(-14px); } }</code></pre>
+      </details>
+    </section>
+
+    <!-- 26 -->
+    <section class="style-sec" id="editorial">
+      <div class="style-head">
+        <div class="style-info">
+          <span class="num">26</span>
+          <h2>Журнальный стиль<small>Editorial / газетная вёрстка</small></h2>
+          <p>Сайт как печатное издание: антиква, колонки с линейками, буквица, двойные линии и подчёркнутые заголовки. Вызывает доверие и хорошо подходит для длинного текста.</p>
+          <p><b>Подходит:</b> медиа и блоги, лонгриды, исследования, бренды с историей.</p>
+          <div class="chips"><span>columns + column-rule</span><span>::first-letter</span><span>hyphens: auto</span></div>
+        </div>
+        <div class="stage st-editorial">
+          <article class="ed">
+            <div class="ed-mast"><b>Утренний вестник</b><small>Выпуск № 42</small></div>
+            <h3 class="ed-head"><span>Тормозные диски подешевели на треть</span></h3>
+            <div class="ed-lead">Рынок запчастей · 3 минуты чтения</div>
+            <div class="ed-cols"><p>Поставщики снизили цены после открытия нового склада во Владивостоке. Доставка по городу теперь занимает два часа, а в соседние районы — не больше суток. Покупатели уже заметили разницу: заказов стало вдвое больше, чем в прошлом месяце, а средний чек вырос на пятую часть.</p></div>
+          </article>
+        </div>
+      </div>
+      <details><summary>Показать CSS</summary>
+<pre><code class="language-css">.columns {
+  columns: 2;
+  column-gap: 24px;
+  column-rule: 1px solid #cfc8b8;   /* линейка между колонками */
+  text-align: justify;
+  hyphens: auto;                    /* переносы — без них по ширине получаются дыры */
+}
+.columns p::first-letter {          /* буквица */
+  float: left;
+  font: 700 46px/.85 "PT Serif", serif;
+  margin: 4px 6px 0 0;
+  color: #e63946;
+}
+.masthead { border-bottom: 3px double #1b1b1b; }</code></pre>
+      </details>
+    </section>
+
+    <!-- 27 -->
+    <section class="style-sec" id="vapor">
+      <div class="style-head">
+        <div class="style-info">
+          <span class="num">27</span>
+          <h2>Вейпорвейв<small>Vaporwave</small></h2>
+          <p>Ирония над интернетом 90-х: пастельные розовый и бирюзовый, неоновая сетка, окна старых операционных систем с объёмными кнопками и разрядкой в словах. В отличие от синтвейва — светлее, мягче и с юмором.</p>
+          <p><b>Подходит:</b> музыка, мемы и интернет-культура, ретро-промо, личные проекты.</p>
+          <div class="chips"><span>border-color для объёма</span><span>linear-gradient заголовок</span><span>steps(1)</span></div>
+        </div>
+        <div class="stage st-vapor">
+          <div class="w95">
+            <div class="w95-title"><span>C:\ЭСТЕТИКА.EXE</span><span class="w95-btns"><i>_</i><i>□</i><i>×</i></span></div>
+            <div class="w95-body">
+              <b>ＶＡＰＯＲ</b>
+              <div class="w95-progress"><i style="--i: 1"></i><i style="--i: 2"></i><i style="--i: 3"></i><i style="--i: 4"></i><i style="--i: 5"></i><i style="--i: 6"></i><i style="--i: 7"></i><i style="--i: 8"></i><i style="--i: 9"></i><i style="--i: 10"></i><i style="--i: 11"></i><i style="--i: 12"></i><i style="--i: 13"></i><i style="--i: 14"></i><i style="--i: 15"></i><i style="--i: 16"></i></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <details><summary>Показать CSS</summary>
+<pre><code class="language-css">.window {
+  background: #c0c0c0;
+  border: 2px solid;
+  border-color: #fff #404040 #404040 #fff;   /* светлый верх-лево и тёмный низ-право — «выпуклость» */
+}
+.title-bar { background: linear-gradient(90deg, #000080, #1084d0); color: #fff; }
+.progress  { border-color: #404040 #fff #fff #404040; }   /* наоборот — «вдавленность» */</code></pre>
+      </details>
+    </section>
+
+    <!-- 28 -->
+    <section class="style-sec" id="organic">
+      <div class="style-head">
+        <div class="style-info">
+          <span class="num">28</span>
+          <h2>Органический стиль<small>Organic / blob shapes</small></h2>
+          <p>Природные цвета (шалфей, терракота, песок), мягкие перетекающие формы-«капли» и никаких прямых углов. Капли плавно меняют форму за счёт анимации <code>border-radius</code> с восемью значениями.</p>
+          <p><b>Подходит:</b> экотовары, косметика, здоровье и велнес, еда, психология.</p>
+          <div class="chips"><span>border-radius: x / y</span><span>морфинг</span><span>землистая палитра</span></div>
+        </div>
+        <div class="stage st-organic">
+          <span class="org-blob small"></span>
+          <div class="org-wrap">
+            <div class="org-blob"></div>
+            <div class="org-text"><b>Естественно<br>и спокойно</b><small>Формы, которые дышат, как живые</small><span class="org-pill">Подробнее</span></div>
+          </div>
+        </div>
+      </div>
+      <details><summary>Показать CSS</summary>
+<pre><code class="language-css">.blob { animation: morph 8s ease-in-out infinite; }
+@keyframes morph {
+  /* 4 горизонтальных / 4 вертикальных радиуса — форма «капли» */
+  0%, 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+  33%      { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+  66%      { border-radius: 50% 50% 40% 60% / 40% 50% 60% 50%; }
+}</code></pre>
+      </details>
+    </section>
+
+    <!-- 29 -->
+    <section class="style-sec" id="sketch">
+      <div class="style-head">
+        <div class="style-info">
+          <span class="num">29</span>
+          <h2>Скетч<small>Hand-drawn / дудл</small></h2>
+          <p>Интерфейс как набросок в тетради: неровные рамки, рукописный шрифт, выделение маркером и стрелки от руки. Снимает формальность и выглядит по-человечески.</p>
+          <p><b>Подходит:</b> обучение, стартапы на ранней стадии, вайрфреймы, личные блоги, детские проекты.</p>
+          <div class="chips"><span>неровный border-radius</span><span>Caveat</span><span>stroke-dashoffset</span></div>
+        </div>
+        <div class="stage st-sketch">
+          <span class="sk-star" aria-hidden="true">✩</span>
+          <div class="sk-card">
+            <span class="sk-note">смотри!</span>
+            <svg class="sk-arrow" viewBox="0 0 90 60" aria-hidden="true"><path d="M85 8 C 60 2, 30 10, 12 38 M12 38 L 8 24 M12 38 L 26 34"/></svg>
+            <b>Идея на <mark>салфетке</mark></b>
+            <p>Набросал за пять минут — и уже понятно, как будет работать.</p>
+            <button class="sk-btn" type="button">Попробовать</button>
+          </div>
+        </div>
+      </div>
+      <details><summary>Показать CSS</summary>
+<pre><code class="language-css">.sketch-card {
+  border: 2.5px solid #222;
+  /* разные радиусы по горизонтали и вертикали — рамка «от руки» */
+  border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+  transform: rotate(-1.5deg);
+  font-family: Caveat, cursive;
+}
+mark {                                 /* маркер с рваными краями */
+  background: linear-gradient(100deg, transparent 2%, #ffe066 4% 96%, transparent 98%);
 }</code></pre>
       </details>
     </section>

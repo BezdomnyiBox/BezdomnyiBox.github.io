@@ -108,7 +108,9 @@ a { color: inherit; text-decoration: none; }
   display: flex; width: fit-content; max-width: 100%; overflow-x: auto;
   margin: 32px auto 40px; padding: 4px; gap: 4px;
   background: var(--tile); border-radius: 999px;
+  scrollbar-width: none; /* на узком экране вкладки прокручиваются, но без полосы */
 }
+.tabs::-webkit-scrollbar { display: none; }
 .tabs button {
   border: 0; background: transparent; cursor: pointer; white-space: nowrap;
   font: 500 14px/1 Onest, sans-serif; color: var(--text);

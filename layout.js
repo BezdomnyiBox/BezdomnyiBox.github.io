@@ -64,6 +64,7 @@
           '<li><a href="' + base + 'design.html">Весь раздел</a></li>' +
           '<li><a href="' + base + 'design/switcher.html">Переключатель стилей</a></li>' +
           '<li><a href="' + base + 'design/styles.html">Галерея стилей</a></li>' +
+          '<li><a href="' + base + 'design/palette.html">Генератор палитры</a></li>' +
           '<li><a href="' + base + 'design/fonts.html">Шрифты</a></li>' +
           '<li><a href="' + base + 'design/laws.html">Законы дизайна</a></li>' +
           '<li><a href="' + base + 'design/colors.html">Цвет и палитры</a></li>' +

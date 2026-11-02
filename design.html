@@ -4,14 +4,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Дизайн — Владимир</title>
-  <meta name="description" content="Гайды по шрифтам, цвету, анимации, доступности и дизайн-системам, галерея из 19 стилей веб-дизайна и переключатель стилей одной карточки товара.">
+  <meta name="description" content="Гайды по шрифтам, цвету, анимации, доступности и дизайн-системам, галерея из 29 стилей веб-дизайна и переключатель стилей одной карточки товара.">
   <!-- og: создаётся tools/seo.py, не редактируйте вручную -->
   <link rel="canonical" href="https://bezdomnyibox.github.io/design.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Владимир — fullstack-разработчик">
   <meta property="og:locale" content="ru_RU">
   <meta property="og:title" content="Дизайн — Владимир">
-  <meta property="og:description" content="Гайды по шрифтам, цвету, анимации, доступности и дизайн-системам, галерея из 19 стилей веб-дизайна и переключатель стилей одной карточки товара.">
+  <meta property="og:description" content="Гайды по шрифтам, цвету, анимации, доступности и дизайн-системам, галерея из 29 стилей веб-дизайна и переключатель стилей одной карточки товара.">
   <meta property="og:url" content="https://bezdomnyibox.github.io/design.html">
   <meta property="og:image" content="https://bezdomnyibox.github.io/og/design.png">
   <meta property="og:image:width" content="1200">
@@ -22,7 +22,7 @@
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%235b4cf0'/><text x='16' y='21' font-family='monospace' font-size='13' font-weight='700' fill='white' text-anchor='middle'>&lt;/&gt;</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@500&family=Unbounded:wght@700;900&family=Comfortaa:wght@700&family=Russo+One&family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@500&family=Unbounded:wght@700;900&family=Comfortaa:wght@700&family=Russo+One&family=Press+Start+2P&family=Poiret+One&family=Oswald:wght@700&family=Caveat:wght@700&family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <script src="theme.js"></script>
   <script src="layout.js" data-base="" data-page="design" defer></script>
@@ -95,6 +95,32 @@
     .card .pv-parallax { background: linear-gradient(#ffb88c, #ff8a7a 40%, #c06c84 70%, #6c5b7b); }
     .pv-parallax::before { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 60%; background: #a3607c; clip-path: polygon(0 50%, 15% 25%, 30% 50%, 48% 15%, 65% 45%, 82% 20%, 100% 40%, 100% 100%, 0 100%); }
     .pv-parallax::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 36%; background: #33243f; clip-path: polygon(0 45%, 25% 15%, 50% 45%, 75% 10%, 100% 35%, 100% 100%, 0 100%); }
+    .card .pv-liquid { background: radial-gradient(circle at 20% 30%, #ff9a5a 0 16%, transparent 40%), radial-gradient(circle at 78% 66%, #4f8dff 0 18%, transparent 44%), linear-gradient(135deg, #1a2a6c, #b21f6a 50%, #fdbb2d); }
+    .pv-liquid span { width: 62%; height: 30%; border-radius: 999px; background: rgba(255, 255, 255, .1); backdrop-filter: blur(4px) saturate(180%); -webkit-backdrop-filter: blur(4px) saturate(180%); border: 1px solid rgba(255, 255, 255, .5); box-shadow: inset 0 1px 1px rgba(255, 255, 255, .9), inset 0 0 18px rgba(255, 255, 255, .25), 0 10px 24px rgba(0, 0, 0, .25); }
+    .card .pv-bauhaus { background: #f0e9dc; }
+    .pv-bauhaus span { width: 180px; height: 60px; background: radial-gradient(circle, #d62d20 0 28px, transparent 29px) 0 0 / 60px 60px no-repeat, linear-gradient(#1d4fa3, #1d4fa3) 60px 0 / 60px 60px no-repeat, linear-gradient(135deg, #f2b705 50%, transparent 50%) 120px 0 / 60px 60px no-repeat; }
+    .card .pv-deco { background: #0f0f12; isolation: isolate; }
+    .pv-deco::before { content: ""; position: absolute; left: 50%; bottom: -70%; width: 400px; height: 400px; margin-left: -200px; z-index: -1; opacity: .25; border-radius: 50%; background: repeating-conic-gradient(#d4af37 0 2deg, transparent 2deg 8deg); }
+    .pv-deco span { font: 400 30px "Poiret One", sans-serif; letter-spacing: .14em; color: #d4af37; border: 2px solid #d4af37; outline: 1px solid #d4af37; outline-offset: 5px; padding: 6px 18px; }
+    .card .pv-constr { background: #efe6d2; }
+    .pv-constr::before { content: ""; position: absolute; left: -20%; right: -20%; top: 48%; height: 40px; background: #d62828; transform: rotate(-22deg); }
+    .pv-constr span { position: relative; font: 700 38px/1 Oswald, sans-serif; text-transform: uppercase; transform: rotate(-22deg); color: #111; }
+    .card .pv-grain { background: radial-gradient(60% 80% at 15% 20%, #ff7a59 0%, transparent 60%), radial-gradient(60% 80% at 85% 30%, #8b5cf6 0%, transparent 60%), radial-gradient(70% 90% at 50% 100%, #14b8a6 0%, transparent 60%), #241a3a; }
+    .pv-grain::after { content: ""; position: absolute; inset: 0; opacity: .6; mix-blend-mode: overlay; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+    .card .pv-kinetic { background: #0c0c0e; }
+    .pv-kinetic span { font: 900 40px/1 Unbounded, sans-serif; color: transparent; -webkit-text-stroke: 1.5px #c6ff3d; letter-spacing: .02em; }
+    .card .pv-editorial { background: #f4f1ea; }
+    .pv-editorial span { font: italic 700 30px/1 "PT Serif", serif; color: #1b1b1b; border-top: 4px double #1b1b1b; border-bottom: 4px double #1b1b1b; padding: 8px 4px; }
+    .card .pv-vapor { background: linear-gradient(#ff9ad5, #c69cff 45%, #6ee7f9); }
+    .pv-vapor span { width: 58%; height: 50%; background: #c0c0c0; border: 2px solid; border-color: #fff #404040 #404040 #fff; border-top: 16px solid #000080; box-shadow: 1px 1px 0 #000; }
+    .card .pv-organic { background: #f3efe6; }
+    .pv-organic span { width: 90px; height: 90px; background: linear-gradient(135deg, #a3b18a, #588157); border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; animation: pv-morph 8s ease-in-out infinite; }
+    @keyframes pv-morph { 50% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; } }
+    .card .pv-sketch { background: #fffdf6; background-image: linear-gradient(#dbe7f3 1px, transparent 1px), linear-gradient(90deg, #dbe7f3 1px, transparent 1px); background-size: 20px 20px; }
+    .pv-sketch span { font: 700 34px Caveat, cursive; color: #222; background: #fff; border: 2.5px solid #222; border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px; padding: 4px 22px; transform: rotate(-3deg); }
+
+    .card .pv-ramp { padding: 22px; place-items: stretch; }
+    .pv-ramp span { border-radius: 16px; box-shadow: 0 10px 24px rgba(0, 0, 0, .12); background: linear-gradient(90deg, oklch(97.5% .024 280) 0 9.09%, oklch(94.5% .05 280) 0 18.18%, oklch(89% .09 280) 0 27.27%, oklch(81% .14 280) 0 36.36%, oklch(71% .18 280) 0 45.45%, oklch(62% .2 280) 0 54.54%, oklch(54% .2 280) 0 63.63%, oklch(46% .18 280) 0 72.72%, oklch(38% .15 280) 0 81.81%, oklch(30% .12 280) 0 90.9%, oklch(22% .09 280) 0); }
 
     .sw-promo {
       display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 24px;
@@ -123,7 +149,7 @@
   <main class="wrap">
     <div class="hero-design">
       <h1>Дизайн: <b>шрифты, законы и стили</b></h1>
-      <p>Основы, которые делают интерфейс аккуратным, семь гайдов и галерея из девятнадцати стилей с живыми примерами и анимациями.</p>
+      <p>Основы, которые делают интерфейс аккуратным, семь гайдов и галерея из двадцати девяти стилей с живыми примерами и анимациями.</p>
       <div class="actions">
         <a class="pill" href="design/switcher.html">Переключатель стилей</a>
         <a class="pill" href="design/styles.html">Галерея стилей</a>
@@ -140,7 +166,7 @@
     <a class="sw-promo" href="design/switcher.html">
       <div>
         <small>Интерактив</small>
-        <h2>Один товар — <b>19 стилей</b></h2>
+        <h2>Один товар — <b>29 стилей</b></h2>
         <p>Одна и та же карточка товара: переключайте стили кнопками и смотрите, как дизайн меняет восприятие продукта.</p>
         <div class="sw-chips" aria-hidden="true">
           <span style="background: rgba(255, 255, 255, .2)"></span><span style="background: #ff4fd8"></span><span style="background: #a3e635"></span><span style="background: #e4e8ee"></span><span style="background: #fcee0a"></span><span style="background: #e30613"></span><span style="background: #2bb3a3"></span><span style="background: #6750a4"></span>
@@ -153,10 +179,23 @@
       <button role="tab" aria-selected="true" data-filter="all">Всё</button>
       <button role="tab" aria-selected="false" data-filter="guide">Гайды</button>
       <button role="tab" aria-selected="false" data-filter="style">Стили</button>
+      <button role="tab" aria-selected="false" data-filter="tool">Инструменты</button>
     </div>
 
     <section id="guides" style="padding-top: 0">
       <div class="grid">
+        <a class="card" data-kind="tool" href="design/palette.html">
+          <div class="tile pv-ramp"><span></span></div>
+          <span class="cat">Инструмент</span>
+          <h3>Генератор палитры</h3>
+          <span class="meta">Выбрал цвет — получил шкалу в OKLCH, проверку контраста и токены для CSS, Tailwind и JSON</span>
+        </a>
+        <a class="card" data-kind="tool" href="design/switcher.html">
+          <div class="tile"><div class="icon i-ml">⇄</div></div>
+          <span class="cat">Инструмент</span>
+          <h3>Переключатель стилей</h3>
+          <span class="meta">Одна карточка товара в 29 стилях</span>
+        </a>
         <a class="card" data-kind="guide" href="design/fonts.html">
           <div class="tile"><div class="icon i-css">Aa</div></div>
           <span class="cat">Гайд · Типографика</span>
@@ -221,6 +260,16 @@
         <a class="card" data-kind="style" href="design/styles.html#pixel"><div class="tile pv-pixel"><span>1UP</span></div><span class="cat">Стиль · 17</span><h3>Пиксель-арт</h3><span class="meta">8-битная графика и анимация рывками</span></a>
         <a class="card" data-kind="style" href="design/styles.html#m3"><div class="tile pv-m3"><span>+</span></div><span class="cat">Стиль · 18</span><h3>Material You</h3><span class="meta">Палитра из одного цвета и мягкие формы</span></a>
         <a class="card" data-kind="style" href="design/styles.html#parallax"><div class="tile pv-parallax"></div><span class="cat">Стиль · 19</span><h3>Параллакс</h3><span class="meta">Слои сцены с разной скоростью</span></a>
+        <a class="card" data-kind="style" href="design/styles.html#liquid"><div class="tile pv-liquid"><span></span></div><span class="cat">Стиль · 20</span><h3>Liquid Glass</h3><span class="meta">«Жидкое стекло» с бликами, как в iOS 26</span></a>
+        <a class="card" data-kind="style" href="design/styles.html#bauhaus"><div class="tile pv-bauhaus"><span></span></div><span class="cat">Стиль · 21</span><h3>Баухаус</h3><span class="meta">Круг, квадрат, треугольник и три цвета</span></a>
+        <a class="card" data-kind="style" href="design/styles.html#deco"><div class="tile pv-deco"><span>ДЕКО</span></div><span class="cat">Стиль · 22</span><h3>Ар-деко</h3><span class="meta">Чёрный, золото и веер лучей</span></a>
+        <a class="card" data-kind="style" href="design/styles.html#constr"><div class="tile pv-constr"><span>Вперёд</span></div><span class="cat">Стиль · 23</span><h3>Конструктивизм</h3><span class="meta">Советский авангард и диагонали</span></a>
+        <a class="card" data-kind="style" href="design/styles.html#grain"><div class="tile pv-grain"></div><span class="cat">Стиль · 24</span><h3>Зернистые градиенты</h3><span class="meta">Мягкие пятна цвета и плёночное зерно</span></a>
+        <a class="card" data-kind="style" href="design/styles.html#kinetic"><div class="tile pv-kinetic"><span>ТЕКСТ</span></div><span class="cat">Стиль · 25</span><h3>Кинетическая типографика</h3><span class="meta">Текст, который движется</span></a>
+        <a class="card" data-kind="style" href="design/styles.html#editorial"><div class="tile pv-editorial"><span>Вестник</span></div><span class="cat">Стиль · 26</span><h3>Журнальный стиль</h3><span class="meta">Колонки, буквица и антиква</span></a>
+        <a class="card" data-kind="style" href="design/styles.html#vapor"><div class="tile pv-vapor"><span></span></div><span class="cat">Стиль · 27</span><h3>Вейпорвейв</h3><span class="meta">Пастель, сетка и окна старых ОС</span></a>
+        <a class="card" data-kind="style" href="design/styles.html#organic"><div class="tile pv-organic"><span></span></div><span class="cat">Стиль · 28</span><h3>Органический</h3><span class="meta">Природные цвета и живые формы</span></a>
+        <a class="card" data-kind="style" href="design/styles.html#sketch"><div class="tile pv-sketch"><span>идея!</span></div><span class="cat">Стиль · 29</span><h3>Скетч</h3><span class="meta">Набросок от руки в тетради</span></a>
       </div>
     </section>
 

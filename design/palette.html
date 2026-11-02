@@ -1,0 +1,454 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Генератор палитры в OKLCH — Владимир</title>
+  <meta name="description" content="Выберите цвет — получите шкалу из 11 оттенков в OKLCH, нейтральные серые, проверку контраста и готовые токены для CSS, Tailwind и JSON.">
+  <!-- og: создаётся tools/seo.py, не редактируйте вручную -->
+  <link rel="canonical" href="https://bezdomnyibox.github.io/design/palette.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Владимир — fullstack-разработчик">
+  <meta property="og:locale" content="ru_RU">
+  <meta property="og:title" content="Генератор палитры в OKLCH — Владимир">
+  <meta property="og:description" content="Выберите цвет — получите шкалу из 11 оттенков в OKLCH, нейтральные серые, проверку контраста и готовые токены для CSS, Tailwind и JSON.">
+  <meta property="og:url" content="https://bezdomnyibox.github.io/design/palette.html">
+  <meta property="og:image" content="https://bezdomnyibox.github.io/og/design.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Генератор палитры в OKLCH — Владимир">
+  <meta name="twitter:card" content="summary_large_image">
+  <!-- /og -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%235b4cf0'/><text x='16' y='21' font-family='monospace' font-size='13' font-weight='700' fill='white' text-anchor='middle'>&lt;/&gt;</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="../docs.css">
+  <script src="../theme.js"></script>
+  <script src="../layout.js" data-base="../" data-page="design" defer></script>
+  <style>
+    .pal-hero { transition: background .4s; }
+    .pal-hero .icon { transition: background .4s; }
+
+    /* Панель управления */
+    .pal-controls {
+      display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 20px 24px; align-items: center;
+      margin-top: 24px; padding: 24px; border-radius: var(--radius-lg); background: var(--tile);
+    }
+    .pal-pick { position: relative; width: 112px; height: 112px; border-radius: 28px; overflow: hidden; box-shadow: 0 10px 24px rgba(0, 0, 0, .18); cursor: pointer; }
+    .pal-pick input { position: absolute; inset: -20px; width: calc(100% + 40px); height: calc(100% + 40px); border: 0; padding: 0; cursor: pointer; }
+    .pal-fields { display: flex; flex-wrap: wrap; gap: 12px 16px; align-items: flex-end; }
+    .pal-field { display: flex; flex-direction: column; gap: 6px; font-size: 13px; color: var(--muted); }
+    .pal-field input[type="text"] {
+      width: 150px; padding: 10px 12px; border-radius: 10px; border: 1.5px solid var(--line);
+      background: var(--bg); color: var(--text); font: 500 15px "JetBrains Mono", monospace;
+    }
+    .pal-field input[type="text"]:focus-visible { outline: 3px solid color-mix(in srgb, var(--accent) 40%, transparent); outline-offset: 1px; border-color: var(--accent); }
+    .pal-field input[aria-invalid="true"] { border-color: #e0482b; }
+    .pal-check { display: flex; align-items: center; gap: 8px; font-size: 14px; color: var(--text); cursor: pointer; padding-bottom: 10px; }
+    .pal-check input { width: 18px; height: 18px; accent-color: var(--accent); }
+    .pal-btn { border: 0; cursor: pointer; padding: 11px 18px; border-radius: 999px; background: var(--text); color: var(--bg); font: 500 14px Onest, sans-serif; }
+    .pal-presets { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; font-size: 13px; color: var(--muted); }
+    .pal-presets button { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px 6px 6px; border-radius: 999px; border: 1px solid var(--line); background: var(--bg); color: var(--text); cursor: pointer; font: 500 13px Onest, sans-serif; }
+    .pal-presets button i { width: 20px; height: 20px; border-radius: 50%; }
+
+    /* Шкалы */
+    .pal-section { padding-top: 48px; }
+    .pal-section > h2 { font-weight: 500; font-size: 24px; letter-spacing: -.01em; }
+    .pal-section > p { color: var(--muted); margin-top: 6px; max-width: 760px; }
+    .scale { display: grid; grid-template-columns: repeat(auto-fill, minmax(94px, 1fr)); gap: 8px; margin-top: 18px; }
+    .sw { border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: var(--bg); cursor: pointer; padding: 0; text-align: left; color: var(--text); font: inherit; transition: transform .15s; }
+    .sw:hover { transform: translateY(-2px); }
+    .sw:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+    .sw-color { height: 92px; padding: 8px 10px; display: flex; flex-direction: column; justify-content: space-between; }
+    .sw-color b { font-size: 15px; font-weight: 600; }
+    .sw-color small { font: 500 11px "JetBrains Mono", monospace; opacity: .9; }
+    .sw-meta { padding: 8px 10px; display: flex; flex-direction: column; gap: 2px; font: 11px/1.35 "JetBrains Mono", monospace; color: var(--muted); }
+    .sw-meta span:first-child { color: var(--text); font-weight: 500; }
+    .sw.exact .sw-color b::after { content: " ★"; }
+
+    .harm { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 18px; }
+    .harm-group { background: var(--tile); border-radius: 16px; padding: 14px 16px; display: flex; flex-direction: column; gap: 10px; min-width: 170px; }
+    .harm-group span { font-size: 13px; color: var(--muted); }
+    .harm-group div { display: flex; gap: 6px; }
+    .harm-group button { width: 38px; height: 38px; border-radius: 50%; border: 2px solid var(--bg); box-shadow: 0 0 0 1px var(--line); cursor: pointer; }
+
+    /* Предпросмотр интерфейса */
+    .preview { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 12px; margin-top: 18px; }
+    .pv-panel { border-radius: 20px; padding: 22px; background: var(--p-bg); color: var(--p-text); border: 1px solid var(--p-line); }
+    .pv-panel > small { display: block; font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--p-muted); margin-bottom: 12px; }
+    .pv-card { background: var(--p-surface); border-radius: 16px; padding: 18px; display: flex; flex-direction: column; gap: 10px; }
+    .pv-badge { align-self: flex-start; padding: 4px 10px; border-radius: 999px; background: var(--p-soft); color: var(--p-soft-text); font-size: 12px; font-weight: 600; }
+    .pv-card h3 { font-size: 19px; font-weight: 600; }
+    .pv-card p { font-size: 14px; color: var(--p-muted); margin: 0; max-width: none; }
+    .pv-card a { color: var(--p-link); font-weight: 500; font-size: 14px; text-decoration: underline; text-underline-offset: 3px; }
+    .pv-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+    .pv-btn { border: 0; padding: 10px 18px; border-radius: 10px; background: var(--p-accent); color: var(--p-on-accent); font: 600 14px Onest, sans-serif; }
+    .pv-btn.ghost { background: transparent; color: var(--p-link); box-shadow: inset 0 0 0 1.5px var(--p-accent); }
+    .pv-input { flex: 1; min-width: 140px; padding: 9px 12px; border-radius: 10px; border: 1.5px solid var(--p-accent); box-shadow: 0 0 0 3px var(--p-ring); background: var(--p-bg); color: var(--p-text); font-size: 14px; }
+
+    /* Экспорт */
+    .exp-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; margin-top: 18px; }
+    .exp-head .tabs { margin: 0; }
+    .exp-pre { margin-top: 12px; max-height: 440px; }
+
+    .toast {
+      position: fixed; left: 50%; bottom: 24px; z-index: 50; transform: translate(-50%, 20px); opacity: 0; pointer-events: none;
+      padding: 10px 18px; border-radius: 999px; background: var(--text); color: var(--bg); font-size: 14px; font-weight: 500;
+      transition: opacity .2s, transform .2s;
+    }
+    .toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+    .how { padding-top: 56px; }
+    .how h2 { font-weight: 500; font-size: 24px; }
+    .how p, .how li { color: var(--muted); max-width: 760px; }
+    .how p { margin-top: 10px; }
+    .how ul { margin-top: 10px; padding-left: 20px; }
+    .how a { color: var(--accent); }
+
+    @media (max-width: 640px) {
+      .pal-controls { grid-template-columns: minmax(0, 1fr); padding: 18px; }
+      .pal-pick { width: 100%; height: 96px; }
+      .scale { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+    @media (prefers-reduced-motion: reduce) { .sw, .toast, .pal-hero { transition: none; } }
+  </style>
+</head>
+<body>
+  <header class="site-header" data-layout="header"></header>
+
+  <main class="wrap">
+    <div class="doc-hero pal-hero">
+      <div>
+        <div class="crumbs"><a href="../design.html">Дизайн</a> / Генератор палитры</div>
+        <h1>Генератор <b>палитры</b></h1>
+        <p>Выберите цвет — получите шкалу из 11 оттенков в OKLCH, нейтральные серые с тем же оттенком, проверку контраста и готовые токены для вашего проекта.</p>
+        <div class="hero-facts"><span>OKLCH</span><span>11 оттенков</span><span>CSS · Tailwind · JSON</span></div>
+      </div>
+      <div class="icon pal-icon">Aa</div>
+    </div>
+
+    <div class="pal-controls">
+      <label class="pal-pick" title="Выбрать цвет"><input type="color" id="pick" aria-label="Выбрать цвет" value="#5b4cf0"></label>
+      <div class="pal-fields">
+        <label class="pal-field">HEX<input type="text" id="hex" value="#5b4cf0" spellcheck="false" autocomplete="off" maxlength="7"></label>
+        <label class="pal-field">Имя токенов<input type="text" id="name" value="brand" spellcheck="false" autocomplete="off" maxlength="24"></label>
+        <label class="pal-check"><input type="checkbox" id="keep" checked>Исходный цвет в шкале</label>
+        <button class="pal-btn" type="button" id="random">🎲 Случайный</button>
+      </div>
+      <div class="pal-presets" id="presets">Примеры:</div>
+    </div>
+
+    <section class="pal-section">
+      <h2>Основная шкала</h2>
+      <p>Нажмите на оттенок, чтобы скопировать его. Подпись «Aa» показывает, какой текст читается на этом фоне, и контраст по WCAG: от 4,5 — подходит для обычного текста. ★ — ваш исходный цвет.</p>
+      <div class="scale" id="scale"></div>
+    </section>
+
+    <section class="pal-section">
+      <h2>Нейтральные с оттенком</h2>
+      <p>Серые с каплей основного цвета для фона, текста и рамок — выглядят живее чистых серых и сочетаются с палитрой.</p>
+      <div class="scale" id="neutral"></div>
+    </section>
+
+    <section class="pal-section">
+      <h2>Гармонии</h2>
+      <p>Цвета, которые сочетаются с основным по цветовому кругу. Нажмите, чтобы построить палитру от них.</p>
+      <div class="harm" id="harm"></div>
+    </section>
+
+    <section class="pal-section">
+      <h2>Как это выглядит в интерфейсе</h2>
+      <p>Для кнопок выбран первый оттенок, на котором белый текст проходит проверку контраста. В тёмной теме акцент светлее, а поверхности — из нейтральной шкалы.</p>
+      <div class="preview" id="preview">
+        <div class="pv-panel" data-theme-preview="light"></div>
+        <div class="pv-panel" data-theme-preview="dark"></div>
+      </div>
+    </section>
+
+    <section class="pal-section">
+      <h2>Экспорт</h2>
+      <div class="exp-head">
+        <div class="tabs" role="tablist">
+          <button role="tab" aria-selected="true" data-format="css">CSS · OKLCH</button>
+          <button role="tab" aria-selected="false" data-format="hex">CSS · HEX</button>
+          <button role="tab" aria-selected="false" data-format="tailwind">Tailwind v4</button>
+          <button role="tab" aria-selected="false" data-format="json">JSON</button>
+        </div>
+        <button class="pal-btn" type="button" id="copy-all">Скопировать</button>
+      </div>
+      <pre class="exp-pre"><code id="export"></code></pre>
+    </section>
+
+    <section class="how">
+      <h2>Как это работает</h2>
+      <p>Цвет переводится в <strong>OKLCH</strong> — модель, где светлота совпадает с тем, как её видит глаз. Для каждой ступени шкалы задаётся своя светлота (от 97,5% у 50 до 22% у 950), а насыщенность плавно растёт к середине шкалы и падает к краям. Оттенок (hue) остаётся тем же.</p>
+      <ul>
+        <li>Если оттенок не помещается в экранный диапазон sRGB, насыщенность уменьшается ровно настолько, чтобы цвет отображался без искажений.</li>
+        <li>Контраст считается по формуле WCAG 2: от 4,5 : 1 — для обычного текста, от 3 : 1 — для крупного.</li>
+        <li>Ссылку на палитру можно сохранить: цвет записывается в адрес страницы.</li>
+      </ul>
+      <p>Подробнее о цветовых моделях и тёмной теме — в гайде <a href="colors.html">«Цвет и палитры»</a>, о том, как использовать токены, — в гайде <a href="tokens.html">«Дизайн-токены»</a>.</p>
+    </section>
+
+    <div class="cta">
+      <h2 class="title">Нужна дизайн-система для продукта?</h2>
+      <p class="subtitle">Соберу палитру, типографику и токены под ваш бренд и сверстаю интерфейс. Цена договорная.</p>
+      <div class="actions">
+        <a class="pill" href="https://t.me/BojooYkt" target="_blank" rel="noopener">Написать в Telegram</a>
+        <a class="pill" href="../design.html">Весь раздел «Дизайн»</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer" data-layout="footer"></footer>
+  <div class="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    // ---------- Цветовая математика: sRGB ⇄ OKLab ⇄ OKLCH (формулы Бьёрна Оттоссона) ----------
+    const toLinear = c => (c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4);
+    const toGamma = c => (c <= 0.0031308 ? 12.92 * c : 1.055 * c ** (1 / 2.4) - 0.055);
+    const clamp01 = v => Math.min(1, Math.max(0, v));
+
+    function hexToRgb(hex) {
+      const n = parseInt(hex.slice(1), 16);
+      return [(n >> 16) & 255, (n >> 8) & 255, n & 255].map(v => v / 255);
+    }
+    function rgbToHex(rgb) {
+      return '#' + rgb.map(v => Math.round(clamp01(v) * 255).toString(16).padStart(2, '0')).join('');
+    }
+    function rgbToOklch(rgb) {
+      const [r, g, b] = rgb.map(toLinear);
+      const l = Math.cbrt(0.4122214708 * r + 0.5363325363 * g + 0.0514459929 * b);
+      const m = Math.cbrt(0.2119034982 * r + 0.6806995451 * g + 0.1073969566 * b);
+      const s = Math.cbrt(0.0883024619 * r + 0.2817188376 * g + 0.6299787005 * b);
+      const L = 0.2104542553 * l + 0.7936177850 * m - 0.0040720468 * s;
+      const A = 1.9779984951 * l - 2.4285922050 * m + 0.4505937099 * s;
+      const B = 0.0259040371 * l + 0.7827717662 * m - 0.8086757660 * s;
+      let h = Math.atan2(B, A) * 180 / Math.PI;
+      if (h < 0) h += 360;
+      return { l: L, c: Math.hypot(A, B), h };
+    }
+    function oklchToLinear({ l, c, h }) {
+      const a = c * Math.cos(h * Math.PI / 180);
+      const b = c * Math.sin(h * Math.PI / 180);
+      const L = (l + 0.3963377774 * a + 0.2158037573 * b) ** 3;
+      const M = (l - 0.1055613458 * a - 0.0638541728 * b) ** 3;
+      const S = (l - 0.0894841775 * a - 1.2914855480 * b) ** 3;
+      return [
+        4.0767416621 * L - 3.3077115913 * M + 0.2309699292 * S,
+        -1.2684380046 * L + 2.6097574011 * M - 0.3413193965 * S,
+        -0.0041960863 * L - 0.7034186147 * M + 1.7076147010 * S,
+      ];
+    }
+    const inGamut = lin => lin.every(v => v >= -0.0001 && v <= 1.0001);
+    // Если цвет не помещается в sRGB, уменьшаем насыщенность (бинарный поиск), сохраняя светлоту и оттенок
+    function fitGamut(color) {
+      if (inGamut(oklchToLinear(color))) return color;
+      let lo = 0, hi = color.c;
+      for (let i = 0; i < 24; i++) {
+        const mid = (lo + hi) / 2;
+        if (inGamut(oklchToLinear({ ...color, c: mid }))) lo = mid; else hi = mid;
+      }
+      return { ...color, c: lo };
+    }
+    const toHex = color => rgbToHex(oklchToLinear(color).map(v => toGamma(clamp01(v))));
+    const toCss = ({ l, c, h }) => `oklch(${(l * 100).toFixed(1)}% ${c.toFixed(3)} ${c < 0.0005 ? 0 : h.toFixed(1)})`;
+    const luminance = color => {
+      const [r, g, b] = oklchToLinear(color).map(clamp01);
+      return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+    };
+    const contrast = (a, b) => {
+      const [hi, lo] = [luminance(a), luminance(b)].sort((x, y) => y - x);
+      return (hi + 0.05) / (lo + 0.05);
+    };
+    const WHITE = { l: 1, c: 0, h: 0 };
+    const BLACK = { l: 0, c: 0, h: 0 };
+
+    // ---------- Построение шкал ----------
+    const STEPS = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950];
+    const LIGHTNESS = [0.975, 0.945, 0.89, 0.81, 0.71, 0.62, 0.54, 0.46, 0.38, 0.30, 0.22];
+    const CHROMA = [0.12, 0.25, 0.45, 0.7, 0.9, 1, 1, 0.9, 0.75, 0.6, 0.45];
+
+    function buildScale(base, keepBase) {
+      const c = Math.min(base.c, 0.37);
+      const scale = STEPS.map((step, i) => ({ step, color: fitGamut({ l: LIGHTNESS[i], c: c * CHROMA[i], h: base.h }) }));
+      if (keepBase) {
+        let nearest = 0;
+        scale.forEach((s, i) => { if (Math.abs(s.color.l - base.l) < Math.abs(scale[nearest].color.l - base.l)) nearest = i; });
+        scale[nearest] = { ...scale[nearest], color: base, exact: true };
+      }
+      return scale;
+    }
+    function buildNeutral(base) {
+      const c = Math.min(base.c * 0.1, 0.014);
+      return STEPS.map((step, i) => ({ step, color: fitGamut({ l: LIGHTNESS[i], c, h: base.h }) }));
+    }
+    const pick = (scale, step) => scale.find(s => s.step === step).color;
+    // Первый оттенок от 500 и темнее, на котором белый текст читается (контраст ≥ 4,5)
+    function accentStep(scale) {
+      const candidate = scale.filter(s => s.step >= 500).find(s => contrast(s.color, WHITE) >= 4.5);
+      return (candidate || scale[scale.length - 1]).step;
+    }
+
+    // ---------- Состояние и интерфейс ----------
+    const $ = s => document.querySelector(s);
+    const state = { hex: '#5b4cf0', name: 'brand', keep: true, format: 'css' };
+    let current = null;
+
+    const PRESETS = [
+      ['Фиолетовый', '#5b4cf0'], ['Синий', '#2f7fd4'], ['Бирюзовый', '#14b8a6'], ['Зелёный', '#22b07d'],
+      ['Жёлтый', '#f2b705'], ['Оранжевый', '#f2780c'], ['Красный', '#e0482b'], ['Розовый', '#e8457a'], ['Графит', '#475569'],
+    ];
+    $('#presets').insertAdjacentHTML('beforeend', PRESETS.map(([n, h]) =>
+      `<button type="button" data-hex="${h}"><i style="background: ${h}"></i>${n}</button>`).join(''));
+
+    function swatchHtml(s, prefix) {
+      const onWhite = contrast(s.color, WHITE), onBlack = contrast(s.color, BLACK);
+      const light = onWhite >= onBlack;
+      const best = Math.max(onWhite, onBlack);
+      const hex = toHex(s.color);
+      return `<button type="button" class="sw${s.exact ? ' exact' : ''}" data-copy="${hex}" aria-label="Скопировать ${prefix}-${s.step}: ${hex}">
+        <span class="sw-color" style="background: ${hex}; color: ${light ? '#fff' : '#111'}">
+          <b>${s.step}</b><small>Aa ${best.toFixed(1)}${best >= 4.5 ? ' ✓' : ''}</small>
+        </span>
+        <span class="sw-meta"><span>${hex}</span><span>${toCss(s.color).replace('oklch(', '').replace(')', '')}</span></span>
+      </button>`;
+    }
+
+    function renderPreview(scale, neutral) {
+      const step = accentStep(scale);
+      const darkAccent = [300, 400, 200].map(st => pick(scale, st)).find(c => contrast(c, pick(neutral, 950)) >= 4.5) || pick(scale, 300);
+      const themes = {
+        light: { bg: '#ffffff', surface: toHex(pick(neutral, 50)), line: toHex(pick(neutral, 200)), text: toHex(pick(neutral, 900)), muted: toHex(pick(neutral, 600)),
+                 accent: toHex(pick(scale, step)), onAccent: '#ffffff', soft: toHex(pick(scale, 100)), softText: toHex(pick(scale, 800)), link: toHex(pick(scale, step)), ring: toHex(pick(scale, 200)) },
+        dark: { bg: toHex(pick(neutral, 950)), surface: toHex(pick(neutral, 900)), line: toHex(pick(neutral, 800)), text: toHex(pick(neutral, 50)), muted: toHex(pick(neutral, 400)),
+                accent: toHex(darkAccent), onAccent: toHex(pick(neutral, 950)), soft: toHex(pick(scale, 900)), softText: toHex(pick(scale, 200)), link: toHex(darkAccent), ring: toHex(pick(scale, 800)) },
+      };
+      document.querySelectorAll('[data-theme-preview]').forEach(panel => {
+        const t = themes[panel.dataset.themePreview];
+        Object.entries({ bg: t.bg, surface: t.surface, line: t.line, text: t.text, muted: t.muted, accent: t.accent, 'on-accent': t.onAccent, soft: t.soft, 'soft-text': t.softText, link: t.link, ring: t.ring })
+          .forEach(([k, v]) => panel.style.setProperty('--p-' + k, v));
+        panel.innerHTML = `<small>${panel.dataset.themePreview === 'light' ? 'Светлая тема' : 'Тёмная тема'}</small>
+          <div class="pv-card">
+            <span class="pv-badge">Новинка</span>
+            <h3>Тормозной диск, передний</h3>
+            <p>В наличии на складе, доставка завтра. Гарантия 12 месяцев.</p>
+            <div class="pv-row"><span class="pv-btn">В корзину</span><span class="pv-btn ghost">В избранное</span></div>
+            <div class="pv-row"><span class="pv-input">Промокод</span><a href="#preview">Подробнее о доставке</a></div>
+          </div>`;
+      });
+      return step;
+    }
+
+    function exportText(scale, neutral, step) {
+      const n = state.name;
+      const rows = (list, prefix, fmt) => list.map(s => `  --${prefix}-${s.step}: ${fmt(s.color)};`).join('\n');
+      if (state.format === 'json') {
+        const obj = {};
+        obj[n] = Object.fromEntries(scale.map(s => [String(s.step), { $type: 'color', $value: toHex(s.color) }]));
+        obj[n + '-gray'] = Object.fromEntries(neutral.map(s => [String(s.step), { $type: 'color', $value: toHex(s.color) }]));
+        return JSON.stringify(obj, null, 2);
+      }
+      if (state.format === 'tailwind') {
+        return `@import "tailwindcss";\n\n@theme {\n${rows(scale, 'color-' + n, toCss)}\n\n${rows(neutral, 'color-' + n + '-gray', toCss)}\n}\n\n/* Использование: class="bg-${n}-${step} text-white hover:bg-${n}-${Math.min(step + 100, 950)}" */`;
+      }
+      const fmt = state.format === 'hex' ? toHex : toCss;
+      return `:root {\n  /* Основная шкала */\n${rows(scale, n, fmt)}\n\n  /* Нейтральные с оттенком */\n${rows(neutral, n + '-gray', fmt)}\n\n  /* Семантические токены */\n  --accent: var(--${n}-${step});\n  --accent-hover: var(--${n}-${Math.min(step + 100, 950)});\n  --accent-soft: var(--${n}-100);\n  --bg: #ffffff;\n  --surface: var(--${n}-gray-50);\n  --text: var(--${n}-gray-900);\n  --text-muted: var(--${n}-gray-600);\n  --border: var(--${n}-gray-200);\n}`;
+    }
+
+    function render() {
+      const base = rgbToOklch(hexToRgb(state.hex));
+      const scale = buildScale(base, state.keep);
+      const neutral = buildNeutral(base);
+      current = { base, scale, neutral };
+
+      $('#scale').innerHTML = scale.map(s => swatchHtml(s, state.name)).join('');
+      $('#neutral').innerHTML = neutral.map(s => swatchHtml(s, state.name + '-gray')).join('');
+
+      const harmony = (label, shifts) => `<div class="harm-group"><span>${label}</span><div>${shifts.map(d => {
+        const hex = toHex(fitGamut({ l: Math.min(Math.max(base.l, 0.5), 0.75), c: Math.max(base.c, 0.08), h: (base.h + d + 360) % 360 }));
+        return `<button type="button" data-hex="${hex}" style="background: ${hex}" aria-label="Построить палитру от ${hex}"></button>`;
+      }).join('')}</div></div>`;
+      $('#harm').innerHTML = harmony('Комплементарная', [0, 180]) + harmony('Аналоговая', [-30, 0, 30]) + harmony('Триада', [0, 120, 240]) + harmony('Сплит-комплементарная', [0, 150, 210]);
+
+      const step = renderPreview(scale, neutral);
+      $('#export').textContent = exportText(scale, neutral, step);
+
+      // Первый экран и иконка перекрашиваются в цвета палитры
+      $('.pal-hero').style.setProperty('--hero-bg', `radial-gradient(50% 90% at 88% 12%, ${toHex(pick(scale, 300))} 0%, transparent 60%), linear-gradient(135deg, ${toHex(pick(scale, 950))}, ${toHex(pick(scale, 700))} 55%, ${toHex(pick(scale, 500))})`);
+      const icon = $('.pal-icon');
+      icon.style.background = `linear-gradient(160deg, ${toHex(pick(scale, 300))}, ${toHex(pick(scale, 500))} 55%, ${toHex(pick(scale, 700))})`;
+      icon.style.color = '#fff';
+
+      $('#pick').value = state.hex;
+      if (document.activeElement !== $('#hex')) $('#hex').value = state.hex;
+      $('#hex').removeAttribute('aria-invalid');
+      history.replaceState(null, '', '#' + state.hex.slice(1));
+    }
+
+    function setHex(raw) {
+      let v = raw.trim().toLowerCase();
+      if (!v.startsWith('#')) v = '#' + v;
+      if (/^#[0-9a-f]{3}$/.test(v)) v = '#' + [...v.slice(1)].map(ch => ch + ch).join('');
+      if (!/^#[0-9a-f]{6}$/.test(v)) return false;
+      state.hex = v;
+      render();
+      return true;
+    }
+
+    // ---------- События ----------
+    $('#pick').addEventListener('input', e => setHex(e.target.value));
+    $('#hex').addEventListener('input', e => { if (!setHex(e.target.value)) e.target.setAttribute('aria-invalid', 'true'); });
+    $('#hex').addEventListener('blur', e => { e.target.value = state.hex; e.target.removeAttribute('aria-invalid'); });
+    $('#name').addEventListener('input', e => {
+      state.name = e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, '') || 'brand';
+      render();
+    });
+    $('#keep').addEventListener('change', e => { state.keep = e.target.checked; render(); });
+    $('#random').addEventListener('click', () => {
+      const color = fitGamut({ l: 0.52 + Math.random() * 0.14, c: 0.12 + Math.random() * 0.1, h: Math.random() * 360 });
+      setHex(toHex(color));
+    });
+    document.addEventListener('click', e => {
+      const preset = e.target.closest('[data-hex]');
+      if (preset) { setHex(preset.dataset.hex); return; }
+      const sw = e.target.closest('[data-copy]');
+      if (sw) copy(sw.dataset.copy, `Скопировано: ${sw.dataset.copy}`);
+    });
+    document.querySelectorAll('.exp-head .tabs button').forEach(tab => tab.addEventListener('click', () => {
+      document.querySelectorAll('.exp-head .tabs button').forEach(t => t.setAttribute('aria-selected', t === tab));
+      state.format = tab.dataset.format;
+      render();
+    }));
+    $('#copy-all').addEventListener('click', () => copy($('#export').textContent, 'Токены скопированы'));
+
+    const toast = $('.toast');
+    let toastTimer;
+    function copy(text, message) {
+      const done = () => {
+        toast.textContent = message;
+        toast.classList.add('show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => toast.classList.remove('show'), 1600);
+      };
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(done, () => fallbackCopy(text) && done());
+      } else if (fallbackCopy(text)) done();
+    }
+    function fallbackCopy(text) {
+      const ta = document.createElement('textarea');
+      ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      let ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) {}
+      ta.remove();
+      return ok;
+    }
+
+    // Цвет из адреса страницы (#5b4cf0), иначе фирменный
+    if (!(location.hash.length > 1 && setHex(location.hash.slice(1)))) render();
+  </script>
+</body>
+</html>

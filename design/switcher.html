@@ -4,14 +4,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Переключатель стилей — Владимир</title>
-  <meta name="description" content="Одна карточка товара в 19 стилях веб-дизайна: переключайте кнопками и смотрите, как стиль меняет продукт.">
+  <meta name="description" content="Одна карточка товара в 29 стилях веб-дизайна: переключайте кнопками и смотрите, как стиль меняет продукт.">
   <!-- og: создаётся tools/seo.py, не редактируйте вручную -->
   <link rel="canonical" href="https://bezdomnyibox.github.io/design/switcher.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Владимир — fullstack-разработчик">
   <meta property="og:locale" content="ru_RU">
   <meta property="og:title" content="Переключатель стилей — Владимир">
-  <meta property="og:description" content="Одна карточка товара в 19 стилях веб-дизайна: переключайте кнопками и смотрите, как стиль меняет продукт.">
+  <meta property="og:description" content="Одна карточка товара в 29 стилях веб-дизайна: переключайте кнопками и смотрите, как стиль меняет продукт.">
   <meta property="og:url" content="https://bezdomnyibox.github.io/design/switcher.html">
   <meta property="og:image" content="https://bezdomnyibox.github.io/og/design.png">
   <meta property="og:image:width" content="1200">
@@ -22,7 +22,7 @@
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%235b4cf0'/><text x='16' y='21' font-family='monospace' font-size='13' font-weight='700' fill='white' text-anchor='middle'>&lt;/&gt;</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@500;700&family=Unbounded:wght@700;900&family=Comfortaa:wght@700&family=Russo+One&family=Press+Start+2P&family=PT+Serif&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@500;700&family=Unbounded:wght@700;900&family=Comfortaa:wght@700&family=Russo+One&family=Press+Start+2P&family=Poiret+One&family=Oswald:wght@700&family=Caveat:wght@700&family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../styles.css">
   <link rel="stylesheet" href="../docs.css">
   <script src="../theme.js"></script>
@@ -282,6 +282,144 @@
     [data-style="m3"] .p-buy { background: #6750a4; border-radius: 999px; font-weight: 500; }
     [data-style="m3"] .p-stock { color: #386a20; }
 
+    /* ===== Liquid Glass ===== */
+    [data-style="liquid"] {
+      background: radial-gradient(circle at 20% 30%, #ff9a5a 0 14%, transparent 38%), radial-gradient(circle at 78% 66%, #4f8dff 0 16%, transparent 42%), radial-gradient(circle at 62% 18%, #ff4f9a 0 10%, transparent 32%), linear-gradient(135deg, #1a2a6c, #b21f6a 50%, #fdbb2d);
+      background-size: 160% 160%; animation: sw-liquid 12s ease-in-out infinite alternate;
+    }
+    @keyframes sw-liquid { to { background-position: 100% 100%; } }
+    [data-style="liquid"] .p-card { --hole: rgba(255, 255, 255, .15); --caliper: #ffd36e; background: rgba(255, 255, 255, .1); color: #fff; border-radius: 32px; border: 1px solid rgba(255, 255, 255, .45); backdrop-filter: blur(5px) saturate(180%); -webkit-backdrop-filter: blur(5px) saturate(180%); box-shadow: inset 0 1px 1px rgba(255, 255, 255, .85), inset 0 0 22px rgba(255, 255, 255, .2), 0 16px 40px rgba(0, 0, 0, .3); }
+    [data-style="liquid"] .p-media { margin: 10px 10px 0; border-radius: 24px; background: rgba(255, 255, 255, .06); color: #fff; box-shadow: inset 0 1px 1px rgba(255, 255, 255, .6); }
+    [data-style="liquid"] .p-badge, [data-style="liquid"] .p-fav { background: rgba(255, 255, 255, .2); color: #fff; box-shadow: inset 0 1px 1px rgba(255, 255, 255, .8); }
+    [data-style="liquid"] .p-cat, [data-style="liquid"] .p-rating span, [data-style="liquid"] .p-price s, [data-style="liquid"] .p-stock { color: rgba(255, 255, 255, .78); }
+    [data-style="liquid"] .p-buy { background: rgba(255, 255, 255, .18); color: #fff; border-radius: 999px; box-shadow: inset 0 1px 1px rgba(255, 255, 255, .9), inset 0 0 14px rgba(255, 255, 255, .25); }
+
+    /* ===== Баухаус ===== */
+    [data-style="bauhaus"] { background: #f0e9dc; }
+    [data-style="bauhaus"]::before { content: ""; inset: 0; background: radial-gradient(circle, #d62d20 0 60px, transparent 61px) 6% 10% / 130px 130px no-repeat, linear-gradient(#1d4fa3, #1d4fa3) 94% 90% / 110px 110px no-repeat, linear-gradient(135deg, #f2b705 50%, transparent 50%) 92% 8% / 100px 100px no-repeat, repeating-linear-gradient(90deg, #111 0 8px, transparent 8px 16px) 6% 92% / 120px 60px no-repeat; }
+    [data-style="bauhaus"] .p-card { --hole: #f2b705; --caliper: #d62d20; color: #111; border: 3px solid #111; border-radius: 0; box-shadow: 10px 10px 0 #111; }
+    [data-style="bauhaus"] .p-media { background: #f2b705; color: #111; border-bottom: 3px solid #111; }
+    [data-style="bauhaus"] .p-badge { width: 46px; height: 46px; padding: 0; display: grid; place-items: center; border-radius: 50%; background: #d62d20; }
+    [data-style="bauhaus"] .p-fav { border-radius: 0; background: #1d4fa3; color: #fff; }
+    [data-style="bauhaus"] .p-cat { color: #d62d20; font-weight: 700; }
+    [data-style="bauhaus"] .p-title { font-family: Unbounded, sans-serif; font-weight: 900; font-size: 17px; text-transform: uppercase; }
+    [data-style="bauhaus"] .p-buy { background: #1d4fa3; border-radius: 0; font-family: Unbounded, sans-serif; text-transform: uppercase; letter-spacing: .06em; }
+    [data-style="bauhaus"] .p-stock { color: #111; }
+
+    /* ===== Ар-деко ===== */
+    [data-style="deco"] { background: #0f0f12; }
+    [data-style="deco"]::before { content: ""; left: 50%; bottom: -60%; width: 1000px; height: 1000px; margin-left: -500px; opacity: .18; border-radius: 50%; background: repeating-conic-gradient(from 0deg, #d4af37 0 2deg, transparent 2deg 8deg); animation: sw-spin 60s linear infinite; }
+    [data-style="deco"] .p-card { --hole: #1a1a1f; --caliper: #d4af37; background: #141418; color: #e8d29a; border: 2px solid #d4af37; outline: 1px solid #d4af37; outline-offset: 6px; border-radius: 0; box-shadow: none; }
+    [data-style="deco"] .p-media { background: repeating-conic-gradient(from -90deg at 50% 100%, rgba(212, 175, 55, .22) 0 6deg, transparent 6deg 15deg), #1a1a1f; color: #d4af37; }
+    [data-style="deco"] .p-title { font-family: "Poiret One", sans-serif; font-weight: 400; font-size: 22px; letter-spacing: .08em; text-transform: uppercase; }
+    [data-style="deco"] .p-badge { background: transparent; border: 1px solid #d4af37; color: #d4af37; border-radius: 0; font-family: "Poiret One", sans-serif; letter-spacing: .2em; }
+    [data-style="deco"] .p-fav { background: transparent; color: #d4af37; }
+    [data-style="deco"] .p-cat, [data-style="deco"] .p-rating span, [data-style="deco"] .p-price s, [data-style="deco"] .p-stock { color: #a89466; }
+    [data-style="deco"] .p-price b { color: #d4af37; font-family: "Poiret One", sans-serif; font-weight: 400; font-size: 28px; }
+    [data-style="deco"] .p-buy { background: linear-gradient(110deg, #a8832b, #f3dc8a 45%, #d4af37 55%, #a8832b); color: #0f0f12; border-radius: 0; font-family: "Poiret One", sans-serif; font-weight: 700; letter-spacing: .2em; }
+
+    /* ===== Конструктивизм ===== */
+    [data-style="constr"] { background: #efe6d2; }
+    [data-style="constr"]::before { content: ""; left: -20%; right: -20%; top: 55%; height: 90px; background: #d62828; transform: rotate(-24deg); }
+    [data-style="constr"]::after { content: ""; top: 8%; right: 10%; width: 140px; height: 140px; border-radius: 50%; background: #111; }
+    [data-style="constr"] .p-card { --hole: #efe6d2; --caliper: #111; background: #efe6d2; color: #111; border: 3px solid #111; border-radius: 0; box-shadow: none; transform: rotate(-3deg); }
+    [data-style="constr"] .p-media { background: #d62828; color: #111; }
+    [data-style="constr"] .p-cat { color: #d62828; font-weight: 700; }
+    [data-style="constr"] .p-title { font-family: Oswald, sans-serif; font-weight: 700; font-size: 26px; line-height: 1; text-transform: uppercase; }
+    [data-style="constr"] .p-badge { background: #111; border-radius: 0; font-family: Oswald, sans-serif; letter-spacing: .1em; text-transform: uppercase; }
+    [data-style="constr"] .p-fav { border-radius: 0; background: #111; color: #efe6d2; }
+    [data-style="constr"] .p-price b { font-family: Oswald, sans-serif; font-size: 32px; }
+    [data-style="constr"] .p-buy { background: #111; color: #efe6d2; border-radius: 0; font-family: Oswald, sans-serif; font-size: 17px; text-transform: uppercase; letter-spacing: .12em; }
+    [data-style="constr"] .p-stock { color: #111; }
+
+    /* ===== Зернистые градиенты ===== */
+    [data-style="grain"] { background: radial-gradient(60% 80% at 15% 20%, #ff7a59 0%, transparent 60%), radial-gradient(60% 80% at 85% 30%, #8b5cf6 0%, transparent 60%), radial-gradient(70% 90% at 50% 100%, #14b8a6 0%, transparent 60%), #241a3a; }
+    [data-style="grain"]::after { content: ""; inset: 0; opacity: .55; mix-blend-mode: overlay; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+    [data-style="grain"] .p-card { --hole: rgba(255, 255, 255, .12); --caliper: #ff7a59; background: rgba(36, 26, 58, .55); color: #fff; border-radius: 26px; border: 1px solid rgba(255, 255, 255, .18); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); box-shadow: 0 20px 50px rgba(0, 0, 0, .35); }
+    [data-style="grain"] .p-media { background: radial-gradient(circle at 30% 30%, #ff7a59, transparent 60%), radial-gradient(circle at 80% 80%, #8b5cf6, transparent 60%), #2e2248; color: #fff; }
+    [data-style="grain"] .p-cat, [data-style="grain"] .p-rating span, [data-style="grain"] .p-price s, [data-style="grain"] .p-stock { color: rgba(255, 255, 255, .72); }
+    [data-style="grain"] .p-title { font-family: Unbounded, sans-serif; font-size: 18px; }
+    [data-style="grain"] .p-badge { background: #14b8a6; }
+    [data-style="grain"] .p-fav { background: rgba(255, 255, 255, .15); color: #fff; }
+    [data-style="grain"] .p-buy { background: linear-gradient(90deg, #ff7a59, #8b5cf6); border-radius: 999px; }
+
+    /* ===== Кинетическая типографика ===== */
+    [data-style="kinetic"] { background: #0c0c0e; }
+    [data-style="kinetic"]::before, [data-style="kinetic"]::after {
+      content: "ДВИЖЕНИЕ · ТЕКСТ · ДВИЖЕНИЕ · ТЕКСТ · ДВИЖЕНИЕ · ТЕКСТ · ДВИЖЕНИЕ · ТЕКСТ · ";
+      left: 0; white-space: nowrap; font: 900 64px/1 Unbounded, sans-serif; color: transparent;
+      -webkit-text-stroke: 1.5px rgba(255, 255, 255, .3); animation: sw-marquee 16s linear infinite;
+    }
+    [data-style="kinetic"]::before { top: 8%; }
+    [data-style="kinetic"]::after { bottom: 8%; -webkit-text-stroke-color: rgba(198, 255, 61, .45); animation-direction: reverse; }
+    @keyframes sw-marquee { to { transform: translateX(-50%); } }
+    [data-style="kinetic"] .p-card { --hole: #0c0c0e; --caliper: #c6ff3d; background: #151518; color: #fff; border: 1px solid #2a2a30; border-radius: 4px; box-shadow: none; }
+    [data-style="kinetic"] .p-media { background: #0c0c0e; color: #fff; }
+    [data-style="kinetic"] .p-title { font-family: Unbounded, sans-serif; font-weight: 900; font-size: 21px; line-height: 1.05; animation: sw-kin 2.4s ease-in-out infinite alternate; }
+    @keyframes sw-kin { from { letter-spacing: -.04em; } to { letter-spacing: .03em; color: #c6ff3d; } }
+    [data-style="kinetic"] .p-price b { animation: sw-pulse 1.2s ease-in-out infinite; }
+    @keyframes sw-pulse { 50% { transform: scale(1.08); } }
+    [data-style="kinetic"] .p-cat, [data-style="kinetic"] .p-rating span, [data-style="kinetic"] .p-price s, [data-style="kinetic"] .p-stock { color: #8a8a96; }
+    [data-style="kinetic"] .p-badge { background: #ff4fd8; border-radius: 4px; }
+    [data-style="kinetic"] .p-fav { background: #c6ff3d; color: #0c0c0e; border-radius: 4px; }
+    [data-style="kinetic"] .p-buy { background: #c6ff3d; color: #0c0c0e; border-radius: 4px; font-family: Unbounded, sans-serif; text-transform: uppercase; }
+
+    /* ===== Журнальный стиль ===== */
+    [data-style="editorial"] { background: #f4f1ea; }
+    [data-style="editorial"]::before { content: "Утренний вестник"; top: 4%; left: 0; right: 0; text-align: center; font: 700 64px/1 "PT Serif", serif; color: rgba(0, 0, 0, .06); white-space: nowrap; }
+    [data-style="editorial"] .p-card { --hole: #e8e3d6; --caliper: #e63946; background: #fbfaf6; color: #1b1b1b; border-radius: 0; border-top: 4px double #1b1b1b; border-bottom: 1px solid #1b1b1b; box-shadow: none; }
+    [data-style="editorial"] .p-media { background: #e8e3d6; color: #1b1b1b; }
+    [data-style="editorial"] .p-cat { color: #e63946; letter-spacing: .14em; }
+    [data-style="editorial"] .p-title { font-family: "PT Serif", serif; font-style: italic; font-weight: 700; font-size: 24px; line-height: 1.1; }
+    [data-style="editorial"] .p-badge { background: #1b1b1b; border-radius: 0; font-family: "PT Serif", serif; font-style: italic; }
+    [data-style="editorial"] .p-fav { background: transparent; color: #1b1b1b; border-radius: 0; }
+    [data-style="editorial"] .p-price b { font-family: "PT Serif", serif; }
+    [data-style="editorial"] .p-buy { background: transparent; color: #1b1b1b; border: 1px solid #1b1b1b; border-radius: 0; font: italic 400 17px "PT Serif", serif; }
+    [data-style="editorial"] .p-stock { color: #666; font-family: "PT Serif", serif; font-style: italic; }
+
+    /* ===== Вейпорвейв ===== */
+    [data-style="vapor"] { background: linear-gradient(#ff9ad5, #c69cff 45%, #6ee7f9); }
+    [data-style="vapor"]::before { content: ""; left: -50%; right: -50%; bottom: -25%; height: 55%; background-image: linear-gradient(#ff3fb4 2px, transparent 2px), linear-gradient(90deg, #ff3fb4 2px, transparent 2px); background-size: 40px 40px; transform: perspective(240px) rotateX(60deg); transform-origin: top; animation: sw-vgrid 1.4s linear infinite; }
+    @keyframes sw-vgrid { to { background-position: 0 40px; } }
+    [data-style="vapor"] .p-card { --hole: #00a0a0; --caliper: #ff3fb4; background: #c0c0c0; color: #000; border: 2px solid; border-color: #fff #404040 #404040 #fff; border-radius: 0; box-shadow: 1px 1px 0 #000; font-family: "JetBrains Mono", monospace; }
+    [data-style="vapor"] .p-card::before { content: "C:\\ТОВАР.EXE"; display: block; padding: 4px 8px; color: #fff; font: 700 12px "JetBrains Mono", monospace; background: linear-gradient(90deg, #000080, #1084d0); }
+    [data-style="vapor"] .p-media { margin: 4px; background: #008080; color: #ff9ad5; border: 2px solid; border-color: #404040 #fff #fff #404040; }
+    [data-style="vapor"] .p-title { font-size: 16px; }
+    [data-style="vapor"] .p-badge { background: #ff3fb4; border-radius: 0; }
+    [data-style="vapor"] .p-fav { background: #c0c0c0; color: #000; border-radius: 0; border: 2px solid; border-color: #fff #404040 #404040 #fff; }
+    [data-style="vapor"] .p-cat, [data-style="vapor"] .p-rating span, [data-style="vapor"] .p-price s, [data-style="vapor"] .p-stock { color: #404040; }
+    [data-style="vapor"] .p-price b { color: #000080; }
+    [data-style="vapor"] .p-buy { background: #c0c0c0; color: #000; border: 2px solid; border-color: #fff #404040 #404040 #fff; border-radius: 0; box-shadow: 1px 1px 0 #000; font-family: "JetBrains Mono", monospace; }
+    [data-style="vapor"] .p-buy:active { border-color: #404040 #fff #fff #404040; }
+
+    /* ===== Органический стиль ===== */
+    [data-style="organic"] { background: #f3efe6; }
+    [data-style="organic"]::before { content: ""; top: -40px; left: -40px; width: 220px; height: 220px; opacity: .6; background: #a3b18a; animation: sw-morph 9s ease-in-out infinite; }
+    [data-style="organic"]::after { content: ""; right: -20px; bottom: -30px; width: 160px; height: 160px; opacity: .6; background: #d4a373; animation: sw-morph 7s ease-in-out infinite reverse; }
+    @keyframes sw-morph { 0%, 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; } 33% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; } 66% { border-radius: 50% 50% 40% 60% / 40% 50% 60% 50%; } }
+    [data-style="organic"] .p-card { --hole: #dfe5d3; --caliper: #d4a373; background: #fbf8f1; color: #3d4a35; border-radius: 36px 36px 36px 8px; box-shadow: 0 20px 40px -18px rgba(88, 129, 87, .5); }
+    [data-style="organic"] .p-media { margin: 10px 10px 0; background: #dfe5d3; color: #588157; animation: sw-morph 10s ease-in-out infinite; }
+    [data-style="organic"] .p-cat { color: #8a7a5c; }
+    [data-style="organic"] .p-title { font-family: "PT Serif", serif; font-style: italic; font-weight: 400; font-size: 23px; }
+    [data-style="organic"] .p-badge { background: #588157; }
+    [data-style="organic"] .p-fav { background: #f3efe6; color: #d4a373; }
+    [data-style="organic"] .p-buy { background: #588157; border-radius: 999px 600px 999px 800px; }
+    [data-style="organic"] .p-stock { color: #588157; }
+
+    /* ===== Скетч ===== */
+    [data-style="sketch"] { background: #fffdf6; }
+    [data-style="sketch"]::before { content: ""; inset: 0; background-image: linear-gradient(#dbe7f3 1px, transparent 1px), linear-gradient(90deg, #dbe7f3 1px, transparent 1px); background-size: 24px 24px; }
+    [data-style="sketch"] .p-card { --hole: #fff; --caliper: #ff8fab; background: #fff; color: #222; border: 2.5px solid #222; border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px; box-shadow: none; transform: rotate(-1.5deg); font-family: Caveat, cursive; }
+    [data-style="sketch"] .p-media { background: repeating-linear-gradient(-45deg, transparent 0 8px, rgba(0, 0, 0, .06) 8px 10px); color: #222; border-bottom: 2.5px dashed #222; }
+    [data-style="sketch"] .p-cat { font-size: 17px; text-transform: none; letter-spacing: 0; color: #555; }
+    [data-style="sketch"] .p-title { width: fit-content; font-size: 30px; font-weight: 700; line-height: 1; background: linear-gradient(100deg, transparent 2%, #ffe066 4% 96%, transparent 98%); }
+    [data-style="sketch"] .p-rating, [data-style="sketch"] .p-stock { font-size: 18px; }
+    [data-style="sketch"] .p-price b { font-size: 34px; }
+    [data-style="sketch"] .p-price s { font-size: 18px; }
+    [data-style="sketch"] .p-badge { background: #ff8fab; color: #222; border: 2px solid #222; border-radius: 15px 225px 15px 255px / 255px 15px 225px 15px; font-size: 16px; font-weight: 700; }
+    [data-style="sketch"] .p-fav { border: 2px solid #222; border-radius: 50% 45% 55% 50%; color: #222; }
+    [data-style="sketch"] .p-buy { background: #ffe066; color: #222; border: 2.5px solid #222; border-radius: 15px 225px 15px 255px / 255px 15px 225px 15px; font: 700 24px Caveat, cursive; }
+
     @media (max-width: 640px) {
       .sw-stage { min-height: 560px; padding: 36px 16px; border-radius: var(--radius-lg); }
       .sw-controls { flex-wrap: nowrap; justify-content: flex-start; overflow-x: auto; margin: 20px -16px 16px; padding: 2px 16px 8px; scrollbar-width: none; }
@@ -301,9 +439,9 @@
     <div class="doc-hero" style="--hero-bg: radial-gradient(45% 80% at 10% 20%, rgba(255, 122, 224, .7) 0%, transparent 60%), radial-gradient(45% 80% at 85% 85%, rgba(125, 249, 255, .55) 0%, transparent 60%), linear-gradient(135deg, #0f131a, #2b1d4f 50%, #5b4cf0)">
       <div>
         <div class="crumbs"><a href="../design.html">Дизайн</a> / Переключатель стилей</div>
-        <h1>Один товар — <b>19 стилей</b></h1>
+        <h1>Один товар — <b>29 стилей</b></h1>
         <p>Та же карточка, те же данные — меняется только оформление. Переключайте стили кнопками и смотрите, как дизайн меняет восприятие продукта.</p>
-        <div class="hero-facts"><span>19 стилей</span><span>Плавные переходы</span><span>Автопоказ</span></div>
+        <div class="hero-facts"><span>29 стилей</span><span>Плавные переходы</span><span>Автопоказ</span></div>
       </div>
       <div class="icon i-ml">⇄</div>
     </div>
@@ -380,6 +518,16 @@
       { id: 'japan', name: 'Японский минимализм', desc: 'Тишина, бумага, тонкая антиква и один красный акцент.', link: 'japan' },
       { id: 'pixel', name: 'Пиксель-арт', desc: 'Карточка из игры на 8-битной приставке.', link: 'pixel' },
       { id: 'm3', name: 'Material You', desc: 'Тональные поверхности и крупные скругления Material Design 3.', link: 'm3' },
+      { id: 'liquid', name: 'Liquid Glass', desc: 'Прозрачное «жидкое стекло» с бликами по кромке, как в iOS 26.', link: 'liquid' },
+      { id: 'bauhaus', name: 'Баухаус', desc: 'Круг, квадрат, треугольник и три основных цвета.', link: 'bauhaus' },
+      { id: 'deco', name: 'Ар-деко', desc: 'Чёрный и золото, двойная рамка и веер лучей эпохи джаза.', link: 'deco' },
+      { id: 'constr', name: 'Конструктивизм', desc: 'Красный, чёрный и бумага, диагонали и узкий гротеск.', link: 'constr' },
+      { id: 'grain', name: 'Зернистые градиенты', desc: 'Мягкие пятна цвета и плёночное зерно — тепло и тактильно.', link: 'grain' },
+      { id: 'kinetic', name: 'Кинетическая типографика', desc: 'Бегущие контурные строки и «дышащий» заголовок.', link: 'kinetic' },
+      { id: 'editorial', name: 'Журнальный стиль', desc: 'Карточка как заметка в газете: антиква, курсив, двойные линии.', link: 'editorial' },
+      { id: 'vapor', name: 'Вейпорвейв', desc: 'Окно старой операционной системы на фоне розово-бирюзовой сетки.', link: 'vapor' },
+      { id: 'organic', name: 'Органический', desc: 'Природные цвета и капли, которые медленно меняют форму.', link: 'organic' },
+      { id: 'sketch', name: 'Скетч', desc: 'Карточка, нарисованная от руки в тетради в клетку.', link: 'sketch' },
     ];
 
     const stage = document.querySelector('.sw-stage');
