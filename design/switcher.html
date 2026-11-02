@@ -1,0 +1,443 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Переключатель стилей — Владимир</title>
+  <meta name="description" content="Одна карточка товара в 19 стилях веб-дизайна: переключайте кнопками и смотрите, как стиль меняет продукт.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%235b4cf0'/><text x='16' y='21' font-family='monospace' font-size='13' font-weight='700' fill='white' text-anchor='middle'>&lt;/&gt;</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@500;700&family=Unbounded:wght@700;900&family=Comfortaa:wght@700&family=Russo+One&family=Press+Start+2P&family=PT+Serif&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="../docs.css">
+  <script src="../theme.js"></script>
+  <script src="../layout.js" data-base="../" data-page="design" defer></script>
+  <style>
+    /* ===== Каркас ===== */
+    .sw-controls { position: relative; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 28px 0 20px; }
+    .sw-controls button {
+      border: 1px solid var(--line); background: var(--bg); color: var(--text); cursor: pointer;
+      padding: 8px 14px; border-radius: 999px; font: 500 14px Onest, sans-serif; transition: background .15s, color .15s, border-color .15s;
+    }
+    .sw-controls button:hover { border-color: var(--accent); }
+    .sw-controls button[aria-pressed="true"] { background: var(--text); color: var(--bg); border-color: var(--text); }
+    .sw-tools { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; }
+    .sw-tools button { border: 0; cursor: pointer; padding: 10px 18px; border-radius: 999px; background: var(--tile); color: var(--text); font: 500 14px Onest, sans-serif; }
+    .sw-tools button[aria-pressed="true"] { background: var(--accent); color: #fff; }
+
+    .sw-stage {
+      position: relative; overflow: hidden; isolation: isolate; margin-top: 20px;
+      border-radius: var(--radius-xl); min-height: 600px; padding: 48px 20px;
+      display: grid; place-items: center;
+      background: #f2f3f5; transition: background .5s, color .5s;
+      view-transition-name: sw-stage;
+    }
+    .sw-stage::before, .sw-stage::after { content: none; position: absolute; pointer-events: none; z-index: -1; }
+    .sw-info { text-align: center; margin-top: 20px; min-height: 80px; }
+    .sw-info b { display: block; font-size: 22px; font-weight: 500; letter-spacing: -.01em; }
+    .sw-info p { color: var(--muted); max-width: 620px; margin: 6px auto 0; }
+    .sw-info a { color: var(--accent); }
+
+    /* ===== Карточка товара: базовый вид ===== */
+    .p-card {
+      --hole: #f2f3f5;
+      position: relative; z-index: 1; width: min(320px, 100%); overflow: hidden;
+      border-radius: 20px; background: #fff; color: #1a1a1f; font-family: Onest, sans-serif;
+      box-shadow: 0 10px 30px rgba(20, 20, 40, .1);
+      transition: background .45s, color .45s, border-radius .45s, box-shadow .45s, border-color .45s, transform .45s;
+    }
+    .p-media { position: relative; aspect-ratio: 4 / 3; display: grid; place-items: center; background: #f2f3f5; color: #2b2b30; transition: inherit; }
+    .p-img { width: 56%; height: auto; transition: color .45s, filter .45s; }
+    .p-img .caliper { fill: var(--caliper, #e8457a); }
+    .p-img .hole { fill: var(--hole); }
+    .p-badge { position: absolute; top: 12px; left: 12px; padding: 4px 10px; border-radius: 999px; background: #5b4cf0; color: #fff; font-size: 12px; font-weight: 600; transition: inherit; }
+    .p-fav { position: absolute; top: 10px; right: 10px; width: 36px; height: 36px; border: 0; border-radius: 50%; background: #fff; color: #e8457a; cursor: pointer; font-size: 16px; transition: inherit; }
+    .p-body { padding: 18px 20px 20px; display: flex; flex-direction: column; gap: 6px; }
+    .p-cat { font-size: 12px; color: #6b6f7a; text-transform: uppercase; letter-spacing: .06em; }
+    .p-title { font-size: 19px; font-weight: 600; line-height: 1.25; }
+    .p-rating { font-size: 13px; color: #f29d16; }
+    .p-rating span { color: #6b6f7a; }
+    .p-price { display: flex; align-items: baseline; gap: 10px; margin-top: 6px; }
+    .p-price b { font-size: 24px; font-weight: 700; }
+    .p-price s { color: #9a9ca6; font-size: 14px; }
+    .p-buy { margin-top: 10px; border: 0; cursor: pointer; padding: 13px; border-radius: 12px; background: #5b4cf0; color: #fff; font: 600 15px Onest, sans-serif; transition: background .45s, color .45s, border-radius .45s, box-shadow .45s, transform .1s; }
+    .p-buy:active { transform: scale(.97); }
+    .p-stock { font-size: 12px; color: #22b07d; text-align: center; margin-top: 4px; }
+
+    /* ===== Глассморфизм ===== */
+    [data-style="glass"] { background: #0f1029; }
+    [data-style="glass"]::before { content: ""; inset: 0; background: radial-gradient(circle at 22% 28%, #ff9ae6 0 90px, transparent 160px), radial-gradient(circle at 80% 75%, #7ff0d0 0 110px, transparent 190px), radial-gradient(circle at 75% 20%, #ffe08a 0 40px, transparent 90px); animation: sw-float 9s ease-in-out infinite; }
+    @keyframes sw-float { 50% { transform: translate(20px, -16px) scale(1.05); } }
+    [data-style="glass"] .p-card { --hole: rgba(255, 255, 255, .15); background: rgba(255, 255, 255, .12); color: #fff; border: 1px solid rgba(255, 255, 255, .3); backdrop-filter: blur(18px) saturate(160%); -webkit-backdrop-filter: blur(18px) saturate(160%); box-shadow: 0 10px 40px rgba(0, 0, 0, .3); }
+    [data-style="glass"] .p-media { background: rgba(255, 255, 255, .08); color: #fff; }
+    [data-style="glass"] .p-badge, [data-style="glass"] .p-fav { background: rgba(255, 255, 255, .25); color: #fff; }
+    [data-style="glass"] .p-cat, [data-style="glass"] .p-rating span, [data-style="glass"] .p-price s { color: rgba(255, 255, 255, .7); }
+    [data-style="glass"] .p-buy { background: rgba(255, 255, 255, .92); color: #0f1029; }
+    [data-style="glass"] .p-stock { color: #7ff0d0; }
+
+    /* ===== Голография ===== */
+    [data-style="holo"] { background: radial-gradient(circle at 50% 30%, #2a2a35, #0d0d12 70%); }
+    [data-style="holo"] .p-card { --hole: rgba(255, 255, 255, .5); background: linear-gradient(115deg, #ffb3e6, #ffe8a3, #b3ffd9, #a3d8ff, #d4b3ff, #ffb3e6); background-size: 300% 300%; animation: sw-holo 6s linear infinite; box-shadow: 0 24px 50px rgba(0, 0, 0, .5); }
+    @keyframes sw-holo { to { background-position: 300% 0; } }
+    [data-style="holo"] .p-media { background: rgba(255, 255, 255, .35); }
+    [data-style="holo"] .p-badge, [data-style="holo"] .p-buy { background: #1a1a1f; color: #fff; }
+    [data-style="holo"] .p-title { font-family: Unbounded, sans-serif; font-size: 17px; }
+
+    /* ===== Неон ===== */
+    [data-style="neon"] { background: radial-gradient(ellipse at 50% 120%, #1b0f2e, #07060d 60%); }
+    [data-style="neon"] .p-card { --hole: #0d0b18; --caliper: #b6ff4f; background: #0d0b18; color: #ffe6fb; border: 2px solid #ff4fd8; box-shadow: 0 0 20px #ff4fd8, inset 0 0 20px rgba(255, 79, 216, .3); }
+    [data-style="neon"] .p-media { background: transparent; color: #7df9ff; }
+    [data-style="neon"] .p-img { filter: drop-shadow(0 0 6px #7df9ff) drop-shadow(0 0 14px #7df9ff); }
+    [data-style="neon"] .p-title { font-family: Comfortaa, sans-serif; text-shadow: 0 0 6px #ff4fd8, 0 0 16px #ff4fd8; }
+    [data-style="neon"] .p-badge { background: transparent; border: 2px solid #b6ff4f; color: #b6ff4f; box-shadow: 0 0 8px #b6ff4f; }
+    [data-style="neon"] .p-fav { background: transparent; color: #ff4fd8; text-shadow: 0 0 8px #ff4fd8; }
+    [data-style="neon"] .p-cat, [data-style="neon"] .p-rating span, [data-style="neon"] .p-price s { color: #b9a3c9; }
+    [data-style="neon"] .p-price b { color: #b6ff4f; text-shadow: 0 0 10px #b6ff4f; }
+    [data-style="neon"] .p-buy { background: transparent; border: 2px solid #7df9ff; color: #7df9ff; border-radius: 999px; text-shadow: 0 0 6px #7df9ff; box-shadow: 0 0 10px #7df9ff, inset 0 0 10px rgba(125, 249, 255, .4); }
+    [data-style="neon"] .p-stock { color: #7df9ff; }
+
+    /* ===== ASCII ===== */
+    [data-style="ascii"] { background: #050805; }
+    [data-style="ascii"]::after { content: ""; inset: 0; z-index: 2; background: repeating-linear-gradient(to bottom, transparent 0 2px, rgba(0, 0, 0, .3) 3px); }
+    [data-style="ascii"] .p-card { --hole: #050805; --caliper: #39ff6a; background: #050805; color: #39ff6a; border: 2px dashed #39ff6a; border-radius: 0; box-shadow: none; font-family: "JetBrains Mono", monospace; text-shadow: 0 0 6px rgba(57, 255, 106, .6); }
+    [data-style="ascii"] .p-media { background: transparent; color: #39ff6a; border-bottom: 2px dashed #39ff6a; }
+    [data-style="ascii"] .p-badge { border-radius: 0; background: #39ff6a; color: #050805; text-shadow: none; }
+    [data-style="ascii"] .p-badge::before { content: "["; } [data-style="ascii"] .p-badge::after { content: "]"; }
+    [data-style="ascii"] .p-fav { background: transparent; color: #39ff6a; border-radius: 0; }
+    [data-style="ascii"] .p-cat, [data-style="ascii"] .p-rating, [data-style="ascii"] .p-rating span, [data-style="ascii"] .p-price s, [data-style="ascii"] .p-stock { color: #1fbf4a; }
+    [data-style="ascii"] .p-title { font-size: 16px; }
+    [data-style="ascii"] .p-buy { background: transparent; border: 2px solid #39ff6a; border-radius: 0; color: #39ff6a; font-family: "JetBrains Mono", monospace; }
+    [data-style="ascii"] .p-buy::before { content: "> "; }
+
+    /* ===== Нео-брутализм ===== */
+    [data-style="brutal"] { background: #fff3c4; }
+    [data-style="brutal"] .p-card { --hole: #a3e635; --caliper: #ff6ad5; border: 3px solid #000; border-radius: 14px; box-shadow: 8px 8px 0 #000; }
+    [data-style="brutal"] .p-media { background: #a3e635; color: #000; border-bottom: 3px solid #000; }
+    [data-style="brutal"] .p-badge { background: #ff6ad5; color: #000; border: 2px solid #000; border-radius: 8px; }
+    [data-style="brutal"] .p-fav { border: 2px solid #000; color: #000; }
+    [data-style="brutal"] .p-title { font-family: Unbounded, sans-serif; font-weight: 900; font-size: 18px; }
+    [data-style="brutal"] .p-buy { background: #ff6ad5; color: #000; border: 3px solid #000; box-shadow: 4px 4px 0 #000; font-family: Unbounded, sans-serif; font-weight: 700; }
+    [data-style="brutal"] .p-buy:hover { transform: translate(2px, 2px); box-shadow: 2px 2px 0 #000; }
+    [data-style="brutal"] .p-stock { color: #000; font-weight: 600; }
+
+    /* ===== Неоморфизм ===== */
+    [data-style="neu"] { background: #e4e8ee; }
+    [data-style="neu"] .p-card { --hole: #e4e8ee; --caliper: #5b4cf0; background: #e4e8ee; color: #2f3644; border-radius: 28px; box-shadow: 14px 14px 28px #c2c7cf, -14px -14px 28px #fff; }
+    [data-style="neu"] .p-media { margin: 14px 14px 0; border-radius: 20px; background: #e4e8ee; color: #5b6475; box-shadow: inset 6px 6px 12px #c2c7cf, inset -6px -6px 12px #fff; }
+    [data-style="neu"] .p-fav { background: #e4e8ee; box-shadow: 4px 4px 8px #c2c7cf, -4px -4px 8px #fff; }
+    [data-style="neu"] .p-buy { background: #e4e8ee; color: #5b4cf0; border-radius: 16px; box-shadow: 6px 6px 12px #c2c7cf, -6px -6px 12px #fff; }
+    [data-style="neu"] .p-buy:active { box-shadow: inset 6px 6px 12px #c2c7cf, inset -6px -6px 12px #fff; }
+
+    /* ===== Клейморфизм ===== */
+    [data-style="clay"] { background: linear-gradient(135deg, #ffe3ef, #e6e0ff); }
+    [data-style="clay"] .p-card { --hole: #ffb6d3; --caliper: #a9c4ff; background: #ffd1e3; color: #3b2a4a; border-radius: 32px; box-shadow: inset -10px -10px 20px rgba(0, 0, 0, .08), inset 10px 10px 20px rgba(255, 255, 255, .7), 0 30px 40px -16px rgba(214, 90, 140, .5); animation: sw-bob 4s ease-in-out infinite; }
+    @keyframes sw-bob { 50% { transform: translateY(-10px); } }
+    [data-style="clay"] .p-media { margin: 12px 12px 0; border-radius: 26px; background: #ffb6d3; color: #3b2a4a; box-shadow: inset -6px -6px 12px rgba(0, 0, 0, .08), inset 6px 6px 12px rgba(255, 255, 255, .6); }
+    [data-style="clay"] .p-badge { background: #a9c4ff; color: #1d2b5a; }
+    [data-style="clay"] .p-title { font-family: Unbounded, sans-serif; font-size: 17px; }
+    [data-style="clay"] .p-buy { background: #b5f0c4; color: #1f4a2a; border-radius: 999px; font-family: Unbounded, sans-serif; box-shadow: inset -6px -6px 12px rgba(0, 0, 0, .1), inset 6px 6px 12px rgba(255, 255, 255, .7), 0 12px 18px -8px rgba(90, 180, 120, .6); }
+
+    /* ===== Аврора ===== */
+    [data-style="aurora"] { background: #04060f; }
+    [data-style="aurora"]::before { content: ""; inset: -40%; opacity: .6; background: conic-gradient(from 0deg, #00ffa3, #00b3ff, #8a5cff, #ff4fd8, #00ffa3); filter: blur(70px); animation: sw-spin 14s linear infinite; }
+    @keyframes sw-spin { to { transform: rotate(1turn); } }
+    [data-style="aurora"] .p-card { --hole: rgba(10, 12, 30, .6); --caliper: #00ffa3; background: rgba(10, 12, 30, .55); color: #fff; border: 1px solid rgba(255, 255, 255, .15); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); box-shadow: 0 20px 50px rgba(0, 0, 0, .4); }
+    [data-style="aurora"] .p-media { background: rgba(255, 255, 255, .05); color: #e0e6ff; }
+    [data-style="aurora"] .p-cat, [data-style="aurora"] .p-rating span, [data-style="aurora"] .p-price s { color: rgba(255, 255, 255, .6); }
+    [data-style="aurora"] .p-badge, [data-style="aurora"] .p-buy { background: linear-gradient(90deg, #00ffa3, #00b3ff, #8a5cff); color: #04060f; }
+    [data-style="aurora"] .p-fav { background: rgba(255, 255, 255, .15); color: #ff4fd8; }
+
+    /* ===== Глитч ===== */
+    [data-style="glitch"] { background: #0b0b0d; }
+    [data-style="glitch"] .p-card { --hole: #141418; --caliper: #ff2bd6; background: #0b0b0d; color: #fff; border: 2px solid #fcee0a; border-radius: 0; box-shadow: none; clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 24px 100%, 0 calc(100% - 24px)); }
+    [data-style="glitch"] .p-media { background: #141418; color: #00f0ff; }
+    [data-style="glitch"] .p-title { font-family: "Russo One", sans-serif; font-weight: 400; text-shadow: -2px 0 #00f0ff, 2px 0 #ff2bd6; animation: sw-jitter 2.4s steps(1) infinite; }
+    @keyframes sw-jitter { 0%, 92%, 100% { transform: none; } 94% { transform: translateX(-3px); } 96% { transform: translateX(3px); } }
+    [data-style="glitch"] .p-badge { background: #ff2bd6; border-radius: 0; }
+    [data-style="glitch"] .p-fav { background: transparent; color: #fcee0a; border-radius: 0; }
+    [data-style="glitch"] .p-cat, [data-style="glitch"] .p-rating span, [data-style="glitch"] .p-price s { color: #8a8a96; }
+    [data-style="glitch"] .p-price b { color: #fcee0a; }
+    [data-style="glitch"] .p-buy { background: #fcee0a; color: #000; border-radius: 0; font-family: "JetBrains Mono", monospace; font-weight: 700; letter-spacing: .1em; clip-path: polygon(0 0, 100% 0, 100% 62%, calc(100% - 12px) 100%, 0 100%); }
+    [data-style="glitch"] .p-stock { color: #00f0ff; }
+
+    /* ===== Синтвейв ===== */
+    [data-style="synth"] { background: linear-gradient(#0d0221, #2a0a4a 38%, #7a1b70 56%, #ff6ec7 62%); }
+    [data-style="synth"]::after { content: ""; left: -50%; right: -50%; bottom: -20%; height: 58%; background-color: #12002b; background-image: linear-gradient(#ff2bd6 2px, transparent 2px), linear-gradient(90deg, #ff2bd6 2px, transparent 2px); background-size: 46px 46px; transform: perspective(260px) rotateX(62deg); transform-origin: top; animation: sw-grid 1s linear infinite; }
+    @keyframes sw-grid { to { background-position: 0 46px; } }
+    [data-style="synth"] .p-card { --hole: #2a0a4a; --caliper: #ff2bd6; background: rgba(18, 0, 43, .88); color: #fff; border: 2px solid #ff2bd6; box-shadow: 0 0 30px rgba(255, 43, 214, .5); }
+    [data-style="synth"] .p-media { background: linear-gradient(#2a0a4a, #7a1b70); color: #ffe259; }
+    [data-style="synth"] .p-title { font-family: "Russo One", sans-serif; font-weight: 400; font-style: italic; background: linear-gradient(#e0f7ff 40%, #ff7ad9 80%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    [data-style="synth"] .p-cat, [data-style="synth"] .p-rating span, [data-style="synth"] .p-price s { color: #c9a3e0; }
+    [data-style="synth"] .p-price b { color: #ffe259; }
+    [data-style="synth"] .p-badge, [data-style="synth"] .p-buy { background: linear-gradient(90deg, #ff2bd6, #ffe259); color: #12002b; }
+    [data-style="synth"] .p-fav { background: rgba(255, 255, 255, .12); color: #ff2bd6; }
+
+    /* ===== Швейцарский стиль ===== */
+    [data-style="swiss"] { background: #f1efe9; }
+    [data-style="swiss"] .p-card { --hole: #e30613; --caliper: #111; background: #fff; color: #111; border-radius: 0; box-shadow: none; border-top: 10px solid #111; }
+    [data-style="swiss"] .p-media { background: #e30613; color: #fff; }
+    [data-style="swiss"] .p-badge { background: #111; border-radius: 0; }
+    [data-style="swiss"] .p-fav { border-radius: 0; color: #111; }
+    [data-style="swiss"] .p-cat { color: #e30613; font-weight: 700; }
+    [data-style="swiss"] .p-title { font-size: 26px; font-weight: 700; letter-spacing: -.03em; line-height: 1.05; }
+    [data-style="swiss"] .p-price b { font-size: 32px; letter-spacing: -.04em; }
+    [data-style="swiss"] .p-buy { background: #111; border-radius: 0; text-align: left; padding-left: 16px; }
+    [data-style="swiss"] .p-stock { color: #111; text-align: left; }
+
+    /* ===== Бенто ===== */
+    [data-style="bento"] { background: #f5f5f7; }
+    [data-style="bento"] .p-card { width: min(360px, 100%); display: grid; grid-template-columns: 1fr 1fr; gap: 10px; background: transparent; box-shadow: none; overflow: visible; color: #1d1d1f; }
+    [data-style="bento"] .p-body { display: contents; }
+    [data-style="bento"] .p-media { grid-column: span 2; border-radius: 22px; background: #fff; }
+    [data-style="bento"] .p-cat, [data-style="bento"] .p-title, [data-style="bento"] .p-rating, [data-style="bento"] .p-price, [data-style="bento"] .p-stock, [data-style="bento"] .p-buy { margin: 0; background: #fff; border-radius: 18px; padding: 14px; box-shadow: 0 1px 2px rgba(0, 0, 0, .05); }
+    [data-style="bento"] .p-title { grid-column: span 2; }
+    [data-style="bento"] .p-price { flex-direction: column; gap: 0; }
+    [data-style="bento"] .p-stock { display: grid; place-items: center; background: #1d1d1f; color: #fff; }
+    [data-style="bento"] .p-buy { grid-column: span 2; background: linear-gradient(135deg, #ff9a8b, #ff6a88); color: #fff; padding: 16px; }
+
+    /* ===== Скевоморфизм ===== */
+    [data-style="skeuo"] { background: radial-gradient(circle at 30% 20%, #7a5638, #3b2618 75%); }
+    [data-style="skeuo"]::before { content: ""; inset: 0; opacity: .35; background: repeating-linear-gradient(95deg, transparent 0 6px, rgba(0, 0, 0, .25) 7px 8px, transparent 9px 18px); }
+    [data-style="skeuo"] .p-card { --hole: #2a1a10; --caliper: #c0392b; background: repeating-linear-gradient(90deg, rgba(255, 255, 255, .14) 0 1px, transparent 1px 3px), linear-gradient(#e6e9ee, #aab1ba); color: #2b3038; border-radius: 16px; box-shadow: inset 0 1px 0 #fff, inset 0 -2px 0 rgba(0, 0, 0, .2), 0 18px 36px rgba(0, 0, 0, .55); }
+    [data-style="skeuo"] .p-media { margin: 12px 12px 0; border-radius: 10px; background: radial-gradient(circle at 40% 30%, #5a3d28, #2a1a10); color: #d5dae1; box-shadow: inset 0 3px 10px rgba(0, 0, 0, .7), 0 1px 0 rgba(255, 255, 255, .7); }
+    [data-style="skeuo"] .p-title, [data-style="skeuo"] .p-price b { text-shadow: 0 1px 0 rgba(255, 255, 255, .8); }
+    [data-style="skeuo"] .p-badge { background: linear-gradient(#ff6b5b, #b3261e); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .5), 0 2px 4px rgba(0, 0, 0, .4); }
+    [data-style="skeuo"] .p-fav { background: linear-gradient(#fff, #c9ced6); box-shadow: 0 2px 4px rgba(0, 0, 0, .4); }
+    [data-style="skeuo"] .p-buy { background: linear-gradient(#4a4f57, #1e2125); color: #fff; border-radius: 10px; text-shadow: 0 -1px 0 #000; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .25), 0 3px 6px rgba(0, 0, 0, .4); }
+
+    /* ===== Y2K ===== */
+    [data-style="y2k"] { background: linear-gradient(160deg, #c9f1ff, #e6d4ff 45%, #ffd6f0); }
+    [data-style="y2k"]::before { content: ""; inset: 0; opacity: .7; background-image: radial-gradient(circle, rgba(255, 255, 255, .95) 1.5px, transparent 2px); background-size: 26px 26px; }
+    [data-style="y2k"] .p-card { --hole: #e6f4ff; --caliper: #ff7ad9; background: linear-gradient(#fff, #eaf4ff); color: #1a1a40; border: 2px solid #fff; border-radius: 26px; box-shadow: 0 12px 30px rgba(120, 90, 255, .3); }
+    [data-style="y2k"] .p-media { margin: 10px 10px 0; border-radius: 20px; background: linear-gradient(135deg, #c9f1ff, #ffd6f0); color: #56657a; }
+    [data-style="y2k"] .p-title { font-family: Unbounded, sans-serif; font-weight: 900; font-size: 18px; background: linear-gradient(180deg, #5c6b80 0%, #1a1a40 48%, #8a9ab0 52%, #3b4660 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    [data-style="y2k"] .p-badge { background: linear-gradient(#ff9ad5, #ff4fb3); }
+    [data-style="y2k"] .p-buy { position: relative; overflow: hidden; border-radius: 999px; color: #fff; text-shadow: 0 1px 1px rgba(0, 50, 120, .5); background: linear-gradient(#7fd8ff, #1b8fe6 55%, #49b4ff); box-shadow: inset 0 -3px 6px rgba(0, 60, 140, .4), 0 6px 14px rgba(27, 143, 230, .45); }
+    [data-style="y2k"] .p-buy::before { content: ""; position: absolute; left: 8%; right: 8%; top: 3px; height: 45%; border-radius: 999px; background: linear-gradient(rgba(255, 255, 255, .9), rgba(255, 255, 255, 0)); }
+
+    /* ===== Мемфис ===== */
+    [data-style="memphis"] { background: #fff6e5; }
+    [data-style="memphis"]::before { content: ""; inset: 0; background:
+      radial-gradient(circle, #ff5aa5 0 22px, transparent 23px) 10% 14% / 50px 50px no-repeat,
+      radial-gradient(circle, #2bb3a3 0 34px, transparent 35px) 12% 82% / 80px 80px no-repeat,
+      linear-gradient(45deg, transparent 45%, #ff5aa5 45% 55%, transparent 55%) 88% 14% / 70px 70px no-repeat,
+      repeating-linear-gradient(-45deg, #ffcf2b 0 8px, transparent 8px 16px) 90% 86% / 110px 60px no-repeat; }
+    [data-style="memphis"] .p-card { --hole: #ffcf2b; --caliper: #2bb3a3; border: 3px solid #111; border-radius: 0; box-shadow: 10px 10px 0 #2bb3a3; transform: rotate(-2deg); }
+    [data-style="memphis"] .p-media { background: repeating-linear-gradient(45deg, #ffcf2b 0 14px, #ff5aa5 14px 28px); color: #111; border-bottom: 3px solid #111; }
+    [data-style="memphis"] .p-badge { background: #111; border-radius: 0; }
+    [data-style="memphis"] .p-fav { border: 2px solid #111; color: #111; }
+    [data-style="memphis"] .p-title { font-family: Unbounded, sans-serif; font-weight: 900; font-size: 18px; text-shadow: 2px 2px 0 #ff5aa5; }
+    [data-style="memphis"] .p-buy { background: #2bb3a3; color: #111; border: 3px solid #111; border-radius: 0; font-family: Unbounded, sans-serif; }
+
+    /* ===== Японский минимализм ===== */
+    [data-style="japan"] { background: #f4efe6; }
+    [data-style="japan"] .p-card { --hole: #efe8dc; --caliper: #b3261e; background: #faf7f1; color: #2b2622; border: 1px solid #e3dccf; border-radius: 2px; box-shadow: none; }
+    [data-style="japan"] .p-media { background: #efe8dc; color: #2b2622; }
+    [data-style="japan"] .p-badge { background: #b3261e; border-radius: 2px; font-weight: 400; letter-spacing: .1em; }
+    [data-style="japan"] .p-fav { background: transparent; color: #b3261e; }
+    [data-style="japan"] .p-cat { letter-spacing: .3em; color: #8a8178; }
+    [data-style="japan"] .p-title { font-family: "PT Serif", serif; font-weight: 400; font-size: 22px; }
+    [data-style="japan"] .p-rating { color: #8a8178; }
+    [data-style="japan"] .p-price b { font-family: "PT Serif", serif; font-weight: 400; }
+    [data-style="japan"] .p-buy { background: transparent; color: #2b2622; border: 1px solid #2b2622; border-radius: 2px; font-weight: 400; letter-spacing: .2em; }
+    [data-style="japan"] .p-stock { color: #8a8178; }
+
+    /* ===== Пиксель-арт ===== */
+    [data-style="pixel"] { background: #1b1b3a; }
+    [data-style="pixel"]::before { content: ""; inset: 0; opacity: .25; background-image: radial-gradient(#fff 1px, transparent 1.5px); background-size: 40px 40px; }
+    [data-style="pixel"] .p-card { --hole: #3a3a7a; --caliper: #ff3b6b; background: #26264d; color: #fff; border-radius: 0; font-family: "Press Start 2P", "JetBrains Mono", monospace; box-shadow: 0 -6px 0 #fff, 0 6px 0 #fff, -6px 0 0 #fff, 6px 0 0 #fff, 12px 12px 0 #000; }
+    [data-style="pixel"] .p-media { background: #3a3a7a; color: #fff; }
+    [data-style="pixel"] .p-badge { background: #ff3b6b; border-radius: 0; font-size: 10px; }
+    [data-style="pixel"] .p-fav { background: #fff; color: #ff3b6b; border-radius: 0; }
+    [data-style="pixel"] .p-cat, [data-style="pixel"] .p-rating span, [data-style="pixel"] .p-stock { font-size: 9px; color: #a5a5e0; }
+    [data-style="pixel"] .p-title { font-size: 12px; line-height: 1.6; font-weight: 400; }
+    [data-style="pixel"] .p-rating { font-size: 10px; color: #ffd319; }
+    [data-style="pixel"] .p-price b { font-size: 16px; color: #ffd319; font-weight: 400; }
+    [data-style="pixel"] .p-price s { font-size: 10px; }
+    [data-style="pixel"] .p-buy { background: #3bff6b; color: #000; border-radius: 0; font: 400 11px "Press Start 2P", "JetBrains Mono", monospace; box-shadow: 0 -4px 0 #000, 0 4px 0 #000, -4px 0 0 #000, 4px 0 0 #000; margin: 14px 4px 4px; }
+
+    /* ===== Material You ===== */
+    [data-style="m3"] { background: #fef7ff; }
+    [data-style="m3"] .p-card { --hole: #eaddff; --caliper: #6750a4; background: #f3edf7; color: #1d1b20; border-radius: 28px; box-shadow: none; }
+    [data-style="m3"] .p-media { margin: 10px 10px 0; border-radius: 24px; background: #eaddff; color: #21005d; }
+    [data-style="m3"] .p-badge { background: #6750a4; border-radius: 8px; }
+    [data-style="m3"] .p-fav { border-radius: 12px; color: #6750a4; }
+    [data-style="m3"] .p-title { font-weight: 500; font-size: 22px; }
+    [data-style="m3"] .p-cat { text-transform: none; letter-spacing: 0; font-size: 14px; color: #49454f; }
+    [data-style="m3"] .p-buy { background: #6750a4; border-radius: 999px; font-weight: 500; }
+    [data-style="m3"] .p-stock { color: #386a20; }
+
+    @media (max-width: 640px) {
+      .sw-stage { min-height: 560px; padding: 36px 16px; border-radius: var(--radius-lg); }
+      .sw-controls { flex-wrap: nowrap; justify-content: flex-start; overflow-x: auto; margin: 20px -16px 16px; padding: 2px 16px 8px; scrollbar-width: none; }
+      .sw-controls::-webkit-scrollbar { display: none; }
+      .sw-controls button { flex: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .sw-stage *, .sw-stage::before, .sw-stage::after { animation: none !important; }
+      .p-card, .p-card * { transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header" data-layout="header"></header>
+
+  <main class="wrap">
+    <div class="doc-hero" style="--hero-bg: radial-gradient(45% 80% at 10% 20%, rgba(255, 122, 224, .7) 0%, transparent 60%), radial-gradient(45% 80% at 85% 85%, rgba(125, 249, 255, .55) 0%, transparent 60%), linear-gradient(135deg, #0f131a, #2b1d4f 50%, #5b4cf0)">
+      <div>
+        <div class="crumbs"><a href="../design.html">Дизайн</a> / Переключатель стилей</div>
+        <h1>Один товар — <b>19 стилей</b></h1>
+        <p>Та же карточка, те же данные — меняется только оформление. Переключайте стили кнопками и смотрите, как дизайн меняет восприятие продукта.</p>
+        <div class="hero-facts"><span>19 стилей</span><span>Плавные переходы</span><span>Автопоказ</span></div>
+      </div>
+      <div class="icon i-ml">⇄</div>
+    </div>
+
+    <div class="ai-note">
+      <span class="spark">✦</span>
+      <p>Все стили в этом разделе сгенерированы с помощью ИИ. <span>Хотите такой же дизайн для своего сайта? Сделаю под ваш проект за договорную цену.</span></p>
+      <a class="pill" href="https://t.me/BojooYkt" target="_blank" rel="noopener">Обсудить проект</a>
+    </div>
+
+    <div class="sw-controls" role="group" aria-label="Стиль карточки"></div>
+    <div class="sw-tools">
+      <button type="button" class="sw-auto" aria-pressed="false">▶ Автопоказ</button>
+      <button type="button" class="sw-random">🎲 Случайный стиль</button>
+    </div>
+
+    <div class="sw-stage" data-style="base">
+      <article class="p-card">
+        <div class="p-media">
+          <svg class="p-img" viewBox="0 0 120 120" aria-hidden="true">
+            <circle cx="60" cy="60" r="52" fill="none" stroke="currentColor" stroke-width="10"/>
+            <circle cx="60" cy="60" r="38" fill="none" stroke="currentColor" stroke-width="3" opacity=".5"/>
+            <circle cx="60" cy="60" r="18" fill="currentColor"/>
+            <circle class="hole" cx="60" cy="50" r="2.6"/><circle class="hole" cx="69.5" cy="56.9" r="2.6"/><circle class="hole" cx="65.9" cy="68.1" r="2.6"/><circle class="hole" cx="54.1" cy="68.1" r="2.6"/><circle class="hole" cx="50.5" cy="56.9" r="2.6"/>
+            <circle class="hole" cx="112" cy="60" r="2.2"/><circle class="hole" cx="96.8" cy="96.8" r="2.2"/><circle class="hole" cx="60" cy="112" r="2.2"/><circle class="hole" cx="23.2" cy="96.8" r="2.2"/><circle class="hole" cx="8" cy="60" r="2.2"/><circle class="hole" cx="23.2" cy="23.2" r="2.2"/><circle class="hole" cx="60" cy="8" r="2.2"/><circle class="hole" cx="96.8" cy="23.2" r="2.2"/>
+            <path class="caliper" d="M89 9.8 A58 58 0 0 1 115.2 42.1 L101.8 46.4 A44 44 0 0 0 82 21.9 Z"/>
+          </svg>
+          <span class="p-badge">Хит</span>
+          <button class="p-fav" type="button" aria-label="В избранное">♥</button>
+        </div>
+        <div class="p-body">
+          <span class="p-cat">Тормозная система</span>
+          <h3 class="p-title">Тормозной диск, передний</h3>
+          <div class="p-rating">★ 4,8 <span>· 126 отзывов</span></div>
+          <div class="p-price"><b>3 490 ₽</b><s>4 200 ₽</s></div>
+          <button class="p-buy" type="button">В корзину</button>
+          <span class="p-stock">В наличии · доставка завтра</span>
+        </div>
+      </article>
+    </div>
+
+    <div class="sw-info" aria-live="polite"><b></b><p></p></div>
+
+    <div class="cta">
+      <h2 class="title">Какой стиль подойдёт вашему продукту?</h2>
+      <p class="subtitle">Подберу стиль под аудиторию и задачи и сверстаю сайт целиком. Цена договорная.</p>
+      <div class="actions">
+        <a class="pill" href="https://t.me/BojooYkt" target="_blank" rel="noopener">Написать в Telegram</a>
+        <a class="pill" href="styles.html">Галерея стилей</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer" data-layout="footer"></footer>
+
+  <script>
+    const STYLES = [
+      { id: 'base', name: 'Базовый', desc: 'Нейтральная карточка без выраженного стиля — точка отсчёта.' },
+      { id: 'glass', name: 'Глассморфизм', desc: 'Матовое стекло поверх ярких пятен: глубина и «премиальность».', link: 'glass' },
+      { id: 'holo', name: 'Голография', desc: 'Переливающийся радужный фон, как у коллекционной карточки.', link: 'holo' },
+      { id: 'neon', name: 'Неон', desc: 'Светящиеся контуры на тёмном фоне — ночной магазин или игра.', link: 'neon' },
+      { id: 'ascii', name: 'ASCII-арт', desc: 'Терминал и моноширинный шрифт — товар для разработчиков.', link: 'ascii' },
+      { id: 'brutal', name: 'Нео-брутализм', desc: 'Толстые обводки и жёсткие тени: дерзко и заметно.', link: 'brutal' },
+      { id: 'neu', name: 'Неоморфизм', desc: 'Мягкий рельеф из одного материала: спокойно, но низкий контраст.', link: 'neu' },
+      { id: 'clay', name: 'Клейморфизм', desc: 'Пухлая пастельная карточка, парящая в воздухе: дружелюбно.', link: 'clay' },
+      { id: 'aurora', name: 'Аврора', desc: 'Живые переливы северного сияния за стеклянной карточкой.', link: 'aurora' },
+      { id: 'glitch', name: 'Глитч и киберпанк', desc: 'Срезанные углы, жёлтые плашки и «сбой» заголовка.', link: 'glitch' },
+      { id: 'synth', name: 'Синтвейв', desc: 'Закат 80-х и бесконечная неоновая сетка.', link: 'synth' },
+      { id: 'swiss', name: 'Швейцарский стиль', desc: 'Строгая типографика, сетка и красный акцент.', link: 'swiss' },
+      { id: 'bento', name: 'Бенто-сетка', desc: 'Карточка разобрана на плитки: каждая — отдельная мысль.', link: 'bento' },
+      { id: 'skeuo', name: 'Скевоморфизм', desc: 'Шлифованный металл на деревянном столе — как настоящий предмет.', link: 'skeuo' },
+      { id: 'y2k', name: 'Y2K', desc: 'Хромированный заголовок и глянцевая «аква»-кнопка 2000-х.', link: 'y2k' },
+      { id: 'memphis', name: 'Мемфис', desc: 'Геометрия, полоски и точки — весёлый хаос 80-х.', link: 'memphis' },
+      { id: 'japan', name: 'Японский минимализм', desc: 'Тишина, бумага, тонкая антиква и один красный акцент.', link: 'japan' },
+      { id: 'pixel', name: 'Пиксель-арт', desc: 'Карточка из игры на 8-битной приставке.', link: 'pixel' },
+      { id: 'm3', name: 'Material You', desc: 'Тональные поверхности и крупные скругления Material Design 3.', link: 'm3' },
+    ];
+
+    const stage = document.querySelector('.sw-stage');
+    const controls = document.querySelector('.sw-controls');
+    const info = document.querySelector('.sw-info');
+    const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let current = 0;
+
+    controls.innerHTML = STYLES.map((s, i) =>
+      `<button type="button" data-i="${i}" aria-pressed="${i === 0}">${s.name}</button>`).join('');
+    const buttons = [...controls.querySelectorAll('button')];
+
+    function render(i, smooth = true) {
+      const s = STYLES[i];
+      stage.dataset.style = s.id;
+      buttons.forEach((b, j) => b.setAttribute('aria-pressed', j === i));
+      // На телефоне кнопки в одну строку — прокручиваем её к выбранному стилю (только по горизонтали)
+      const btn = buttons[i];
+      controls.scrollTo({ left: btn.offsetLeft - controls.clientWidth / 2 + btn.offsetWidth / 2, behavior: smooth && !reduceMotion ? 'smooth' : 'auto' });
+      info.querySelector('b').textContent = s.name;
+      info.querySelector('p').innerHTML = s.desc + (s.link ? ` <a href="styles.html#${s.link}">Подробнее в галерее →</a>` : '');
+    }
+
+    function apply(i) {
+      current = (i + STYLES.length) % STYLES.length;
+      // Плавная смена через View Transitions API, если браузер умеет
+      if (document.startViewTransition && !reduceMotion) document.startViewTransition(() => render(current));
+      else render(current);
+    }
+
+    controls.addEventListener('click', e => {
+      const b = e.target.closest('button');
+      if (!b) return;
+      stopAuto();
+      apply(+b.dataset.i);
+    });
+    controls.addEventListener('keydown', e => {
+      if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+      stopAuto();
+      apply(current + (e.key === 'ArrowRight' ? 1 : -1));
+      buttons[current].focus();
+    });
+
+    // Автопоказ
+    const autoBtn = document.querySelector('.sw-auto');
+    let timer = null;
+    function stopAuto() {
+      clearInterval(timer); timer = null;
+      autoBtn.setAttribute('aria-pressed', 'false');
+      autoBtn.textContent = '▶ Автопоказ';
+    }
+    autoBtn.addEventListener('click', () => {
+      if (timer) return stopAuto();
+      autoBtn.setAttribute('aria-pressed', 'true');
+      autoBtn.textContent = '❚❚ Пауза';
+      apply(current + 1);
+      timer = setInterval(() => apply(current + 1), 2200);
+    });
+
+    document.querySelector('.sw-random').addEventListener('click', () => {
+      stopAuto();
+      let n;
+      do { n = Math.floor(Math.random() * STYLES.length); } while (n === current);
+      apply(n);
+    });
+
+    // Открыть сразу нужный стиль по ссылке вида switcher.html#neon
+    const fromHash = STYLES.findIndex(s => s.id === location.hash.slice(1));
+    current = Math.max(fromHash, 0);
+    render(current, false);
+    // Шрифты меняют ширину кнопок — после их загрузки ещё раз выравниваем строку
+    document.fonts.ready.then(() => render(current, false));
+  </script>
+</body>
+</html>

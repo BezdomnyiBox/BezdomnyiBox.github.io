@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Цвет и палитры — Владимир</title>
+  <meta name="description" content="Как построить палитру из одного цвета, подобрать гармонию, выбрать нейтральные и смысловые цвета и правильно сделать тёмную тему.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%235b4cf0'/><text x='16' y='21' font-family='monospace' font-size='13' font-weight='700' fill='white' text-anchor='middle'>&lt;/&gt;</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="../docs.css">
+  <script src="../theme.js"></script>
+  <script src="../layout.js" data-base="../" data-page="design" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js" defer></script>
+  <style>
+    .ramp { display: flex; border-radius: 16px; overflow: hidden; margin-top: 16px; }
+    .ramp div { flex: 1; height: 72px; display: flex; align-items: flex-end; padding: 6px; font: 500 11px "JetBrains Mono", monospace; }
+    .harm { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; margin-top: 16px; }
+    .harm figure { margin: 0; background: var(--tile); border-radius: 16px; padding: 18px; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+    .harm .dots { display: flex; gap: 6px; }
+    .harm .dots i { width: 34px; height: 34px; border-radius: 50%; display: block; }
+    .harm figcaption { font-size: 13px; color: var(--muted); text-align: center; }
+    .sem { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-top: 16px; }
+    .sem div { border-radius: 14px; padding: 14px 16px; font-size: 14px; font-weight: 500; }
+    .themes { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; margin-top: 16px; }
+    .themes > div { border-radius: 18px; padding: 18px; font-size: 14px; }
+    .themes .mock { border-radius: 14px; padding: 16px; margin-top: 10px; }
+    .themes .mock b { display: block; font-size: 18px; margin-bottom: 4px; }
+    .themes .mock span { display: inline-block; margin-top: 12px; padding: 8px 14px; border-radius: 999px; font-weight: 500; }
+    .themes small { display: block; font-size: 12px; text-transform: uppercase; letter-spacing: .08em; opacity: .7; }
+  </style>
+</head>
+<body>
+  <header class="site-header" data-layout="header"></header>
+
+  <main class="wrap">
+    <div class="doc-hero" style="--hero-bg: radial-gradient(50% 90% at 88% 12%, rgba(255, 211, 25, .45) 0%, transparent 60%), radial-gradient(45% 80% at 10% 90%, rgba(111, 227, 192, .45) 0%, transparent 60%), linear-gradient(135deg, #4a0d2c, #8c1c48 50%, #5b4cf0)">
+      <div>
+        <div class="crumbs"><a href="../design.html">Дизайн</a> / Цвет</div>
+        <h1>Цвет <b>и палитры</b></h1>
+        <p>Как построить палитру из одного цвета, подобрать гармонию, выбрать нейтральные и смысловые цвета и правильно сделать тёмную тему.</p>
+        <div class="hero-facts"><span>7 уроков</span><span>~15 минут</span><span>OKLCH и CSS</span></div>
+      </div>
+      <div class="icon i-ml">Co</div>
+    </div>
+
+    <div class="guide">
+      <aside class="toc">
+        <h4>Содержание</h4>
+        <ol><li><a href="#models">Цветовые модели</a></li><li><a href="#ramp">Палитра из одного цвета</a></li><li><a href="#harmony">Цветовые гармонии</a></li><li><a href="#neutral">Нейтральные и смысловые цвета</a></li><li><a href="#dark">Тёмная тема: правила</a></li><li><a href="#css">Тёмная тема в CSS</a></li><li><a href="#tools">Инструменты и шпаргалка</a></li></ol>
+      </aside>
+
+      <div>
+        <section class="lesson" id="models">
+          <h2><span>01</span>Цветовые модели</h2>
+          <ul><li><strong>HEX и RGB</strong> (<code>#5b4cf0</code>, <code>rgb(91 76 240)</code>) — привычные, но по числам не понять, светлый цвет или тёмный.</li><li><strong>HSL</strong> (<code>hsl(246 85% 62%)</code>) — оттенок, насыщенность, светлота. Понятнее, но жёлтый и синий с одинаковой «светлотой» выглядят по-разному яркими.</li><li><strong>OKLCH</strong> (<code>oklch(57% .2 280)</code>) — светлота, насыщенность, оттенок, рассчитанные под восприятие глаза. Одинаковая светлота действительно выглядит одинаково — идеально для палитр и тёмной темы. Поддерживается всеми современными браузерами.</li></ul>
+          <pre><code class="language-css">:root {
+  --accent: #5b4cf0;                       /* HEX */
+  --accent: hsl(246 85% 62%);              /* HSL */
+  --accent: oklch(57% 0.2 280);            /* OKLCH: светлота, насыщенность, оттенок */
+  --accent-soft: color-mix(in oklch, var(--accent) 15%, white);   /* смешивание цветов */
+}</code></pre>
+        </section>
+        <section class="lesson" id="ramp">
+          <h2><span>02</span>Палитра из одного цвета</h2>
+          <p>Основу дизайн-системы строят из шкалы оттенков одного цвета: от почти белого (50) до почти чёрного (900). В OKLCH это просто — меняется светлота, а оттенок остаётся тем же:</p>
+          <div class="ramp"><div style="background: oklch(97% 0.02 280); color: #1a1a1f">50</div><div style="background: oklch(92% 0.05 280); color: #1a1a1f">100</div><div style="background: oklch(85% 0.09 280); color: #1a1a1f">200</div><div style="background: oklch(76% 0.14 280); color: #1a1a1f">300</div><div style="background: oklch(66% 0.18 280); color: #1a1a1f">400</div><div style="background: oklch(57% 0.2 280); color: #fff">500</div><div style="background: oklch(49% 0.19 280); color: #fff">600</div><div style="background: oklch(41% 0.16 280); color: #fff">700</div><div style="background: oklch(33% 0.12 280); color: #fff">800</div><div style="background: oklch(26% 0.08 280); color: #fff">900</div></div>
+          <pre data-file="tokens.css"><code class="language-css">:root {
+  --violet-50:  oklch(97% 0.02 280);
+  --violet-100: oklch(92% 0.05 280);
+  --violet-500: oklch(57% 0.20 280);   /* основной */
+  --violet-700: oklch(41% 0.16 280);   /* наведение на кнопку */
+  --violet-900: oklch(26% 0.08 280);
+}</code></pre>
+          <p>Светлые ступени (50–100) — фоны и плашки, средние (400–600) — кнопки и ссылки, тёмные (700–900) — наведение, текст на светлых плашках.</p>
+        </section>
+        <section class="lesson" id="harmony">
+          <h2><span>03</span>Цветовые гармонии</h2>
+          <p>Если нужен второй цвет, его берут по правилам цветового круга:</p>
+          <div class="harm"><figure><div class="dots"><i style="background: oklch(35% .17 280)"></i><i style="background: oklch(50% .17 280)"></i><i style="background: oklch(65% .17 280)"></i><i style="background: oklch(80% .17 280)"></i></div><figcaption><b>Монохромная</b> — один оттенок разной светлоты. Спокойно и надёжно</figcaption></figure><figure><div class="dots"><i style="background: oklch(65% .17 240)"></i><i style="background: oklch(65% .17 280)"></i><i style="background: oklch(65% .17 320)"></i></div><figcaption><b>Аналоговая</b> — соседние оттенки. Мягко и гармонично</figcaption></figure><figure><div class="dots"><i style="background: oklch(65% .17 280)"></i><i style="background: oklch(65% .17 100)"></i></div><figcaption><b>Комплементарная</b> — противоположные оттенки. Максимальный контраст для акцента</figcaption></figure><figure><div class="dots"><i style="background: oklch(65% .17 280)"></i><i style="background: oklch(65% .17 40)"></i><i style="background: oklch(65% .17 160)"></i></div><figcaption><b>Триада</b> — три оттенка через 120°. Ярко, нужна аккуратность</figcaption></figure></div>
+          <p>В интерфейсе почти всегда хватает <strong>монохромной</strong> палитры плюс один акцент для главных действий. Не путайте с правилом 60-30-10 из гайда «Законы дизайна»: гармония выбирает цвета, а 60-30-10 — их пропорции.</p>
+        </section>
+        <section class="lesson" id="neutral">
+          <h2><span>04</span>Нейтральные и смысловые цвета</h2>
+          <p><strong>Нейтральные</strong> (серые) занимают 80–90% интерфейса: фон, текст, рамки. Чисто серые выглядят мёртво — добавьте в них каплю основного оттенка: <code>oklch(97% 0.005 280)</code> вместо <code>#f5f5f5</code>.</p>
+          <p><strong>Смысловые</strong> цвета сообщают статус и одинаково понятны во всех продуктах:</p>
+          <div class="sem"><div style="background: oklch(94% .05 150); color: oklch(38% .12 150)">Успех — зелёный</div><div style="background: oklch(95% .06 85); color: oklch(42% .1 70)">Предупреждение — жёлтый</div><div style="background: oklch(94% .04 25); color: oklch(45% .16 25)">Ошибка — красный</div><div style="background: oklch(94% .04 250); color: oklch(42% .14 250)">Информация — синий</div></div>
+          <p>Не используйте красный как фирменный акцент, если в интерфейсе есть ошибки: пользователь перестанет их отличать.</p>
+        </section>
+        <section class="lesson" id="dark">
+          <h2><span>05</span>Тёмная тема: правила</h2>
+          <p>Тёмная тема — это не инверсия цветов, а отдельная палитра со своими правилами:</p>
+          <ul><li><strong>Фон не чисто чёрный.</strong> <code>#121214</code> вместо <code>#000</code>: на чистом чёрном белый текст «дрожит», а тени не видны.</li><li><strong>Чем выше элемент, тем светлее поверхность.</strong> Тени в темноте почти не работают, глубину показывают светлотой: фон <code>#121214</code>, карточка <code>#1e1f23</code>, всплывающее окно <code>#2a2b30</code>.</li><li><strong>Текст не чисто белый.</strong> <code>#ececf0</code> или белый с прозрачностью 87% — меньше слепит.</li><li><strong>Акцент светлее и мягче.</strong> Насыщенный фиолетовый с белого фона на тёмном становится тусклым — поднимите светлоту.</li><li><strong>Проверяйте контраст заново</strong> — значения из светлой темы не переносятся.</li></ul>
+          <div class="themes"><div style="background: #f4f4f6; color: #1a1a1f"><small>Светлая</small><div class="mock" style="background: #fff"><b>Фильтр масляный</b>890 ₽ · в наличии<br><span style="background: #5b4cf0; color: #fff">В корзину</span></div></div><div style="background: #121214; color: #ececf0"><small>Тёмная</small><div class="mock" style="background: #1e1f23"><b>Фильтр масляный</b><span style="all: unset; color: #9a9ca6">890 ₽ · в наличии</span><br><span style="background: #8f83ff; color: #121214">В корзину</span></div></div></div>
+        </section>
+        <section class="lesson" id="css">
+          <h2><span>06</span>Тёмная тема в CSS</h2>
+          <p>Компоненты используют только переменные-токены, а тема переопределяет их значения. Так работает и этот сайт — переключатель в шапке меняет атрибут <code>data-theme</code>:</p>
+          <pre data-file="styles.css"><code class="language-css">:root {
+  --bg: #ffffff;
+  --text: #1a1a1f;
+  --accent: #5b4cf0;
+  color-scheme: light;
+}
+
+/* Системная тема, если пользователь ничего не выбирал */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #121214;
+    --text: #ececf0;
+    --accent: #8f83ff;
+    color-scheme: dark;     /* тёмные полосы прокрутки и поля ввода */
+  }
+}
+
+/* Явный выбор пользователя */
+:root[data-theme="dark"] { --bg: #121214; --text: #ececf0; --accent: #8f83ff; color-scheme: dark; }
+
+/* Короткая запись для отдельных значений */
+.note { background: light-dark(#f2f3f5, #1e1f23); }</code></pre>
+          <p>Выбор пользователя сохраняйте в <code>localStorage</code> и применяйте до отрисовки страницы, иначе при загрузке тёмная тема будет «мигать» белым.</p>
+        </section>
+        <section class="lesson" id="tools">
+          <h2><span>07</span>Инструменты и шпаргалка</h2>
+          <ul><li><strong>oklch.com</strong> — подбор цвета в OKLCH с проверкой охвата.</li><li><strong>Realtime Colors</strong> — примерка палитры сразу на макете сайта.</li><li><strong>Проверка контраста</strong> — встроена в DevTools браузера: кликните по цвету текста в панели стилей.</li></ul>
+          <div class="tiles"><div class="good"><h4>Запомнить</h4><ul><li>Один основной цвет + шкала его оттенков.</li><li>Нейтральные серые с каплей основного оттенка.</li><li>Смысловые цвета только для статусов.</li><li>В тёмной теме глубина — светлотой, а не тенями.</li></ul></div><div class="bad"><h4>Частые ошибки</h4><ul><li>Пять ярких цветов «чтобы было весело».</li><li>Чисто чёрный фон и чисто белый текст.</li><li>Тёмная тема через <code>filter: invert(1)</code>.</li><li>Красный акцент рядом с красными ошибками.</li></ul></div></div>
+        </section>
+        <section class="lesson" id="next">
+          <h2>Что дальше</h2>
+          <p>Соберите палитру своего проекта в OKLCH и проверьте её в обеих темах. Затем посмотрите, как цвета ведут себя в разных стилях — в переключателе стилей.</p>
+          <div class="next-steps"><a class="pill" href="../design.html">Весь раздел «Дизайн»</a><a class="pill ghost" href="switcher.html">Переключатель стилей</a><a class="pill ghost" href="tokens.html">Дизайн-токены</a><a class="pill ghost" href="https://oklch.com/" target="_blank" rel="noopener">oklch.com ↗</a></div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer" data-layout="footer"></footer>
+</body>
+</html>

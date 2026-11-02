@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Анимации и микровзаимодействия — Владимир</title>
+  <meta name="description" content="Зачем нужна анимация, какую длительность и кривую выбрать, что анимировать без тормозов и когда анимация мешает.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%235b4cf0'/><text x='16' y='21' font-family='monospace' font-size='13' font-weight='700' fill='white' text-anchor='middle'>&lt;/&gt;</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="../docs.css">
+  <script src="../theme.js"></script>
+  <script src="../layout.js" data-base="../" data-page="design" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js" defer></script>
+  <style>
+    .ease { display: flex; flex-direction: column; gap: 10px; margin-top: 16px; background: var(--tile); border-radius: 16px; padding: 16px 18px; }
+    .ease-row { display: grid; grid-template-columns: 150px minmax(0, 1fr); align-items: center; gap: 12px; font: 12px "JetBrains Mono", monospace; color: var(--muted); }
+    .ease-track { height: 28px; border-radius: 14px; background: var(--bg); container-type: inline-size; }
+    .ease-dot { width: 20px; height: 20px; margin: 4px; border-radius: 50%; background: var(--accent); animation: ease-move 1.6s infinite alternate var(--e); }
+    @keyframes ease-move { to { transform: translateX(calc(100cqw - 28px)); } }
+    .micro { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-top: 16px; }
+    .micro > div { background: var(--tile); border-radius: 16px; padding: 22px; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+    .micro small { font-size: 13px; color: var(--muted); text-align: center; }
+    .m-press { border: 0; cursor: pointer; padding: 12px 22px; border-radius: 999px; background: var(--accent); color: #fff; font: 500 15px Onest, sans-serif; transition: transform .1s ease-out, box-shadow .2s; }
+    .m-press:hover { box-shadow: 0 6px 18px rgba(91, 76, 240, .35); }
+    .m-press:active { transform: scale(.95); }
+    .m-like { border: 0; background: none; cursor: pointer; font-size: 34px; line-height: 1; color: var(--muted); }
+    .m-like.on { color: #e8457a; animation: like-pop .35s cubic-bezier(.34, 1.56, .64, 1); }
+    @keyframes like-pop { 0% { transform: scale(.6); } 100% { transform: scale(1); } }
+    .m-copy { border: 1px solid var(--line); background: var(--bg); color: var(--text); cursor: pointer; padding: 10px 18px; border-radius: 10px; font: 500 14px Onest, sans-serif; min-width: 150px; transition: background .2s, color .2s; }
+    .m-copy.done { background: #22b07d; color: #fff; border-color: transparent; }
+    @media (prefers-reduced-motion: reduce) { .ease-dot, .m-like.on { animation: none; } }
+  </style>
+</head>
+<body>
+  <header class="site-header" data-layout="header"></header>
+
+  <main class="wrap">
+    <div class="doc-hero" style="--hero-bg: radial-gradient(50% 90% at 88% 12%, rgba(125, 249, 255, .45) 0%, transparent 60%), linear-gradient(135deg, #0b2f6b, #2f7fd4 55%, #7b4cf0)">
+      <div>
+        <div class="crumbs"><a href="../design.html">Дизайн</a> / Анимация</div>
+        <h1>Анимации <b>и микровзаимодействия</b></h1>
+        <p>Зачем нужна анимация, какую длительность и кривую выбрать, что анимировать без тормозов и когда анимация мешает.</p>
+        <div class="hero-facts"><span>7 уроков</span><span>~15 минут</span><span>CSS и JS</span></div>
+      </div>
+      <div class="icon i-ts">Mo</div>
+    </div>
+
+    <div class="guide">
+      <aside class="toc">
+        <h4>Содержание</h4>
+        <ol><li><a href="#why">Зачем нужна анимация</a></li><li><a href="#duration">Длительность</a></li><li><a href="#easing">Кривые плавности</a></li><li><a href="#perf">Что анимировать</a></li><li><a href="#micro">Микровзаимодействия</a></li><li><a href="#transitions">Появление элементов</a></li><li><a href="#harm">Когда анимация мешает</a></li></ol>
+      </aside>
+
+      <div>
+        <section class="lesson" id="why">
+          <h2><span>01</span>Зачем нужна анимация</h2>
+          <p>Хорошая анимация не украшает, а объясняет. У неё три задачи:</p>
+          <ul><li><strong>Обратная связь.</strong> Кнопка откликнулась на нажатие, товар «прилетел» в корзину — пользователь понимает, что действие сработало.</li><li><strong>Связь состояний.</strong> Меню выезжает оттуда, где была кнопка, — понятно, откуда оно взялось и куда денется.</li><li><strong>Внимание.</strong> Мягкая пульсация показывает, куда смотреть. Но только одна на экране.</li></ul>
+        </section>
+        <section class="lesson" id="duration">
+          <h2><span>02</span>Длительность</h2>
+          <ul><li><strong>100–150 мс</strong> — отклик на действие: нажатие, наведение, переключатель.</li><li><strong>200–300 мс</strong> — появление и исчезновение элементов: подсказки, выпадающие меню, модальные окна.</li><li><strong>300–500 мс</strong> — крупные перемещения и переходы между экранами.</li><li>Больше 500 мс — только для декоративных и фоновых анимаций, которые ничего не блокируют.</li></ul>
+          <p>Исчезновение делайте <strong>быстрее</strong> появления: убранное пользователю уже не нужно, ждать его незачем.</p>
+        </section>
+        <section class="lesson" id="easing">
+          <h2><span>03</span>Кривые плавности</h2>
+          <p>Кривая задаёт, как меняется скорость. В природе ничего не движется с постоянной скоростью, поэтому <code>linear</code> выглядит механически:</p>
+          <div class="ease"><div class="ease-row"><span>linear</span><div class="ease-track"><div class="ease-dot" style="--e: linear"></div></div></div><div class="ease-row"><span>ease-in</span><div class="ease-track"><div class="ease-dot" style="--e: ease-in"></div></div></div><div class="ease-row"><span>ease-out</span><div class="ease-track"><div class="ease-dot" style="--e: ease-out"></div></div></div><div class="ease-row"><span>ease-in-out</span><div class="ease-track"><div class="ease-dot" style="--e: ease-in-out"></div></div></div><div class="ease-row"><span>пружина</span><div class="ease-track"><div class="ease-dot" style="--e: cubic-bezier(.34, 1.56, .64, 1)"></div></div></div></div>
+          <ul><li><strong>ease-out</strong> (быстро начинается, плавно останавливается) — для появления. Самая частая кривая в интерфейсах.</li><li><strong>ease-in</strong> (медленно начинается, разгоняется) — для исчезновения: элемент «уходит».</li><li><strong>ease-in-out</strong> — для перемещения из точки в точку.</li><li><strong>Пружина</strong> с выходом за край — для игривых акцентов: лайк, бейдж, всплывающая кнопка.</li></ul>
+          <pre><code class="language-css">:root {
+  --ease-out: cubic-bezier(.22, 1, .36, 1);
+  --ease-spring: cubic-bezier(.34, 1.56, .64, 1);
+  --dur-fast: 120ms;
+  --dur-base: 240ms;
+}
+.menu { transition: opacity var(--dur-base) var(--ease-out), transform var(--dur-base) var(--ease-out); }</code></pre>
+        </section>
+        <section class="lesson" id="perf">
+          <h2><span>04</span>Что анимировать</h2>
+          <p>Плавно анимируются только <code>transform</code> и <code>opacity</code>: браузер двигает уже нарисованный слой на видеокарте. Изменение <code>width</code>, <code>height</code>, <code>top</code>, <code>margin</code> заставляет пересчитывать раскладку всей страницы — и анимация дёргается.</p>
+          <pre><code class="language-css">/* ❌ пересчёт раскладки на каждом кадре */
+.drawer { transition: left .3s; left: -300px; }
+.drawer.open { left: 0; }
+
+/* ✅ только сдвиг слоя */
+.drawer { transition: transform .3s var(--ease-out); transform: translateX(-100%); }
+.drawer.open { transform: none; }</code></pre>
+          <p><code>will-change: transform</code> подсказывает браузеру заранее вынести элемент в слой. Ставьте его точечно и только на то, что действительно анимируется, — каждый слой занимает память.</p>
+        </section>
+        <section class="lesson" id="micro">
+          <h2><span>05</span>Микровзаимодействия</h2>
+          <p>Маленькие анимации-отклики делают интерфейс «живым». Понажимайте:</p>
+          <div class="micro"><div><button class="m-press" type="button">Нажми меня</button><small>Кнопка чуть уменьшается при нажатии</small></div><div><button class="m-like" type="button" aria-pressed="false" aria-label="Нравится">♥</button><small>Лайк «выпрыгивает» с пружиной</small></div><div><button class="m-copy" type="button">Скопировать</button><small>Кнопка подтверждает действие</small></div></div><script>document.querySelector('.m-like').addEventListener('click', e => { const b = e.currentTarget; const on = b.classList.toggle('on'); b.setAttribute('aria-pressed', on); });document.querySelector('.m-copy').addEventListener('click', e => { const b = e.currentTarget; b.classList.add('done'); b.textContent = 'Скопировано ✓'; setTimeout(() => { b.classList.remove('done'); b.textContent = 'Скопировать'; }, 1500); });</script>
+          <pre><code class="language-css">.button { transition: transform .1s ease-out; }
+.button:active { transform: scale(.95); }
+
+.like.on { animation: like-pop .35s cubic-bezier(.34, 1.56, .64, 1); }
+@keyframes like-pop { from { transform: scale(.6); } to { transform: scale(1); } }</code></pre>
+        </section>
+        <section class="lesson" id="transitions">
+          <h2><span>06</span>Появление элементов</h2>
+          <p>Раньше анимировать появление элемента из <code>display: none</code> было нельзя без JavaScript. Теперь для этого есть <code>@starting-style</code> — стили, с которых элемент начинает анимацию при появлении:</p>
+          <pre><code class="language-css">.toast {
+  transition: opacity .25s ease-out, transform .25s ease-out;
+  @starting-style {            /* состояние в момент появления */
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}</code></pre>
+          <p>Для плавной смены целых экранов есть <strong>View Transitions API</strong>: браузер сам делает плавный переход между старым и новым состоянием страницы.</p>
+          <pre><code class="language-javascript">// Плавно меняем содержимое, если браузер поддерживает API
+if (document.startViewTransition) {
+  document.startViewTransition(() =&gt; renderPage(nextPage));
+} else {
+  renderPage(nextPage);
+}</code></pre>
+        </section>
+        <section class="lesson" id="harm">
+          <h2><span>07</span>Когда анимация мешает</h2>
+          <ul><li>Анимация <strong>блокирует</strong> действие: пока меню медленно выезжает, кликнуть некуда.</li><li>Анимация <strong>повторяется</strong> каждый раз, хотя пользователь уже видел её сто раз.</li><li>Много движения одновременно — глаз не понимает, куда смотреть.</li><li>Параллакс и масштабирование при прокрутке у части людей вызывают головокружение и тошноту.</li></ul>
+          <p>В системах есть настройка «Уменьшить движение». Уважайте её — оставляйте только короткие переходы прозрачности:</p>
+          <pre><code class="language-css">@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+}</code></pre>
+          <div class="tiles"><div class="good"><h4>Запомнить</h4><ul><li>Анимация объясняет, а не украшает.</li><li>Отклик — 100–150 мс, появление — 200–300 мс.</li><li>Появление — ease-out, исчезновение — быстрее.</li><li>Анимируйте только <code>transform</code> и <code>opacity</code>.</li></ul></div><div class="bad"><h4>Частые ошибки</h4><ul><li><code>transition: all 1s</code> на всём подряд.</li><li><code>linear</code> для движения интерфейса.</li><li>Анимация <code>width</code>, <code>top</code> и <code>margin</code>.</li><li>Игнорирование <code>prefers-reduced-motion</code>.</li></ul></div></div>
+        </section>
+        <section class="lesson" id="next">
+          <h2>Что дальше</h2>
+          <p>Пройдитесь по своему интерфейсу и проверьте каждую анимацию: что она объясняет и сколько длится. Посмотрите, как анимации работают в разных стилях галереи.</p>
+          <div class="next-steps"><a class="pill" href="../design.html">Весь раздел «Дизайн»</a><a class="pill ghost" href="styles.html">Галерея стилей</a><a class="pill ghost" href="states.html">UI-состояния</a><a class="pill ghost" href="https://easings.net/ru" target="_blank" rel="noopener">easings.net ↗</a></div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer" data-layout="footer"></footer>
+</body>
+</html>

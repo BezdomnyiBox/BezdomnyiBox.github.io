@@ -4,11 +4,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Галерея стилей — Владимир</title>
-  <meta name="description" content="12 стилей веб-дизайна с живыми примерами и анимациями: глассморфизм, голография, неон, ASCII-арт, нео-брутализм, неоморфизм, клейморфизм и другие.">
+  <meta name="description" content="19 стилей веб-дизайна с живыми примерами и анимациями: глассморфизм, голография, неон, ASCII-арт, нео-брутализм, скевоморфизм, Y2K, Мемфис, пиксель-арт, Material You и другие.">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%235b4cf0'/><text x='16' y='21' font-family='monospace' font-size='13' font-weight='700' fill='white' text-anchor='middle'>&lt;/&gt;</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Unbounded:wght@500;700;900&family=Comfortaa:wght@700&family=Russo+One&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Unbounded:wght@500;700;900&family=Comfortaa:wght@700&family=Russo+One&family=Press+Start+2P&family=PT+Serif&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../styles.css">
   <link rel="stylesheet" href="../docs.css">
   <script src="../theme.js"></script>
@@ -246,6 +246,138 @@
     .bento-bars i { flex: 1; border-radius: 6px; background: linear-gradient(#8f83ff, #5b4cf0); transform-origin: bottom; animation: bento-bar 2.4s ease-in-out infinite alternate; }
     @keyframes bento-bar { from { transform: scaleY(.4); } to { transform: scaleY(1); } }
 
+    /* ===== 13. Скевоморфизм ===== */
+    .st-skeuo { background: radial-gradient(circle at 30% 20%, #7a5638, #3b2618 75%); }
+    .st-skeuo::before { content: ""; position: absolute; inset: 0; z-index: -1; opacity: .35; background: repeating-linear-gradient(95deg, transparent 0 6px, rgba(0, 0, 0, .25) 7px 8px, transparent 9px 18px); }
+    .skeuo-panel {
+      width: min(340px, 100%); padding: 22px 26px; border-radius: 18px;
+      display: flex; align-items: center; justify-content: space-between; gap: 18px;
+      background: repeating-linear-gradient(90deg, rgba(255, 255, 255, .14) 0 1px, transparent 1px 3px), linear-gradient(#e6e9ee, #aab1ba);
+      box-shadow: inset 0 1px 0 #fff, inset 0 -2px 0 rgba(0, 0, 0, .2), 0 16px 34px rgba(0, 0, 0, .55);
+    }
+    .skeuo-col { display: flex; flex-direction: column; align-items: center; gap: 12px; font: 700 10px Onest, sans-serif; letter-spacing: .14em; color: #4a5059; text-shadow: 0 1px 0 rgba(255, 255, 255, .7); }
+    .skeuo-knob {
+      position: relative; width: 104px; height: 104px; border-radius: 50%; border: 0; cursor: pointer;
+      background: conic-gradient(#f5f6f8, #a9b0b9, #f5f6f8, #8d949e, #f5f6f8, #a9b0b9, #f5f6f8);
+      box-shadow: 0 8px 14px rgba(0, 0, 0, .45), inset 0 0 0 7px rgba(0, 0, 0, .07);
+      transform: rotate(var(--deg, -60deg)); transition: transform .4s cubic-bezier(.34, 1.56, .64, 1);
+    }
+    .skeuo-knob::after { content: ""; position: absolute; top: 10px; left: 50%; width: 6px; height: 22px; margin-left: -3px; border-radius: 3px; background: #e30613; box-shadow: 0 0 6px rgba(227, 6, 19, .7); }
+    .skeuo-led { width: 16px; height: 16px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #ffb3b3, #6a0d0d 70%); box-shadow: inset 0 1px 2px rgba(0, 0, 0, .5); transition: box-shadow .2s; }
+    .skeuo-led.on { background: radial-gradient(circle at 35% 35%, #fff, #ff2b2b 45%, #a00 80%); box-shadow: 0 0 12px #ff2b2b, 0 0 24px #ff2b2b; }
+    .skeuo-switch { position: relative; width: 44px; height: 74px; border: 0; border-radius: 10px; cursor: pointer; background: linear-gradient(#2b2f35, #121417); box-shadow: inset 0 2px 6px rgba(0, 0, 0, .8), 0 1px 0 rgba(255, 255, 255, .6); }
+    .skeuo-switch::after { content: ""; position: absolute; left: 6px; right: 6px; top: 36px; height: 32px; border-radius: 6px; background: linear-gradient(#f4f5f7, #9ea5ae); box-shadow: 0 3px 6px rgba(0, 0, 0, .5); transition: top .15s; }
+    .skeuo-switch[aria-pressed="true"]::after { top: 6px; }
+
+    /* ===== 14. Y2K ===== */
+    .st-y2k { background: linear-gradient(160deg, #c9f1ff, #e6d4ff 45%, #ffd6f0); color: #1a1a40; }
+    .st-y2k::before { content: ""; position: absolute; inset: 0; z-index: -1; opacity: .7; background-image: radial-gradient(circle, rgba(255, 255, 255, .95) 1.5px, transparent 2px); background-size: 26px 26px; }
+    .y2k-wrap { display: flex; flex-direction: column; align-items: center; gap: 16px; text-align: center; }
+    .y2k-chrome {
+      font: 900 clamp(56px, 9vw, 92px)/1 Unbounded, sans-serif; letter-spacing: -.03em;
+      background: linear-gradient(180deg, #fff 0%, #c7d2e0 30%, #56657a 48%, #f2f6fb 52%, #9fb0c6 75%, #fff 100%);
+      -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-stroke: 1px rgba(60, 70, 110, .35);
+      filter: drop-shadow(0 4px 0 #ff7ad9) drop-shadow(0 10px 16px rgba(120, 90, 255, .35));
+    }
+    .y2k-sub { font: 500 14px "JetBrains Mono", monospace; letter-spacing: .1em; }
+    .y2k-btn {
+      position: relative; overflow: hidden; border: 0; cursor: pointer; padding: 12px 36px; border-radius: 999px;
+      font: 700 15px Onest, sans-serif; color: #fff; text-shadow: 0 1px 1px rgba(0, 50, 120, .5);
+      background: linear-gradient(#7fd8ff, #1b8fe6 55%, #49b4ff);
+      box-shadow: inset 0 -3px 6px rgba(0, 60, 140, .4), 0 6px 14px rgba(27, 143, 230, .45);
+    }
+    .y2k-btn::before { content: ""; position: absolute; left: 10%; right: 10%; top: 3px; height: 45%; border-radius: 999px; background: linear-gradient(rgba(255, 255, 255, .9), rgba(255, 255, 255, 0)); }
+    .y2k-star { position: absolute; color: #fff; text-shadow: 0 0 10px #c58bff, 0 0 20px #c58bff; animation: y2k-twinkle 2.4s ease-in-out infinite; }
+    .y2k-star.s1 { top: 12%; left: 12%; font-size: 30px; }
+    .y2k-star.s2 { top: 18%; right: 14%; font-size: 20px; animation-delay: -.8s; }
+    .y2k-star.s3 { bottom: 16%; left: 20%; font-size: 22px; animation-delay: -1.6s; }
+    .y2k-star.s4 { bottom: 12%; right: 18%; font-size: 28px; animation-delay: -1.2s; }
+    @keyframes y2k-twinkle { 0%, 100% { transform: scale(.6) rotate(0); opacity: .5; } 50% { transform: scale(1.15) rotate(90deg); opacity: 1; } }
+
+    /* ===== 15. Мемфис ===== */
+    .st-memphis { background: #fff6e5; color: #111; }
+    .mem { position: absolute; }
+    .mem-tri { top: 12%; left: 9%; width: 64px; height: 56px; background: #ff5aa5; clip-path: polygon(50% 0, 100% 100%, 0 100%); animation: mem-spin 10s linear infinite; }
+    .mem-circle { bottom: 14%; left: 14%; width: 58px; height: 58px; border-radius: 50%; background: #2bb3a3; animation: mem-bob 4s ease-in-out infinite; }
+    .mem-dots { top: 12%; right: 9%; width: 104px; height: 72px; background-image: radial-gradient(#111 3px, transparent 3.5px); background-size: 16px 16px; animation: mem-bob 5s ease-in-out infinite reverse; }
+    .mem-squig { top: 64%; right: 8%; width: 124px; animation: mem-bob 4.5s ease-in-out infinite; }
+    .mem-zig { bottom: 10%; right: 36%; width: 130px; }
+    .mem-card { position: relative; z-index: 1; background: #fff; border: 3px solid #111; box-shadow: 8px 8px 0 #111; padding: 20px 26px; transform: rotate(-3deg); }
+    .mem-card b { display: block; font: 900 34px/1 Unbounded, sans-serif; text-shadow: 3px 3px 0 #ff5aa5; }
+    .mem-card span { display: inline-block; margin-top: 10px; padding: 4px 10px; background: #ffcf2b; border: 2px solid #111; font: 700 12px Onest, sans-serif; }
+    @keyframes mem-spin { to { transform: rotate(1turn); } }
+    @keyframes mem-bob { 50% { transform: translateY(-12px); } }
+
+    /* ===== 16. Японский минимализм ===== */
+    .st-japan { background: #f4efe6; color: #2b2622; }
+    .jp-wrap { display: flex; align-items: center; gap: 28px; flex-wrap: wrap; justify-content: center; }
+    .jp-enso { width: 150px; height: 150px; }
+    .jp-enso path { fill: none; stroke: #2b2622; stroke-width: 9; stroke-linecap: round; stroke-dasharray: 400; stroke-dashoffset: 400; animation: enso-draw 5s ease-in-out infinite; }
+    @keyframes enso-draw { 0% { stroke-dashoffset: 400; opacity: 1; } 45%, 85% { stroke-dashoffset: 0; opacity: 1; } 100% { stroke-dashoffset: 0; opacity: 0; } }
+    .jp-text b { display: block; font: 400 28px/1.25 "PT Serif", serif; }
+    .jp-text small { display: block; margin-top: 14px; font-size: 11px; letter-spacing: .3em; color: #8a8178; }
+    .jp-seal { display: inline-grid; place-items: center; width: 34px; height: 34px; margin-top: 16px; border-radius: 4px; background: #b3261e; color: #f4efe6; font-size: 18px; }
+    .jp-vert { position: absolute; right: 22px; top: 24px; writing-mode: vertical-rl; font-size: 11px; letter-spacing: .4em; color: #8a8178; }
+
+    /* ===== 17. Пиксель-арт ===== */
+    .st-pixel { background: #1b1b3a; color: #fff; font-family: "Press Start 2P", monospace; }
+    .st-pixel::before { content: ""; position: absolute; inset: 0; z-index: -1; background-image: radial-gradient(#fff 1px, transparent 1.5px); background-size: 40px 40px; opacity: .25; }
+    .px-wrap { display: flex; flex-direction: column; align-items: center; gap: 22px; text-align: center; }
+    .px-heart-box { position: relative; width: 56px; height: 48px; animation: px-beat 1s steps(1) infinite; }
+    .px-heart {
+      position: absolute; top: 0; left: 0; width: 8px; height: 8px;
+      box-shadow:
+        8px 8px 0 #ffd1dc,
+        8px 0 0 #ff3b6b, 16px 0 0 #ff3b6b, 32px 0 0 #ff3b6b, 40px 0 0 #ff3b6b,
+        0 8px 0 #ff3b6b, 16px 8px 0 #ff3b6b, 24px 8px 0 #ff3b6b, 32px 8px 0 #ff3b6b, 40px 8px 0 #ff3b6b, 48px 8px 0 #ff3b6b,
+        0 16px 0 #ff3b6b, 8px 16px 0 #ff3b6b, 16px 16px 0 #ff3b6b, 24px 16px 0 #ff3b6b, 32px 16px 0 #ff3b6b, 40px 16px 0 #ff3b6b, 48px 16px 0 #c41e4a,
+        8px 24px 0 #ff3b6b, 16px 24px 0 #ff3b6b, 24px 24px 0 #ff3b6b, 32px 24px 0 #ff3b6b, 40px 24px 0 #c41e4a,
+        16px 32px 0 #ff3b6b, 24px 32px 0 #ff3b6b, 32px 32px 0 #c41e4a,
+        24px 40px 0 #c41e4a;
+    }
+    @keyframes px-beat { 50% { transform: scale(1.25); } }
+    .px-title { font-size: 18px; color: #ffd319; text-shadow: 3px 3px 0 #ff3b6b; }
+    .px-hp { display: flex; align-items: center; gap: 10px; font-size: 10px; }
+    .px-bar { width: 180px; height: 16px; padding: 2px; background: #000; box-shadow: 0 -4px 0 #fff, 0 4px 0 #fff, -4px 0 0 #fff, 4px 0 0 #fff; }
+    .px-bar i { display: block; height: 100%; background: #3bff6b; animation: px-hp 3s steps(8) infinite alternate; }
+    @keyframes px-hp { from { width: 100%; } to { width: 12.5%; background: #ff3b3b; } }
+    .px-blink { font-size: 10px; animation: px-blink 1s steps(1) infinite; }
+    @keyframes px-blink { 50% { opacity: 0; } }
+
+    /* ===== 18. Material You ===== */
+    .st-m3 {
+      --m-primary: #6750a4; --m-pc: #eaddff; --m-on-pc: #21005d; --m-surface: #fef7ff; --m-sc: #f3edf7; --m-text: #1d1b20; --m-outline: #79747e;
+      background: var(--m-surface); color: var(--m-text); transition: background .4s;
+    }
+    .st-m3[data-seed="green"] { --m-primary: #386a20; --m-pc: #b8f397; --m-on-pc: #072100; --m-surface: #f8fbf1; --m-sc: #eaf0e2; }
+    .st-m3[data-seed="orange"] { --m-primary: #8f4c00; --m-pc: #ffdcc2; --m-on-pc: #2e1500; --m-surface: #fff8f5; --m-sc: #f9ebe2; }
+    .m3-card { width: min(330px, 100%); padding: 20px; border-radius: 28px; background: var(--m-sc); transition: background .4s; }
+    .m3-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .m3-top b { display: block; font-size: 22px; font-weight: 500; }
+    .m3-top small { font-size: 14px; opacity: .75; }
+    .m3-fab { width: 56px; height: 56px; flex: none; border: 0; border-radius: 16px; cursor: pointer; font-size: 26px; background: var(--m-pc); color: var(--m-on-pc); box-shadow: 0 3px 6px rgba(0, 0, 0, .15); transition: border-radius .3s, background .4s; }
+    .m3-fab:hover { border-radius: 28px; }
+    .m3-chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0; }
+    .m3-chip { border: 1px solid var(--m-outline); border-radius: 8px; padding: 6px 12px; background: transparent; color: inherit; font: 500 13px Onest, sans-serif; cursor: pointer; transition: background .2s; }
+    .m3-chip[aria-pressed="true"] { background: var(--m-pc); color: var(--m-on-pc); border-color: transparent; }
+    .m3-bottom { display: flex; align-items: center; justify-content: space-between; gap: 12px; font-size: 13px; }
+    .m3-seeds { display: flex; align-items: center; gap: 8px; }
+    .m3-seed { width: 26px; height: 26px; border-radius: 50%; border: 3px solid transparent; outline: 2px solid var(--m-sc); cursor: pointer; }
+    .m3-seed[aria-pressed="true"] { border-color: var(--m-text); }
+    .m3-btn { border: 0; border-radius: 999px; padding: 10px 22px; background: var(--m-primary); color: #fff; font: 500 14px Onest, sans-serif; cursor: pointer; transition: background .4s; }
+
+    /* ===== 19. Параллакс ===== */
+    .st-parallax { background: linear-gradient(#ffb88c, #ff8a7a 35%, #c06c84 65%, #6c5b7b); min-height: 380px; place-items: start center; padding-top: 52px; }
+    .pl-layer { position: absolute; left: -4%; right: -4%; bottom: -30px; will-change: transform; }
+    .pl-sun { top: 0; bottom: 0; }
+    .pl-sun::before { content: ""; position: absolute; left: 50%; top: 40%; width: 90px; height: 90px; margin-left: -45px; border-radius: 50%; background: #ffe9a8; box-shadow: 0 0 60px #ffe9a8; }
+    .pl-far { height: 66%; background: #a3607c; clip-path: polygon(0 55%, 12% 32%, 24% 52%, 38% 18%, 52% 48%, 66% 22%, 80% 50%, 92% 28%, 100% 42%, 100% 100%, 0 100%); }
+    .pl-mid { height: 50%; background: #6c4a6e; clip-path: polygon(0 50%, 15% 25%, 30% 55%, 45% 30%, 60% 60%, 75% 28%, 90% 50%, 100% 35%, 100% 100%, 0 100%); }
+    .pl-near { height: 34%; background: #33243f; clip-path: polygon(0 40%, 20% 18%, 40% 45%, 60% 14%, 80% 40%, 100% 20%, 100% 100%, 0 100%); }
+    .pl-text { position: relative; z-index: 2; text-align: center; color: #fff; will-change: transform; }
+    .pl-text b { display: block; font: 700 clamp(28px, 4vw, 40px)/1.1 Unbounded, sans-serif; text-shadow: 0 2px 20px rgba(0, 0, 0, .3); }
+    .pl-text small { display: block; margin-top: 8px; opacity: .85; }
+
     @media (max-width: 860px) {
       .style-head { grid-template-columns: minmax(0, 1fr); gap: 20px; }
     }
@@ -268,8 +400,8 @@
       <div>
         <div class="crumbs"><a href="../design.html">Дизайн</a> / Галерея стилей</div>
         <h1>Галерея <b>стилей</b></h1>
-        <p>Двенадцать направлений веб-дизайна с живыми примерами и анимациями. У каждого — описание, где он уместен, и ключевой CSS, который можно взять себе.</p>
-        <div class="hero-facts"><span>12 стилей</span><span>Чистый CSS</span><span>Анимации</span></div>
+        <p>Девятнадцать направлений веб-дизайна с живыми примерами и анимациями. У каждого — описание, где он уместен, и ключевой CSS, который можно взять себе. А как стили меняют один и тот же товар — смотрите в <a href="switcher.html" style="text-decoration: underline">переключателе стилей</a>.</p>
+        <div class="hero-facts"><span>19 стилей</span><span>Чистый CSS</span><span>Анимации</span></div>
       </div>
       <div class="icon i-ml">UI</div>
     </div>
@@ -293,6 +425,13 @@
       <a class="pill ghost sm" href="#synth">Синтвейв</a>
       <a class="pill ghost sm" href="#swiss">Швейцарский стиль</a>
       <a class="pill ghost sm" href="#bento">Бенто-сетка</a>
+      <a class="pill ghost sm" href="#skeuo">Скевоморфизм</a>
+      <a class="pill ghost sm" href="#y2k">Y2K</a>
+      <a class="pill ghost sm" href="#memphis">Мемфис</a>
+      <a class="pill ghost sm" href="#japan">Японский минимализм</a>
+      <a class="pill ghost sm" href="#pixel">Пиксель-арт</a>
+      <a class="pill ghost sm" href="#m3">Material You</a>
+      <a class="pill ghost sm" href="#parallax">Параллакс</a>
     </nav>
 
     <!-- 1 -->
@@ -677,6 +816,244 @@ setInterval(() =&gt; {
       </details>
     </section>
 
+    <!-- 13 -->
+    <section class="style-sec" id="skeuo">
+      <div class="style-head">
+        <div class="style-info">
+          <span class="num">13</span>
+          <h2>Скевоморфизм<small>Skeuomorphism</small></h2>
+          <p>Интерфейс повторяет реальные материалы и предметы: металл, кожу, дерево, физические ручки и тумблеры. Так выглядели первые iPhone. Покрутите ручку и щёлкните тумблером.</p>
+          <p><b>Подходит:</b> музыкальные приложения и синтезаторы, игры, «тёплые» нишевые продукты, где важна тактильность.</p>
+          <div class="chips"><span>conic-gradient</span><span>текстуры градиентами</span><span>объёмные тени</span></div>
+        </div>
+        <div class="stage st-skeuo">
+          <div class="skeuo-panel">
+            <div class="skeuo-col"><button class="skeuo-knob" type="button" aria-label="Повернуть ручку громкости"></button>ГРОМКОСТЬ</div>
+            <div class="skeuo-col"><span class="skeuo-led on"></span><button class="skeuo-switch" type="button" aria-pressed="true" aria-label="Питание"></button>ПИТАНИЕ</div>
+          </div>
+        </div>
+      </div>
+      <details><summary>Показать CSS</summary>
+<pre><code class="language-css">.knob {                                   /* металлическая ручка */
+  border-radius: 50%;
+  background: conic-gradient(#f5f6f8, #a9b0b9, #f5f6f8, #8d949e, #f5f6f8, #a9b0b9, #f5f6f8);
+  box-shadow: 0 8px 14px rgba(0, 0, 0, .45);
+  transform: rotate(var(--deg));
+}
+.panel {                                  /* шлифованный металл */
+  background: repeating-linear-gradient(90deg, rgba(255, 255, 255, .14) 0 1px, transparent 1px 3px),
+              linear-gradient(#e6e9ee, #aab1ba);
+}
+.led.on { box-shadow: 0 0 12px #ff2b2b, 0 0 24px #ff2b2b; }</code></pre>
+      </details>
+    </section>
+
+    <!-- 14 -->
+    <section class="style-sec" id="y2k">
+      <div class="style-head">
+        <div class="style-info">
+          <span class="num">14</span>
+          <h2>Y2K<small>Стиль 2000-х</small></h2>
+          <p>Эстетика рубежа тысячелетий: хромированные буквы, глянцевые «аква»-кнопки, пастельное небо и мерцающие звёздочки. Сейчас переживает возрождение в моде и музыке.</p>
+          <p><b>Подходит:</b> мода и бьюти, музыка, молодёжные бренды, ностальгические промо.</p>
+          <div class="chips"><span>хром через background-clip</span><span>глянцевый блик</span><span>мерцание</span></div>
+        </div>
+        <div class="stage st-y2k">
+          <span class="y2k-star s1">✦</span><span class="y2k-star s2">✦</span><span class="y2k-star s3">✧</span><span class="y2k-star s4">✦</span>
+          <div class="y2k-wrap">
+            <div class="y2k-chrome">2000</div>
+            <div class="y2k-sub">добро пожаловать в будущее</div>
+            <button class="y2k-btn" type="button">Скачать</button>
+          </div>
+        </div>
+      </div>
+      <details><summary>Показать CSS</summary>
+<pre><code class="language-css">.chrome {
+  background: linear-gradient(180deg, #fff 0%, #c7d2e0 30%, #56657a 48%, #f2f6fb 52%, #9fb0c6 75%, #fff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;                     /* текст «прорезает» градиент — получается хром */
+}
+.aqua-button::before {                    /* глянцевый блик сверху */
+  content: ""; position: absolute; left: 10%; right: 10%; top: 3px; height: 45%;
+  border-radius: 999px;
+  background: linear-gradient(rgba(255, 255, 255, .9), rgba(255, 255, 255, 0));
+}</code></pre>
+      </details>
+    </section>
+
+    <!-- 15 -->
+    <section class="style-sec" id="memphis">
+      <div class="style-head">
+        <div class="style-info">
+          <span class="num">15</span>
+          <h2>Мемфис<small>Memphis Design</small></h2>
+          <p>Итальянская дизайн-группа 1980-х: яркие геометрические фигуры, волны, зигзаги, точки и чёрные контуры. Хаос, который выглядит весело и уверенно.</p>
+          <p><b>Подходит:</b> мероприятия и фестивали, детские и креативные бренды, соцсети, промостраницы.</p>
+          <div class="chips"><span>clip-path</span><span>inline SVG</span><span>radial-gradient в узор</span></div>
+        </div>
+        <div class="stage st-memphis">
+          <span class="mem mem-tri"></span><span class="mem mem-circle"></span><span class="mem mem-dots"></span>
+          <svg class="mem mem-squig" viewBox="0 0 124 30" aria-hidden="true"><path d="M2 15 Q17 0 32 15 T62 15 T92 15 T122 15" fill="none" stroke="#5b4cf0" stroke-width="6" stroke-linecap="round"/></svg>
+          <svg class="mem mem-zig" viewBox="0 0 132 30" aria-hidden="true"><polyline points="2,26 20,4 38,26 56,4 74,26 92,4 110,26 128,4" fill="none" stroke="#ffcf2b" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/></svg>
+          <div class="mem-card"><b>Мемфис</b><span>Милан, 1981</span></div>
+        </div>
+      </div>
+      <details><summary>Показать CSS</summary>
+<pre><code class="language-css">.triangle { background: #ff5aa5; clip-path: polygon(50% 0, 100% 100%, 0 100%); }
+.dots {
+  background-image: radial-gradient(#111 3px, transparent 3.5px);   /* узор из точек */
+  background-size: 16px 16px;
+}
+.card {
+  border: 3px solid #111;
+  box-shadow: 8px 8px 0 #111;
+  transform: rotate(-3deg);               /* лёгкий наклон — часть стиля */
+}</code></pre>
+      </details>
+    </section>
+
+    <!-- 16 -->
+    <section class="style-sec" id="japan">
+      <div class="style-head">
+        <div class="style-info">
+          <span class="num">16</span>
+          <h2>Японский минимализм<small>Ма, ваби-саби, дзен</small></h2>
+          <p>Много пустого пространства (по-японски «ма»), природные тёплые цвета, тонкая антиква и один акцент. Энсо — круг одним мазком кисти — рисуется и растворяется.</p>
+          <p><b>Подходит:</b> чай и кофе, косметика, архитектура, интерьеры, рестораны, медитация.</p>
+          <div class="chips"><span>stroke-dashoffset</span><span>writing-mode: vertical</span><span>пустота как элемент</span></div>
+        </div>
+        <div class="stage st-japan">
+          <span class="jp-vert">ВАБИ-САБИ</span>
+          <div class="jp-wrap">
+            <svg class="jp-enso" viewBox="0 0 150 150" aria-hidden="true"><path d="M75 12 A63 63 0 1 1 30 31"/></svg>
+            <div class="jp-text"><b>Тишина —<br>тоже дизайн</b><small>МА · ПУСТОЕ ПРОСТРАНСТВО</small><span class="jp-seal" aria-hidden="true">間</span></div>
+          </div>
+        </div>
+      </div>
+      <details><summary>Показать CSS</summary>
+<pre><code class="language-css">.enso path {
+  fill: none;
+  stroke: #2b2622;
+  stroke-width: 9;
+  stroke-linecap: round;
+  stroke-dasharray: 400;                  /* длина «штриха» больше длины линии */
+  stroke-dashoffset: 400;                 /* линия спрятана */
+  animation: enso-draw 5s ease-in-out infinite;
+}
+@keyframes enso-draw {
+  45%, 85% { stroke-dashoffset: 0; }      /* линия «прорисовывается» */
+  100% { stroke-dashoffset: 0; opacity: 0; }
+}
+.vertical { writing-mode: vertical-rl; letter-spacing: .4em; }</code></pre>
+      </details>
+    </section>
+
+    <!-- 17 -->
+    <section class="style-sec" id="pixel">
+      <div class="style-head">
+        <div class="style-info">
+          <span class="num">17</span>
+          <h2>Пиксель-арт<small>8-bit</small></h2>
+          <p>Графика старых игровых приставок: крупные пиксели, ограниченная палитра, пиксельный шрифт и анимация «рывками». Сердечко нарисовано одним элементом и тенями — без картинок.</p>
+          <p><b>Подходит:</b> инди-игры, геймификация, пасхалки, ретро-промо.</p>
+          <div class="chips"><span>box-shadow как пиксели</span><span>steps()</span><span>Press Start 2P</span></div>
+        </div>
+        <div class="stage st-pixel">
+          <div class="px-wrap">
+            <div class="px-heart-box"><i class="px-heart"></i></div>
+            <div class="px-title">LEVEL UP!</div>
+            <div class="px-hp">HP<span class="px-bar"><i></i></span></div>
+            <div class="px-blink">PRESS START</div>
+          </div>
+        </div>
+      </div>
+      <details><summary>Показать CSS</summary>
+<pre><code class="language-css">.pixel {                                  /* один элемент 8×8 — остальные пиксели тенями */
+  width: 8px; height: 8px;
+  box-shadow:
+    8px 0 0 #ff3b6b, 16px 0 0 #ff3b6b, 32px 0 0 #ff3b6b, 40px 0 0 #ff3b6b,
+    0 8px 0 #ff3b6b, 8px 8px 0 #ffd1dc /* блик */, 16px 8px 0 #ff3b6b /* … */;
+}
+.hp i { animation: hp 3s steps(8) infinite alternate; }   /* steps — движение рывками */
+@keyframes hp { from { width: 100%; } to { width: 12.5%; } }</code></pre>
+      </details>
+    </section>
+
+    <!-- 18 -->
+    <section class="style-sec" id="m3">
+      <div class="style-head">
+        <div class="style-info">
+          <span class="num">18</span>
+          <h2>Material You<small>Material Design 3</small></h2>
+          <p>Дизайн-система Google: палитра строится из одного «исходного» цвета (на Android — из обоев), крупные скругления, мягкие тональные поверхности. Выберите другой цвет — перекрасится весь интерфейс.</p>
+          <p><b>Подходит:</b> Android-приложения, веб-сервисы, личные кабинеты, дашборды.</p>
+          <div class="chips"><span>тональная палитра</span><span>radius 28px</span><span>CSS-переменные</span></div>
+        </div>
+        <div class="stage st-m3" data-seed="purple">
+          <div class="m3-card">
+            <div class="m3-top"><div><b>Доброе утро</b><small>Заказ приедет в 14:00</small></div><button class="m3-fab" type="button" aria-label="Новый заказ">+</button></div>
+            <div class="m3-chips"><button class="m3-chip" type="button" aria-pressed="true">Заказы</button><button class="m3-chip" type="button" aria-pressed="false">Избранное</button><button class="m3-chip" type="button" aria-pressed="false">Скидки</button></div>
+            <div class="m3-bottom">
+              <div class="m3-seeds"><span>Цвет:</span>
+                <button class="m3-seed" type="button" data-seed="purple" aria-pressed="true" aria-label="Фиолетовый" style="background: #6750a4"></button>
+                <button class="m3-seed" type="button" data-seed="green" aria-pressed="false" aria-label="Зелёный" style="background: #386a20"></button>
+                <button class="m3-seed" type="button" data-seed="orange" aria-pressed="false" aria-label="Оранжевый" style="background: #8f4c00"></button>
+              </div>
+              <button class="m3-btn" type="button">Открыть</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <details><summary>Показать CSS</summary>
+<pre><code class="language-css">.app {                                    /* палитра — набор тонов одного цвета */
+  --primary: #6750a4;
+  --primary-container: #eaddff;
+  --on-primary-container: #21005d;
+  --surface-container: #f3edf7;
+}
+.app[data-seed="green"] { --primary: #386a20; --primary-container: #b8f397; --on-primary-container: #072100; --surface-container: #eaf0e2; }
+
+.card { background: var(--surface-container); border-radius: 28px; }
+.fab  { background: var(--primary-container); color: var(--on-primary-container); border-radius: 16px; }
+.fab:hover { border-radius: 28px; }       /* форма «дышит» при наведении */</code></pre>
+      </details>
+    </section>
+
+    <!-- 19 -->
+    <section class="style-sec" id="parallax">
+      <div class="style-head">
+        <div class="style-info">
+          <span class="num">19</span>
+          <h2>Параллакс при прокрутке<small>Parallax scrolling</small></h2>
+          <p>Слои сцены двигаются с разной скоростью: дальние — медленнее, ближние — быстрее. Получается глубина, как в окне поезда. Прокрутите страницу и посмотрите на горы.</p>
+          <p><b>Подходит:</b> промо и сторителлинг, туризм, презентации продукта. Не злоупотребляйте: у части людей вызывает укачивание — уважайте «уменьшение движения».</p>
+          <div class="chips"><span>transform: translateY</span><span>requestAnimationFrame</span><span>animation-timeline</span></div>
+        </div>
+        <div class="stage st-parallax">
+          <span class="pl-layer pl-sun" data-speed="110"></span>
+          <span class="pl-layer pl-far" data-speed="70"></span>
+          <span class="pl-layer pl-mid" data-speed="40"></span>
+          <span class="pl-layer pl-near" data-speed="12"></span>
+          <div class="pl-text" data-speed="-50"><b>Глубина</b><small>Прокрутите страницу</small></div>
+        </div>
+      </div>
+      <details><summary>Показать JS и CSS</summary>
+<pre><code class="language-javascript">const layers = stage.querySelectorAll('[data-speed]');
+function update() {
+  const r = stage.getBoundingClientRect();
+  const p = (innerHeight - r.top) / (innerHeight + r.height) - .5;   // от −0,5 до 0,5
+  layers.forEach(l =&gt; { l.style.transform = `translateY(${p * l.dataset.speed}px)`; });
+}
+addEventListener('scroll', () =&gt; requestAnimationFrame(update), { passive: true });</code></pre>
+<pre><code class="language-css">/* Без JavaScript: анимация, привязанная к прокрутке (поддерживается не всеми браузерами) */
+@supports (animation-timeline: view()) {
+  .layer { animation: rise linear both; animation-timeline: view(); }
+  @keyframes rise { from { transform: translateY(60px); } to { transform: translateY(-60px); } }
+}</code></pre>
+      </details>
+    </section>
+
     <div class="cta">
       <h2 class="title">Нужен такой дизайн?</h2>
       <p class="subtitle">Все стили здесь сгенерированы с помощью ИИ. Подберу и реализую похожий стиль для вашего сайта за договорную цену.</p>
@@ -745,6 +1122,45 @@ setInterval(() =&gt; {
     });
     const neuSwitch = neuPanel.querySelector('.neu-switch');
     neuSwitch.addEventListener('click', () => neuSwitch.setAttribute('aria-pressed', neuSwitch.getAttribute('aria-pressed') !== 'true'));
+
+    // Скевоморфизм: ручка поворачивается шагами, тумблер включает лампу
+    const knob = document.querySelector('.skeuo-knob');
+    let knobDeg = -60;
+    knob.addEventListener('click', () => {
+      knobDeg = knobDeg >= 120 ? -120 : knobDeg + 30;
+      knob.style.setProperty('--deg', knobDeg + 'deg');
+    });
+    const skSwitch = document.querySelector('.skeuo-switch');
+    skSwitch.addEventListener('click', () => {
+      const on = skSwitch.getAttribute('aria-pressed') !== 'true';
+      skSwitch.setAttribute('aria-pressed', on);
+      document.querySelector('.skeuo-led').classList.toggle('on', on);
+    });
+
+    // Material You: исходный цвет перекрашивает всю палитру, чипы переключаются
+    const m3 = document.querySelector('.st-m3');
+    m3.querySelectorAll('.m3-seed').forEach(b => b.addEventListener('click', () => {
+      m3.dataset.seed = b.dataset.seed;
+      m3.querySelectorAll('.m3-seed').forEach(x => x.setAttribute('aria-pressed', x === b));
+    }));
+    m3.querySelectorAll('.m3-chip').forEach(c => c.addEventListener('click', () => c.setAttribute('aria-pressed', c.getAttribute('aria-pressed') !== 'true')));
+
+    // Параллакс: слои сдвигаются с разной скоростью при прокрутке
+    const plStage = document.querySelector('.st-parallax');
+    const plLayers = plStage.querySelectorAll('[data-speed]');
+    let plTicking = false;
+    function updateParallax() {
+      const r = plStage.getBoundingClientRect();
+      const p = (innerHeight - r.top) / (innerHeight + r.height) - .5;
+      plLayers.forEach(l => { l.style.transform = `translateY(${(p * l.dataset.speed).toFixed(1)}px)`; });
+      plTicking = false;
+    }
+    if (!reduceMotion) {
+      addEventListener('scroll', () => {
+        if (!plTicking) { plTicking = true; requestAnimationFrame(updateParallax); }
+      }, { passive: true });
+      updateParallax();
+    }
   </script>
 </body>
 </html>

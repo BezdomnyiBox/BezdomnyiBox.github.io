@@ -4,11 +4,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Дизайн — Владимир</title>
-  <meta name="description" content="Гайды по шрифтам и законам дизайна и галерея из 12 стилей веб-дизайна с живыми примерами: глассморфизм, неон, нео-брутализм и другие.">
+  <meta name="description" content="Гайды по шрифтам, цвету, анимации, доступности и дизайн-системам, галерея из 19 стилей веб-дизайна и переключатель стилей одной карточки товара.">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%235b4cf0'/><text x='16' y='21' font-family='monospace' font-size='13' font-weight='700' fill='white' text-anchor='middle'>&lt;/&gt;</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@500&family=Unbounded:wght@700;900&family=Comfortaa:wght@700&family=Russo+One&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@500&family=Unbounded:wght@700;900&family=Comfortaa:wght@700&family=Russo+One&family=Press+Start+2P&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <script src="theme.js"></script>
   <script src="layout.js" data-base="" data-page="design" defer></script>
@@ -65,8 +65,38 @@
     .pv-bento i:nth-child(2) { grid-row: span 2; background: #1d1d1f; }
     .pv-bento i:nth-child(4) { background: linear-gradient(135deg, #ff9a8b, #ff6a88); }
 
+    .card .pv-skeuo { background: radial-gradient(circle at 30% 20%, #7a5638, #3b2618 75%); }
+    .pv-skeuo span { position: relative; width: 74px; height: 74px; border-radius: 50%; background: conic-gradient(#f5f6f8, #a9b0b9, #f5f6f8, #8d949e, #f5f6f8, #a9b0b9, #f5f6f8); box-shadow: 0 8px 14px rgba(0, 0, 0, .5); transform: rotate(-40deg); }
+    .pv-skeuo span::after { content: ""; position: absolute; top: 7px; left: 50%; width: 5px; height: 16px; margin-left: -2.5px; border-radius: 3px; background: #e30613; }
+    .card .pv-y2k { background: linear-gradient(160deg, #c9f1ff, #e6d4ff 45%, #ffd6f0); }
+    .pv-y2k span { font: 900 40px/1 Unbounded, sans-serif; background: linear-gradient(180deg, #fff 0%, #c7d2e0 30%, #56657a 48%, #f2f6fb 52%, #9fb0c6 75%, #fff 100%); -webkit-background-clip: text; background-clip: text; color: transparent; filter: drop-shadow(0 3px 0 #ff7ad9); }
+    .card .pv-memphis { background: radial-gradient(circle, #ff5aa5 0 16px, transparent 17px) 14% 18% / 40px 40px no-repeat, radial-gradient(circle, #2bb3a3 0 22px, transparent 23px) 82% 78% / 50px 50px no-repeat, repeating-linear-gradient(-45deg, #ffcf2b 0 6px, transparent 6px 12px) 86% 14% / 70px 40px no-repeat, #fff6e5; }
+    .pv-memphis span { font: 900 22px Unbounded, sans-serif; color: #111; background: #fff; border: 3px solid #111; box-shadow: 6px 6px 0 #2bb3a3; padding: 8px 14px; transform: rotate(-4deg); }
+    .card .pv-japan { background: #f4efe6; }
+    .pv-japan span { width: 78px; height: 78px; border-radius: 50%; border: 8px solid #2b2622; border-right-color: transparent; transform: rotate(-30deg); }
+    .card .pv-pixel { background: #1b1b3a; }
+    .pv-pixel span { font: 400 16px "Press Start 2P", monospace; color: #ffd319; text-shadow: 3px 3px 0 #ff3b6b; }
+    .card .pv-m3 { background: #fef7ff; }
+    .pv-m3 span { width: 70px; height: 70px; border-radius: 22px; background: #eaddff; color: #21005d; display: grid; place-items: center; font-size: 34px; box-shadow: 0 3px 6px rgba(0, 0, 0, .15); }
+    .card .pv-parallax { background: linear-gradient(#ffb88c, #ff8a7a 40%, #c06c84 70%, #6c5b7b); }
+    .pv-parallax::before { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 60%; background: #a3607c; clip-path: polygon(0 50%, 15% 25%, 30% 50%, 48% 15%, 65% 45%, 82% 20%, 100% 40%, 100% 100%, 0 100%); }
+    .pv-parallax::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 36%; background: #33243f; clip-path: polygon(0 45%, 25% 15%, 50% 45%, 75% 10%, 100% 35%, 100% 100%, 0 100%); }
+
+    .sw-promo {
+      display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 24px;
+      margin-top: 24px; padding: 32px; border-radius: var(--radius-xl); color: #fff;
+      background: radial-gradient(45% 90% at 90% 20%, rgba(125, 249, 255, .45), transparent 60%), linear-gradient(135deg, #0f131a, #2b1d4f 50%, #5b4cf0);
+    }
+    .sw-promo small { font-size: 13px; opacity: .75; text-transform: uppercase; letter-spacing: .08em; }
+    .sw-promo h2 { font-weight: 400; font-size: clamp(24px, 3.4vw, 36px); line-height: 1.15; letter-spacing: -.02em; margin-top: 6px; }
+    .sw-promo h2 b { font-weight: 600; }
+    .sw-promo p { opacity: .8; margin-top: 8px; max-width: 560px; }
+    .sw-chips { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 14px; }
+    .sw-chips span { width: 28px; height: 28px; border-radius: 8px; border: 2px solid rgba(255, 255, 255, .5); }
+
     @media (max-width: 640px) {
       .hero-design { padding: 56px 20px 64px; border-radius: var(--radius-lg); }
+      .sw-promo { grid-template-columns: minmax(0, 1fr); padding: 24px 20px; border-radius: var(--radius-lg); }
     }
     @media (prefers-reduced-motion: reduce) {
       .card .tile, .card .tile::before { animation: none !important; }
@@ -79,9 +109,10 @@
   <main class="wrap">
     <div class="hero-design">
       <h1>Дизайн: <b>шрифты, законы и стили</b></h1>
-      <p>Основы, которые делают интерфейс аккуратным, и галерея из двенадцати стилей с живыми примерами и анимациями.</p>
+      <p>Основы, которые делают интерфейс аккуратным, семь гайдов и галерея из девятнадцати стилей с живыми примерами и анимациями.</p>
       <div class="actions">
-        <a class="pill" href="design/styles.html">Смотреть стили</a>
+        <a class="pill" href="design/switcher.html">Переключатель стилей</a>
+        <a class="pill" href="design/styles.html">Галерея стилей</a>
         <a class="pill" href="#guides">Гайды</a>
       </div>
     </div>
@@ -91,6 +122,18 @@
       <p>Все стили в этом разделе сгенерированы с помощью ИИ. <span>Хотите такой же дизайн для своего сайта? Сделаю под ваш проект за договорную цену.</span></p>
       <a class="pill" href="https://t.me/BojooYkt" target="_blank" rel="noopener">Обсудить проект</a>
     </div>
+
+    <a class="sw-promo" href="design/switcher.html">
+      <div>
+        <small>Интерактив</small>
+        <h2>Один товар — <b>19 стилей</b></h2>
+        <p>Одна и та же карточка товара: переключайте стили кнопками и смотрите, как дизайн меняет восприятие продукта.</p>
+        <div class="sw-chips" aria-hidden="true">
+          <span style="background: rgba(255, 255, 255, .2)"></span><span style="background: #ff4fd8"></span><span style="background: #a3e635"></span><span style="background: #e4e8ee"></span><span style="background: #fcee0a"></span><span style="background: #e30613"></span><span style="background: #2bb3a3"></span><span style="background: #6750a4"></span>
+        </div>
+      </div>
+      <span class="pill">Попробовать →</span>
+    </a>
 
     <div class="tabs" role="tablist">
       <button role="tab" aria-selected="true" data-filter="all">Всё</button>
@@ -112,6 +155,36 @@
           <h3>Законы дизайна</h3>
           <span class="meta">Гештальт, иерархия, сетка, цвет, законы Фиттса, Хика, Миллера и Якоба</span>
         </a>
+        <a class="card" data-kind="guide" href="design/colors.html">
+          <div class="tile"><div class="icon i-ml">Co</div></div>
+          <span class="cat">Гайд · Цвет</span>
+          <h3>Цвет и палитры</h3>
+          <span class="meta">OKLCH, палитра из одного цвета, гармонии, правильная тёмная тема</span>
+        </a>
+        <a class="card" data-kind="guide" href="design/motion.html">
+          <div class="tile"><div class="icon i-ts">Mo</div></div>
+          <span class="cat">Гайд · Анимация</span>
+          <h3>Анимации и микровзаимодействия</h3>
+          <span class="meta">Длительности, кривые плавности, производительность, когда анимация мешает</span>
+        </a>
+        <a class="card" data-kind="guide" href="design/a11y.html">
+          <div class="tile"><div class="icon i-link">A11y</div></div>
+          <span class="cat">Гайд · Доступность</span>
+          <h3>Доступность интерфейсов</h3>
+          <span class="meta">Семантика, фокус, клавиатура, ARIA, формы и проверка</span>
+        </a>
+        <a class="card" data-kind="guide" href="design/states.html">
+          <div class="tile"><div class="icon i-react">UI</div></div>
+          <span class="cat">Гайд · Компоненты</span>
+          <h3>UI-состояния компонентов</h3>
+          <span class="meta">Наведение, фокус, загрузка, пустой экран, ошибки и успех</span>
+        </a>
+        <a class="card" data-kind="guide" href="design/tokens.html">
+          <div class="tile"><div class="icon i-sql">{ }</div></div>
+          <span class="cat">Гайд · Дизайн-система</span>
+          <h3>Дизайн-токены и дизайн-система</h3>
+          <span class="meta">Уровни токенов, именование, темы — на примере этого сайта</span>
+        </a>
 
         <a class="card" data-kind="style" href="design/styles.html#glass"><div class="tile pv-glass"><span></span></div><span class="cat">Стиль · 01</span><h3>Глассморфизм</h3><span class="meta">Матовое стекло поверх цветных пятен</span></a>
         <a class="card" data-kind="style" href="design/styles.html#holo"><div class="tile pv-holo"><span>VIP</span></div><span class="cat">Стиль · 02</span><h3>Голография</h3><span class="meta">Радужный перелив и 3D-наклон</span></a>
@@ -127,6 +200,13 @@
         <a class="card" data-kind="style" href="design/styles.html#synth"><div class="tile pv-synth"></div><span class="cat">Стиль · 10</span><h3>Синтвейв</h3><span class="meta">Закат 80-х и неоновая сетка</span></a>
         <a class="card" data-kind="style" href="design/styles.html#swiss"><div class="tile pv-swiss"><span>01</span></div><span class="cat">Стиль · 11</span><h3>Швейцарский стиль</h3><span class="meta">Сетка, гротеск и красный акцент</span></a>
         <a class="card" data-kind="style" href="design/styles.html#bento"><div class="tile pv-bento"><span><i></i><i></i><i></i><i></i></span></div><span class="cat">Стиль · 12</span><h3>Бенто-сетка</h3><span class="meta">Плитки разного размера</span></a>
+        <a class="card" data-kind="style" href="design/styles.html#skeuo"><div class="tile pv-skeuo"><span></span></div><span class="cat">Стиль · 13</span><h3>Скевоморфизм</h3><span class="meta">Металл, дерево и настоящие ручки</span></a>
+        <a class="card" data-kind="style" href="design/styles.html#y2k"><div class="tile pv-y2k"><span>2000</span></div><span class="cat">Стиль · 14</span><h3>Y2K</h3><span class="meta">Хром, глянец и звёздочки 2000-х</span></a>
+        <a class="card" data-kind="style" href="design/styles.html#memphis"><div class="tile pv-memphis"><span>1981</span></div><span class="cat">Стиль · 15</span><h3>Мемфис</h3><span class="meta">Геометрия, полоски и весёлый хаос</span></a>
+        <a class="card" data-kind="style" href="design/styles.html#japan"><div class="tile pv-japan"><span></span></div><span class="cat">Стиль · 16</span><h3>Японский минимализм</h3><span class="meta">Пустота, бумага и один мазок кисти</span></a>
+        <a class="card" data-kind="style" href="design/styles.html#pixel"><div class="tile pv-pixel"><span>1UP</span></div><span class="cat">Стиль · 17</span><h3>Пиксель-арт</h3><span class="meta">8-битная графика и анимация рывками</span></a>
+        <a class="card" data-kind="style" href="design/styles.html#m3"><div class="tile pv-m3"><span>+</span></div><span class="cat">Стиль · 18</span><h3>Material You</h3><span class="meta">Палитра из одного цвета и мягкие формы</span></a>
+        <a class="card" data-kind="style" href="design/styles.html#parallax"><div class="tile pv-parallax"></div><span class="cat">Стиль · 19</span><h3>Параллакс</h3><span class="meta">Слои сцены с разной скоростью</span></a>
       </div>
     </section>
 

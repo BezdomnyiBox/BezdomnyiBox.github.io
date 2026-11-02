@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Доступность интерфейсов — Владимир</title>
+  <meta name="description" content="Семантика, работа с клавиатуры, фокус, aria-атрибуты, формы и проверка — чтобы сайтом мог пользоваться каждый.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%235b4cf0'/><text x='16' y='21' font-family='monospace' font-size='13' font-weight='700' fill='white' text-anchor='middle'>&lt;/&gt;</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="../docs.css">
+  <script src="../theme.js"></script>
+  <script src="../layout.js" data-base="../" data-page="design" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js" defer></script>
+  <style>
+    .focus-demo { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-top: 16px; }
+    .focus-demo > div { background: var(--tile); border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 12px; align-items: flex-start; }
+    .focus-demo small { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; }
+    .focus-demo button { border: 0; cursor: pointer; padding: 10px 18px; border-radius: 10px; background: var(--accent); color: #fff; font: 500 14px Onest, sans-serif; }
+    .focus-demo .f-bad:focus { outline: none; }
+    .focus-demo .f-good:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+  </style>
+</head>
+<body>
+  <header class="site-header" data-layout="header"></header>
+
+  <main class="wrap">
+    <div class="doc-hero" style="--hero-bg: radial-gradient(50% 90% at 88% 12%, rgba(150, 240, 200, .45) 0%, transparent 60%), linear-gradient(135deg, #0b3d2e, #13855c 55%, #2f7fd4)">
+      <div>
+        <div class="crumbs"><a href="../design.html">Дизайн</a> / Доступность</div>
+        <h1>Доступность <b>интерфейсов</b></h1>
+        <p>Семантика, работа с клавиатуры, фокус, aria-атрибуты, формы и проверка — чтобы сайтом мог пользоваться каждый.</p>
+        <div class="hero-facts"><span>7 уроков</span><span>~15 минут</span><span>WCAG 2.2</span></div>
+      </div>
+      <div class="icon i-link">A11y</div>
+    </div>
+
+    <div class="guide">
+      <aside class="toc">
+        <h4>Содержание</h4>
+        <ol><li><a href="#why">Для кого это</a></li><li><a href="#semantics">Семантика: правильные теги</a></li><li><a href="#keyboard">Клавиатура и фокус</a></li><li><a href="#aria">ARIA-атрибуты</a></li><li><a href="#forms">Формы</a></li><li><a href="#media">Изображения и медиа</a></li><li><a href="#check">Как проверить</a></li></ol>
+      </aside>
+
+      <div>
+        <section class="lesson" id="why">
+          <h2><span>01</span>Для кого это</h2>
+          <p>Доступность нужна не «небольшой группе людей», а почти всем — хотя бы иногда:</p>
+          <ul><li>людям с нарушениями зрения, слуха и моторики, которые пользуются экранными читалками, клавиатурой или увеличением;</li><li>пожилым пользователям — мелкий серый текст им просто не прочитать;</li><li>всем в «временных» ситуациях: сломанная рука, яркое солнце на экране, телефон в одной руке в транспорте.</li></ul>
+          <p>Международный стандарт — <strong>WCAG 2.2</strong>. В России требования к доступности сайтов госорганов описывает ГОСТ Р 52872-2019. Бонус: доступная разметка лучше понимается поисковиками.</p>
+        </section>
+        <section class="lesson" id="semantics">
+          <h2><span>02</span>Семантика: правильные теги</h2>
+          <p>Половина доступности — это просто правильные HTML-элементы. Они сами умеют фокус, клавиатуру и объясняют экранной читалке, что это такое:</p>
+          <pre><code class="language-markup">&lt;!-- ❌ не фокусируется, не нажимается с клавиатуры, читалка не знает, что это кнопка --&gt;
+&lt;div class="button" onclick="addToCart()"&gt;В корзину&lt;/div&gt;
+
+&lt;!-- ✅ всё работает само --&gt;
+&lt;button type="button" onclick="addToCart()"&gt;В корзину&lt;/button&gt;
+
+&lt;!-- Ориентиры страницы: по ним читалка позволяет прыгать --&gt;
+&lt;header&gt;…&lt;/header&gt;
+&lt;nav aria-label="Основное меню"&gt;…&lt;/nav&gt;
+&lt;main&gt;…&lt;/main&gt;
+&lt;footer&gt;…&lt;/footer&gt;</code></pre>
+          <ul><li>Ссылка ведёт на другую страницу (<code>&lt;a href&gt;</code>), кнопка выполняет действие (<code>&lt;button&gt;</code>).</li><li>Заголовки <code>h1</code>–<code>h6</code> идут по порядку без пропусков: по ним незрячие пользователи «листают» страницу.</li></ul>
+        </section>
+        <section class="lesson" id="keyboard">
+          <h2><span>03</span>Клавиатура и фокус</h2>
+          <p>Всё, что можно сделать мышью, должно делаться клавишами <code>Tab</code>, <code>Enter</code>, <code>Space</code>, стрелками и <code>Esc</code>. А пользователь всегда должен видеть, где сейчас фокус. Нажмите <code>Tab</code>, чтобы перейти к кнопкам:</p>
+          <div class="focus-demo"><div><small>Фокус спрятан</small><button class="f-bad" type="button">Оформить заказ</button></div><div><small>Фокус виден</small><button class="f-good" type="button">Оформить заказ</button></div></div>
+          <pre><code class="language-css">/* Никогда так не делайте */
+*:focus { outline: none; }
+
+/* Фокус только при работе с клавиатуры, а не при клике мышью */
+:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}</code></pre>
+          <ul><li>Порядок <code>Tab</code> совпадает с визуальным порядком. Не используйте <code>tabindex</code> больше нуля.</li><li>Модальное окно держит фокус внутри себя и закрывается по <code>Esc</code>; после закрытия фокус возвращается на кнопку, которая его открыла.</li><li>Добавьте ссылку «Перейти к содержимому» первой на странице — чтобы не проходить всё меню на каждой странице.</li></ul>
+        </section>
+        <section class="lesson" id="aria">
+          <h2><span>04</span>ARIA-атрибуты</h2>
+          <p><strong>Первое правило ARIA:</strong> не используйте ARIA, если есть подходящий HTML-элемент. ARIA только описывает элемент для читалки, но не добавляет ему поведения.</p>
+          <pre><code class="language-markup">&lt;!-- Кнопка-иконка без текста: читалке нужно имя --&gt;
+&lt;button type="button" aria-label="Добавить в избранное"&gt;♥&lt;/button&gt;
+
+&lt;!-- Раскрывающееся меню: состояние открыто/закрыто --&gt;
+&lt;button type="button" aria-expanded="false" aria-controls="filters"&gt;Фильтры&lt;/button&gt;
+&lt;div id="filters" hidden&gt;…&lt;/div&gt;
+
+&lt;!-- Текущая страница в меню --&gt;
+&lt;a href="/design.html" aria-current="page"&gt;Дизайн&lt;/a&gt;
+
+&lt;!-- Уведомления, которые читалка произнесёт сама --&gt;
+&lt;div role="status" aria-live="polite"&gt;Товар добавлен в корзину&lt;/div&gt;</code></pre>
+        </section>
+        <section class="lesson" id="forms">
+          <h2><span>05</span>Формы</h2>
+          <pre><code class="language-markup">&lt;label for="phone"&gt;Телефон&lt;/label&gt;
+&lt;input id="phone" type="tel" autocomplete="tel"
+       aria-invalid="true" aria-describedby="phone-error"&gt;
+&lt;p id="phone-error"&gt;Введите 11 цифр, например 8 914 123-45-67&lt;/p&gt;</code></pre>
+          <ul><li>У каждого поля есть видимая подпись <code>&lt;label&gt;</code>. Плейсхолдер — не подпись: он исчезает при вводе.</li><li>Ошибка написана текстом рядом с полем и связана с ним через <code>aria-describedby</code>.</li><li><code>autocomplete</code> позволяет браузеру подставить имя, телефон и адрес — это удобно всем.</li><li>Не ограничивайте время на заполнение формы без возможности продлить.</li></ul>
+        </section>
+        <section class="lesson" id="media">
+          <h2><span>06</span>Изображения и медиа</h2>
+          <ul><li>У информативной картинки — <code>alt</code> с её смыслом: <code>alt="Масляный фильтр, вид сбоку"</code>.</li><li>У декоративной — пустой <code>alt=""</code>, чтобы читалка её пропустила.</li><li>Иконки рядом с текстом скрывайте от читалки: <code>aria-hidden="true"</code>.</li><li>У видео — субтитры, у аудио — расшифровка.</li><li>Ничего не мигает чаще трёх раз в секунду.</li></ul>
+        </section>
+        <section class="lesson" id="check">
+          <h2><span>07</span>Как проверить</h2>
+          <ul><li><strong>Без мыши.</strong> Пройдите главный сценарий только клавиатурой: найти товар, добавить в корзину, оформить.</li><li><strong>Увеличение 200%.</strong> Ничего не должно обрезаться и наезжать.</li><li><strong>Lighthouse и axe DevTools</strong> — автоматически находят примерно треть проблем: контраст, подписи, alt.</li><li><strong>Экранная читалка.</strong> NVDA на Windows, VoiceOver на macOS и iPhone, TalkBack на Android — послушайте свой сайт хотя бы пять минут.</li></ul>
+          <div class="tiles"><div class="good"><h4>Запомнить</h4><ul><li>Правильные HTML-теги — половина доступности.</li><li>Фокус всегда виден.</li><li>У полей видимые подписи и понятные ошибки.</li><li>Контраст текста не меньше 4,5 : 1.</li></ul></div><div class="bad"><h4>Частые ошибки</h4><ul><li><code>outline: none</code> без замены.</li><li><code>div</code> и <code>span</code> вместо кнопок и ссылок.</li><li>Кнопка-иконка без <code>aria-label</code>.</li><li>Плейсхолдер вместо подписи поля.</li></ul></div></div>
+        </section>
+        <section class="lesson" id="next">
+          <h2>Что дальше</h2>
+          <p>Пройдите свой сайт только с клавиатуры и запустите Lighthouse. Исправленные проблемы доступности — сильный аргумент на собеседовании.</p>
+          <div class="next-steps"><a class="pill" href="../design.html">Весь раздел «Дизайн»</a><a class="pill ghost" href="states.html">UI-состояния</a><a class="pill ghost" href="laws.html">Законы дизайна</a><a class="pill ghost" href="https://www.w3.org/WAI/WCAG22/quickref/" target="_blank" rel="noopener">WCAG 2.2: краткий справочник ↗</a></div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer" data-layout="footer"></footer>
+</body>
+</html>

@@ -62,9 +62,11 @@
         '</ul></div>' +
         '<div><h4>Дизайн</h4><ul>' +
           '<li><a href="' + base + 'design.html">Весь раздел</a></li>' +
+          '<li><a href="' + base + 'design/switcher.html">Переключатель стилей</a></li>' +
+          '<li><a href="' + base + 'design/styles.html">Галерея стилей</a></li>' +
           '<li><a href="' + base + 'design/fonts.html">Шрифты</a></li>' +
           '<li><a href="' + base + 'design/laws.html">Законы дизайна</a></li>' +
-          '<li><a href="' + base + 'design/styles.html">Галерея стилей</a></li>' +
+          '<li><a href="' + base + 'design/colors.html">Цвет и палитры</a></li>' +
         '</ul></div>' +
         '<div><h4>Обо мне</h4><ul>' +
           '<li>' + ext(LINKS.resume, 'Резюме') + '</li>' +

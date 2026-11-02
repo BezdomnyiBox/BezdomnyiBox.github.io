@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>UI-состояния компонентов — Владимир</title>
+  <meta name="description" content="Наведение, нажатие, фокус, загрузка, ошибка, пустой экран и успех — все состояния, которые макет обычно забывает.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%235b4cf0'/><text x='16' y='21' font-family='monospace' font-size='13' font-weight='700' fill='white' text-anchor='middle'>&lt;/&gt;</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="../docs.css">
+  <script src="../theme.js"></script>
+  <script src="../layout.js" data-base="../" data-page="design" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js" defer></script>
+  <style>
+    .st-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; margin-top: 16px; }
+    .st-grid > div { background: var(--tile); border-radius: 14px; padding: 16px; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+    .st-grid small { font-size: 12px; color: var(--muted); }
+    .sb { border: 0; padding: 10px 18px; border-radius: 10px; font: 500 14px Onest, sans-serif; color: #fff; background: #5b4cf0; display: inline-flex; align-items: center; gap: 8px; }
+    .sb.hover { background: #4a3bd6; }
+    .sb.active { background: #3d30b8; transform: scale(.96); }
+    .sb.focus { outline: 3px solid #8f83ff; outline-offset: 3px; }
+    .sb.disabled { background: #c9cbd2; color: #f4f4f6; }
+    .sb .spin { width: 14px; height: 14px; border-radius: 50%; border: 2px solid rgba(255, 255, 255, .4); border-top-color: #fff; animation: spin .8s linear infinite; }
+    @keyframes spin { to { transform: rotate(1turn); } }
+    .fi { width: 100%; display: flex; flex-direction: column; gap: 4px; font-size: 12px; text-align: left; }
+    .fi span { color: var(--muted); }
+    .fi div { border: 1.5px solid var(--line); background: var(--bg); border-radius: 10px; padding: 9px 12px; font-size: 14px; color: var(--muted); }
+    .fi.focus div { border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 25%, transparent); color: var(--text); }
+    .fi.filled div { color: var(--text); }
+    .fi.error div { border-color: #e0482b; color: var(--text); }
+    .fi.error em { color: #e0482b; font-style: normal; }
+    .fi.disabled div { background: var(--tile); opacity: .6; }
+    .skel { margin-top: 16px; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+    .skel > div { background: var(--tile); border-radius: 16px; padding: 16px; display: flex; flex-direction: column; gap: 10px; }
+    .skel i { display: block; border-radius: 8px; height: 12px; background: linear-gradient(90deg, var(--line) 25%, var(--bg) 50%, var(--line) 75%); background-size: 200% 100%; animation: shimmer 1.4s infinite linear; }
+    .skel i.img { height: 110px; border-radius: 12px; }
+    @keyframes shimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+    .empty { margin-top: 16px; background: var(--tile); border-radius: 18px; padding: 32px 24px; text-align: center; }
+    .empty .ico { font-size: 40px; }
+    .empty b { display: block; font-size: 18px; margin-top: 8px; color: var(--text); }
+    .lesson .empty p { margin: 6px auto 16px; max-width: 360px; }
+    .empty a { display: inline-block; padding: 10px 20px; border-radius: 999px; background: var(--accent); color: #fff; font-weight: 500; }
+    .errs { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; margin-top: 16px; }
+    .errs > div { background: var(--tile); border-radius: 16px; padding: 18px; font-size: 15px; color: var(--text); }
+    .errs small { display: block; font-size: 12px; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 8px; }
+    @media (prefers-reduced-motion: reduce) { .skel i, .sb .spin { animation: none; } }
+  </style>
+</head>
+<body>
+  <header class="site-header" data-layout="header"></header>
+
+  <main class="wrap">
+    <div class="doc-hero" style="--hero-bg: radial-gradient(50% 90% at 88% 12%, rgba(97, 218, 251, .45) 0%, transparent 60%), linear-gradient(135deg, #0f131a, #1a2230 55%, #2f4a6e)">
+      <div>
+        <div class="crumbs"><a href="../design.html">Дизайн</a> / Компоненты</div>
+        <h1>UI-состояния <b>компонентов</b></h1>
+        <p>Наведение, нажатие, фокус, загрузка, ошибка, пустой экран и успех — все состояния, которые макет обычно забывает.</p>
+        <div class="hero-facts"><span>7 уроков</span><span>~15 минут</span><span>CSS</span></div>
+      </div>
+      <div class="icon i-react">UI</div>
+    </div>
+
+    <div class="guide">
+      <aside class="toc">
+        <h4>Содержание</h4>
+        <ol><li><a href="#map">Какие бывают состояния</a></li><li><a href="#buttons">Состояния кнопки</a></li><li><a href="#inputs">Состояния поля ввода</a></li><li><a href="#loading">Загрузка</a></li><li><a href="#empty">Пустые состояния</a></li><li><a href="#errors">Ошибки</a></li><li><a href="#success">Успех и подтверждение</a></li></ol>
+      </aside>
+
+      <div>
+        <section class="lesson" id="map">
+          <h2><span>01</span>Какие бывают состояния</h2>
+          <p>Макет обычно показывает один «идеальный» экран. А в реальности у каждого компонента и экрана есть ещё десяток состояний:</p>
+          <ul><li><strong>Элемента:</strong> обычное, наведение, нажатие, фокус, неактивное, загрузка, выбранное.</li><li><strong>Данных:</strong> загрузка, пусто, ошибка, частично загружено, успех.</li><li><strong>Поля ввода:</strong> пустое, в фокусе, заполненное, с ошибкой, неактивное.</li></ul>
+          <p>Перед сдачей задачи пройдитесь по этому списку — забытые состояния это и есть самые частые баги интерфейса.</p>
+        </section>
+        <section class="lesson" id="buttons">
+          <h2><span>02</span>Состояния кнопки</h2>
+          <div class="st-grid"><div><span class="sb">Купить</span><small>Обычная</small></div><div><span class="sb hover">Купить</span><small>Наведение</small></div><div><span class="sb active">Купить</span><small>Нажатие</small></div><div><span class="sb focus">Купить</span><small>Фокус с клавиатуры</small></div><div><span class="sb disabled">Купить</span><small>Неактивна</small></div><div><span class="sb"><i class="spin"></i>Оплата…</span><small>Загрузка</small></div></div>
+          <pre><code class="language-css">.button { background: var(--accent); transition: background .15s, transform .1s; }
+.button:hover { background: var(--accent-hover); }
+.button:active { transform: scale(.96); }
+.button:focus-visible { outline: 3px solid var(--accent-soft); outline-offset: 3px; }
+.button:disabled { background: var(--disabled); cursor: not-allowed; }
+.button[aria-busy="true"] { pointer-events: none; }   /* защита от двойного нажатия */</code></pre>
+          <p>Кнопка «Оплатить» в состоянии загрузки должна блокироваться — иначе нетерпеливый пользователь заплатит дважды.</p>
+        </section>
+        <section class="lesson" id="inputs">
+          <h2><span>03</span>Состояния поля ввода</h2>
+          <div class="st-grid"><div class="fi"><span>Телефон</span><div>+7 ___ ___-__-__</div></div><div class="fi focus"><span>Телефон</span><div>+7 914 |</div></div><div class="fi filled"><span>Телефон</span><div>+7 914 123-45-67</div></div><div class="fi error"><span>Телефон</span><div>+7 914 12</div><em>Не хватает 5 цифр</em></div><div class="fi disabled"><span>Телефон</span><div>+7 914 123-45-67</div></div></div>
+          <pre><code class="language-css">.input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+
+/* Ошибка показывается после того, как пользователь взаимодействовал с полем,
+   а не сразу при открытии формы */
+.input:user-invalid,
+.input[aria-invalid="true"] { border-color: var(--error); }</code></pre>
+          <p>Проверяйте поле, когда пользователь закончил ввод (при уходе с поля), а не на каждую букву. И не показывайте ошибки у пустой формы, которую ещё не начали заполнять.</p>
+        </section>
+        <section class="lesson" id="loading">
+          <h2><span>04</span>Загрузка</h2>
+          <ul><li><strong>До 1 секунды</strong> — ничего не показывайте, индикатор только мелькнёт.</li><li><strong>1–10 секунд</strong> — скелетон (контур будущего содержимого) или спиннер.</li><li><strong>Дольше 10 секунд</strong> — прогресс-бар и объяснение, что происходит.</li></ul>
+          <p>Скелетон лучше спиннера: страница не прыгает, когда данные приходят, и ожидание кажется короче.</p>
+          <div class="skel"><div><i class="img"></i><i style="width: 80%"></i><i style="width: 50%"></i></div><div><i class="img"></i><i style="width: 70%"></i><i style="width: 40%"></i></div></div>
+          <p><strong>Оптимистичный интерфейс</strong> — показывать результат сразу, не дожидаясь сервера: лайк закрашивается мгновенно, а если запрос не прошёл — откатывается с сообщением.</p>
+        </section>
+        <section class="lesson" id="empty">
+          <h2><span>05</span>Пустые состояния</h2>
+          <p>Пустой экран — не повод показать пустоту. Он объясняет, почему пусто, и предлагает следующий шаг:</p>
+          <div class="empty"><div class="ico">🛒</div><b>В корзине пока пусто</b><p>Найдите запчасть по марке автомобиля или артикулу — доставим завтра.</p><a href="#empty">Перейти в каталог</a></div>
+          <ul><li><strong>Первый запуск:</strong> «Здесь будут ваши заказы» + кнопка, как сделать первый.</li><li><strong>Ничего не найдено:</strong> покажите, что искали, и предложите изменить фильтры.</li><li><strong>Всё сделано:</strong> «Все уведомления прочитаны» — это тоже приятное пустое состояние.</li></ul>
+        </section>
+        <section class="lesson" id="errors">
+          <h2><span>06</span>Ошибки</h2>
+          <p>Хорошее сообщение об ошибке отвечает на три вопроса: <strong>что случилось, почему и что делать</strong>.</p>
+          <div class="errs"><div><small style="color: #e0692b">Плохо</small>Ошибка 500. Что-то пошло не так.</div><div><small style="color: #22b07d">Хорошо</small>Не удалось оформить заказ: сервер оплаты не отвечает. Деньги не списаны. Попробуйте ещё раз через минуту.</div></div>
+          <ul><li>Ошибка поля — рядом с полем. Ошибка действия — уведомлением. Ошибка страницы — на самой странице с кнопкой «Повторить».</li><li>Сохраняйте введённые данные: после ошибки пользователь не должен заполнять форму заново.</li><li>Не обвиняйте пользователя: «Неверный формат» → «Введите дату в формате 01.12.2026».</li></ul>
+        </section>
+        <section class="lesson" id="success">
+          <h2><span>07</span>Успех и подтверждение</h2>
+          <ul><li>После важного действия подтвердите результат: «Заказ №1001 оформлен, доставим завтра с 10 до 14».</li><li>Для обратимых действий вместо «Вы уверены?» лучше уведомление с кнопкой «Отменить» — это быстрее и не раздражает.</li><li>Подтверждение «Вы уверены?» оставьте для необратимого: удаление аккаунта, оплата.</li></ul>
+          <div class="tiles"><div class="good"><h4>Запомнить</h4><ul><li>У каждого компонента — все состояния, а не одно.</li><li>Фокус виден, загрузка блокирует повторное нажатие.</li><li>Пустой экран предлагает следующий шаг.</li><li>Ошибка: что случилось, почему, что делать.</li></ul></div><div class="bad"><h4>Частые ошибки</h4><ul><li>Ошибки у формы, которую ещё не начали заполнять.</li><li>Спиннер на полсекунды, который просто мигает.</li><li>«Что-то пошло не так» без объяснений.</li><li>Потеря введённых данных после ошибки.</li></ul></div></div>
+        </section>
+        <section class="lesson" id="next">
+          <h2>Что дальше</h2>
+          <p>Откройте любой экран своего проекта и проверьте: что увидит пользователь при медленном интернете, пустом списке и ошибке сервера?</p>
+          <div class="next-steps"><a class="pill" href="../design.html">Весь раздел «Дизайн»</a><a class="pill ghost" href="a11y.html">Доступность</a><a class="pill ghost" href="motion.html">Анимации</a><a class="pill ghost" href="switcher.html">Переключатель стилей</a></div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer" data-layout="footer"></footer>
+</body>
+</html>

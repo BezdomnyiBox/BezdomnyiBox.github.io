@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Дизайн-токены и дизайн-система — Владимир</title>
+  <meta name="description" content="Что такое токены, как их называть и разделять на уровни, как через них сделать темы — на примере токенов этого сайта.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%235b4cf0'/><text x='16' y='21' font-family='monospace' font-size='13' font-weight='700' fill='white' text-anchor='middle'>&lt;/&gt;</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="../docs.css">
+  <script src="../theme.js"></script>
+  <script src="../layout.js" data-base="../" data-page="design" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js" defer></script>
+  <style>
+    .tok { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; margin-top: 16px; }
+    .tok > div { border: 1px solid var(--line); border-radius: 14px; overflow: hidden; font: 12px "JetBrains Mono", monospace; }
+    .tok > div > span { display: block; height: 56px; }
+    .tok > div > code { display: block; padding: 8px 10px; color: var(--text); background: none; }
+    .levels { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-top: 16px; }
+    .levels > div { background: var(--tile); border-radius: 16px; padding: 18px; font-size: 14px; color: var(--text); }
+    .levels b { display: block; font-size: 16px; margin-bottom: 6px; }
+    .levels code { font-size: 12px; }
+    .levels span { display: block; color: var(--muted); margin-top: 6px; }
+  </style>
+</head>
+<body>
+  <header class="site-header" data-layout="header"></header>
+
+  <main class="wrap">
+    <div class="doc-hero" style="--hero-bg: radial-gradient(50% 90% at 88% 12%, rgba(255, 196, 90, .45) 0%, transparent 60%), linear-gradient(135deg, #2b1d4f, #4b3ee0 55%, #c46f00)">
+      <div>
+        <div class="crumbs"><a href="../design.html">Дизайн</a> / Дизайн-система</div>
+        <h1>Дизайн-токены <b>и дизайн-система</b></h1>
+        <p>Что такое токены, как их называть и разделять на уровни, как через них сделать темы — на примере токенов этого сайта.</p>
+        <div class="hero-facts"><span>7 уроков</span><span>~15 минут</span><span>CSS и JSON</span></div>
+      </div>
+      <div class="icon i-sql">{ }</div>
+    </div>
+
+    <div class="guide">
+      <aside class="toc">
+        <h4>Содержание</h4>
+        <ol><li><a href="#what">Что такое дизайн-токены</a></li><li><a href="#levels">Три уровня токенов</a></li><li><a href="#site">Токены этого сайта</a></li><li><a href="#naming">Как называть токены</a></li><li><a href="#themes">Темы через токены</a></li><li><a href="#format">Токены в JSON и Figma</a></li><li><a href="#system">Из чего состоит дизайн-система</a></li></ol>
+      </aside>
+
+      <div>
+        <section class="lesson" id="what">
+          <h2><span>01</span>Что такое дизайн-токены</h2>
+          <p>Токен — это <strong>именованное значение</strong> дизайна: цвет, отступ, радиус, тень, размер шрифта, длительность анимации. Вместо <code>#5b4cf0</code> в двадцати местах — одно имя <code>--accent</code>.</p>
+          <ul><li>Поменять фирменный цвет — значит поменять одну строку, а не искать его по всему проекту.</li><li>Дизайнер в Figma и разработчик в коде говорят на одном языке: «здесь <code>space-6</code>, а не 23 пикселя».</li><li>Темы (тёмная, брендовая, контрастная) делаются заменой значений, без правки компонентов.</li></ul>
+        </section>
+        <section class="lesson" id="levels">
+          <h2><span>02</span>Три уровня токенов</h2>
+          <div class="levels"><div><b>1. Примитивы</b><code>--violet-500: #5b4cf0</code><span>Вся доступная палитра и шкалы. В компонентах не используются напрямую.</span></div><div><b>2. Семантические</b><code>--accent: var(--violet-500)</code><span>Назначение: «акцент», «фон», «текст ошибки». Именно их меняют темы.</span></div><div><b>3. Компонентные</b><code>--button-bg: var(--accent)</code><span>Настройки конкретного компонента. Нужны в больших системах.</span></div></div>
+          <pre><code class="language-css">:root {
+  /* 1. Примитивы */
+  --violet-500: #5b4cf0;
+  --violet-300: #8f83ff;
+  --gray-50: #f2f3f5;
+
+  /* 2. Семантические */
+  --accent: var(--violet-500);
+  --tile: var(--gray-50);
+
+  /* 3. Компонентные */
+  --button-bg: var(--accent);
+  --button-radius: 999px;
+}</code></pre>
+        </section>
+        <section class="lesson" id="site">
+          <h2><span>03</span>Токены этого сайта</h2>
+          <p>Этот сайт построен на семантических токенах из файла <code>styles.css</code>. Переключите тему в шапке — образцы ниже перекрасятся, потому что меняются только значения токенов:</p>
+          <div class="tok"><div><span style="background: var(--bg)"></span><code>--bg</code></div><div><span style="background: var(--tile)"></span><code>--tile</code></div><div><span style="background: var(--line)"></span><code>--line</code></div><div><span style="background: var(--text)"></span><code>--text</code></div><div><span style="background: var(--muted)"></span><code>--muted</code></div><div><span style="background: var(--accent)"></span><code>--accent</code></div><div><span style="background: var(--cta-bg)"></span><code>--cta-bg</code></div></div>
+          <pre data-file="styles.css"><code class="language-css">:root {
+  --bg: #ffffff;
+  --tile: #f2f3f5;
+  --line: #e3e4e8;
+  --text: #1a1a1f;
+  --muted: #6b6f7a;
+  --accent: #5b4cf0;
+  --radius-xl: 32px;
+  --radius-lg: 24px;
+}
+
+:root[data-theme="dark"] {
+  --bg: #121214;
+  --tile: #1e1f23;
+  --line: #2e2f35;
+  --text: #ececf0;
+  --muted: #9a9ca6;
+  --accent: #8f83ff;
+}</code></pre>
+        </section>
+        <section class="lesson" id="naming">
+          <h2><span>04</span>Как называть токены</h2>
+          <ul><li><strong>По назначению, а не по значению.</strong> <code>--text-muted</code>, а не <code>--gray-600</code>: завтра серый станет голубоватым, и имя <code>--gray-600</code> начнёт врать.</li><li><strong>Единая схема:</strong> категория → свойство → вариант → состояние. Например: <code>--color-text-muted</code>, <code>--color-button-bg-hover</code>, <code>--space-4</code>, <code>--radius-lg</code>.</li><li><strong>Шкалы — числами или размерами:</strong> <code>--space-1…12</code>, <code>--radius-sm/md/lg/xl</code>. Так понятно, что больше, а что меньше.</li><li><strong>Без «магии»:</strong> <code>--blue-for-promo-banner-2</code> — признак, что токен на самом деле не нужен.</li></ul>
+        </section>
+        <section class="lesson" id="themes">
+          <h2><span>05</span>Темы через токены</h2>
+          <p>Компоненты используют только семантические токены. Тема — это просто другой набор их значений. Так же делают брендовые темы для разных клиентов:</p>
+          <pre><code class="language-css">/* Тёмная тема */
+:root[data-theme="dark"] { --bg: #121214; --text: #ececf0; --accent: #8f83ff; }
+
+/* Брендовая тема для партнёра: меняем только акцент и скругления */
+:root[data-brand="partner"] { --accent: #e30613; --radius-lg: 8px; }
+
+/* Компонент о темах не знает ничего */
+.button { background: var(--accent); border-radius: var(--radius-lg); color: var(--bg); }</code></pre>
+        </section>
+        <section class="lesson" id="format">
+          <h2><span>06</span>Токены в JSON и Figma</h2>
+          <p>В больших командах токены хранят в JSON в формате <strong>W3C Design Tokens</strong> и генерируют из них CSS, код для iOS и Android. В Figma токены живут в <strong>Variables</strong> — их можно выгрузить и синхронизировать с кодом.</p>
+          <pre data-file="tokens.json"><code class="language-json">{
+  "color": {
+    "accent": { "$value": "#5b4cf0", "$type": "color" },
+    "text":   { "$value": "#1a1a1f", "$type": "color" }
+  },
+  "space": {
+    "4": { "$value": "16px", "$type": "dimension" }
+  }
+}</code></pre>
+          <p>Инструменты вроде <strong>Style Dictionary</strong> превращают такой файл в CSS-переменные, Swift и Kotlin — источник правды один для всех платформ.</p>
+        </section>
+        <section class="lesson" id="system">
+          <h2><span>07</span>Из чего состоит дизайн-система</h2>
+          <ul><li><strong>Токены</strong> — цвета, типографика, отступы, радиусы, тени, анимации.</li><li><strong>Компоненты</strong> — кнопки, поля, карточки, модальные окна со всеми состояниями.</li><li><strong>Паттерны</strong> — как из компонентов собирать формы, таблицы, пустые состояния.</li><li><strong>Гайдлайны</strong> — когда что использовать, тон текстов, доступность.</li><li><strong>Документация</strong> — витрина компонентов (например, Storybook) с примерами кода.</li></ul>
+          <p>Посмотрите, как устроены открытые дизайн-системы: <strong>Material Design 3</strong> от Google, <strong>Gravity UI</strong> от Яндекса, <strong>Human Interface Guidelines</strong> от Apple.</p>
+          <div class="tiles"><div class="good"><h4>Запомнить</h4><ul><li>Компоненты используют только семантические токены.</li><li>Имя токена — про назначение, а не про значение.</li><li>Тема = другой набор значений тех же токенов.</li><li>Один источник правды для дизайна и кода.</li></ul></div><div class="bad"><h4>Частые ошибки</h4><ul><li>Цвета и отступы «на глаз» прямо в компонентах.</li><li>Токен <code>--gray-500</code> в стилях кнопки.</li><li>Тёмная тема копированием всех стилей.</li><li>Сотни токенов, которые никто не использует.</li></ul></div></div>
+        </section>
+        <section class="lesson" id="next">
+          <h2>Что дальше</h2>
+          <p>Выпишите все цвета и отступы своего проекта и сведите их к токенам. Почти всегда окажется, что 40 разных серых на самом деле — 5.</p>
+          <div class="next-steps"><a class="pill" href="../design.html">Весь раздел «Дизайн»</a><a class="pill ghost" href="colors.html">Цвет и палитры</a><a class="pill ghost" href="fonts.html">Шрифты</a><a class="pill ghost" href="https://gravity-ui.com/" target="_blank" rel="noopener">Gravity UI ↗</a></div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer" data-layout="footer"></footer>
+</body>
+</html>
