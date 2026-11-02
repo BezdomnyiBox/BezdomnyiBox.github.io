@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Шрифты и типографика — Владимир</title>
+  <meta name="description" content="Как выбрать шрифт с кириллицей, собрать пару, настроить размеры и интервалы и правильно подключить веб-шрифты.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%235b4cf0'/><text x='16' y='21' font-family='monospace' font-size='13' font-weight='700' fill='white' text-anchor='middle'>&lt;/&gt;</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="../docs.css">
+  <script src="../theme.js"></script>
+  <script src="../layout.js" data-base="../" data-page="design" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js" defer></script>
+  <link href="https://fonts.googleapis.com/css2?family=PT+Serif:wght@400;700&family=PT+Sans:wght@400;700&family=Unbounded:wght@500;700&family=Caveat:wght@600&display=swap" rel="stylesheet">
+  <style>
+    .font-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 12px; margin-top: 16px; }
+    .font-card { background: var(--tile); border-radius: 16px; padding: 18px 20px; }
+    .font-card span { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; }
+    .lesson .font-card p { font-size: 22px; line-height: 1.25; margin: 8px 0; color: var(--text); max-width: none; }
+    .font-card small { color: var(--muted); font-size: 13px; }
+    .pair-card h5 { font-size: 26px; line-height: 1.15; margin: 8px 0 6px; color: var(--text); font-weight: 700; }
+    .lesson .pair-card p { font-size: 15px; line-height: 1.55; margin: 0 0 8px; color: var(--muted); }
+    .scale-demo { margin-top: 16px; background: var(--tile); border-radius: 16px; padding: 12px 20px; overflow: hidden; }
+    .scale-demo div { display: flex; align-items: baseline; gap: 16px; padding: 4px 0; border-bottom: 1px solid var(--line); white-space: nowrap; color: var(--text); line-height: 1.2; }
+    .scale-demo div:last-child { border-bottom: 0; }
+    .scale-demo code { width: 72px; flex: none; color: var(--muted); font-size: 12px; }
+    .hier-demo { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; margin-top: 16px; }
+    .hier-demo > div { background: var(--tile); border-radius: 16px; padding: 20px; color: var(--text); }
+    .hier-demo .tag { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; }
+    .hier-demo .bad * { font-size: 15px !important; font-weight: 400 !important; color: var(--text) !important; text-transform: none !important; letter-spacing: 0 !important; margin: 0 !important; }
+  </style>
+</head>
+<body>
+  <header class="site-header" data-layout="header"></header>
+
+  <main class="wrap">
+    <div class="doc-hero" style="--hero-bg: radial-gradient(50% 90% at 88% 12%, rgba(255, 214, 140, .4) 0%, transparent 60%), linear-gradient(135deg, #2b1d4f, #4b3ee0 55%, #7b4cf0)">
+      <div>
+        <div class="crumbs"><a href="../design.html">Дизайн</a> / Типографика</div>
+        <h1>Шрифты <b>и типографика</b></h1>
+        <p>Как выбрать шрифт с кириллицей, собрать пару, настроить размеры и интервалы и правильно подключить веб-шрифты.</p>
+        <div class="hero-facts"><span>8 уроков</span><span>~15 минут</span><span>Google Fonts</span></div>
+      </div>
+      <div class="icon i-css">Aa</div>
+    </div>
+
+    <div class="guide">
+      <aside class="toc">
+        <h4>Содержание</h4>
+        <ol><li><a href="#kinds">Виды шрифтов</a></li><li><a href="#choose">Как выбрать шрифт</a></li><li><a href="#pairs">Пары шрифтов</a></li><li><a href="#scale">Размеры и модульная шкала</a></li><li><a href="#spacing">Интерлиньяж, длина строки и трекинг</a></li><li><a href="#hierarchy">Типографическая иерархия</a></li><li><a href="#loading">Подключение веб-шрифтов</a></li><li><a href="#rules">Шпаргалка</a></li></ol>
+      </aside>
+
+      <div>
+        <section class="lesson" id="kinds">
+          <h2><span>01</span>Виды шрифтов</h2>
+          <p>Шрифт задаёт тон ещё до того, как прочитан текст. Сначала определите, к какой группе он относится:</p>
+          <div class="font-grid">
+            <div class="font-card"><span>Антиква (serif)</span><p style="font-family: 'PT Serif', serif">Съешь же ещё этих мягких французских булок</p><small>PT Serif — статьи, книги, ощущение солидности</small></div>
+            <div class="font-card"><span>Гротеск (sans-serif)</span><p style="font-family: Onest, sans-serif">Съешь же ещё этих мягких французских булок</p><small>Onest — интерфейсы и лендинги, нейтрально и современно</small></div>
+            <div class="font-card"><span>Моноширинный</span><p style="font-family: 'JetBrains Mono', monospace; font-size: 18px">Съешь же ещё этих мягких булок</p><small>JetBrains Mono — код, цифры в таблицах, технический стиль</small></div>
+            <div class="font-card"><span>Акцидентный (display)</span><p style="font-family: Unbounded, sans-serif; font-weight: 700">Съешь же ещё этих булок</p><small>Unbounded — только для крупных заголовков</small></div>
+            <div class="font-card"><span>Рукописный</span><p style="font-family: Caveat, cursive; font-size: 28px">Съешь же ещё этих мягких французских булок</p><small>Caveat — акценты и подписи, не для длинного текста</small></div>
+          </div>
+        </section>
+        <section class="lesson" id="choose">
+          <h2><span>02</span>Как выбрать шрифт</h2>
+          <ul><li><strong>Кириллица.</strong> Проверяйте её первым делом: у многих красивых шрифтов её нет, и браузер подставит системный шрифт.</li><li><strong>Начертания.</strong> Нужны минимум три: обычное (400), среднее (500) и жирное (700). Вариативные шрифты содержат все толщины в одном файле.</li><li><strong>Высота строчных (x-height).</strong> Чем она больше, тем лучше читается мелкий текст в интерфейсе.</li><li><strong>Цифры.</strong> Для таблиц и цен нужны моноширинные цифры: <code>font-variant-numeric: tabular-nums</code>.</li><li><strong>Лицензия.</strong> Шрифты Google Fonts распространяются по лицензии OFL — их можно использовать в коммерческих проектах.</li></ul>
+          <p>Хорошие бесплатные шрифты с кириллицей: <strong>Onest, Manrope, Inter, Golos UI, PT Sans / PT Serif, Montserrat, Rubik, Unbounded, JetBrains Mono</strong>.</p>
+        </section>
+        <section class="lesson" id="pairs">
+          <h2><span>03</span>Пары шрифтов</h2>
+          <p>Правило: <strong>не больше двух гарнитур</strong> на сайте. Пара работает, когда шрифты контрастны по роли, а не спорят друг с другом.</p>
+          <div class="font-grid">
+            <div class="font-card pair-card"><span>Акцидентный + гротеск</span><h5 style="font-family: Unbounded, sans-serif">Запчасти за 2 часа</h5><p style="font-family: Onest, sans-serif">Заголовок с характером, текст спокойный и читаемый. Подходит для лендингов.</p></div>
+            <div class="font-card pair-card"><span>Антиква + гротеск</span><h5 style="font-family: 'PT Serif', serif">История одного заказа</h5><p style="font-family: 'PT Sans', sans-serif">Классическое сочетание для блогов и медиа: заголовок солидный, текст лёгкий.</p></div>
+            <div class="font-card pair-card"><span>Одна гарнитура</span><h5 style="font-family: Onest, sans-serif; font-weight: 700">Личный кабинет</h5><p style="font-family: Onest, sans-serif">Самый надёжный вариант: контраст создают толщина и размер, а не разные шрифты.</p></div>
+          </div>
+        </section>
+        <section class="lesson" id="scale">
+          <h2><span>04</span>Размеры и модульная шкала</h2>
+          <p>Размеры не подбирают на глаз, а берут из <strong>шкалы</strong>: базовый размер умножают на постоянный коэффициент. Ниже — шкала 16 px × 1,25:</p>
+          <div class="scale-demo">
+            <div><code>49 px</code><span style="font-size: 49px; font-weight: 600">Заголовок</span></div>
+            <div><code>39 px</code><span style="font-size: 39px; font-weight: 600">Заголовок</span></div>
+            <div><code>31 px</code><span style="font-size: 31px; font-weight: 600">Заголовок раздела</span></div>
+            <div><code>25 px</code><span style="font-size: 25px; font-weight: 500">Подзаголовок</span></div>
+            <div><code>20 px</code><span style="font-size: 20px; font-weight: 500">Крупный текст</span></div>
+            <div><code>16 px</code><span style="font-size: 16px">Основной текст интерфейса</span></div>
+            <div><code>13 px</code><span style="font-size: 13px">Подписи и метаданные</span></div>
+          </div>
+          <pre data-file="styles.css"><code class="language-css">:root {
+  --text-sm: 0.8rem;                              /* 13px */
+  --text-base: 1rem;                              /* 16px */
+  --text-lg: 1.25rem;                             /* 20px */
+  --text-xl: 1.563rem;                            /* 25px */
+  --text-2xl: clamp(1.75rem, 1.2rem + 2vw, 2.44rem); /* 28–39px: растёт с шириной экрана */
+}</code></pre>
+          <p>Основной текст на сайте — <strong>16–18 px</strong>, меньше 14 px не опускайтесь. <code>clamp()</code> делает заголовки «резиновыми» без медиазапросов.</p>
+        </section>
+        <section class="lesson" id="spacing">
+          <h2><span>05</span>Интерлиньяж, длина строки и трекинг</h2>
+          <ul><li><strong>Межстрочный интервал</strong> (<code>line-height</code>): 1,5–1,7 для текста, 1,1–1,25 для крупных заголовков. Чем крупнее шрифт, тем плотнее строки.</li><li><strong>Длина строки</strong>: 45–75 знаков. Длинные строки утомляют, глаз теряет начало следующей. В CSS удобно задать <code>max-width: 65ch</code>.</li><li><strong>Трекинг</strong> (<code>letter-spacing</code>): крупным заголовкам — немного отрицательный (−0,02em), мелкому тексту в верхнем регистре — положительный (+0,06em).</li><li><strong>Абзацы</strong> разделяйте отступом, а не пустой строкой и не красной строкой.</li></ul>
+          <pre><code class="language-css">body    { font-size: 1rem; line-height: 1.6; }
+h1, h2  { line-height: 1.15; letter-spacing: -0.02em; }
+.caps   { text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.08em; }
+article { max-width: 65ch; }</code></pre>
+        </section>
+        <section class="lesson" id="hierarchy">
+          <h2><span>06</span>Типографическая иерархия</h2>
+          <p>Иерархия показывает, что читать первым. Её создают <strong>размер, толщина, цвет и регистр</strong> — обычно хватает двух-трёх приёмов одновременно.</p>
+          <div class="hier-demo">
+            <div class="bad"><span class="tag">Без иерархии</span><p>Заказ №1001</p><p>Фильтр масляный, 2 шт.</p><p>Доставка завтра с 10:00 до 14:00</p><p>1 780 ₽</p></div>
+            <div><span class="tag">С иерархией</span><div style="font-size: 22px; font-weight: 600; margin-top: 6px">1 780 ₽</div><div style="font-weight: 500; margin-top: 2px">Фильтр масляный, 2 шт.</div><div style="color: var(--muted); font-size: 14px; margin-top: 8px">Заказ №1001 · доставка завтра с 10:00 до 14:00</div></div>
+          </div>
+          <p>Проверка: прищурьтесь и посмотрите на экран. Самое важное должно оставаться заметным, даже когда текст не читается.</p>
+        </section>
+        <section class="lesson" id="loading">
+          <h2><span>07</span>Подключение веб-шрифтов</h2>
+          <p>Проще всего подключить шрифт из Google Fonts. <code>display=swap</code> показывает текст сразу системным шрифтом и подменяет его, когда загрузится нужный:</p>
+          <pre data-file="index.html"><code class="language-markup">&lt;link rel="preconnect" href="https://fonts.googleapis.com"&gt;
+&lt;link rel="preconnect" href="https://fonts.gstatic.com" crossorigin&gt;
+&lt;link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;700&amp;display=swap" rel="stylesheet"&gt;</code></pre>
+          <p>Для продакшена шрифт лучше хранить у себя — так быстрее и не зависит от внешнего сервиса:</p>
+          <pre data-file="fonts.css"><code class="language-css">@font-face {
+  font-family: 'Onest';
+  src: url('/fonts/onest-variable.woff2') format('woff2');
+  font-weight: 100 900;     /* вариативный шрифт: все толщины в одном файле */
+  font-display: swap;
+}
+
+body {
+  font-family: 'Onest', system-ui, -apple-system, 'Segoe UI', sans-serif;  /* запасные шрифты */
+}</code></pre>
+        </section>
+        <section class="lesson" id="rules">
+          <h2><span>08</span>Шпаргалка</h2>
+          <div class="tiles"><div class="good"><h4>Запомнить</h4><ul><li>Одна-две гарнитуры на весь сайт.</li><li>Размеры — из шкалы, а не «на глаз».</li><li>Текст 16–18 px, интерлиньяж 1,5–1,7, строка до 75 знаков.</li><li>Всегда проверяйте кириллицу и нужные начертания.</li></ul></div><div class="bad"><h4>Частые ошибки</h4><ul><li>Три-четыре разных шрифта на одной странице.</li><li>Декоративный или рукописный шрифт в длинном тексте.</li><li>Серый текст на сером фоне — низкий контраст.</li><li>Текст во всю ширину широкого экрана.</li></ul></div></div>
+        </section>
+        <section class="lesson" id="next">
+          <h2>Что дальше</h2>
+          <p>Посмотрите, как шрифты работают в разных стилях, — в галерее раздела «Дизайн» к каждому стилю подобрана своя гарнитура.</p>
+          <div class="next-steps"><a class="pill" href="../design.html">Весь раздел «Дизайн»</a><a class="pill ghost" href="laws.html">Законы дизайна</a><a class="pill ghost" href="styles.html">Галерея стилей</a><a class="pill ghost" href="https://fonts.google.com/?subset=cyrillic" target="_blank" rel="noopener">Google Fonts с кириллицей ↗</a></div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer" data-layout="footer"></footer>
+</body>
+</html>

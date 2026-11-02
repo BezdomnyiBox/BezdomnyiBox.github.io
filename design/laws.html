@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Законы дизайна — Владимир</title>
+  <meta name="description" content="Гештальт, иерархия, сетка, цвет и законы UX — Фиттса, Хика, Миллера и Якоба — с живыми примерами.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%235b4cf0'/><text x='16' y='21' font-family='monospace' font-size='13' font-weight='700' fill='white' text-anchor='middle'>&lt;/&gt;</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="../docs.css">
+  <script src="../theme.js"></script>
+  <script src="../layout.js" data-base="../" data-page="design" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js" defer></script>
+  <style>
+    .law-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-top: 16px; }
+    .law-fig { margin: 0; background: var(--tile); border-radius: 16px; padding: 20px; display: flex; flex-direction: column; align-items: center; gap: 14px; }
+    .law-fig figcaption { font-size: 13px; color: var(--muted); text-align: center; }
+    .dots { display: grid; grid-template-columns: repeat(6, 14px); gap: 10px; }
+    .dots i { width: 14px; height: 14px; border-radius: 50%; background: var(--muted); display: block; }
+    .dots.grouped { display: flex; gap: 26px; }
+    .dots.grouped > div { display: grid; grid-template-columns: repeat(2, 14px); gap: 6px; }
+    .dots i.acc { background: var(--accent); border-radius: 3px; }
+    .dots.region { display: flex; gap: 10px; }
+    .dots.region > div { display: grid; grid-template-columns: repeat(2, 14px); gap: 8px; padding: 8px; border-radius: 10px; }
+    .dots.region > div:first-child { background: color-mix(in srgb, var(--accent) 18%, transparent); }
+    .hier { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; margin-top: 16px; }
+    .hier > div { background: var(--tile); border-radius: 16px; padding: 20px; color: var(--text); font-size: 15px; }
+    .hier .label { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-bottom: 10px; display: block; }
+    .hier .good b { display: block; font-size: 22px; font-weight: 600; margin-bottom: 4px; }
+    .hier .good s { text-decoration: none; display: block; color: var(--muted); margin-bottom: 14px; }
+    .hier .good u { text-decoration: none; display: inline-block; padding: 8px 16px; border-radius: 999px; background: var(--accent); color: #fff; font-weight: 500; }
+    .hier .bad b, .hier .bad s, .hier .bad u { font-weight: 400; text-decoration: none; display: block; }
+    .ratio { display: flex; height: 56px; border-radius: 14px; overflow: hidden; margin-top: 16px; font-size: 13px; font-weight: 500; }
+    .ratio div { display: grid; place-items: center; }
+    .contrast { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-top: 16px; }
+    .contrast div { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 16px; font-size: 15px; }
+    .contrast small { display: block; margin-top: 6px; font-size: 12px; color: #6b6f7a; }
+    .fitts { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; margin-top: 16px; }
+    .fitts > div { background: var(--tile); border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 12px; }
+    .fitts .label { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
+    .fitts .tiny { align-self: flex-end; font-size: 11px; padding: 2px 6px; border: 1px solid var(--line); border-radius: 4px; color: var(--muted); }
+    .fitts .big { padding: 14px; border-radius: 12px; background: var(--accent); color: #fff; text-align: center; font-weight: 500; }
+    .chunk { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-top: 16px; }
+    .chunk div { background: var(--tile); border-radius: 16px; padding: 20px; text-align: center; font: 500 22px/1.2 "JetBrains Mono", monospace; color: var(--text); }
+    .chunk small { display: block; font: 400 13px/1.4 Onest, sans-serif; color: var(--muted); margin-top: 8px; }
+  </style>
+</head>
+<body>
+  <header class="site-header" data-layout="header"></header>
+
+  <main class="wrap">
+    <div class="doc-hero" style="--hero-bg: radial-gradient(50% 90% at 88% 12%, rgba(150, 240, 200, .4) 0%, transparent 60%), linear-gradient(135deg, #10314a, #1d5fae 55%, #22b07d)">
+      <div>
+        <div class="crumbs"><a href="../design.html">Дизайн</a> / Основы</div>
+        <h1>Законы <b>дизайна</b></h1>
+        <p>Гештальт, иерархия, сетка, цвет и законы UX — Фиттса, Хика, Миллера и Якоба — с живыми примерами.</p>
+        <div class="hero-facts"><span>8 уроков</span><span>~15 минут</span><span>UI и UX</span></div>
+      </div>
+      <div class="icon i-link">UX</div>
+    </div>
+
+    <div class="guide">
+      <aside class="toc">
+        <h4>Содержание</h4>
+        <ol><li><a href="#gestalt">Гештальт: как мы группируем</a></li><li><a href="#hierarchy">Визуальная иерархия</a></li><li><a href="#crap">Четыре принципа: контраст, повтор, выравнивание, близость</a></li><li><a href="#grid">Сетка и отступы</a></li><li><a href="#color">Цвет и контраст</a></li><li><a href="#fitts">Закон Фиттса</a></li><li><a href="#hick">Законы Хика и Миллера</a></li><li><a href="#jakob">Закон Якоба и эффект эстетики</a></li></ol>
+      </aside>
+
+      <div>
+        <section class="lesson" id="gestalt">
+          <h2><span>01</span>Гештальт: как мы группируем</h2>
+          <p>Мозг сам объединяет элементы в группы. Дизайнер управляет этим через расстояния, похожесть и общий фон.</p>
+          <div class="law-row">
+            <figure class="law-fig"><div class="dots grouped"><div><i></i><i></i><i></i><i></i></div><div><i></i><i></i><i></i><i></i></div><div><i></i><i></i><i></i><i></i></div></div><figcaption><b>Близость.</b> Одинаковые точки, но разные расстояния — и мы видим три группы</figcaption></figure>
+            <figure class="law-fig"><div class="dots"><i></i><i class="acc"></i><i></i><i class="acc"></i><i></i><i class="acc"></i><i class="acc"></i><i></i><i class="acc"></i><i></i><i class="acc"></i><i></i></div><figcaption><b>Сходство.</b> Элементы одного цвета и формы читаются как одна группа</figcaption></figure>
+            <figure class="law-fig"><div class="dots region"><div><i></i><i></i><i></i><i></i></div><div><i></i><i></i><i></i><i></i></div></div><figcaption><b>Общая область.</b> Фон или рамка объединяют сильнее, чем расстояние</figcaption></figure>
+          </div>
+          <ul><li>Подпись к полю формы ставьте <strong>ближе к своему полю</strong>, чем к соседнему.</li><li>Все ссылки на сайте — одного цвета, все кнопки одного типа — одной формы.</li><li>Связанные данные (цена, количество, итог) — в одной карточке.</li></ul>
+        </section>
+        <section class="lesson" id="hierarchy">
+          <h2><span>02</span>Визуальная иерархия</h2>
+          <p>Взгляд должен понимать, куда смотреть первым, вторым и третьим. Главное выделяют <strong>размером, контрастом, цветом и положением</strong>.</p>
+          <div class="hier">
+            <div class="bad"><span class="label">Всё одинаково важно</span><b>Фильтр масляный</b><s>В наличии на складе, доставка завтра</s><b>890 ₽</b><u>Добавить в корзину</u></div>
+            <div class="good"><span class="label">Есть главное</span><b>890 ₽</b><s>Фильтр масляный · в наличии, доставка завтра</s><u>В корзину</u></div>
+          </div>
+          <p>На экране должно быть <strong>одно главное действие</strong>. Если выделено всё — не выделено ничего.</p>
+        </section>
+        <section class="lesson" id="crap">
+          <h2><span>03</span>Четыре принципа: контраст, повтор, выравнивание, близость</h2>
+          <ul><li><strong>Контраст.</strong> Если элементы разные — делайте их явно разными. Чуть-чуть отличающиеся размеры выглядят как ошибка.</li><li><strong>Повтор.</strong> Одинаковые элементы оформлены одинаково на всех страницах: отступы, радиусы, стили кнопок.</li><li><strong>Выравнивание.</strong> Каждый элемент визуально связан с другим. Ничего не стоит «где-то рядом».</li><li><strong>Близость.</strong> Связанное — рядом, несвязанное — разнесено.</li></ul>
+          <p>Эти четыре принципа сформулировала Робин Уильямс в книге «Дизайн для недизайнеров» — с них удобно начинать любой разбор макета.</p>
+        </section>
+        <section class="lesson" id="grid">
+          <h2><span>04</span>Сетка и отступы</h2>
+          <p>Отступы берут из небольшой шкалы, кратной 4 или 8 пикселям. Тогда интерфейс выглядит аккуратно даже без дизайнера.</p>
+          <pre data-file="styles.css"><code class="language-css">:root {
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+}
+
+.card    { padding: var(--space-6); gap: var(--space-3); }
+.section { padding-block: var(--space-12); }</code></pre>
+          <ul><li>Внутренний отступ блока меньше, чем расстояние между блоками.</li><li>Пустое пространство — не «лишнее место», а способ показать группы и дать глазу отдохнуть.</li></ul>
+        </section>
+        <section class="lesson" id="color">
+          <h2><span>05</span>Цвет и контраст</h2>
+          <p>Правило <strong>60-30-10</strong>: 60% — нейтральный фон, 30% — второстепенный цвет, 10% — акцент для главных действий.</p>
+          <div class="ratio"><div style="flex: 60; background: #f2f3f5; color: #1a1a1f">60% фон</div><div style="flex: 30; background: #2b2b30; color: #fff">30%</div><div style="flex: 10; background: #5b4cf0; color: #fff">10%</div></div>
+          <p>Текст должен быть контрастным. Стандарт доступности <strong>WCAG</strong> требует отношения яркостей не меньше <strong>4,5 : 1</strong> для обычного текста и <strong>3 : 1</strong> для крупного:</p>
+          <div class="contrast">
+            <div style="color: #999999">Серый #999 на белом<small>2,8 : 1 — не проходит</small></div>
+            <div style="color: #767676">Серый #767676 на белом<small>4,5 : 1 — минимум</small></div>
+            <div style="color: #1a1a1f">Почти чёрный на белом<small>17 : 1 — отлично</small></div>
+          </div>
+          <p>Не передавайте смысл <strong>только цветом</strong>: к красной рамке ошибки добавьте текст и иконку — около 8% мужчин различают цвета хуже обычного.</p>
+        </section>
+        <section class="lesson" id="fitts">
+          <h2><span>06</span>Закон Фиттса</h2>
+          <p>Чем крупнее цель и чем она ближе, тем быстрее и точнее в неё попадают. Главные кнопки делают большими и ставят там, куда уже смотрит пользователь.</p>
+          <div class="fitts">
+            <div><span class="label">Плохо</span><span>Оформить заказ на 1 780 ₽?</span><span class="tiny">ок</span></div>
+            <div><span class="label">Хорошо</span><span>Оформить заказ на 1 780 ₽?</span><span class="big">Оформить заказ</span></div>
+          </div>
+          <ul><li>Минимальный размер области нажатия на телефоне — <strong>44 × 44 px</strong>.</li><li>Кликабельной делайте всю карточку или строку, а не только маленькую ссылку внутри.</li><li>Опасные действия («Удалить») — подальше от частых («Сохранить»).</li></ul>
+        </section>
+        <section class="lesson" id="hick">
+          <h2><span>07</span>Законы Хика и Миллера</h2>
+          <p><strong>Закон Хика:</strong> время принятия решения растёт с числом вариантов. Меню из 20 пунктов, тариф из 7 вариантов, форма на 15 полей — всё это замедляет и пугает.</p>
+          <ul><li>Показывайте 3–5 главных вариантов, остальное — в «Ещё».</li><li>Выделяйте рекомендуемый вариант.</li><li>Разбивайте длинные формы на шаги.</li></ul>
+          <p><strong>Закон Миллера:</strong> в кратковременной памяти помещается немного — около 7 ± 2 элементов. Информацию разбивают на группы (чанки):</p>
+          <div class="chunk"><div>89141234567<small>трудно проверить</small></div><div>8 914 123-45-67<small>читается группами</small></div></div>
+        </section>
+        <section class="lesson" id="jakob">
+          <h2><span>08</span>Закон Якоба и эффект эстетики</h2>
+          <p><strong>Закон Якоба:</strong> большую часть времени люди проводят на других сайтах и ждут, что ваш работает так же. Логотип слева ведёт на главную, корзина справа вверху, ссылки подчёркнуты или выделены цветом. Ломать привычки стоит только ради заметной выгоды.</p>
+          <p><strong>Эффект эстетики-юзабилити:</strong> красивый интерфейс кажется пользователям удобнее, и они прощают ему мелкие недочёты. Поэтому визуальная аккуратность — не украшение, а часть удобства.</p>
+          <div class="tiles"><div class="good"><h4>Запомнить</h4><ul><li>Одно главное действие на экране.</li><li>Связанное — рядом, разное — явно разное.</li><li>Отступы и размеры — из шкалы.</li><li>Контраст текста не меньше 4,5 : 1.</li></ul></div><div class="bad"><h4>Частые ошибки</h4><ul><li>Пять кнопок одного цвета и размера.</li><li>Мелкие кнопки на телефоне.</li><li>Смысл, переданный только цветом.</li><li>«Креативная» навигация, которую нужно изучать.</li></ul></div></div>
+        </section>
+        <section class="lesson" id="next">
+          <h2>Что дальше</h2>
+          <p>Возьмите любой экран своего проекта и разберите его по этим законам: где главное действие, как сгруппированы элементы, хватает ли контраста. Затем посмотрите, как те же принципы работают в разных стилях.</p>
+          <div class="next-steps"><a class="pill" href="../design.html">Весь раздел «Дизайн»</a><a class="pill ghost" href="fonts.html">Шрифты и типографика</a><a class="pill ghost" href="styles.html">Галерея стилей</a><a class="pill ghost" href="https://lawsofux.com/" target="_blank" rel="noopener">Laws of UX ↗</a></div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer" data-layout="footer"></footer>
+</body>
+</html>

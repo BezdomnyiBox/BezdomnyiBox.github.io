@@ -1,7 +1,7 @@
 // Общие шапка и подвал для всех страниц.
 // Подключение: <script src="layout.js" data-base="" data-page="home" defer></script>
-//   data-base — путь до корня сайта ("" для корня, "../" для страниц в папке guides/)
-//   data-page — какой пункт меню подсветить: home | guides
+//   data-base — путь до корня сайта ("" для корня, "../" для страниц в папках guides/ и design/)
+//   data-page — какой пункт меню подсветить: home | guides | design
 (function () {
   var script = document.currentScript;
   var base = script.dataset.base || '';
@@ -25,6 +25,7 @@
       '<nav class="site-nav">' +
         '<a href="' + base + 'index.html#tech">Технологии</a>' +
         '<a href="' + base + 'guides.html"' + current('guides') + '>Гайды</a>' +
+        '<a href="' + base + 'design.html"' + current('design') + '>Дизайн</a>' +
         '<a href="#contact">Контакты</a>' +
       '</nav>' +
       '<div class="header-actions">' +
@@ -58,6 +59,12 @@
           '<li><a href="' + base + 'guides/rest-api.html">HTTP и REST API</a></li>' +
           '<li><a href="' + base + 'guides/sql.html">SQL</a></li>' +
           '<li><a href="' + base + 'guides/react.html">React</a></li>' +
+        '</ul></div>' +
+        '<div><h4>Дизайн</h4><ul>' +
+          '<li><a href="' + base + 'design.html">Весь раздел</a></li>' +
+          '<li><a href="' + base + 'design/fonts.html">Шрифты</a></li>' +
+          '<li><a href="' + base + 'design/laws.html">Законы дизайна</a></li>' +
+          '<li><a href="' + base + 'design/styles.html">Галерея стилей</a></li>' +
         '</ul></div>' +
         '<div><h4>Обо мне</h4><ul>' +
           '<li>' + ext(LINKS.resume, 'Резюме') + '</li>' +

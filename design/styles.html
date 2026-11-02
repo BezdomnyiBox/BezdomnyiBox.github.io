@@ -1,0 +1,750 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Галерея стилей — Владимир</title>
+  <meta name="description" content="12 стилей веб-дизайна с живыми примерами и анимациями: глассморфизм, голография, неон, ASCII-арт, нео-брутализм, неоморфизм, клейморфизм и другие.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%235b4cf0'/><text x='16' y='21' font-family='monospace' font-size='13' font-weight='700' fill='white' text-anchor='middle'>&lt;/&gt;</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Unbounded:wght@500;700;900&family=Comfortaa:wght@700&family=Russo+One&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="../docs.css">
+  <script src="../theme.js"></script>
+  <script src="../layout.js" data-base="../" data-page="design" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" defer></script>
+  <style>
+    /* ===== Каркас галереи ===== */
+    .style-map { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 28px; }
+    .style-sec { padding-top: 88px; scroll-margin-top: 72px; }
+    .style-head { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 32px; align-items: center; }
+    .style-info .num { color: var(--accent); font-weight: 500; font-size: 14px; }
+    .style-info h2 { font-weight: 500; font-size: clamp(26px, 3vw, 34px); letter-spacing: -.02em; margin-top: 4px; }
+    .style-info h2 small { display: block; font-size: 15px; font-weight: 400; color: var(--muted); letter-spacing: 0; margin-top: 4px; }
+    .style-info p { color: var(--muted); margin-top: 12px; }
+    .style-info p b { color: var(--text); font-weight: 500; }
+    .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+    .chips span { font: 12px/1 "JetBrains Mono", monospace; padding: 7px 10px; border-radius: 8px; background: var(--tile); color: var(--text); }
+    .style-sec details { margin-top: 16px; }
+    .style-sec summary { cursor: pointer; display: inline-flex; padding: 8px 14px; border-radius: 999px; background: var(--tile); font-size: 14px; font-weight: 500; list-style: none; }
+    .style-sec summary::-webkit-details-marker { display: none; }
+    .style-sec summary::before { content: "</>"; font-family: "JetBrains Mono", monospace; margin-right: 8px; color: var(--accent); }
+
+    .stage {
+      position: relative; overflow: hidden; isolation: isolate;
+      border-radius: var(--radius-lg); min-height: 320px; padding: 24px;
+      display: grid; place-items: center;
+    }
+
+    /* ===== 1. Глассморфизм ===== */
+    .st-glass { background: #0f1029; }
+    .st-glass .blob { position: absolute; border-radius: 50%; animation: glass-float 9s ease-in-out infinite; }
+    .st-glass .b1 { width: 200px; height: 200px; top: 6%; left: 8%; background: radial-gradient(circle at 30% 30%, #ff9ae6, #b14cf0); }
+    .st-glass .b2 { width: 240px; height: 240px; bottom: -14%; right: 4%; background: radial-gradient(circle at 30% 30%, #7ff0d0, #2f7fd4); animation-delay: -3s; }
+    .st-glass .b3 { width: 110px; height: 110px; top: 14%; right: 24%; background: radial-gradient(circle at 30% 30%, #ffe08a, #ff7a3d); animation-delay: -6s; }
+    @keyframes glass-float { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(24px, -18px) scale(1.08); } }
+    .glass-card {
+      position: relative; width: min(320px, 100%); padding: 24px; border-radius: 22px; color: #fff;
+      background: rgba(255, 255, 255, .12); border: 1px solid rgba(255, 255, 255, .3);
+      backdrop-filter: blur(18px) saturate(160%); -webkit-backdrop-filter: blur(18px) saturate(160%);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, .25), inset 0 1px 0 rgba(255, 255, 255, .35);
+    }
+    .glass-card small { opacity: .75; font-size: 13px; }
+    .glass-card strong { display: block; font-size: 34px; font-weight: 600; letter-spacing: -.02em; margin: 4px 0 20px; }
+    .glass-row { display: flex; justify-content: space-between; font: 500 14px "JetBrains Mono", monospace; opacity: .9; }
+
+    /* ===== 2. Голография ===== */
+    .st-holo { background: radial-gradient(circle at 50% 30%, #2a2a35, #0d0d12 70%); perspective: 800px; }
+    .holo-card {
+      --rx: 0deg; --ry: 0deg; --mx: 50%; --my: 50%;
+      position: relative; width: min(300px, 100%); aspect-ratio: 1.58; border-radius: 18px; overflow: hidden;
+      padding: 20px; color: #1a1a1f;
+      background: linear-gradient(115deg, #ffb3e6, #ffe8a3, #b3ffd9, #a3d8ff, #d4b3ff, #ffb3e6);
+      background-size: 300% 300%;
+      animation: holo-shift 6s linear infinite;
+      transform: rotateX(var(--rx)) rotateY(var(--ry)); transition: transform .15s ease-out;
+      box-shadow: 0 24px 50px rgba(0, 0, 0, .5);
+    }
+    .holo-card::before {
+      content: ""; position: absolute; inset: 0;
+      background: repeating-linear-gradient(115deg, transparent 0 10px, rgba(255, 255, 255, .5) 12px, transparent 16px);
+      background-size: 200% 200%; mix-blend-mode: overlay; animation: holo-shine 4s linear infinite;
+    }
+    .holo-card::after {
+      content: ""; position: absolute; inset: 0; mix-blend-mode: soft-light;
+      background: radial-gradient(circle at var(--mx) var(--my), rgba(255, 255, 255, .8), transparent 45%);
+    }
+    @keyframes holo-shift { to { background-position: 300% 0; } }
+    @keyframes holo-shine { to { background-position: 200% 200%; } }
+    .holo-card b { position: relative; z-index: 1; display: block; font: 700 22px/1.1 Unbounded, sans-serif; }
+    .holo-card span { position: relative; z-index: 1; font-size: 13px; }
+    .holo-chip { position: absolute; z-index: 1; left: 20px; bottom: 20px; width: 44px; height: 34px; border-radius: 7px; background: linear-gradient(135deg, #f1f1f1, #a8a8a8); }
+    .holo-id { position: absolute; z-index: 1; right: 20px; bottom: 22px; font: 500 13px "JetBrains Mono", monospace; }
+
+    /* ===== 3. Неон ===== */
+    .st-neon { background: radial-gradient(ellipse at 50% 120%, #1b0f2e, #07060d 60%); }
+    .neon-wrap { display: flex; flex-direction: column; align-items: center; gap: 26px; }
+    .neon-sign {
+      font: 700 clamp(40px, 6vw, 64px)/1 Comfortaa, sans-serif; color: #ffe6fb;
+      text-shadow: 0 0 4px #fff, 0 0 10px #ff4fd8, 0 0 22px #ff4fd8, 0 0 44px #ff4fd8, 0 0 88px #ff4fd8;
+      animation: neon-flicker 5s infinite;
+    }
+    @keyframes neon-flicker { 0%, 18%, 22%, 25%, 53%, 57%, 100% { opacity: 1; } 20%, 24%, 55% { opacity: .35; text-shadow: none; } }
+    .neon-line { width: 220px; height: 3px; border-radius: 3px; background: #b6ff4f; box-shadow: 0 0 8px #b6ff4f, 0 0 24px #b6ff4f; }
+    .neon-btn {
+      font: 600 15px Onest, sans-serif; color: #7df9ff; background: transparent; cursor: pointer;
+      border: 2px solid #7df9ff; border-radius: 999px; padding: 12px 30px;
+      text-shadow: 0 0 6px #7df9ff; box-shadow: 0 0 10px #7df9ff, inset 0 0 10px rgba(125, 249, 255, .5);
+      transition: background .2s, color .2s, box-shadow .2s;
+    }
+    .neon-btn:hover { background: #7df9ff; color: #07060d; text-shadow: none; box-shadow: 0 0 20px #7df9ff, 0 0 60px #7df9ff; }
+
+    /* ===== 4. ASCII-арт ===== */
+    .st-ascii { background: #050805; color: #39ff6a; text-shadow: 0 0 6px rgba(57, 255, 106, .6); }
+    .st-ascii::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: repeating-linear-gradient(to bottom, transparent 0 2px, rgba(0, 0, 0, .3) 3px); }
+    .ascii-wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 28px; }
+    .st-ascii pre { margin: 0; padding: 0; border: 0; background: none; overflow: visible; font: 500 14px/1.25 "JetBrains Mono", monospace; color: inherit; }
+
+    /* ===== 5. Нео-брутализм ===== */
+    .st-brutal { background: #fff3c4; color: #000; padding-bottom: 64px; }
+    .brutal-wrap { display: flex; flex-direction: column; gap: 18px; width: min(380px, 100%); }
+    .brutal-card { background: #fff; border: 3px solid #000; border-radius: 14px; box-shadow: 6px 6px 0 #000; padding: 18px; }
+    .brutal-card h3 { font: 900 22px/1.1 Unbounded, sans-serif; }
+    .brutal-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+    .brutal-tags span { border: 2px solid #000; border-radius: 999px; padding: 4px 10px; font: 600 12px Onest, sans-serif; }
+    .brutal-btn {
+      font: 700 15px Unbounded, sans-serif; color: #000; background: #ff6ad5; cursor: pointer;
+      border: 3px solid #000; border-radius: 12px; padding: 14px; box-shadow: 4px 4px 0 #000;
+      transition: transform .1s, box-shadow .1s;
+    }
+    .brutal-btn:hover { transform: translate(2px, 2px); box-shadow: 2px 2px 0 #000; }
+    .brutal-btn:active { transform: translate(4px, 4px); box-shadow: 0 0 0 #000; }
+    .brutal-ticker { position: absolute; left: 0; right: 0; bottom: 0; background: #a3e635; border-top: 3px solid #000; overflow: hidden; white-space: nowrap; padding: 9px 0; font: 700 13px Unbounded, sans-serif; }
+    .brutal-ticker div { display: inline-block; animation: ticker 14s linear infinite; }
+    @keyframes ticker { to { transform: translateX(-50%); } }
+
+    /* ===== 6. Неоморфизм ===== */
+    .st-neu { background: #e4e8ee; color: #5b6475; }
+    .neu-panel { width: min(320px, 100%); padding: 24px; border-radius: 28px; background: #e4e8ee; box-shadow: 12px 12px 24px #c2c7cf, -12px -12px 24px #fff; display: flex; flex-direction: column; gap: 20px; }
+    .neu-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .neu-top b { display: block; color: #2f3644; font-weight: 600; }
+    .neu-top small { font-size: 13px; }
+    .neu-play { width: 64px; height: 64px; flex: none; border-radius: 50%; border: 0; cursor: pointer; background: #e4e8ee; color: #5b4cf0; font-size: 20px; box-shadow: 6px 6px 12px #c2c7cf, -6px -6px 12px #fff; transition: box-shadow .2s; }
+    .neu-play[aria-pressed="true"] { box-shadow: inset 6px 6px 12px #c2c7cf, inset -6px -6px 12px #fff; }
+    .neu-track { height: 12px; border-radius: 12px; overflow: hidden; box-shadow: inset 4px 4px 8px #c2c7cf, inset -4px -4px 8px #fff; }
+    .neu-track i { display: block; width: 100%; height: 100%; border-radius: 12px; background: linear-gradient(90deg, #8f83ff, #5b4cf0); transform-origin: left; transform: scaleX(.35); animation: neu-progress 8s linear infinite paused; }
+    .neu-panel.playing .neu-track i { animation-play-state: running; }
+    @keyframes neu-progress { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+    .neu-row { display: flex; align-items: center; justify-content: space-between; font-size: 14px; }
+    .neu-switch { position: relative; width: 64px; height: 34px; border: 0; border-radius: 34px; cursor: pointer; background: #e4e8ee; box-shadow: inset 4px 4px 8px #c2c7cf, inset -4px -4px 8px #fff; }
+    .neu-switch::after { content: ""; position: absolute; top: 4px; left: 4px; width: 26px; height: 26px; border-radius: 50%; background: #e4e8ee; box-shadow: 3px 3px 6px #c2c7cf, -3px -3px 6px #fff; transition: transform .25s, background .25s; }
+    .neu-switch[aria-pressed="true"]::after { transform: translateX(30px); background: #5b4cf0; }
+
+    /* ===== 7. Клейморфизм ===== */
+    .st-clay { background: linear-gradient(135deg, #ffe3ef, #e6e0ff); color: #3b2a4a; }
+    .clay-wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 24px; }
+    .clay {
+      border-radius: 32px; animation: clay-bob 4s ease-in-out infinite;
+      box-shadow: inset -10px -10px 20px rgba(0, 0, 0, .12), inset 10px 10px 20px rgba(255, 255, 255, .7), 0 22px 30px -12px var(--sh);
+    }
+    .clay-card { --sh: rgba(214, 90, 140, .55); background: #ffb6d3; width: 190px; padding: 22px; font: 700 18px/1.2 Unbounded, sans-serif; }
+    .clay-card small { display: block; margin-top: 8px; font: 500 13px Onest, sans-serif; opacity: .7; }
+    .clay-ball { --sh: rgba(90, 120, 214, .5); background: #a9c4ff; width: 92px; height: 92px; border-radius: 50%; display: grid; place-items: center; font-size: 36px; animation-delay: -1.3s; }
+    .clay-pill { --sh: rgba(90, 180, 120, .5); background: #b5f0c4; padding: 14px 26px; border-radius: 999px; font: 700 15px Unbounded, sans-serif; animation-delay: -2.6s; }
+    @keyframes clay-bob { 0%, 100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-12px) rotate(2deg); } }
+
+    /* ===== 8. Аврора ===== */
+    .st-aurora { background: #04060f; color: #fff; text-align: center; }
+    .st-aurora::before {
+      content: ""; position: absolute; inset: -40%; z-index: -1; opacity: .6;
+      background: conic-gradient(from 0deg, #00ffa3, #00b3ff, #8a5cff, #ff4fd8, #00ffa3);
+      filter: blur(70px); animation: aurora-spin 14s linear infinite;
+    }
+    .st-aurora::after { content: ""; position: absolute; inset: 0; z-index: -1; background: radial-gradient(ellipse at 50% 130%, #04060f 30%, transparent 70%); }
+    @keyframes aurora-spin { to { transform: rotate(1turn); } }
+    .aurora-title { font: 700 clamp(30px, 4.5vw, 46px)/1.1 Unbounded, sans-serif; letter-spacing: -.02em; text-shadow: 0 0 30px rgba(255, 255, 255, .35); }
+    .aurora-sub { margin-top: 12px; opacity: .8; }
+
+    /* ===== 9. Глитч / киберпанк ===== */
+    .st-glitch { background: #0b0b0d; color: #fff; }
+    .glitch-wrap { display: flex; flex-direction: column; align-items: center; gap: 24px; }
+    .glitch { position: relative; font: 400 clamp(44px, 7vw, 76px)/1 "Russo One", sans-serif; letter-spacing: .02em; }
+    .glitch::before, .glitch::after { content: attr(data-text); position: absolute; inset: 0; mix-blend-mode: screen; }
+    .glitch::before { color: #00f0ff; animation: glitch-a 2.4s infinite steps(1); }
+    .glitch::after { color: #ff2bd6; animation: glitch-b 2.4s infinite steps(1); }
+    @keyframes glitch-a {
+      0% { clip-path: inset(0 0 85% 0); transform: translate(-3px, 0); }
+      10% { clip-path: inset(40% 0 40% 0); transform: translate(-6px, 2px); }
+      20% { clip-path: inset(80% 0 5% 0); transform: translate(3px, 0); }
+      30% { clip-path: inset(10% 0 70% 0); transform: translate(4px, -2px); }
+      40%, 100% { clip-path: inset(100% 0 0 0); }
+    }
+    @keyframes glitch-b {
+      0% { clip-path: inset(70% 0 10% 0); transform: translate(3px, 0); }
+      12% { clip-path: inset(20% 0 60% 0); transform: translate(6px, -2px); }
+      24% { clip-path: inset(50% 0 30% 0); transform: translate(-3px, 0); }
+      36% { clip-path: inset(5% 0 85% 0); transform: translate(-4px, 2px); }
+      45%, 100% { clip-path: inset(100% 0 0 0); }
+    }
+    .cyber-tag { font: 700 13px "JetBrains Mono", monospace; letter-spacing: .12em; color: #000; background: #fcee0a; padding: 10px 24px 10px 16px; clip-path: polygon(0 0, 100% 0, 100% 62%, calc(100% - 12px) 100%, 0 100%); }
+
+    /* ===== 10. Синтвейв ===== */
+    .st-synth { background: linear-gradient(#0d0221, #2a0a4a 38%, #7a1b70 56%, #ff6ec7 62%); min-height: 340px; }
+    .synth-glow { position: absolute; left: 50%; top: 10%; width: 240px; height: 240px; transform: translateX(-50%); border-radius: 50%; background: radial-gradient(circle, rgba(255, 110, 199, .55), transparent 65%); }
+    .synth-sun {
+      position: absolute; left: 50%; top: 16%; width: 170px; height: 170px; transform: translateX(-50%); border-radius: 50%;
+      background: linear-gradient(#ffe259, #ff4d8d 78%);
+      -webkit-mask: linear-gradient(#000 52%, transparent 52% 57%, #000 57% 66%, transparent 66% 71%, #000 71% 79%, transparent 79% 84%, #000 84%);
+      mask: linear-gradient(#000 52%, transparent 52% 57%, #000 57% 66%, transparent 66% 71%, #000 71% 79%, transparent 79% 84%, #000 84%);
+    }
+    .synth-floor {
+      position: absolute; left: -50%; right: -50%; bottom: -20%; height: 58%;
+      background-color: #12002b;
+      background-image: linear-gradient(#ff2bd6 2px, transparent 2px), linear-gradient(90deg, #ff2bd6 2px, transparent 2px);
+      background-size: 46px 46px;
+      transform: perspective(260px) rotateX(62deg); transform-origin: top;
+      animation: synth-grid 1s linear infinite;
+    }
+    @keyframes synth-grid { to { background-position: 0 46px; } }
+    .synth-title {
+      position: absolute; left: 0; right: 0; bottom: 12%; text-align: center; z-index: 1;
+      font: italic 400 clamp(38px, 6vw, 62px)/1 "Russo One", sans-serif;
+      background: linear-gradient(#e0f7ff 40%, #8aa0ff 52%, #ff7ad9 72%); -webkit-background-clip: text; background-clip: text; color: transparent;
+      filter: drop-shadow(0 0 12px rgba(255, 122, 217, .6));
+    }
+
+    /* ===== 11. Швейцарский стиль ===== */
+    .st-swiss { background: #f1efe9; color: #111; place-items: stretch; padding: 28px; }
+    .swiss { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; align-content: space-between; }
+    .swiss-num { grid-column: 1 / 4; font: 700 64px/.9 Onest, sans-serif; letter-spacing: -.05em; }
+    .swiss-dot { grid-column: 6; justify-self: end; width: 56px; height: 56px; border-radius: 50%; background: #e30613; animation: swiss-pulse 3s ease-in-out infinite; }
+    .swiss-title { grid-column: 1 / 7; font: 700 clamp(30px, 4.6vw, 50px)/.95 Onest, sans-serif; letter-spacing: -.04em; }
+    .swiss-bar { grid-column: 1 / 7; height: 10px; background: #111; transform-origin: left; animation: swiss-bar 3s cubic-bezier(.7, 0, .2, 1) infinite alternate; }
+    .swiss-cols { grid-column: 1 / 7; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; font-size: 12px; line-height: 1.4; }
+    .swiss-cols b { display: block; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 4px; }
+    @keyframes swiss-bar { from { transform: scaleX(.15); } to { transform: scaleX(1); } }
+    @keyframes swiss-pulse { 50% { transform: scale(.82); } }
+
+    /* ===== 12. Бенто-сетка ===== */
+    .st-bento { background: #f5f5f7; color: #1d1d1f; place-items: stretch; padding: 20px; }
+    .bento { display: grid; grid-template-columns: repeat(3, 1fr); grid-auto-rows: 128px; gap: 12px; }
+    .bento > div {
+      background: #fff; border-radius: 22px; padding: 16px; font-size: 13px; color: #6e6e73;
+      display: flex; flex-direction: column; justify-content: space-between;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, .05); transition: transform .25s, box-shadow .25s;
+    }
+    .bento > div:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(0, 0, 0, .1); }
+    .bento b { font-size: clamp(22px, 3vw, 30px); font-weight: 700; letter-spacing: -.03em; color: #1d1d1f; }
+    .bento .wide { grid-column: span 2; }
+    .bento .tall { grid-row: span 2; }
+    .bento .dark { background: #1d1d1f; color: #a1a1a6; }
+    .bento .dark b { color: #fff; }
+    .bento .grad { background: linear-gradient(135deg, #ff9a8b, #ff6a88 50%, #ff99ac); color: #fff; }
+    .bento .grad b { color: #fff; }
+    .bento-bars { display: flex; align-items: flex-end; gap: 6px; height: 56px; }
+    .bento-bars i { flex: 1; border-radius: 6px; background: linear-gradient(#8f83ff, #5b4cf0); transform-origin: bottom; animation: bento-bar 2.4s ease-in-out infinite alternate; }
+    @keyframes bento-bar { from { transform: scaleY(.4); } to { transform: scaleY(1); } }
+
+    @media (max-width: 860px) {
+      .style-head { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+    }
+    @media (max-width: 520px) {
+      .bento { grid-template-columns: repeat(2, 1fr); }
+      .bento .tall { grid-row: span 1; }
+      .bento .grad { grid-column: span 2; }
+      .swiss-cols { grid-template-columns: 1fr 1fr; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .stage *, .stage::before, .stage *::before, .stage *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header" data-layout="header"></header>
+
+  <main class="wrap">
+    <div class="doc-hero" style="--hero-bg: radial-gradient(45% 80% at 10% 20%, rgba(255, 122, 224, .7) 0%, transparent 60%), radial-gradient(45% 80% at 85% 85%, rgba(111, 227, 192, .6) 0%, transparent 60%), radial-gradient(40% 70% at 70% 0%, rgba(255, 211, 25, .5) 0%, transparent 60%), linear-gradient(135deg, #2b1d4f, #4b3ee0 60%, #7b4cf0)">
+      <div>
+        <div class="crumbs"><a href="../design.html">Дизайн</a> / Галерея стилей</div>
+        <h1>Галерея <b>стилей</b></h1>
+        <p>Двенадцать направлений веб-дизайна с живыми примерами и анимациями. У каждого — описание, где он уместен, и ключевой CSS, который можно взять себе.</p>
+        <div class="hero-facts"><span>12 стилей</span><span>Чистый CSS</span><span>Анимации</span></div>
+      </div>
+      <div class="icon i-ml">UI</div>
+    </div>
+
+    <div class="ai-note">
+      <span class="spark">✦</span>
+      <p>Все стили в этом разделе сгенерированы с помощью ИИ. <span>Хотите такой же дизайн для своего сайта? Сделаю под ваш проект за договорную цену.</span></p>
+      <a class="pill" href="https://t.me/BojooYkt" target="_blank" rel="noopener">Обсудить проект</a>
+    </div>
+
+    <nav class="style-map" aria-label="Стили">
+      <a class="pill ghost sm" href="#glass">Глассморфизм</a>
+      <a class="pill ghost sm" href="#holo">Голография</a>
+      <a class="pill ghost sm" href="#neon">Неон</a>
+      <a class="pill ghost sm" href="#ascii">ASCII-арт</a>
+      <a class="pill ghost sm" href="#brutal">Нео-брутализм</a>
+      <a class="pill ghost sm" href="#neu">Неоморфизм</a>
+      <a class="pill ghost sm" href="#clay">Клейморфизм</a>
+      <a class="pill ghost sm" href="#aurora">Аврора</a>
+      <a class="pill ghost sm" href="#glitch">Глитч</a>
+      <a class="pill ghost sm" href="#synth">Синтвейв</a>
+      <a class="pill ghost sm" href="#swiss">Швейцарский стиль</a>
+      <a class="pill ghost sm" href="#bento">Бенто-сетка</a>
+    </nav>
+
+    <!-- 1 -->
+    <section class="style-sec" id="glass">
+      <div class="style-head">
+        <div class="style-info">
+          <span class="num">01</span>
+          <h2>Глассморфизм<small>Glassmorphism</small></h2>
+          <p>Полупрозрачные панели, похожие на матовое стекло, поверх ярких цветных пятен. Даёт глубину и «премиальное» ощущение.</p>
+          <p><b>Подходит:</b> финтех, карточки и виджеты, меню поверх фото и видео.</p>
+          <div class="chips"><span>backdrop-filter: blur</span><span>rgba-фон</span><span>светлая рамка</span></div>
+        </div>
+        <div class="stage st-glass">
+          <span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span>
+          <div class="glass-card"><small>Баланс карты</small><strong>128 400 ₽</strong><div class="glass-row"><span>•• 4242</span><span>12/28</span></div></div>
+        </div>
+      </div>
+      <details><summary>Показать CSS</summary>
+<pre><code class="language-css">.glass-card {
+  background: rgba(255, 255, 255, .12);
+  border: 1px solid rgba(255, 255, 255, .3);
+  border-radius: 22px;
+  backdrop-filter: blur(18px) saturate(160%);   /* размывает всё, что под панелью */
+  box-shadow: 0 10px 40px rgba(0, 0, 0, .25), inset 0 1px 0 rgba(255, 255, 255, .35);
+}</code></pre>
+      </details>
+    </section>
+
+    <!-- 2 -->
+    <section class="style-sec" id="holo">
+      <div class="style-head">
+        <div class="style-info">
+          <span class="num">02</span>
+          <h2>Голография<small>Holographic</small></h2>
+          <p>Переливающийся радужный градиент, как на голографической наклейке. Наведите курсор на карту — она наклонится и поймает блик.</p>
+          <p><b>Подходит:</b> промо, NFT и коллекционные карточки, бейджи и VIP-статусы.</p>
+          <div class="chips"><span>анимированный gradient</span><span>mix-blend-mode</span><span>3D-наклон</span></div>
+        </div>
+        <div class="stage st-holo">
+          <div class="holo-card"><b>VIP PASS</b><span>Клубная карта</span><i class="holo-chip"></i><span class="holo-id">0042</span></div>
+        </div>
+      </div>
+      <details><summary>Показать CSS</summary>
+<pre><code class="language-css">.holo-card {
+  background: linear-gradient(115deg, #ffb3e6, #ffe8a3, #b3ffd9, #a3d8ff, #d4b3ff, #ffb3e6);
+  background-size: 300% 300%;
+  animation: holo-shift 6s linear infinite;
+  transform: rotateX(var(--rx)) rotateY(var(--ry));   /* углы задаёт JS по движению курсора */
+}
+.holo-card::before {                                   /* полосы-блики */
+  content: ""; position: absolute; inset: 0;
+  background: repeating-linear-gradient(115deg, transparent 0 10px, rgba(255, 255, 255, .5) 12px, transparent 16px);
+  mix-blend-mode: overlay;
+}
+@keyframes holo-shift { to { background-position: 300% 0; } }</code></pre>
+      </details>
+    </section>
+
+    <!-- 3 -->
+    <section class="style-sec" id="neon">
+      <div class="style-head">
+        <div class="style-info">
+          <span class="num">03</span>
+          <h2>Неон<small>Neon</small></h2>
+          <p>Светящиеся вывески на тёмном фоне. Эффект строится на нескольких слоях <code>text-shadow</code> с нарастающим радиусом, а мерцание — на ключевых кадрах прозрачности.</p>
+          <p><b>Подходит:</b> бары и клубы, игры, музыкальные и ночные проекты.</p>
+          <div class="chips"><span>text-shadow ×5</span><span>box-shadow inset</span><span>мерцание</span></div>
+        </div>
+        <div class="stage st-neon">
+          <div class="neon-wrap">
+            <div class="neon-sign">открыто</div>
+            <div class="neon-line"></div>
+            <button class="neon-btn" type="button">Войти</button>
+          </div>
+        </div>
+      </div>
+      <details><summary>Показать CSS</summary>
+<pre><code class="language-css">.neon-sign {
+  color: #ffe6fb;
+  text-shadow: 0 0 4px #fff, 0 0 10px #ff4fd8, 0 0 22px #ff4fd8,
+               0 0 44px #ff4fd8, 0 0 88px #ff4fd8;    /* чем больше радиус, тем шире свечение */
+  animation: neon-flicker 5s infinite;
+}
+@keyframes neon-flicker {
+  0%, 18%, 22%, 25%, 53%, 57%, 100% { opacity: 1; }
+  20%, 24%, 55% { opacity: .35; text-shadow: none; }
+}</code></pre>
+      </details>
+    </section>
+
+    <!-- 4 -->
+    <section class="style-sec" id="ascii">
+      <div class="style-head">
+        <div class="style-info">
+          <span class="num">04</span>
+          <h2>ASCII-арт<small>ASCII / терминал</small></h2>
+          <p>Картинки и интерфейсы из символов моноширинного шрифта, зелёный текст и полосы старого монитора. Анимация — это просто перерисовка текста по таймеру.</p>
+          <p><b>Подходит:</b> сайты разработчиков, документация CLI-утилит, хакатоны, пасхалки.</p>
+          <div class="chips"><span>monospace</span><span>setInterval</span><span>scanlines</span></div>
+        </div>
+        <div class="stage st-ascii">
+          <div class="ascii-wrap">
+            <pre class="ascii-art" aria-hidden="true"> /\_/\
+( o.o )
+ > ^ &lt;</pre>
+            <pre class="ascii-term" aria-label="Анимация деплоя в терминале">$ deploy --prod</pre>
+          </div>
+        </div>
+      </div>
+      <details><summary>Показать JS</summary>
+<pre><code class="language-javascript">const W = 30;
+const box = lines =&gt; [
+  '+' + '-'.repeat(W + 2) + '+',
+  ...lines.map(l =&gt; '| ' + l.padEnd(W) + ' |'),   // padEnd выравнивает рамку
+  '+' + '-'.repeat(W + 2) + '+',
+].join('\n');
+
+let t = 0;
+setInterval(() =&gt; {
+  const p = Math.min(100, (++t % 70) * 2);
+  const bar = '#'.repeat(p / 100 * 16 | 0).padEnd(16, '.');
+  term.textContent = box(['$ deploy --prod', `[${bar}] ${String(p).padStart(3)}%`]);
+}, 120);</code></pre>
+      </details>
+    </section>
+
+    <!-- 5 -->
+    <section class="style-sec" id="brutal">
+      <div class="style-head">
+        <div class="style-info">
+          <span class="num">05</span>
+          <h2>Нео-брутализм<small>Neo-brutalism</small></h2>
+          <p>Толстые чёрные обводки, жёсткие тени без размытия, плоские кислотные цвета и крупный жирный шрифт. Выглядит дерзко и честно. Нажмите на кнопку — она «вдавливается».</p>
+          <p><b>Подходит:</b> стартапы, креативные агентства, молодёжные бренды, портфолио.</p>
+          <div class="chips"><span>border: 3px</span><span>box-shadow 6px 6px 0</span><span>бегущая строка</span></div>
+        </div>
+        <div class="stage st-brutal">
+          <div class="brutal-wrap">
+            <div class="brutal-card">
+              <h3>Запчасти за 2 часа. Без звонков.</h3>
+              <div class="brutal-tags"><span style="background: #60a5fa">Доставка</span><span style="background: #fde047">Гарантия</span><span style="background: #f9a8d4">−20%</span></div>
+            </div>
+            <button class="brutal-btn" type="button">Найти деталь →</button>
+          </div>
+          <div class="brutal-ticker" aria-hidden="true"><div>НОВИНКИ ★ СКИДКИ ★ ДОСТАВКА ЗА 2 ЧАСА ★ НОВИНКИ ★ СКИДКИ ★ ДОСТАВКА ЗА 2 ЧАСА ★ НОВИНКИ ★ СКИДКИ ★ ДОСТАВКА ЗА 2 ЧАСА ★ НОВИНКИ ★ СКИДКИ ★ ДОСТАВКА ЗА 2 ЧАСА ★&nbsp;</div></div>
+        </div>
+      </div>
+      <details><summary>Показать CSS</summary>
+<pre><code class="language-css">.brutal-btn {
+  background: #ff6ad5;
+  border: 3px solid #000;
+  border-radius: 12px;
+  box-shadow: 4px 4px 0 #000;            /* тень без размытия — главный приём стиля */
+  transition: transform .1s, box-shadow .1s;
+}
+.brutal-btn:hover  { transform: translate(2px, 2px); box-shadow: 2px 2px 0 #000; }
+.brutal-btn:active { transform: translate(4px, 4px); box-shadow: 0 0 0 #000; }</code></pre>
+      </details>
+    </section>
+
+    <!-- 6 -->
+    <section class="style-sec" id="neu">
+      <div class="style-head">
+        <div class="style-info">
+          <span class="num">06</span>
+          <h2>Неоморфизм<small>Neumorphism / Soft UI</small></h2>
+          <p>Элементы будто выдавлены из того же материала, что и фон: светлая тень сверху-слева, тёмная — снизу-справа. Нажатое состояние — те же тени внутрь. Попробуйте кнопку и переключатель.</p>
+          <p><b>Подходит:</b> плееры, умный дом, калькуляторы, небольшие виджеты. Следите за контрастом: у стиля он низкий.</p>
+          <div class="chips"><span>две тени</span><span>inset при нажатии</span><span>один цвет фона</span></div>
+        </div>
+        <div class="stage st-neu">
+          <div class="neu-panel">
+            <div class="neu-top"><div><small>Сейчас играет</small><b>Лоу-фай для кода</b></div><button class="neu-play" type="button" aria-pressed="false" aria-label="Воспроизвести">▶</button></div>
+            <div class="neu-track"><i></i></div>
+            <div class="neu-row"><span>Повтор</span><button class="neu-switch" type="button" aria-pressed="true" aria-label="Повтор"></button></div>
+          </div>
+        </div>
+      </div>
+      <details><summary>Показать CSS</summary>
+<pre><code class="language-css">.neu-play {
+  background: #e4e8ee;                                   /* тот же цвет, что у фона */
+  box-shadow: 6px 6px 12px #c2c7cf, -6px -6px 12px #fff; /* тень снизу-справа и блик сверху-слева */
+}
+.neu-play[aria-pressed="true"] {
+  box-shadow: inset 6px 6px 12px #c2c7cf, inset -6px -6px 12px #fff;   /* вдавлено */
+}</code></pre>
+      </details>
+    </section>
+
+    <!-- 7 -->
+    <section class="style-sec" id="clay">
+      <div class="style-head">
+        <div class="style-info">
+          <span class="num">07</span>
+          <h2>Клейморфизм<small>Claymorphism</small></h2>
+          <p>Пухлые объекты будто из пластилина: пастельные цвета, большие скругления, внутренние тени и мягкое парение. Дружелюбный и игривый стиль.</p>
+          <p><b>Подходит:</b> детские и образовательные продукты, приложения для здоровья, 3D-иллюстрации.</p>
+          <div class="chips"><span>inset-тени ×2</span><span>radius 32px</span><span>плавное парение</span></div>
+        </div>
+        <div class="stage st-clay">
+          <div class="clay-wrap">
+            <div class="clay clay-card">Учимся играючи<small>12 уроков · 4 часа</small></div>
+            <div class="clay clay-ball">★</div>
+            <div class="clay clay-pill">Начать</div>
+          </div>
+        </div>
+      </div>
+      <details><summary>Показать CSS</summary>
+<pre><code class="language-css">.clay {
+  background: #ffb6d3;
+  border-radius: 32px;
+  box-shadow:
+    inset -10px -10px 20px rgba(0, 0, 0, .12),      /* объём снизу */
+    inset 10px 10px 20px rgba(255, 255, 255, .7),   /* блик сверху */
+    0 22px 30px -12px rgba(214, 90, 140, .55);      /* цветная тень под объектом */
+  animation: clay-bob 4s ease-in-out infinite;
+}
+@keyframes clay-bob {
+  0%, 100% { transform: translateY(0) rotate(-2deg); }
+  50%      { transform: translateY(-12px) rotate(2deg); }
+}</code></pre>
+      </details>
+    </section>
+
+    <!-- 8 -->
+    <section class="style-sec" id="aurora">
+      <div class="style-head">
+        <div class="style-info">
+          <span class="num">08</span>
+          <h2>Аврора<small>Aurora / mesh-градиенты</small></h2>
+          <p>Мягкие переливы цвета, как северное сияние. Один вращающийся конический градиент с сильным размытием даёт «живой» фон без видео и картинок.</p>
+          <p><b>Подходит:</b> первые экраны SaaS и ИИ-продуктов, страницы запуска, фоны презентаций.</p>
+          <div class="chips"><span>conic-gradient</span><span>filter: blur(70px)</span><span>вращение</span></div>
+        </div>
+        <div class="stage st-aurora">
+          <div><div class="aurora-title">Северное сияние</div><p class="aurora-sub">Фон из одного градиента и размытия</p></div>
+        </div>
+      </div>
+      <details><summary>Показать CSS</summary>
+<pre><code class="language-css">.stage { position: relative; overflow: hidden; isolation: isolate; }
+.stage::before {
+  content: ""; position: absolute; inset: -40%; z-index: -1;
+  background: conic-gradient(from 0deg, #00ffa3, #00b3ff, #8a5cff, #ff4fd8, #00ffa3);
+  filter: blur(70px);
+  animation: aurora-spin 14s linear infinite;
+}
+@keyframes aurora-spin { to { transform: rotate(1turn); } }</code></pre>
+      </details>
+    </section>
+
+    <!-- 9 -->
+    <section class="style-sec" id="glitch">
+      <div class="style-head">
+        <div class="style-info">
+          <span class="num">09</span>
+          <h2>Глитч и киберпанк<small>Glitch / Cyberpunk</small></h2>
+          <p>Цифровые сбои: текст рвётся на полосы и смещается голубым и розовым слоями. Жёлтые плашки со срезанными углами добавляют киберпанковский характер.</p>
+          <p><b>Подходит:</b> игры, IT-мероприятия, музыкальные релизы, промо с «технологичным» настроением.</p>
+          <div class="chips"><span>::before / ::after</span><span>clip-path: inset</span><span>steps(1)</span></div>
+        </div>
+        <div class="stage st-glitch">
+          <div class="glitch-wrap">
+            <div class="glitch" data-text="ВЗЛОМ">ВЗЛОМ</div>
+            <div class="cyber-tag">СИСТЕМА // ДОСТУП ОТКРЫТ</div>
+          </div>
+        </div>
+      </div>
+      <details><summary>Показать CSS</summary>
+<pre><code class="language-css">.glitch { position: relative; }
+.glitch::before, .glitch::after {
+  content: attr(data-text);              /* копии текста из атрибута */
+  position: absolute; inset: 0;
+}
+.glitch::before { color: #00f0ff; animation: glitch-a 2.4s infinite steps(1); }
+.glitch::after  { color: #ff2bd6; animation: glitch-b 2.4s infinite steps(1); }
+@keyframes glitch-a {
+  0%  { clip-path: inset(0 0 85% 0);  transform: translate(-3px, 0); }   /* видна только полоса */
+  10% { clip-path: inset(40% 0 40% 0); transform: translate(-6px, 2px); }
+  40%, 100% { clip-path: inset(100% 0 0 0); }                            /* пауза */
+}</code></pre>
+      </details>
+    </section>
+
+    <!-- 10 -->
+    <section class="style-sec" id="synth">
+      <div class="style-head">
+        <div class="style-info">
+          <span class="num">10</span>
+          <h2>Синтвейв<small>Synthwave / Retrowave</small></h2>
+          <p>Ностальгия по 80-м: закатное солнце в полоску, бесконечная неоновая сетка и хромированные буквы. Сетка «едет» на зрителя за счёт сдвига фона в перспективе.</p>
+          <p><b>Подходит:</b> музыка, ретро-игры, вечеринки, тематические промостраницы.</p>
+          <div class="chips"><span>mask: linear-gradient</span><span>perspective + rotateX</span><span>background-position</span></div>
+        </div>
+        <div class="stage st-synth">
+          <span class="synth-glow"></span>
+          <span class="synth-sun"></span>
+          <span class="synth-floor"></span>
+          <div class="synth-title">RETRO DRIVE</div>
+        </div>
+      </div>
+      <details><summary>Показать CSS</summary>
+<pre><code class="language-css">.synth-sun {                       /* полосы на солнце — «прорези» маской */
+  background: linear-gradient(#ffe259, #ff4d8d 78%);
+  mask: linear-gradient(#000 52%, transparent 52% 57%, #000 57% 66%, transparent 66% 71%, #000 71%);
+}
+.synth-floor {
+  background-image: linear-gradient(#ff2bd6 2px, transparent 2px),
+                    linear-gradient(90deg, #ff2bd6 2px, transparent 2px);
+  background-size: 46px 46px;
+  transform: perspective(260px) rotateX(62deg);   /* кладём сетку «на пол» */
+  animation: synth-grid 1s linear infinite;
+}
+@keyframes synth-grid { to { background-position: 0 46px; } }</code></pre>
+      </details>
+    </section>
+
+    <!-- 11 -->
+    <section class="style-sec" id="swiss">
+      <div class="style-head">
+        <div class="style-info">
+          <span class="num">11</span>
+          <h2>Швейцарский стиль<small>International Typographic Style</small></h2>
+          <p>Строгая модульная сетка, крупная гротескная типографика, асимметрия и один акцентный цвет. Классика 1950-х, которая отлично работает в вебе.</p>
+          <p><b>Подходит:</b> архитектурные бюро, музеи, корпоративные сайты, портфолио дизайнеров.</p>
+          <div class="chips"><span>grid 6 колонок</span><span>жирный гротеск</span><span>красный акцент</span></div>
+        </div>
+        <div class="stage st-swiss">
+          <div class="swiss">
+            <div class="swiss-num">01</div>
+            <div class="swiss-dot"></div>
+            <div class="swiss-title">Форма следует функции</div>
+            <div class="swiss-bar"></div>
+            <div class="swiss-cols">
+              <div><b>Сетка</b>Каждый элемент стоит на модульной сетке.</div>
+              <div><b>Шрифт</b>Один гротеск в двух-трёх начертаниях.</div>
+              <div><b>Цвет</b>Чёрный, белый и один акцент.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <details><summary>Показать CSS</summary>
+<pre><code class="language-css">.swiss { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; }
+.swiss-title {
+  grid-column: 1 / 7;
+  font: 700 clamp(30px, 4.6vw, 50px)/.95 Onest, sans-serif;
+  letter-spacing: -.04em;            /* плотный набор крупного заголовка */
+}
+.swiss-dot { width: 56px; height: 56px; border-radius: 50%; background: #e30613; }</code></pre>
+      </details>
+    </section>
+
+    <!-- 12 -->
+    <section class="style-sec" id="bento">
+      <div class="style-head">
+        <div class="style-info">
+          <span class="num">12</span>
+          <h2>Бенто-сетка<small>Bento grid</small></h2>
+          <p>Информация разложена по плиткам разного размера, как еда в японском ланч-боксе. Каждая плитка — отдельная мысль, а размер показывает важность.</p>
+          <p><b>Подходит:</b> обзоры функций продукта, дашборды, страницы «о компании», портфолио.</p>
+          <div class="chips"><span>grid-column: span 2</span><span>grid-row: span 2</span><span>hover-подъём</span></div>
+        </div>
+        <div class="stage st-bento">
+          <div class="bento">
+            <div class="wide"><span>Скорость загрузки</span><b>0,8 с</b></div>
+            <div class="tall dark"><span>Поддержка</span><b>24/7</b><span>Отвечаем в чате за 2 минуты</span></div>
+            <div><span>Заказы</span><div class="bento-bars"><i style="height: 40%"></i><i style="height: 70%; animation-delay: -.6s"></i><i style="height: 55%; animation-delay: -1.2s"></i><i style="height: 90%; animation-delay: -1.8s"></i></div></div>
+            <div class="grad"><span>Рост</span><b>+42%</b></div>
+          </div>
+        </div>
+      </div>
+      <details><summary>Показать CSS</summary>
+<pre><code class="language-css">.bento {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: 128px;
+  gap: 12px;
+}
+.bento .wide { grid-column: span 2; }   /* плитка на две колонки */
+.bento .tall { grid-row: span 2; }      /* плитка на две строки */
+.bento > div { border-radius: 22px; transition: transform .25s; }
+.bento > div:hover { transform: translateY(-4px); }</code></pre>
+      </details>
+    </section>
+
+    <div class="cta">
+      <h2 class="title">Нужен такой дизайн?</h2>
+      <p class="subtitle">Все стили здесь сгенерированы с помощью ИИ. Подберу и реализую похожий стиль для вашего сайта за договорную цену.</p>
+      <div class="actions">
+        <a class="pill" href="https://t.me/BojooYkt" target="_blank" rel="noopener">Написать в Telegram</a>
+        <a class="pill" href="../design.html">Весь раздел «Дизайн»</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer" data-layout="footer"></footer>
+
+  <script>
+    const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Голография: карта наклоняется за курсором, блик следует за ним
+    const holoStage = document.querySelector('.st-holo');
+    const holo = holoStage.querySelector('.holo-card');
+    holoStage.addEventListener('pointermove', e => {
+      if (reduceMotion) return;
+      const r = holo.getBoundingClientRect();
+      const x = Math.min(1, Math.max(0, (e.clientX - r.left) / r.width));
+      const y = Math.min(1, Math.max(0, (e.clientY - r.top) / r.height));
+      holo.style.setProperty('--ry', (x - .5) * 24 + 'deg');
+      holo.style.setProperty('--rx', (.5 - y) * 24 + 'deg');
+      holo.style.setProperty('--mx', x * 100 + '%');
+      holo.style.setProperty('--my', y * 100 + '%');
+    });
+    holoStage.addEventListener('pointerleave', () => {
+      holo.style.setProperty('--rx', '0deg');
+      holo.style.setProperty('--ry', '0deg');
+    });
+
+    // ASCII: терминал с деплоем и моргающий кот
+    const term = document.querySelector('.ascii-term');
+    const cat = document.querySelector('.ascii-art');
+    const W = 30;
+    const box = lines => ['+' + '-'.repeat(W + 2) + '+', ...lines.map(l => '| ' + l.padEnd(W) + ' |'), '+' + '-'.repeat(W + 2) + '+'].join('\n');
+    let t = 26;
+    function drawAscii() {
+      const p = Math.min(100, (t % 70) * 2);
+      const n = Math.round(p / 100 * 16);
+      const done = p >= 100;
+      term.textContent = box([
+        '$ deploy --prod',
+        (done ? '[ok]' : '|/-\\'[t % 4] + '   ') + ' сборка образа',
+        '[' + '#'.repeat(n) + '.'.repeat(16 - n) + '] ' + String(p).padStart(3) + '%',
+        done ? '[ok] готово, 0 ошибок' : '',
+        '> ' + (t % 8 < 4 ? '_' : ''),
+      ]);
+      cat.textContent = ' /\\_/\\\n( ' + (t % 30 === 0 ? '-.-' : 'o.o') + ' )\n > ^ <';
+      t++;
+    }
+    drawAscii();
+    if (!reduceMotion) setInterval(drawAscii, 120);
+
+    // Неоморфизм: кнопка воспроизведения и переключатель
+    const neuPanel = document.querySelector('.neu-panel');
+    const neuPlay = neuPanel.querySelector('.neu-play');
+    neuPlay.addEventListener('click', () => {
+      const on = neuPlay.getAttribute('aria-pressed') !== 'true';
+      neuPlay.setAttribute('aria-pressed', on);
+      neuPlay.textContent = on ? '❚❚' : '▶';
+      neuPlay.setAttribute('aria-label', on ? 'Пауза' : 'Воспроизвести');
+      neuPanel.classList.toggle('playing', on);
+    });
+    const neuSwitch = neuPanel.querySelector('.neu-switch');
+    neuSwitch.addEventListener('click', () => neuSwitch.setAttribute('aria-pressed', neuSwitch.getAttribute('aria-pressed') !== 'true'));
+  </script>
+</body>
+</html>

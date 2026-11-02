@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Дизайн — Владимир</title>
+  <meta name="description" content="Гайды по шрифтам и законам дизайна и галерея из 12 стилей веб-дизайна с живыми примерами: глассморфизм, неон, нео-брутализм и другие.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%235b4cf0'/><text x='16' y='21' font-family='monospace' font-size='13' font-weight='700' fill='white' text-anchor='middle'>&lt;/&gt;</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@500&family=Unbounded:wght@700;900&family=Comfortaa:wght@700&family=Russo+One&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="theme.js"></script>
+  <script src="layout.js" data-base="" data-page="design" defer></script>
+  <style>
+    .hero-design {
+      position: relative; overflow: hidden; margin-top: 16px; border-radius: var(--radius-xl);
+      padding: 80px 24px 88px; text-align: center; color: #fff;
+      background:
+        radial-gradient(45% 80% at 12% 20%, rgba(255, 122, 224, .75) 0%, transparent 60%),
+        radial-gradient(45% 80% at 88% 85%, rgba(111, 227, 192, .65) 0%, transparent 60%),
+        radial-gradient(40% 70% at 70% 0%, rgba(255, 211, 25, .55) 0%, transparent 60%),
+        linear-gradient(135deg, #2b1d4f, #4b3ee0 60%, #7b4cf0);
+    }
+    .hero-design h1 { font-weight: 400; font-size: clamp(34px, 5.5vw, 60px); line-height: 1.08; letter-spacing: -.02em; }
+    .hero-design h1 b { font-weight: 600; }
+    .hero-design p { font-size: 18px; opacity: .85; max-width: 620px; margin: 18px auto 0; }
+    .hero-design .actions { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+    section { padding-top: 72px; }
+    .card .tile { overflow: hidden; position: relative; }
+
+    /* Мини-превью стилей */
+    .card .pv-glass { background: radial-gradient(circle at 26% 32%, #ff9ae6 0 20%, transparent 21%), radial-gradient(circle at 74% 72%, #7ff0d0 0 26%, transparent 27%), radial-gradient(circle at 70% 24%, #ffe08a 0 10%, transparent 11%), #0f1029; }
+    .pv-glass span { width: 56%; height: 44%; border-radius: 16px; background: rgba(255, 255, 255, .14); border: 1px solid rgba(255, 255, 255, .35); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+    .card .pv-holo { background: linear-gradient(115deg, #ffb3e6, #ffe8a3, #b3ffd9, #a3d8ff, #d4b3ff, #ffb3e6); background-size: 300% 300%; animation: pv-holo 6s linear infinite; }
+    .pv-holo span { font: 700 22px Unbounded, sans-serif; color: #1a1a1f; }
+    @keyframes pv-holo { to { background-position: 300% 0; } }
+    .card .pv-neon { background: #07060d; }
+    .pv-neon span { font: 700 34px Comfortaa, sans-serif; color: #ffe6fb; text-shadow: 0 0 4px #fff, 0 0 12px #ff4fd8, 0 0 28px #ff4fd8, 0 0 56px #ff4fd8; }
+    .card .pv-ascii { background: #050805; }
+    .pv-ascii pre { margin: 0; font: 500 16px/1.2 "JetBrains Mono", monospace; color: #39ff6a; text-shadow: 0 0 6px rgba(57, 255, 106, .6); }
+    .card .pv-brutal { background: #fff3c4; }
+    .pv-brutal span { font: 900 20px Unbounded, sans-serif; color: #000; background: #ff6ad5; border: 3px solid #000; border-radius: 12px; box-shadow: 6px 6px 0 #000; padding: 12px 18px; }
+    .card .pv-neu { background: #e4e8ee; }
+    .pv-neu span { width: 76px; height: 76px; border-radius: 50%; background: #e4e8ee; box-shadow: 10px 10px 20px #c2c7cf, -10px -10px 20px #fff; display: grid; place-items: center; color: #5b4cf0; font-size: 22px; }
+    .card .pv-clay { background: linear-gradient(135deg, #ffe3ef, #e6e0ff); }
+    .pv-clay span { width: 46%; height: 46%; border-radius: 30px; background: #ffb6d3; box-shadow: inset -8px -8px 16px rgba(0, 0, 0, .12), inset 8px 8px 16px rgba(255, 255, 255, .7), 0 18px 24px -10px rgba(214, 90, 140, .55); }
+    .card .pv-aurora { background: #04060f; isolation: isolate; }
+    .pv-aurora::before { content: ""; position: absolute; inset: -40%; z-index: -1; background: conic-gradient(from 0deg, #00ffa3, #00b3ff, #8a5cff, #ff4fd8, #00ffa3); filter: blur(40px); opacity: .7; animation: pv-spin 14s linear infinite; }
+    .pv-aurora span { font: 700 18px Unbounded, sans-serif; color: #fff; }
+    @keyframes pv-spin { to { transform: rotate(1turn); } }
+    .card .pv-glitch { background: #0b0b0d; }
+    .pv-glitch span { font: 400 36px "Russo One", sans-serif; color: #fff; text-shadow: -3px 0 #00f0ff, 3px 0 #ff2bd6; }
+    .card .pv-synth { background: linear-gradient(#0d0221, #3a0b5e 45%, #ff6ec7 58%, #12002b 58.5%); }
+    .pv-synth::before { content: ""; position: absolute; left: 50%; top: 14%; width: 38%; aspect-ratio: 1; transform: translateX(-50%); border-radius: 50%; background: linear-gradient(#ffe259, #ff4d8d 78%); -webkit-mask: linear-gradient(#000 55%, transparent 55% 62%, #000 62% 72%, transparent 72% 78%, #000 78%); mask: linear-gradient(#000 55%, transparent 55% 62%, #000 62% 72%, transparent 72% 78%, #000 78%); }
+    .pv-synth::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 42%; background-image: linear-gradient(#ff2bd6 2px, transparent 2px), linear-gradient(90deg, #ff2bd6 2px, transparent 2px); background-size: 24px 18px; opacity: .8; }
+    .card .pv-swiss { background: #f1efe9; place-items: stretch; padding: 18px; }
+    .pv-swiss span { display: flex; flex-direction: column; justify-content: space-between; color: #111; font: 700 40px/.9 Onest, sans-serif; letter-spacing: -.05em; }
+    .pv-swiss span::after { content: ""; height: 8px; width: 70%; background: #111; }
+    .pv-swiss::after { content: ""; position: absolute; right: 18px; top: 18px; width: 40px; height: 40px; border-radius: 50%; background: #e30613; }
+    .card .pv-bento { background: #f5f5f7; place-items: stretch; padding: 14px; }
+    .pv-bento span { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: 1fr 1fr; gap: 8px; }
+    .pv-bento i { background: #fff; border-radius: 12px; box-shadow: 0 1px 2px rgba(0, 0, 0, .06); }
+    .pv-bento i:nth-child(1) { grid-column: span 2; }
+    .pv-bento i:nth-child(2) { grid-row: span 2; background: #1d1d1f; }
+    .pv-bento i:nth-child(4) { background: linear-gradient(135deg, #ff9a8b, #ff6a88); }
+
+    @media (max-width: 640px) {
+      .hero-design { padding: 56px 20px 64px; border-radius: var(--radius-lg); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .card .tile, .card .tile::before { animation: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header" data-layout="header"></header>
+
+  <main class="wrap">
+    <div class="hero-design">
+      <h1>Дизайн: <b>шрифты, законы и стили</b></h1>
+      <p>Основы, которые делают интерфейс аккуратным, и галерея из двенадцати стилей с живыми примерами и анимациями.</p>
+      <div class="actions">
+        <a class="pill" href="design/styles.html">Смотреть стили</a>
+        <a class="pill" href="#guides">Гайды</a>
+      </div>
+    </div>
+
+    <div class="ai-note">
+      <span class="spark">✦</span>
+      <p>Все стили в этом разделе сгенерированы с помощью ИИ. <span>Хотите такой же дизайн для своего сайта? Сделаю под ваш проект за договорную цену.</span></p>
+      <a class="pill" href="https://t.me/BojooYkt" target="_blank" rel="noopener">Обсудить проект</a>
+    </div>
+
+    <div class="tabs" role="tablist">
+      <button role="tab" aria-selected="true" data-filter="all">Всё</button>
+      <button role="tab" aria-selected="false" data-filter="guide">Гайды</button>
+      <button role="tab" aria-selected="false" data-filter="style">Стили</button>
+    </div>
+
+    <section id="guides" style="padding-top: 0">
+      <div class="grid">
+        <a class="card" data-kind="guide" href="design/fonts.html">
+          <div class="tile"><div class="icon i-css">Aa</div></div>
+          <span class="cat">Гайд · Типографика</span>
+          <h3>Шрифты и типографика</h3>
+          <span class="meta">Выбор шрифта, пары, шкала размеров, интервалы, подключение</span>
+        </a>
+        <a class="card" data-kind="guide" href="design/laws.html">
+          <div class="tile"><div class="icon i-link">UX</div></div>
+          <span class="cat">Гайд · Основы</span>
+          <h3>Законы дизайна</h3>
+          <span class="meta">Гештальт, иерархия, сетка, цвет, законы Фиттса, Хика, Миллера и Якоба</span>
+        </a>
+
+        <a class="card" data-kind="style" href="design/styles.html#glass"><div class="tile pv-glass"><span></span></div><span class="cat">Стиль · 01</span><h3>Глассморфизм</h3><span class="meta">Матовое стекло поверх цветных пятен</span></a>
+        <a class="card" data-kind="style" href="design/styles.html#holo"><div class="tile pv-holo"><span>VIP</span></div><span class="cat">Стиль · 02</span><h3>Голография</h3><span class="meta">Радужный перелив и 3D-наклон</span></a>
+        <a class="card" data-kind="style" href="design/styles.html#neon"><div class="tile pv-neon"><span>неон</span></div><span class="cat">Стиль · 03</span><h3>Неон</h3><span class="meta">Светящиеся вывески с мерцанием</span></a>
+        <a class="card" data-kind="style" href="design/styles.html#ascii"><div class="tile pv-ascii"><pre> /\_/\
+( o.o )
+ > ^ &lt;</pre></div><span class="cat">Стиль · 04</span><h3>ASCII-арт</h3><span class="meta">Терминал и картинки из символов</span></a>
+        <a class="card" data-kind="style" href="design/styles.html#brutal"><div class="tile pv-brutal"><span>БРУТ!</span></div><span class="cat">Стиль · 05</span><h3>Нео-брутализм</h3><span class="meta">Толстые обводки и жёсткие тени</span></a>
+        <a class="card" data-kind="style" href="design/styles.html#neu"><div class="tile pv-neu"><span>▶</span></div><span class="cat">Стиль · 06</span><h3>Неоморфизм</h3><span class="meta">Мягкий интерфейс из одного материала</span></a>
+        <a class="card" data-kind="style" href="design/styles.html#clay"><div class="tile pv-clay"><span></span></div><span class="cat">Стиль · 07</span><h3>Клейморфизм</h3><span class="meta">Пухлые пастельные объекты</span></a>
+        <a class="card" data-kind="style" href="design/styles.html#aurora"><div class="tile pv-aurora"><span>Аврора</span></div><span class="cat">Стиль · 08</span><h3>Аврора</h3><span class="meta">Живые переливы, как северное сияние</span></a>
+        <a class="card" data-kind="style" href="design/styles.html#glitch"><div class="tile pv-glitch"><span>ВЗЛОМ</span></div><span class="cat">Стиль · 09</span><h3>Глитч и киберпанк</h3><span class="meta">Цифровые сбои и жёлтые плашки</span></a>
+        <a class="card" data-kind="style" href="design/styles.html#synth"><div class="tile pv-synth"></div><span class="cat">Стиль · 10</span><h3>Синтвейв</h3><span class="meta">Закат 80-х и неоновая сетка</span></a>
+        <a class="card" data-kind="style" href="design/styles.html#swiss"><div class="tile pv-swiss"><span>01</span></div><span class="cat">Стиль · 11</span><h3>Швейцарский стиль</h3><span class="meta">Сетка, гротеск и красный акцент</span></a>
+        <a class="card" data-kind="style" href="design/styles.html#bento"><div class="tile pv-bento"><span><i></i><i></i><i></i><i></i></span></div><span class="cat">Стиль · 12</span><h3>Бенто-сетка</h3><span class="meta">Плитки разного размера</span></a>
+      </div>
+    </section>
+
+    <div class="cta">
+      <h2 class="title">Нужен такой дизайн?</h2>
+      <p class="subtitle">Подберу стиль под ваш продукт и сверстаю сайт — от лендинга до личного кабинета. Цена договорная.</p>
+      <div class="actions">
+        <a class="pill" href="https://t.me/BojooYkt" target="_blank" rel="noopener">Написать в Telegram</a>
+        <a class="pill" href="https://vladivostok.hh.ru/resume/4f7e2fceff09cc13af0039ed1f6261486c3437" target="_blank" rel="noopener">Резюме на HH.ru</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer" data-layout="footer"></footer>
+
+  <script>
+    // Фильтр «Всё / Гайды / Стили»
+    const tabs = document.querySelectorAll('.tabs button');
+    const cards = document.querySelectorAll('.grid .card');
+    tabs.forEach(tab => tab.addEventListener('click', () => {
+      tabs.forEach(t => t.setAttribute('aria-selected', t === tab));
+      const f = tab.dataset.filter;
+      cards.forEach(c => { c.hidden = f !== 'all' && c.dataset.kind !== f; });
+    }));
+  </script>
+</body>
+</html>
