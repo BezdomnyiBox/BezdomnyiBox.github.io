@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Гайды по технологиям — Владимир</title>
+  <meta name="description" content="Учебники по технологиям, написанные для этого сайта, и подборка полезных материалов.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%235b4cf0'/><text x='16' y='21' font-family='monospace' font-size='13' font-weight='700' fill='white' text-anchor='middle'>&lt;/&gt;</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="theme.js"></script>
+  <script src="layout.js" data-base="" data-page="guides" defer></script>
+  <script src="guides-data.js" defer></script>
+  <style>
+    .hero-sm {
+      margin-top: 16px; border-radius: var(--radius-xl); color: #fff; text-align: center;
+      padding: 72px 24px 80px;
+      background:
+        radial-gradient(55% 80% at 85% 15%, #6fe3c0 0%, transparent 60%),
+        radial-gradient(50% 70% at 10% 90%, #8f7dff 0%, transparent 60%),
+        linear-gradient(135deg, #1f8a6a, #2d6fd6 60%, #5b4cf0);
+    }
+    .hero-sm h1 { font-weight: 400; font-size: clamp(32px, 5vw, 52px); line-height: 1.1; letter-spacing: -.02em; }
+    .hero-sm h1 b { font-weight: 600; }
+    .hero-sm p { opacity: .85; font-size: 18px; max-width: 600px; margin: 16px auto 0; }
+
+    .card .desc { font-size: 14px; color: var(--muted); margin-top: 2px; }
+    .card .meta { margin-top: 6px; }
+    .badge-ext { font-size: 12px; }
+    .empty { text-align: center; color: var(--muted); padding: 40px 0; }
+
+    @media (max-width: 640px) {
+      .hero-sm { padding: 56px 20px 64px; border-radius: var(--radius-lg); }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header" data-layout="header"></header>
+
+  <main class="wrap">
+    <div class="hero-sm">
+      <h1>Гайды <b>по технологиям</b></h1>
+      <p>Учебники, которые я пишу сам, и материалы, по которым учусь.</p>
+    </div>
+
+    <div class="tabs" role="tablist">
+      <button role="tab" aria-selected="true" data-filter="all">Все</button>
+      <button role="tab" aria-selected="false" data-filter="own">Мои учебники</button>
+      <button role="tab" aria-selected="false" data-filter="link">Полезные ссылки</button>
+    </div>
+
+    <div class="grid" id="guides"></div>
+  </main>
+
+  <footer class="site-footer" data-layout="footer"></footer>
+
+  <script>
+    // Карточки строятся из guides-data.js; defer-скрипты выполняются по порядку, поэтому данные уже загружены
+    document.addEventListener('DOMContentLoaded', () => {
+      const grid = document.getElementById('guides');
+      const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+      const card = (g, kind) => {
+        const external = /^https?:/.test(g.url);
+        return `<a class="card" data-kind="${kind}" href="${esc(g.url)}"${external ? ' target="_blank" rel="noopener"' : ''}>
+          <div class="tile"><div class="icon i-${esc(g.color || 'link')}">${esc(g.icon || '↗')}</div></div>
+          <span class="cat">${esc(g.category || '')}</span>
+          <h3>${esc(g.title)}</h3>
+          <span class="desc">${esc(g.description || '')}</span>
+          <span class="meta">${external ? '<b>Внешний сайт ↗</b>' : '<b>Читать учебник →</b>'}</span>
+        </a>`;
+      };
+
+      grid.innerHTML =
+        (window.OWN_GUIDES || []).map(g => card(g, 'own')).join('') +
+        (window.LINKS || []).map(g => card(g, 'link')).join('');
+
+      const tabs = document.querySelectorAll('.tabs button');
+      tabs.forEach(tab => tab.addEventListener('click', () => {
+        tabs.forEach(t => t.setAttribute('aria-selected', t === tab));
+        const f = tab.dataset.filter;
+        grid.querySelectorAll('.card').forEach(c => { c.hidden = f !== 'all' && c.dataset.kind !== f; });
+      }));
+    });
+  </script>
+</body>
+</html>
