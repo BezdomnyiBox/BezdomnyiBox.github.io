@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://bezdomnyibox.github.io/sitemap.xml

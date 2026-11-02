@@ -1,0 +1,4 @@
+# Настройки сборки GitHub Pages: служебные файлы не публикуются на сайте
+exclude:
+  - tools
+  - README.md

@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <title>Обложка 1200×630</title>
+  <!-- Шаблон обложек для превью ссылок. Вариант выбирается параметром: cover.html?v=main | guides | design -->
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; }
+    html, body { width: 1200px; height: 630px; overflow: hidden; }
+    body {
+      position: relative; padding: 72px 80px; color: #fff; font-family: Onest, sans-serif;
+      display: flex; flex-direction: column; justify-content: space-between;
+      background:
+        radial-gradient(45% 80% at 8% 12%, rgba(255, 122, 224, .55) 0%, transparent 60%),
+        radial-gradient(45% 80% at 92% 92%, rgba(111, 227, 192, .5) 0%, transparent 60%),
+        radial-gradient(40% 70% at 78% 0%, rgba(255, 211, 25, .35) 0%, transparent 60%),
+        linear-gradient(135deg, #1b1340, #4b3ee0 60%, #7b4cf0);
+    }
+    .top { display: flex; align-items: center; gap: 16px; font-size: 28px; font-weight: 500; }
+    .logo { width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center; background: #fff; color: #5b4cf0; font: 700 22px "JetBrains Mono", monospace; }
+    .kicker { font-size: 26px; opacity: .8; margin-bottom: 14px; }
+    h1 { font-size: 84px; line-height: 1.02; font-weight: 400; letter-spacing: -.03em; max-width: 960px; }
+    h1 b { font-weight: 700; }
+    .chips { display: flex; flex-wrap: wrap; gap: 12px; }
+    .chips span { padding: 12px 22px; border-radius: 999px; background: rgba(255, 255, 255, .16); border: 1px solid rgba(255, 255, 255, .28); font-size: 24px; font-weight: 500; }
+    .url { position: absolute; right: 80px; top: 84px; font: 500 24px "JetBrains Mono", monospace; opacity: .85; }
+    .icon {
+      position: absolute; right: 90px; top: 190px; width: 210px; height: 210px; border-radius: 30%;
+      display: grid; place-items: center; font: 700 84px Onest, sans-serif; letter-spacing: -.03em;
+      text-shadow: 0 3px 0 rgba(0, 0, 0, .18);
+      box-shadow: inset 0 -14px 24px rgba(0, 0, 0, .22), inset 0 14px 24px rgba(255, 255, 255, .35), 0 26px 44px -14px rgba(0, 0, 0, .5);
+    }
+    .icon::before { content: ""; position: absolute; top: 8%; left: 14%; width: 46%; height: 26%; border-radius: 50%; background: rgba(255, 255, 255, .35); filter: blur(6px); }
+  </style>
+</head>
+<body>
+  <div class="top"><span class="logo">&lt;/&gt;</span>Владимир<span class="url">bezdomnyibox.github.io</span></div>
+  <div class="icon"></div>
+  <div>
+    <div class="kicker"></div>
+    <h1></h1>
+  </div>
+  <div class="chips"></div>
+
+  <script>
+    const VARIANTS = {
+      main: {
+        kicker: 'Портфолио',
+        title: 'Fullstack-<br><b>разработчик</b>',
+        chips: ['PHP · Symfony', 'React · TypeScript', 'Гайды', 'Дизайн'],
+        icon: { text: '&lt;/&gt;', bg: 'linear-gradient(160deg, #a99bff, #5b4cf0 55%, #3d30b8)' },
+      },
+      guides: {
+        kicker: 'Гайды по технологиям',
+        title: 'Учебники <b>с живыми<br>примерами</b>',
+        chips: ['React', 'TypeScript', 'SQL', 'Docker', 'Git', 'REST API', 'ML'],
+        icon: { text: 'TS', bg: 'linear-gradient(160deg, #5aa7f2, #2f7fd4 55%, #1d5fae)' },
+      },
+      design: {
+        kicker: 'Раздел «Дизайн»',
+        title: 'Шрифты, законы<br><b>и 19 стилей</b>',
+        chips: ['Глассморфизм', 'Неон', 'Нео-брутализм', 'Y2K', 'Material You'],
+        icon: { text: 'Aa', bg: 'linear-gradient(160deg, #ff9dbd, #e8457a 55%, #b0204f)' },
+      },
+    };
+    const v = VARIANTS[new URLSearchParams(location.search).get('v')] || VARIANTS.main;
+    document.querySelector('.kicker').textContent = v.kicker;
+    document.querySelector('h1').innerHTML = v.title;
+    document.querySelector('.chips').innerHTML = v.chips.map(c => `<span>${c}</span>`).join('');
+    const icon = document.querySelector('.icon');
+    icon.innerHTML = v.icon.text;
+    icon.style.background = v.icon.bg;
+  </script>
+</body>
+</html>

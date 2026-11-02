@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Страница не найдена — Владимир</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%235b4cf0'/><text x='16' y='21' font-family='monospace' font-size='13' font-weight='700' fill='white' text-anchor='middle'>&lt;/&gt;</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@500&family=Russo+One&display=swap" rel="stylesheet">
+  <!-- 404 открывается по любому адресу, поэтому все пути абсолютные -->
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/theme.js"></script>
+  <script src="/layout.js" data-base="/" data-page="" defer></script>
+  <style>
+    .nf {
+      position: relative; overflow: hidden; isolation: isolate; margin-top: 16px;
+      border-radius: var(--radius-xl); padding: 88px 24px 96px; text-align: center; color: #fff;
+      background: #0b0b0d;
+    }
+    .nf::before {
+      content: ""; position: absolute; inset: -40%; z-index: -1; opacity: .35;
+      background: conic-gradient(from 0deg, #00f0ff, #5b4cf0, #ff2bd6, #00f0ff);
+      filter: blur(80px); animation: nf-spin 16s linear infinite;
+    }
+    @keyframes nf-spin { to { transform: rotate(1turn); } }
+    .nf-code { position: relative; display: inline-block; font: 400 clamp(110px, 22vw, 200px)/1 "Russo One", sans-serif; letter-spacing: .02em; }
+    .nf-code::before, .nf-code::after { content: attr(data-text); position: absolute; inset: 0; mix-blend-mode: screen; }
+    .nf-code::before { color: #00f0ff; animation: nf-glitch-a 2.6s infinite steps(1); }
+    .nf-code::after { color: #ff2bd6; animation: nf-glitch-b 2.6s infinite steps(1); }
+    @keyframes nf-glitch-a { 0% { clip-path: inset(0 0 80% 0); transform: translate(-4px, 0); } 10% { clip-path: inset(40% 0 40% 0); transform: translate(-8px, 2px); } 20% { clip-path: inset(75% 0 5% 0); transform: translate(4px, 0); } 30%, 100% { clip-path: inset(100% 0 0 0); } }
+    @keyframes nf-glitch-b { 0% { clip-path: inset(65% 0 15% 0); transform: translate(4px, 0); } 12% { clip-path: inset(15% 0 65% 0); transform: translate(8px, -2px); } 24% { clip-path: inset(45% 0 35% 0); transform: translate(-4px, 0); } 34%, 100% { clip-path: inset(100% 0 0 0); } }
+    .nf h1 { font-weight: 400; font-size: clamp(26px, 4vw, 40px); letter-spacing: -.02em; margin-top: 12px; }
+    .nf p { opacity: .75; max-width: 520px; margin: 12px auto 0; }
+    .nf code { font: 500 14px "JetBrains Mono", monospace; background: rgba(255, 255, 255, .1); padding: 2px 8px; border-radius: 6px; word-break: break-all; }
+    .nf .actions { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+    .nf .pill.ghost { background: rgba(255, 255, 255, .12); color: #fff; }
+    @media (max-width: 640px) { .nf { padding: 64px 20px 72px; border-radius: var(--radius-lg); } }
+    @media (prefers-reduced-motion: reduce) { .nf::before, .nf-code::before, .nf-code::after { animation: none; } }
+  </style>
+</head>
+<body>
+  <header class="site-header" data-layout="header"></header>
+
+  <main class="wrap">
+    <div class="nf">
+      <div class="nf-code" data-text="404">404</div>
+      <h1>Такой страницы нет</h1>
+      <p>Адрес <code class="nf-path"></code> никуда не ведёт. Возможно, страницу переименовали или в ссылке опечатка.</p>
+      <div class="actions">
+        <a class="pill" href="/">На главную</a>
+        <a class="pill ghost" href="/guides.html">Гайды</a>
+        <a class="pill ghost" href="/design.html">Дизайн</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer" data-layout="footer"></footer>
+
+  <script>
+    let path = location.pathname;
+    try { path = decodeURI(path); } catch (e) {}
+    document.querySelector('.nf-path').textContent = path;
+  </script>
+</body>
+</html>
