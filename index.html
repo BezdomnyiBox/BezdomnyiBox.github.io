@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Владимир — fullstack-разработчик</title>
+  <meta name="description" content="Портфолио fullstack-разработчика: PHP (Symfony), Python (FastAPI), React + TypeScript, Docker.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%234f46e5'/><text x='16' y='22' font-family='monospace' font-size='16' font-weight='700' fill='white' text-anchor='middle'>&lt;/&gt;</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --text: #0f172a;
+      --muted: #475569;
+      --border: #e2e8f0;
+      --accent: #4f46e5;
+      --accent-soft: #eef2ff;
+      --tag-bg: #f1f5f9;
+      --shadow: 0 1px 2px rgba(15, 23, 42, .04), 0 8px 24px rgba(15, 23, 42, .06);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0b1020;
+        --surface: #121a2e;
+        --text: #e2e8f0;
+        --muted: #94a3b8;
+        --border: #1f2a44;
+        --accent: #818cf8;
+        --accent-soft: #1e1b4b;
+        --tag-bg: #1a2440;
+        --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 8px 24px rgba(0, 0, 0, .25);
+      }
+    }
+    * { box-sizing: border-box; margin: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font: 16px/1.6 Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .wrap { max-width: 960px; margin: 0 auto; padding: 0 20px; }
+
+    /* Навигация */
+    nav {
+      position: sticky; top: 0; z-index: 10;
+      background: color-mix(in srgb, var(--bg) 85%, transparent);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+    nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 56px; }
+    .logo { font-family: "JetBrains Mono", monospace; font-weight: 500; color: var(--text); }
+    .logo span { color: var(--accent); }
+    nav ul { display: flex; gap: 22px; list-style: none; padding: 0; }
+    nav ul a { color: var(--muted); font-size: 14px; font-weight: 500; }
+    nav ul a:hover { color: var(--text); text-decoration: none; }
+
+    /* Первый экран */
+    .hero { padding: 88px 0 72px; }
+    .badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 4px 12px; border-radius: 999px;
+      background: var(--accent-soft); color: var(--accent);
+      font-size: 13px; font-weight: 600;
+    }
+    .badge::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #22c55e; }
+    h1 { font-size: clamp(36px, 6vw, 56px); line-height: 1.1; letter-spacing: -.03em; margin: 20px 0 16px; font-weight: 800; }
+    h1 em { font-style: normal; color: var(--accent); }
+    .lead { font-size: 19px; color: var(--muted); max-width: 640px; }
+    .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 11px 20px; border-radius: 10px;
+      font-weight: 600; font-size: 15px;
+      border: 1px solid var(--border); background: var(--surface); color: var(--text);
+      transition: transform .15s, border-color .15s;
+    }
+    .btn:hover { text-decoration: none; transform: translateY(-1px); border-color: var(--accent); }
+    .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .btn svg { width: 18px; height: 18px; fill: currentColor; }
+
+    /* Секции */
+    section { padding: 56px 0; }
+    h2 { font-size: 28px; letter-spacing: -.02em; margin-bottom: 8px; }
+    .section-sub { color: var(--muted); margin-bottom: 32px; }
+
+    /* Карточки проектов */
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+    .card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+      padding: 24px; box-shadow: var(--shadow);
+      display: flex; flex-direction: column; gap: 14px;
+      transition: transform .15s, border-color .15s;
+    }
+    .card:hover { transform: translateY(-2px); border-color: color-mix(in srgb, var(--accent) 40%, var(--border)); }
+    .card.featured { grid-column: 1 / -1; }
+    .card-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+    .card h3 { font-size: 20px; letter-spacing: -.01em; }
+    .status { font-size: 12px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+    .card p { color: var(--muted); }
+    .card ul.points { padding-left: 18px; color: var(--muted); font-size: 15px; }
+    .card ul.points li { margin: 2px 0; }
+    .featured .cols { display: grid; grid-template-columns: 1.2fr 1fr; gap: 24px; }
+    .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; }
+    .tag {
+      font-family: "JetBrains Mono", monospace; font-size: 12px;
+      padding: 3px 9px; border-radius: 6px; background: var(--tag-bg); color: var(--text);
+    }
+    .card-links { display: flex; gap: 16px; font-size: 14px; font-weight: 600; }
+
+    /* Стек */
+    .stack { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
+    .stack div { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 18px 20px; }
+    .stack h4 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: var(--accent); margin-bottom: 10px; }
+    .stack p { font-size: 15px; }
+
+    /* Контакты */
+    .contact {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 20px;
+      padding: 40px; text-align: center; box-shadow: var(--shadow);
+    }
+    .contact .actions { justify-content: center; }
+    footer { padding: 32px 0 48px; color: var(--muted); font-size: 14px; text-align: center; }
+
+    @media (max-width: 640px) {
+      nav ul { display: none; }
+      .hero { padding: 56px 0 40px; }
+      .featured .cols { grid-template-columns: 1fr; }
+      .contact { padding: 28px 20px; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="wrap">
+      <a class="logo" href="#"><span>~/</span>bezdomnyibox</a>
+      <ul>
+        <li><a href="#projects">Проекты</a></li>
+        <li><a href="#study">Учёба</a></li>
+        <li><a href="#stack">Стек</a></li>
+        <li><a href="#contact">Контакты</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="wrap">
+      <span class="badge">Открыт к предложениям</span>
+      <h1>Привет, я Владимир —<br><em>fullstack-разработчик</em></h1>
+      <p class="lead">Делаю веб-сервисы под реальные бизнес-задачи: CRM, личные кабинеты, сервисы заказов и автоматизацию процессов. Бэкенд на PHP (Symfony) и Python (FastAPI), фронтенд на React + TypeScript, всё в Docker.</p>
+      <div class="actions">
+        <a class="btn primary" href="#projects">Смотреть проекты</a>
+        <a class="btn" href="https://github.com/BezdomnyiBox" target="_blank" rel="noopener">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          GitHub
+        </a>
+        <a class="btn" href="https://t.me/BojooYkt" target="_blank" rel="noopener">Telegram</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="projects">
+      <div class="wrap">
+        <h2>Проекты</h2>
+        <p class="section-sub">Работы, которые лучше всего показывают, как я пишу код.</p>
+        <div class="grid">
+
+          <article class="card featured">
+            <div class="card-head">
+              <h3>zapchasti</h3>
+              <span class="status">Главный проект</span>
+            </div>
+            <div class="cols">
+              <div>
+                <p>Сервис заказа и доставки автозапчастей. Клиент оформляет заказ по ссылке на деталь или оставляет заявку на подбор, курьер забирает деталь у продавца, перевозчик доставляет её клиенту.</p>
+              </div>
+              <ul class="points">
+                <li>Кабинеты клиента, курьера, перевозчика и админа</li>
+                <li>Каталог, корзина, заявки на подбор, отзывы</li>
+                <li>JWT-авторизация и rate limiting</li>
+                <li>CI: тесты, линт и сборка; CD: деплой по SSH</li>
+              </ul>
+            </div>
+            <div class="tags">
+              <span class="tag">FastAPI</span><span class="tag">SQLAlchemy 2</span><span class="tag">PostgreSQL</span><span class="tag">Redis</span><span class="tag">MinIO / S3</span><span class="tag">React</span><span class="tag">TypeScript</span><span class="tag">Tailwind</span><span class="tag">Docker</span><span class="tag">GitHub Actions</span>
+            </div>
+            <div class="card-links"><a href="https://github.com/BezdomnyiBox/zapchasti" target="_blank" rel="noopener">Код на GitHub →</a></div>
+          </article>
+
+          <article class="card">
+            <div class="card-head">
+              <h3>crm-platform</h3>
+              <span class="status">В разработке</span>
+            </div>
+            <p>Каркас CRM с настраиваемой моделью данных: организация задаёт собственные типы сущностей и их атрибуты, не меняя код.</p>
+            <div class="tags">
+              <span class="tag">Symfony 7</span><span class="tag">Doctrine</span><span class="tag">PostgreSQL</span><span class="tag">Docker</span><span class="tag">Kubernetes</span>
+            </div>
+            <div class="card-links"><a href="https://github.com/BezdomnyiBox/crm-platform" target="_blank" rel="noopener">Код на GitHub →</a></div>
+          </article>
+
+          <article class="card">
+            <div class="card-head">
+              <h3>forum</h3>
+              <span class="status">Пет-проект</span>
+            </div>
+            <p>Форум на чистом PHP в окружении LEMP. Поднимается одной командой через docker-compose.</p>
+            <div class="tags">
+              <span class="tag">PHP</span><span class="tag">MySQL</span><span class="tag">nginx</span><span class="tag">php-fpm</span><span class="tag">Docker</span>
+            </div>
+            <div class="card-links"><a href="https://github.com/BezdomnyiBox/forum" target="_blank" rel="noopener">Код на GitHub →</a></div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <section id="study">
+      <div class="wrap">
+        <h2>Учебные работы</h2>
+        <p class="section-sub">Самые объёмные работы из университетских курсов.</p>
+        <div class="grid">
+          <article class="card">
+            <div class="card-head"><h3>IIS</h3><span class="status">Инженерия интернет-систем</span></div>
+            <p>Лабораторные и практические: REST API, React-приложения, интерфейсы на MUI.</p>
+            <div class="tags"><span class="tag">TypeScript</span><span class="tag">React</span><span class="tag">MUI</span></div>
+            <div class="card-links"><a href="https://github.com/BezdomnyiBox/IIS" target="_blank" rel="noopener">Код на GitHub →</a></div>
+          </article>
+          <article class="card">
+            <div class="card-head"><h3>VisualizationLabs</h3><span class="status">Обработка данных</span></div>
+            <p>Обработка и визуализация больших объёмов графических данных: обработка изображений и детекция объектов.</p>
+            <div class="tags"><span class="tag">Python</span><span class="tag">OpenCV</span><span class="tag">YOLO</span><span class="tag">NumPy</span></div>
+            <div class="card-links"><a href="https://github.com/BezdomnyiBox/VisualizationLabs" target="_blank" rel="noopener">Код на GitHub →</a></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="stack">
+      <div class="wrap">
+        <h2>Стек</h2>
+        <p class="section-sub">С чем работаю каждый день.</p>
+        <div class="stack">
+          <div><h4>Backend</h4><p>PHP 8, Symfony, Doctrine, Python, FastAPI, Flask, SQLAlchemy</p></div>
+          <div><h4>Frontend</h4><p>TypeScript, React, Vite, Tailwind CSS, shadcn/ui, TanStack Query</p></div>
+          <div><h4>Данные</h4><p>PostgreSQL, MySQL, Redis, S3 / MinIO, Pandas</p></div>
+          <div><h4>Инфраструктура</h4><p>Docker, Docker Compose, Kubernetes, nginx, GitHub Actions, Linux</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="wrap">
+        <div class="contact">
+          <h2>Давайте поговорим</h2>
+          <p class="section-sub">Рассматриваю предложения о работе и интересные проекты.</p>
+          <div class="actions">
+            <a class="btn primary" href="https://t.me/BojooYkt" target="_blank" rel="noopener">Написать в Telegram</a>
+            <a class="btn" href="https://vladivostok.hh.ru/resume/4f7e2fceff09cc13af0039ed1f6261486c3437" target="_blank" rel="noopener">Резюме на HH.ru</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">© 2026 Владимир · <a href="https://github.com/BezdomnyiBox/BezdomnyiBox.github.io" target="_blank" rel="noopener">исходный код сайта</a></div>
+  </footer>
+</body>
+</html>
