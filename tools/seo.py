@@ -4,7 +4,7 @@
 
 Заголовок и описание берутся из <title> и <meta name="description"> каждой страницы.
 Блок между <!-- og: … --> и <!-- /og --> пересоздаётся при каждом запуске, поэтому
-скрипт можно запускать сколько угодно раз. Обложки лежат в og/ (см. tools/og/README.md).
+скрипт можно запускать сколько угодно раз. Обложки лежат в og/ (рисует tools/og/render.py).
 """
 import datetime
 import html
@@ -36,10 +36,10 @@ def url_of(rel):
 
 def image_of(rel):
     if rel.startswith("design"):
-        return "og/design.png"
+        return "og/design.jpg"
     if rel.startswith("guide"):
-        return "og/guides.png"
-    return "og/cover.png"
+        return "og/guides.jpg"
+    return "og/cover.jpg"
 
 
 def attr(s):

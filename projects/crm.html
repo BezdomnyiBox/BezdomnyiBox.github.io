@@ -13,16 +13,22 @@
   <meta property="og:title" content="Мини-CRM «Объекты и задачи» — Владимир">
   <meta property="og:description" content="Кейс: мини-CRM для строительной компании на React, TypeScript и Supabase. Правила доступа живут в самой базе — RLS, функции и триггеры, проверено 99 тестами и 31 проверкой на живом проекте.">
   <meta property="og:url" content="https://bezdomnyibox.github.io/projects/crm.html">
-  <meta property="og:image" content="https://bezdomnyibox.github.io/og/cover.png">
+  <meta property="og:image" content="https://bezdomnyibox.github.io/og/cover.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Мини-CRM «Объекты и задачи» — Владимир">
   <meta name="twitter:card" content="summary_large_image">
   <!-- /og -->
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%235b4cf0'/><text x='16' y='21' font-family='monospace' font-size='13' font-weight='700' fill='white' text-anchor='middle'>&lt;/&gt;</text></svg>">
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#5b4cf0">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"></noscript>
   <link rel="stylesheet" href="../styles.css">
   <link rel="stylesheet" href="../docs.css">
   <script src="../theme.js"></script>
@@ -69,7 +75,7 @@
     .layer > span { width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; font-weight: 600; color: #fff; background: var(--c); }
     .layer b { display: block; font-weight: 500; color: var(--text); }
     .layer p { margin: 4px 0 0; font-size: 14px; color: var(--muted); max-width: none; }
-    .layer.ui { --c: #9a9ca6; border-left-style: dashed; }
+    .layer.ui { --c: #6b6f7a; border-left-style: dashed; }
 
     .tree { font: 13px/1.6 "JetBrains Mono", monospace; }
   </style>
@@ -103,7 +109,7 @@
 
     <div class="guide">
       <aside class="toc">
-        <h4>Содержание</h4>
+        <p class="toc-title">Содержание</p>
         <ol>
           <li><a href="#task">Задача</a></li>
           <li><a href="#flow">Жизненный цикл задачи</a></li>
@@ -167,10 +173,10 @@
           <div class="layers">
             <div class="req">↓ запрос из браузера, curl или Postman</div>
             <div class="layer ui"><span>UI</span><div><b>Интерфейс</b><p>Показывает только доступные действия. Удобство, а не защита — его легко обойти.</p></div></div>
-            <div class="layer" style="--c: #2f7fd4"><span>1</span><div><b>Права API (GRANT)</b><p>У гостя нет прав ни на одну таблицу. Вошедший пользователь пишет только в разрешённые <strong>колонки</strong>: в <code>tasks</code> — название, описание, объект и исполнителя, но не статус и не автора.</p></div></div>
+            <div class="layer" style="--c: #1d63b8"><span>1</span><div><b>Права API (GRANT)</b><p>У гостя нет прав ни на одну таблицу. Вошедший пользователь пишет только в разрешённые <strong>колонки</strong>: в <code>tasks</code> — название, описание, объект и исполнителя, но не статус и не автора.</p></div></div>
             <div class="layer" style="--c: #7b4cf0"><span>2</span><div><b>RLS — политики строк</b><p>Включены на всех пяти таблицах. Исполнитель физически получает из базы только свои задачи; чужая задача по прямому адресу — «не найдена».</p></div></div>
-            <div class="layer" style="--c: #e8457a"><span>3</span><div><b>Функция <code>change_task_status()</code></b><p>Единственный способ сменить статус. Проверяет, кто вызывает, назначен ли он, разрешён ли переход и есть ли обязательный комментарий.</p></div></div>
-            <div class="layer" style="--c: #22b07d"><span>4</span><div><b>Триггеры</b><p>Страж не даёт изменить статус в обход функции. Журнал статусов только дописывается: изменить или удалить запись нельзя даже владельцу базы.</p></div></div>
+            <div class="layer" style="--c: #c2305f"><span>3</span><div><b>Функция <code>change_task_status()</code></b><p>Единственный способ сменить статус. Проверяет, кто вызывает, назначен ли он, разрешён ли переход и есть ли обязательный комментарий.</p></div></div>
+            <div class="layer" style="--c: #13855c"><span>4</span><div><b>Триггеры</b><p>Страж не даёт изменить статус в обход функции. Журнал статусов только дописывается: изменить или удалить запись нельзя даже владельцу базы.</p></div></div>
           </div>
           <p>Служебные функции лежат в схеме <code>private</code>, которую Supabase не публикует наружу. Роль пользователя берётся из <code>app_metadata</code>, которую пишет только администратор, — а не из <code>user_metadata</code>, которую пользователь может править сам.</p>
         </section>

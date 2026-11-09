@@ -13,19 +13,26 @@
   <meta property="og:title" content="Галерея стилей — Владимир">
   <meta property="og:description" content="29 стилей веб-дизайна с живыми примерами и анимациями: глассморфизм, Liquid Glass, неон, нео-брутализм, баухаус, ар-деко, конструктивизм, Y2K, Material You и другие.">
   <meta property="og:url" content="https://bezdomnyibox.github.io/design/styles.html">
-  <meta property="og:image" content="https://bezdomnyibox.github.io/og/design.png">
+  <meta property="og:image" content="https://bezdomnyibox.github.io/og/design.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Галерея стилей — Владимир">
   <meta name="twitter:card" content="summary_large_image">
   <!-- /og -->
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%235b4cf0'/><text x='16' y='21' font-family='monospace' font-size='13' font-weight='700' fill='white' text-anchor='middle'>&lt;/&gt;</text></svg>">
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#5b4cf0">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Unbounded:wght@500;700;900&family=Comfortaa:wght@700&family=Russo+One&family=Press+Start+2P&family=Poiret+One&family=Oswald:wght@700&family=Caveat:wght@700&family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap"></noscript>
   <link rel="stylesheet" href="../styles.css">
   <link rel="stylesheet" href="../docs.css">
   <script src="../theme.js"></script>
+  <script src="../fonts.js" defer></script>
   <script src="../layout.js" data-base="../" data-page="design" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" defer></script>
   <style>
@@ -163,7 +170,7 @@
       box-shadow: inset -10px -10px 20px rgba(0, 0, 0, .12), inset 10px 10px 20px rgba(255, 255, 255, .7), 0 22px 30px -12px var(--sh);
     }
     .clay-card { --sh: rgba(214, 90, 140, .55); background: #ffb6d3; width: 190px; padding: 22px; font: 700 18px/1.2 Unbounded, sans-serif; }
-    .clay-card small { display: block; margin-top: 8px; font: 500 13px Onest, sans-serif; opacity: .7; }
+    .clay-card small { display: block; margin-top: 8px; font: 500 13px Onest, sans-serif; }
     .clay-ball { --sh: rgba(90, 120, 214, .5); background: #a9c4ff; width: 92px; height: 92px; border-radius: 50%; display: grid; place-items: center; font-size: 36px; animation-delay: -1.3s; }
     .clay-pill { --sh: rgba(90, 180, 120, .5); background: #b5f0c4; padding: 14px 26px; border-radius: 999px; font: 700 15px Unbounded, sans-serif; animation-delay: -2.6s; }
     @keyframes clay-bob { 0%, 100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-12px) rotate(2deg); } }
@@ -329,9 +336,9 @@
     .jp-enso path { fill: none; stroke: #2b2622; stroke-width: 9; stroke-linecap: round; stroke-dasharray: 400; stroke-dashoffset: 400; animation: enso-draw 5s ease-in-out infinite; }
     @keyframes enso-draw { 0% { stroke-dashoffset: 400; opacity: 1; } 45%, 85% { stroke-dashoffset: 0; opacity: 1; } 100% { stroke-dashoffset: 0; opacity: 0; } }
     .jp-text b { display: block; font: 400 28px/1.25 "PT Serif", serif; }
-    .jp-text small { display: block; margin-top: 14px; font-size: 11px; letter-spacing: .3em; color: #8a8178; }
+    .jp-text small { display: block; margin-top: 14px; font-size: 11px; letter-spacing: .3em; color: #6e655c; }
     .jp-seal { display: inline-grid; place-items: center; width: 34px; height: 34px; margin-top: 16px; border-radius: 4px; background: #b3261e; color: #f4efe6; font-size: 18px; }
-    .jp-vert { position: absolute; right: 22px; top: 24px; writing-mode: vertical-rl; font-size: 11px; letter-spacing: .4em; color: #8a8178; }
+    .jp-vert { position: absolute; right: 22px; top: 24px; writing-mode: vertical-rl; font-size: 11px; letter-spacing: .4em; color: #6e655c; }
 
     /* ===== 17. Пиксель-арт ===== */
     .st-pixel { background: #1b1b3a; color: #fff; font-family: "Press Start 2P", monospace; }
@@ -468,7 +475,7 @@
     @keyframes cs-pulse { 50% { transform: scale(.85); } }
     .cs-word { position: relative; z-index: 1; font: 700 clamp(40px, 6vw, 64px)/.95 Oswald, sans-serif; text-transform: uppercase; transform: rotate(-24deg); letter-spacing: .02em; }
     .cs-word span { color: #efe6d2; background: #111; padding: 0 10px; }
-    .cs-note { position: absolute; left: 24px; bottom: 22px; font: 700 12px Oswald, sans-serif; letter-spacing: .2em; text-transform: uppercase; }
+    .cs-note { position: absolute; z-index: 1; left: 24px; bottom: 22px; padding: 2px 6px; background: #efe6d2; font: 700 12px Oswald, sans-serif; letter-spacing: .2em; text-transform: uppercase; }
 
     /* ===== 24. Зернистые градиенты ===== */
     .st-grain {
@@ -545,7 +552,7 @@
     }
     .org-text b { display: block; font: italic 400 30px/1.15 "PT Serif", serif; }
     .org-text small { display: block; margin-top: 10px; font-size: 14px; opacity: .8; max-width: 200px; }
-    .org-pill { display: inline-block; margin-top: 14px; padding: 9px 20px; border-radius: 999px 600px 999px 800px; background: #588157; color: #f3efe6; font-size: 14px; }
+    .org-pill { display: inline-block; margin-top: 14px; padding: 9px 20px; border-radius: 999px 600px 999px 800px; background: #3d6b3f; color: #f3efe6; font-size: 14px; }
 
     /* ===== 29. Скетч ===== */
     .st-sketch { background: #fffdf6; color: #222; font-family: Caveat, cursive; }
@@ -578,6 +585,9 @@
       .bento .grad { grid-column: span 2; }
       .swiss-cols { grid-template-columns: 1fr 1fr; }
     }
+    /* Сцены за пределами экрана стоят на паузе — не нагружают процессор и батарею */
+    .stage.offscreen, .stage.offscreen::before, .stage.offscreen::after,
+    .stage.offscreen *, .stage.offscreen *::before, .stage.offscreen *::after { animation-play-state: paused !important; }
     @media (prefers-reduced-motion: reduce) {
       .stage *, .stage::before, .stage *::before, .stage *::after { animation: none !important; transition: none !important; }
     }
@@ -662,7 +672,7 @@
     </section>
 
     <!-- 2 -->
-    <section class="style-sec" id="holo">
+    <section class="style-sec" id="holo" data-fonts="Unbounded:wght@500;700;900">
       <div class="style-head">
         <div class="style-info">
           <span class="num">02</span>
@@ -692,7 +702,7 @@
     </section>
 
     <!-- 3 -->
-    <section class="style-sec" id="neon">
+    <section class="style-sec" id="neon" data-fonts="Comfortaa:wght@700">
       <div class="style-head">
         <div class="style-info">
           <span class="num">03</span>
@@ -760,7 +770,7 @@ setInterval(() =&gt; {
     </section>
 
     <!-- 5 -->
-    <section class="style-sec" id="brutal">
+    <section class="style-sec" id="brutal" data-fonts="Unbounded:wght@500;700;900">
       <div class="style-head">
         <div class="style-info">
           <span class="num">05</span>
@@ -823,7 +833,7 @@ setInterval(() =&gt; {
     </section>
 
     <!-- 7 -->
-    <section class="style-sec" id="clay">
+    <section class="style-sec" id="clay" data-fonts="Unbounded:wght@500;700;900">
       <div class="style-head">
         <div class="style-info">
           <span class="num">07</span>
@@ -858,7 +868,7 @@ setInterval(() =&gt; {
     </section>
 
     <!-- 8 -->
-    <section class="style-sec" id="aurora">
+    <section class="style-sec" id="aurora" data-fonts="Unbounded:wght@500;700;900">
       <div class="style-head">
         <div class="style-info">
           <span class="num">08</span>
@@ -884,7 +894,7 @@ setInterval(() =&gt; {
     </section>
 
     <!-- 9 -->
-    <section class="style-sec" id="glitch">
+    <section class="style-sec" id="glitch" data-fonts="Russo One">
       <div class="style-head">
         <div class="style-info">
           <span class="num">09</span>
@@ -917,7 +927,7 @@ setInterval(() =&gt; {
     </section>
 
     <!-- 10 -->
-    <section class="style-sec" id="synth">
+    <section class="style-sec" id="synth" data-fonts="Russo One">
       <div class="style-head">
         <div class="style-info">
           <span class="num">10</span>
@@ -1050,7 +1060,7 @@ setInterval(() =&gt; {
     </section>
 
     <!-- 14 -->
-    <section class="style-sec" id="y2k">
+    <section class="style-sec" id="y2k" data-fonts="Unbounded:wght@500;700;900">
       <div class="style-head">
         <div class="style-info">
           <span class="num">14</span>
@@ -1084,7 +1094,7 @@ setInterval(() =&gt; {
     </section>
 
     <!-- 15 -->
-    <section class="style-sec" id="memphis">
+    <section class="style-sec" id="memphis" data-fonts="Unbounded:wght@500;700;900">
       <div class="style-head">
         <div class="style-info">
           <span class="num">15</span>
@@ -1115,7 +1125,7 @@ setInterval(() =&gt; {
     </section>
 
     <!-- 16 -->
-    <section class="style-sec" id="japan">
+    <section class="style-sec" id="japan" data-fonts="PT Serif:ital,wght@0,400;0,700;1,400;1,700">
       <div class="style-head">
         <div class="style-info">
           <span class="num">16</span>
@@ -1151,7 +1161,7 @@ setInterval(() =&gt; {
     </section>
 
     <!-- 17 -->
-    <section class="style-sec" id="pixel">
+    <section class="style-sec" id="pixel" data-fonts="Press Start 2P">
       <div class="style-head">
         <div class="style-info">
           <span class="num">17</span>
@@ -1222,7 +1232,7 @@ setInterval(() =&gt; {
     </section>
 
     <!-- 19 -->
-    <section class="style-sec" id="parallax">
+    <section class="style-sec" id="parallax" data-fonts="Unbounded:wght@500;700;900">
       <div class="style-head">
         <div class="style-info">
           <span class="num">19</span>
@@ -1289,7 +1299,7 @@ addEventListener('scroll', () =&gt; requestAnimationFrame(update), { passive: tr
     </section>
 
     <!-- 21 -->
-    <section class="style-sec" id="bauhaus">
+    <section class="style-sec" id="bauhaus" data-fonts="Unbounded:wght@500;700;900">
       <div class="style-head">
         <div class="style-info">
           <span class="num">21</span>
@@ -1317,7 +1327,7 @@ addEventListener('scroll', () =&gt; requestAnimationFrame(update), { passive: tr
     </section>
 
     <!-- 22 -->
-    <section class="style-sec" id="deco">
+    <section class="style-sec" id="deco" data-fonts="Poiret One">
       <div class="style-head">
         <div class="style-info">
           <span class="num">22</span>
@@ -1346,7 +1356,7 @@ addEventListener('scroll', () =&gt; requestAnimationFrame(update), { passive: tr
     </section>
 
     <!-- 23 -->
-    <section class="style-sec" id="constr">
+    <section class="style-sec" id="constr" data-fonts="Oswald:wght@700">
       <div class="style-head">
         <div class="style-info">
           <span class="num">23</span>
@@ -1373,7 +1383,7 @@ addEventListener('scroll', () =&gt; requestAnimationFrame(update), { passive: tr
     </section>
 
     <!-- 24 -->
-    <section class="style-sec" id="grain">
+    <section class="style-sec" id="grain" data-fonts="Unbounded:wght@500;700;900">
       <div class="style-head">
         <div class="style-info">
           <span class="num">24</span>
@@ -1402,7 +1412,7 @@ addEventListener('scroll', () =&gt; requestAnimationFrame(update), { passive: tr
     </section>
 
     <!-- 25 -->
-    <section class="style-sec" id="kinetic">
+    <section class="style-sec" id="kinetic" data-fonts="Unbounded:wght@500;700;900">
       <div class="style-head">
         <div class="style-info">
           <span class="num">25</span>
@@ -1433,7 +1443,7 @@ addEventListener('scroll', () =&gt; requestAnimationFrame(update), { passive: tr
     </section>
 
     <!-- 26 -->
-    <section class="style-sec" id="editorial">
+    <section class="style-sec" id="editorial" data-fonts="PT Serif:ital,wght@0,400;0,700;1,400;1,700">
       <div class="style-head">
         <div class="style-info">
           <span class="num">26</span>
@@ -1470,7 +1480,7 @@ addEventListener('scroll', () =&gt; requestAnimationFrame(update), { passive: tr
     </section>
 
     <!-- 27 -->
-    <section class="style-sec" id="vapor">
+    <section class="style-sec" id="vapor" data-fonts="Unbounded:wght@500;700;900">
       <div class="style-head">
         <div class="style-info">
           <span class="num">27</span>
@@ -1501,7 +1511,7 @@ addEventListener('scroll', () =&gt; requestAnimationFrame(update), { passive: tr
     </section>
 
     <!-- 28 -->
-    <section class="style-sec" id="organic">
+    <section class="style-sec" id="organic" data-fonts="PT Serif:ital,wght@0,400;0,700;1,400;1,700">
       <div class="style-head">
         <div class="style-info">
           <span class="num">28</span>
@@ -1530,7 +1540,7 @@ addEventListener('scroll', () =&gt; requestAnimationFrame(update), { passive: tr
     </section>
 
     <!-- 29 -->
-    <section class="style-sec" id="sketch">
+    <section class="style-sec" id="sketch" data-fonts="Caveat:wght@700">
       <div class="style-head">
         <div class="style-info">
           <span class="num">29</span>
@@ -1579,6 +1589,18 @@ mark {                                 /* маркер с рваными кра�
   <script>
     const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+    // Анимации идут только у сцен, которые видны на экране
+    const stages = document.querySelectorAll('.stage');
+    stages.forEach(s => s.classList.add('offscreen'));
+    if ('IntersectionObserver' in window) {
+      const stageObserver = new IntersectionObserver(entries => {
+        entries.forEach(e => e.target.classList.toggle('offscreen', !e.isIntersecting));
+      }, { rootMargin: '100px 0px' });
+      stages.forEach(s => stageObserver.observe(s));
+    } else {
+      stages.forEach(s => s.classList.remove('offscreen'));
+    }
+
     // Голография: карта наклоняется за курсором, блик следует за ним
     const holoStage = document.querySelector('.st-holo');
     const holo = holoStage.querySelector('.holo-card');
@@ -1618,7 +1640,8 @@ mark {                                 /* маркер с рваными кра�
       t++;
     }
     drawAscii();
-    if (!reduceMotion) setInterval(drawAscii, 120);
+    const asciiStage = document.querySelector('.st-ascii');
+    if (!reduceMotion) setInterval(() => { if (!asciiStage.classList.contains('offscreen')) drawAscii(); }, 120);
 
     // Неоморфизм: кнопка воспроизведения и переключатель
     const neuPanel = document.querySelector('.neu-panel');

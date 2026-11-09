@@ -1,12 +1,13 @@
 # Служебные скрипты
 
-Папка не публикуется на сайте (исключена в `_config.yml`). Все команды запускаются из корня репозитория, нужен Python 3.10+ без дополнительных библиотек.
+Папка не публикуется на сайте (исключена в `_config.yml`). Все команды запускаются из корня репозитория, нужен Python 3.10+. Для иконок и обложек — ещё Pillow (`pip install pillow`).
 
 | Скрипт | Что делает |
 |---|---|
 | `guides/gen.py` | Собирает учебники в `guides/` и `design/` из контента в `guides/*.py`, затем запускает `seo.py` |
 | `seo.py` | Добавляет Open Graph-теги на все страницы и пересобирает `sitemap.xml` |
-| `og/render.py` | Рисует обложки для превью ссылок `og/cover.png`, `og/guides.png`, `og/design.png` |
+| `og/render.py` | Рисует обложки для превью ссылок `og/cover.jpg`, `og/guides.jpg`, `og/design.jpg` |
+| `icons.py` | Рисует favicon (`favicon.svg`, `favicon.ico`), иконки для iPhone и Android и `site.webmanifest` |
 
 ## Учебники
 
@@ -41,7 +42,7 @@ python -X utf8 tools/guides/gen.py
 python -X utf8 tools/seo.py
 ```
 
-Запускайте после добавления или переименования любой страницы. Заголовок и описание превью берутся из `<title>` и `<meta name="description">` страницы. Обложка выбирается по разделу: `design*` → `og/design.png`, `guide*` → `og/guides.png`, остальное → `og/cover.png`.
+Запускайте после добавления или переименования любой страницы. Заголовок и описание превью берутся из `<title>` и `<meta name="description">` страницы. Обложка выбирается по разделу: `design*` → `og/design.jpg`, `guide*` → `og/guides.jpg`, остальное → `og/cover.jpg`.
 
 ## Обложки
 

@@ -14,6 +14,11 @@
     source: 'https://github.com/BezdomnyiBox/BezdomnyiBox.github.io'
   };
 
+  // Счётчик посещений GoatCounter — без cookies и без сбора персональных данных.
+  // Впишите код сайта после регистрации на goatcounter.com: например, 'bezdomnyibox'
+  // для https://bezdomnyibox.goatcounter.com. Пустая строка — счётчик выключен.
+  var GOATCOUNTER = '';
+
   function current(name) { return page === name ? ' aria-current="page"' : ''; }
   function ext(url, text, cls) {
     return '<a' + (cls ? ' class="' + cls + '"' : '') + ' href="' + url + '" target="_blank" rel="noopener">' + text + '</a>';
@@ -47,20 +52,20 @@
         '</div>' +
       '</div>' +
       '<div class="footer-cols">' +
-        '<div><h4>Технологии</h4><ul>' +
+        '<div><p class="footer-h">Технологии</p><ul>' +
           '<li><a href="' + base + 'index.html#tech">PHP</a></li>' +
           '<li><a href="' + base + 'index.html#tech">Symfony</a></li>' +
           '<li><a href="' + base + 'index.html#tech">React</a></li>' +
           '<li><a href="' + base + 'index.html#tech">TypeScript</a></li>' +
         '</ul></div>' +
-        '<div><h4>Гайды</h4><ul>' +
+        '<div><p class="footer-h">Гайды</p><ul>' +
           '<li><a href="' + base + 'guides.html">Все гайды</a></li>' +
           '<li><a href="' + base + 'guides/symfony-patterns.html">Паттерны в Symfony</a></li>' +
           '<li><a href="' + base + 'guides/rest-api.html">HTTP и REST API</a></li>' +
           '<li><a href="' + base + 'guides/sql.html">SQL</a></li>' +
           '<li><a href="' + base + 'guides/react.html">React</a></li>' +
         '</ul></div>' +
-        '<div><h4>Дизайн</h4><ul>' +
+        '<div><p class="footer-h">Дизайн</p><ul>' +
           '<li><a href="' + base + 'design.html">Весь раздел</a></li>' +
           '<li><a href="' + base + 'design/switcher.html">Переключатель стилей</a></li>' +
           '<li><a href="' + base + 'design/styles.html">Галерея стилей</a></li>' +
@@ -69,7 +74,7 @@
           '<li><a href="' + base + 'design/laws.html">Законы дизайна</a></li>' +
           '<li><a href="' + base + 'design/colors.html">Цвет и палитры</a></li>' +
         '</ul></div>' +
-        '<div><h4>Обо мне</h4><ul>' +
+        '<div><p class="footer-h">Обо мне</p><ul>' +
           '<li><a href="' + base + 'projects/crm.html">Проект: мини-CRM</a></li>' +
           '<li>' + ext(LINKS.resume, 'Резюме') + '</li>' +
           '<li>' + ext(LINKS.github, 'Репозитории на GitHub') + '</li>' +
@@ -91,4 +96,13 @@
   footerEl.innerHTML = footer;
   // «Контакты» ведут на блок #contact, а если его на странице нет — на подвал
   if (!document.getElementById('contact')) footerEl.id = 'contact';
+
+  // Считаем только посещения настоящего сайта, а не локального просмотра
+  if (GOATCOUNTER && location.hostname === 'bezdomnyibox.github.io') {
+    var counter = document.createElement('script');
+    counter.async = true;
+    counter.src = 'https://gc.zgo.at/count.js';
+    counter.setAttribute('data-goatcounter', 'https://' + GOATCOUNTER + '.goatcounter.com/count');
+    document.body.appendChild(counter);
+  }
 })();

@@ -13,23 +13,31 @@
   <meta property="og:title" content="Шрифты и типографика — Владимир">
   <meta property="og:description" content="Как выбрать шрифт с кириллицей, собрать пару, настроить размеры и интервалы и правильно подключить веб-шрифты.">
   <meta property="og:url" content="https://bezdomnyibox.github.io/design/fonts.html">
-  <meta property="og:image" content="https://bezdomnyibox.github.io/og/design.png">
+  <meta property="og:image" content="https://bezdomnyibox.github.io/og/design.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Шрифты и типографика — Владимир">
   <meta name="twitter:card" content="summary_large_image">
   <!-- /og -->
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%235b4cf0'/><text x='16' y='21' font-family='monospace' font-size='13' font-weight='700' fill='white' text-anchor='middle'>&lt;/&gt;</text></svg>">
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#5b4cf0">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"></noscript>
   <link rel="stylesheet" href="../styles.css">
   <link rel="stylesheet" href="../docs.css">
   <script src="../theme.js"></script>
   <script src="../layout.js" data-base="../" data-page="design" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js" defer></script>
-  <link href="https://fonts.googleapis.com/css2?family=PT+Serif:wght@400;700&family=PT+Sans:wght@400;700&family=Unbounded:wght@500;700&family=Caveat:wght@600&display=swap" rel="stylesheet">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=PT+Serif:wght@400;700&family=PT+Sans:wght@400;700&family=Unbounded:wght@500;700&family=Caveat:wght@600&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=PT+Serif:wght@400;700&family=PT+Sans:wght@400;700&family=Unbounded:wght@500;700&family=Caveat:wght@600&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=PT+Serif:wght@400;700&family=PT+Sans:wght@400;700&family=Unbounded:wght@500;700&family=Caveat:wght@600&display=swap"></noscript>
   <style>
     .font-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 12px; margin-top: 16px; }
     .font-card { background: var(--tile); border-radius: 16px; padding: 18px 20px; }
@@ -64,7 +72,7 @@
 
     <div class="guide">
       <aside class="toc">
-        <h4>Содержание</h4>
+        <p class="toc-title">Содержание</p>
         <ol><li><a href="#kinds">Виды шрифтов</a></li><li><a href="#choose">Как выбрать шрифт</a></li><li><a href="#pairs">Пары шрифтов</a></li><li><a href="#scale">Размеры и модульная шкала</a></li><li><a href="#spacing">Интерлиньяж, длина строки и трекинг</a></li><li><a href="#hierarchy">Типографическая иерархия</a></li><li><a href="#loading">Подключение веб-шрифтов</a></li><li><a href="#rules">Шпаргалка</a></li></ol>
       </aside>
 
@@ -137,7 +145,9 @@ article { max-width: 65ch; }</code></pre>
           <p>Проще всего подключить шрифт из Google Fonts. <code>display=swap</code> показывает текст сразу системным шрифтом и подменяет его, когда загрузится нужный:</p>
           <pre data-file="index.html"><code class="language-markup">&lt;link rel="preconnect" href="https://fonts.googleapis.com"&gt;
 &lt;link rel="preconnect" href="https://fonts.gstatic.com" crossorigin&gt;
-&lt;link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;700&amp;display=swap" rel="stylesheet"&gt;</code></pre>
+&lt;link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;700&amp;display=swap"&gt;
+  &lt;link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;700&amp;display=swap" media="print" onload="this.media='all'"&gt;
+  &lt;noscript&gt;&lt;link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;700&amp;display=swap"&gt;&lt;/noscript&gt;</code></pre>
           <p>Для продакшена шрифт лучше хранить у себя — так быстрее и не зависит от внешнего сервиса:</p>
           <pre data-file="fonts.css"><code class="language-css">@font-face {
   font-family: 'Onest';
@@ -152,7 +162,7 @@ body {
         </section>
         <section class="lesson" id="rules">
           <h2><span>08</span>Шпаргалка</h2>
-          <div class="tiles"><div class="good"><h4>Запомнить</h4><ul><li>Одна-две гарнитуры на весь сайт.</li><li>Размеры — из шкалы, а не «на глаз».</li><li>Текст 16–18 px, интерлиньяж 1,5–1,7, строка до 75 знаков.</li><li>Всегда проверяйте кириллицу и нужные начертания.</li></ul></div><div class="bad"><h4>Частые ошибки</h4><ul><li>Три-четыре разных шрифта на одной странице.</li><li>Декоративный или рукописный шрифт в длинном тексте.</li><li>Серый текст на сером фоне — низкий контраст.</li><li>Текст во всю ширину широкого экрана.</li></ul></div></div>
+          <div class="tiles"><div class="good"><h3>Запомнить</h3><ul><li>Одна-две гарнитуры на весь сайт.</li><li>Размеры — из шкалы, а не «на глаз».</li><li>Текст 16–18 px, интерлиньяж 1,5–1,7, строка до 75 знаков.</li><li>Всегда проверяйте кириллицу и нужные начертания.</li></ul></div><div class="bad"><h3>Частые ошибки</h3><ul><li>Три-четыре разных шрифта на одной странице.</li><li>Декоративный или рукописный шрифт в длинном тексте.</li><li>Серый текст на сером фоне — низкий контраст.</li><li>Текст во всю ширину широкого экрана.</li></ul></div></div>
         </section>
         <section class="lesson" id="next">
           <h2>Что дальше</h2>

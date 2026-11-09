@@ -22,11 +22,6 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "tools"))
 import seo  # noqa: E402
 
-FAVICON = ("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'>"
-           "<circle cx='16' cy='16' r='16' fill='%235b4cf0'/><text x='16' y='21' font-family='monospace' "
-           "font-size='13' font-weight='700' fill='white' text-anchor='middle'>&lt;/&gt;</text></svg>")
-
-
 def inline(s):
     parts = s.split("`")
     out = []
@@ -63,8 +58,8 @@ def block(b):
         _, good, bad = b
         li = lambda items: "".join(f"<li>{inline(i)}</li>" for i in items)
         return ('<div class="tiles">'
-                f'<div class="good"><h4>Запомнить</h4><ul>{li(good)}</ul></div>'
-                f'<div class="bad"><h4>Частые ошибки</h4><ul>{li(bad)}</ul></div>'
+                f'<div class="good"><h3>Запомнить</h3><ul>{li(good)}</ul></div>'
+                f'<div class="bad"><h3>Частые ошибки</h3><ul>{li(bad)}</ul></div>'
                 "</div>")
     raise ValueError(kind)
 
@@ -93,10 +88,16 @@ def page(g):
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{html.escape(title)} — Владимир</title>
   <meta name="description" content="{html.escape(g['lead'])}">
-  <link rel="icon" href="{FAVICON}">
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#5b4cf0">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"></noscript>
   <link rel="stylesheet" href="../styles.css">
   <link rel="stylesheet" href="../docs.css">
   <script src="../theme.js"></script>
@@ -120,7 +121,7 @@ def page(g):
 
     <div class="guide">
       <aside class="toc">
-        <h4>Содержание</h4>
+        <p class="toc-title">Содержание</p>
         <ol>{toc}</ol>
       </aside>
 

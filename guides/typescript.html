@@ -13,16 +13,22 @@
   <meta property="og:title" content="TypeScript без лишней теории — Владимир">
   <meta property="og:description" content="Типы, которые ловят ошибки до запуска: базовые типы, интерфейсы, дженерики, сужение типов, утилиты и проверка данных с сервера.">
   <meta property="og:url" content="https://bezdomnyibox.github.io/guides/typescript.html">
-  <meta property="og:image" content="https://bezdomnyibox.github.io/og/guides.png">
+  <meta property="og:image" content="https://bezdomnyibox.github.io/og/guides.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="TypeScript без лишней теории — Владимир">
   <meta name="twitter:card" content="summary_large_image">
   <!-- /og -->
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%235b4cf0'/><text x='16' y='21' font-family='monospace' font-size='13' font-weight='700' fill='white' text-anchor='middle'>&lt;/&gt;</text></svg>">
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#5b4cf0">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"></noscript>
   <link rel="stylesheet" href="../styles.css">
   <link rel="stylesheet" href="../docs.css">
   <script src="../theme.js"></script>
@@ -46,7 +52,7 @@
 
     <div class="guide">
       <aside class="toc">
-        <h4>Содержание</h4>
+        <p class="toc-title">Содержание</p>
         <ol><li><a href="#why">Зачем TypeScript</a></li><li><a href="#basics">Базовые типы и вывод типов</a></li><li><a href="#objects">Объекты: type и interface</a></li><li><a href="#functions">Функции</a></li><li><a href="#generics">Дженерики</a></li><li><a href="#narrowing">Сужение типов</a></li><li><a href="#utility">Утилитарные типы</a></li><li><a href="#unknown">any, unknown и проверка данных</a></li></ol>
       </aside>
 
@@ -203,7 +209,7 @@ type Part = z.infer&lt;typeof PartSchema&gt;; // тип выводится из 
 
 const json: unknown = await res.json();
 const part = PartSchema.parse(json);    // бросит ошибку, если сервер прислал не то</code></pre>
-          <div class="tiles"><div class="good"><h4>Запомнить</h4><ul><li><code>strict: true</code> с первого дня.</li><li>Типизируйте границы: параметры функций, props, ответы API.</li><li>Размеченные объединения вместо пачки необязательных полей.</li><li>Внешние данные — через схему (Zod), а не через <code>as</code>.</li></ul></div><div class="bad"><h4>Частые ошибки</h4><ul><li><code>any</code>, «чтобы заработало».</li><li><code>as</code> вместо проверки: тип совпадает только на бумаге.</li><li>Копии типов вместо <code>Pick</code> и <code>Omit</code>.</li><li>Выключенный <code>strict</code> в старом проекте «на потом».</li></ul></div></div>
+          <div class="tiles"><div class="good"><h3>Запомнить</h3><ul><li><code>strict: true</code> с первого дня.</li><li>Типизируйте границы: параметры функций, props, ответы API.</li><li>Размеченные объединения вместо пачки необязательных полей.</li><li>Внешние данные — через схему (Zod), а не через <code>as</code>.</li></ul></div><div class="bad"><h3>Частые ошибки</h3><ul><li><code>any</code>, «чтобы заработало».</li><li><code>as</code> вместо проверки: тип совпадает только на бумаге.</li><li>Копии типов вместо <code>Pick</code> и <code>Omit</code>.</li><li>Выключенный <code>strict</code> в старом проекте «на потом».</li></ul></div></div>
         </section>
         <section class="lesson" id="next">
           <h2>Что дальше</h2>

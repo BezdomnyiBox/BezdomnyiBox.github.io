@@ -13,16 +13,22 @@
   <meta property="og:title" content="Учебник по стилям — Владимир">
   <meta property="og:description" content="Разбор CSS-приёмов, на которых построен сайт: токены, тёмная тема, градиенты, объёмные иконки, сетки, шапка и подвал.">
   <meta property="og:url" content="https://bezdomnyibox.github.io/guide.html">
-  <meta property="og:image" content="https://bezdomnyibox.github.io/og/guides.png">
+  <meta property="og:image" content="https://bezdomnyibox.github.io/og/guides.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Учебник по стилям — Владимир">
   <meta name="twitter:card" content="summary_large_image">
   <!-- /og -->
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%235b4cf0'/><text x='16' y='21' font-family='monospace' font-size='13' font-weight='700' fill='white' text-anchor='middle'>&lt;/&gt;</text></svg>">
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#5b4cf0">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"></noscript>
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="docs.css">
   <script src="theme.js"></script>
@@ -65,7 +71,7 @@
 
   <div class="wrap guide">
     <aside class="toc">
-      <h4>Содержание</h4>
+      <p class="toc-title">Содержание</p>
       <ol>
         <li><a href="#tokens">Дизайн-токены</a></li>
         <li><a href="#theme">Тёмная тема</a></li>

@@ -13,16 +13,22 @@
   <meta property="og:title" content="UI-состояния компонентов — Владимир">
   <meta property="og:description" content="Наведение, нажатие, фокус, загрузка, ошибка, пустой экран и успех — все состояния, которые макет обычно забывает.">
   <meta property="og:url" content="https://bezdomnyibox.github.io/design/states.html">
-  <meta property="og:image" content="https://bezdomnyibox.github.io/og/design.png">
+  <meta property="og:image" content="https://bezdomnyibox.github.io/og/design.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="UI-состояния компонентов — Владимир">
   <meta name="twitter:card" content="summary_large_image">
   <!-- /og -->
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%235b4cf0'/><text x='16' y='21' font-family='monospace' font-size='13' font-weight='700' fill='white' text-anchor='middle'>&lt;/&gt;</text></svg>">
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#5b4cf0">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"></noscript>
   <link rel="stylesheet" href="../styles.css">
   <link rel="stylesheet" href="../docs.css">
   <script src="../theme.js"></script>
@@ -80,7 +86,7 @@
 
     <div class="guide">
       <aside class="toc">
-        <h4>Содержание</h4>
+        <p class="toc-title">Содержание</p>
         <ol><li><a href="#map">Какие бывают состояния</a></li><li><a href="#buttons">Состояния кнопки</a></li><li><a href="#inputs">Состояния поля ввода</a></li><li><a href="#loading">Загрузка</a></li><li><a href="#empty">Пустые состояния</a></li><li><a href="#errors">Ошибки</a></li><li><a href="#success">Успех и подтверждение</a></li></ol>
       </aside>
 
@@ -135,7 +141,7 @@
         <section class="lesson" id="success">
           <h2><span>07</span>Успех и подтверждение</h2>
           <ul><li>После важного действия подтвердите результат: «Заказ №1001 оформлен, доставим завтра с 10 до 14».</li><li>Для обратимых действий вместо «Вы уверены?» лучше уведомление с кнопкой «Отменить» — это быстрее и не раздражает.</li><li>Подтверждение «Вы уверены?» оставьте для необратимого: удаление аккаунта, оплата.</li></ul>
-          <div class="tiles"><div class="good"><h4>Запомнить</h4><ul><li>У каждого компонента — все состояния, а не одно.</li><li>Фокус виден, загрузка блокирует повторное нажатие.</li><li>Пустой экран предлагает следующий шаг.</li><li>Ошибка: что случилось, почему, что делать.</li></ul></div><div class="bad"><h4>Частые ошибки</h4><ul><li>Ошибки у формы, которую ещё не начали заполнять.</li><li>Спиннер на полсекунды, который просто мигает.</li><li>«Что-то пошло не так» без объяснений.</li><li>Потеря введённых данных после ошибки.</li></ul></div></div>
+          <div class="tiles"><div class="good"><h3>Запомнить</h3><ul><li>У каждого компонента — все состояния, а не одно.</li><li>Фокус виден, загрузка блокирует повторное нажатие.</li><li>Пустой экран предлагает следующий шаг.</li><li>Ошибка: что случилось, почему, что делать.</li></ul></div><div class="bad"><h3>Частые ошибки</h3><ul><li>Ошибки у формы, которую ещё не начали заполнять.</li><li>Спиннер на полсекунды, который просто мигает.</li><li>«Что-то пошло не так» без объяснений.</li><li>Потеря введённых данных после ошибки.</li></ul></div></div>
         </section>
         <section class="lesson" id="next">
           <h2>Что дальше</h2>

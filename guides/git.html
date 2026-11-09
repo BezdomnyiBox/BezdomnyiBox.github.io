@@ -13,16 +13,22 @@
   <meta property="og:title" content="Git для командной работы — Владимир">
   <meta property="og:description" content="Ежедневный цикл, ветки, хорошие коммиты, отмена изменений, конфликты и pull request — то, что нужно с первого дня в команде.">
   <meta property="og:url" content="https://bezdomnyibox.github.io/guides/git.html">
-  <meta property="og:image" content="https://bezdomnyibox.github.io/og/guides.png">
+  <meta property="og:image" content="https://bezdomnyibox.github.io/og/guides.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Git для командной работы — Владимир">
   <meta name="twitter:card" content="summary_large_image">
   <!-- /og -->
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%235b4cf0'/><text x='16' y='21' font-family='monospace' font-size='13' font-weight='700' fill='white' text-anchor='middle'>&lt;/&gt;</text></svg>">
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#5b4cf0">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"></noscript>
   <link rel="stylesheet" href="../styles.css">
   <link rel="stylesheet" href="../docs.css">
   <script src="../theme.js"></script>
@@ -46,7 +52,7 @@
 
     <div class="guide">
       <aside class="toc">
-        <h4>Содержание</h4>
+        <p class="toc-title">Содержание</p>
         <ol><li><a href="#basics">Ежедневный цикл</a></li><li><a href="#branches">Ветки</a></li><li><a href="#commits">Хорошие коммиты</a></li><li><a href="#undo">Отмена изменений</a></li><li><a href="#conflicts">Конфликты</a></li><li><a href="#pr">Pull request и ревью</a></li><li><a href="#safety">Что не должно попасть в репозиторий</a></li></ol>
       </aside>
 
@@ -119,7 +125,7 @@ __pycache__/
 *.log
 .idea/</code></pre>
           <p>Если секрет (пароль, токен, ключ) попал в коммит — <strong>сразу смените его</strong>. Удаление файла следующим коммитом не помогает: секрет остаётся в истории.</p>
-          <div class="tiles"><div class="good"><h4>Запомнить</h4><ul><li>Ветка на задачу, pull request на ветку.</li><li>Маленькие коммиты с понятным сообщением.</li><li><code>git pull --rebase</code> перед пушем.</li><li><code>git revert</code> для отмены опубликованного.</li></ul></div><div class="bad"><h4>Частые ошибки</h4><ul><li>Коммит <code>.env</code> с паролями.</li><li><code>push --force</code> в общую ветку.</li><li>Один гигантский коммит «сделал задачу».</li><li>Сообщения вида «fix», «wip», «правки».</li></ul></div></div>
+          <div class="tiles"><div class="good"><h3>Запомнить</h3><ul><li>Ветка на задачу, pull request на ветку.</li><li>Маленькие коммиты с понятным сообщением.</li><li><code>git pull --rebase</code> перед пушем.</li><li><code>git revert</code> для отмены опубликованного.</li></ul></div><div class="bad"><h3>Частые ошибки</h3><ul><li>Коммит <code>.env</code> с паролями.</li><li><code>push --force</code> в общую ветку.</li><li>Один гигантский коммит «сделал задачу».</li><li>Сообщения вида «fix», «wip», «правки».</li></ul></div></div>
         </section>
         <section class="lesson" id="next">
           <h2>Что дальше</h2>

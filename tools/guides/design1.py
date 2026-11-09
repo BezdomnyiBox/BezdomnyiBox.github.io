@@ -1,7 +1,9 @@
 PARENT = ("Дизайн", "../design.html")
 
 FONTS_HEAD = """
-  <link href="https://fonts.googleapis.com/css2?family=PT+Serif:wght@400;700&family=PT+Sans:wght@400;700&family=Unbounded:wght@500;700&family=Caveat:wght@600&display=swap" rel="stylesheet">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=PT+Serif:wght@400;700&family=PT+Sans:wght@400;700&family=Unbounded:wght@500;700&family=Caveat:wght@600&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=PT+Serif:wght@400;700&family=PT+Sans:wght@400;700&family=Unbounded:wght@500;700&family=Caveat:wght@600&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=PT+Serif:wght@400;700&family=PT+Sans:wght@400;700&family=Unbounded:wght@500;700&family=Caveat:wght@600&display=swap"></noscript>
   <style>
     .font-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 12px; margin-top: 16px; }
     .font-card { background: var(--tile); border-radius: 16px; padding: 18px 20px; }
@@ -142,7 +144,9 @@ article { max-width: 65ch; }
             ("code", "markup", "index.html", r"""
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;700&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;700&display=swap"></noscript>
 """),
             "Для продакшена шрифт лучше хранить у себя — так быстрее и не зависит от внешнего сервиса:",
             ("code", "css", "fonts.css", r"""

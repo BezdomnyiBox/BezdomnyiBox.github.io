@@ -13,16 +13,22 @@
   <meta property="og:title" content="Паттерны проектирования в Symfony — Владимир">
   <meta property="og:description" content="10 паттернов проектирования на PHP и Symfony 7: Dependency Injection, Strategy, Factory, Builder, Repository, Decorator, Adapter, Observer, Command, Chain of Responsibility.">
   <meta property="og:url" content="https://bezdomnyibox.github.io/guides/symfony-patterns.html">
-  <meta property="og:image" content="https://bezdomnyibox.github.io/og/guides.png">
+  <meta property="og:image" content="https://bezdomnyibox.github.io/og/guides.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Паттерны проектирования в Symfony — Владимир">
   <meta name="twitter:card" content="summary_large_image">
   <!-- /og -->
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%235b4cf0'/><text x='16' y='21' font-family='monospace' font-size='13' font-weight='700' fill='white' text-anchor='middle'>&lt;/&gt;</text></svg>">
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#5b4cf0">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"></noscript>
   <link rel="stylesheet" href="../styles.css">
   <link rel="stylesheet" href="../docs.css">
   <script src="../theme.js"></script>
@@ -82,12 +88,14 @@
     .pattern h2 small { display: block; font-size: 16px; font-weight: 400; color: var(--muted); letter-spacing: 0; margin-top: 4px; }
     .pair { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-top: 20px; }
     .pair > div { background: var(--tile); border-radius: var(--radius-lg); padding: 22px 24px; }
-    .pair h4 { font-size: 13px; font-weight: 500; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-bottom: 8px; }
+    .pair h3 { margin: 0 0 8px;  font-size: 13px; font-weight: 500; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-bottom: 8px; }
     .pair p, .pair li { color: var(--text); font-size: 15px; margin: 0; max-width: none; }
     .pair ul { padding-left: 18px; margin: 0; }
     .pair li + li { margin-top: 6px; }
-    .pair .good h4 { color: #22b07d; }
-    .pair .bad h4 { color: #e0692b; }
+    .pair .good h3 { color: #0f7a52; }
+    :root[data-theme="dark"] .pair .good h3 { color: #5fd3a5; }
+    .pair .bad h3 { color: #b84a17; }
+    :root[data-theme="dark"] .pair .bad h3 { color: #ff9a6b; }
 
     .callout {
       margin-top: 72px; border-radius: var(--radius-xl); padding: 40px;
@@ -149,7 +157,7 @@
 
     <div class="guide">
       <aside class="toc">
-        <h4>Содержание</h4>
+        <p class="toc-title">Содержание</p>
         <ol>
           <li><a href="#di">Dependency Injection</a></li>
           <li><a href="#repository">Repository</a></li>
@@ -171,8 +179,8 @@
           <span class="chip">Архитектурный</span>
           <h2>01 · Dependency Injection<small>Внедрение зависимостей — фундамент всего Symfony</small></h2>
           <div class="pair">
-            <div><h4>Задача</h4><p>Сервис оформления заказа сам создаёт репозиторий, почтовый клиент и логгер через <code>new</code>. Его невозможно протестировать и сложно перенастроить.</p></div>
-            <div><h4>Решение</h4><p>Сервис только объявляет, что ему нужно, в конструкторе. Создаёт и передаёт зависимости контейнер Symfony — по типам аргументов (autowiring).</p></div>
+            <div><h3>Задача</h3><p>Сервис оформления заказа сам создаёт репозиторий, почтовый клиент и логгер через <code>new</code>. Его невозможно протестировать и сложно перенастроить.</p></div>
+            <div><h3>Решение</h3><p>Сервис только объявляет, что ему нужно, в конструкторе. Создаёт и передаёт зависимости контейнер Symfony — по типам аргументов (autowiring).</p></div>
           </div>
 <pre data-file="src/Order/CheckoutService.php"><code class="language-php">namespace App\Order;
 
@@ -202,8 +210,8 @@ final class CheckoutService
     }
 }</code></pre>
           <div class="pair">
-            <div class="good"><h4>Когда применять</h4><ul><li>Всегда: в Symfony это способ по умолчанию.</li><li>Зависите от интерфейсов (<code>MailerInterface</code>), а не от конкретных классов.</li></ul></div>
-            <div class="bad"><h4>Подводные камни</h4><ul><li>Не берите сервисы из контейнера вручную (<code>$container-&gt;get()</code>) — это Service Locator, он прячет зависимости.</li><li>Больше 5–6 зависимостей в конструкторе — сигнал, что класс делает слишком много.</li></ul></div>
+            <div class="good"><h3>Когда применять</h3><ul><li>Всегда: в Symfony это способ по умолчанию.</li><li>Зависите от интерфейсов (<code>MailerInterface</code>), а не от конкретных классов.</li></ul></div>
+            <div class="bad"><h3>Подводные камни</h3><ul><li>Не берите сервисы из контейнера вручную (<code>$container-&gt;get()</code>) — это Service Locator, он прячет зависимости.</li><li>Больше 5–6 зависимостей в конструкторе — сигнал, что класс делает слишком много.</li></ul></div>
           </div>
         </section>
 
@@ -212,8 +220,8 @@ final class CheckoutService
           <span class="chip">Архитектурный</span>
           <h2>02 · Repository<small>Коллекция сущностей, которая прячет детали хранения</small></h2>
           <div class="pair">
-            <div><h4>Задача</h4><p>DQL-запросы для поиска запчастей разбросаны по контроллерам. Один и тот же запрос «в наличии и подходит к модели» написан в трёх местах по-разному.</p></div>
-            <div><h4>Решение</h4><p>Все запросы к сущности собираются в одном классе с понятными методами: <code>findAvailableForModel()</code>. Остальной код не знает про SQL и Doctrine.</p></div>
+            <div><h3>Задача</h3><p>DQL-запросы для поиска запчастей разбросаны по контроллерам. Один и тот же запрос «в наличии и подходит к модели» написан в трёх местах по-разному.</p></div>
+            <div><h3>Решение</h3><p>Все запросы к сущности собираются в одном классе с понятными методами: <code>findAvailableForModel()</code>. Остальной код не знает про SQL и Doctrine.</p></div>
           </div>
 <pre data-file="src/Repository/PartRepository.php"><code class="language-php">namespace App\Repository;
 
@@ -248,8 +256,8 @@ class PartRepository extends ServiceEntityRepository
     }
 }</code></pre>
           <div class="pair">
-            <div class="good"><h4>Когда применять</h4><ul><li>Любой запрос сложнее <code>find($id)</code> — в метод репозитория с говорящим именем.</li><li>Если нужно подменять хранилище в тестах, выделите интерфейс <code>PartRepositoryInterface</code>.</li></ul></div>
-            <div class="bad"><h4>Подводные камни</h4><ul><li>Не кладите в репозиторий бизнес-логику — только чтение и запись.</li><li><code>flush()</code> в каждом <code>save()</code> удобен, но в пакетных операциях лучше вызывать его один раз в конце.</li></ul></div>
+            <div class="good"><h3>Когда применять</h3><ul><li>Любой запрос сложнее <code>find($id)</code> — в метод репозитория с говорящим именем.</li><li>Если нужно подменять хранилище в тестах, выделите интерфейс <code>PartRepositoryInterface</code>.</li></ul></div>
+            <div class="bad"><h3>Подводные камни</h3><ul><li>Не кладите в репозиторий бизнес-логику — только чтение и запись.</li><li><code>flush()</code> в каждом <code>save()</code> удобен, но в пакетных операциях лучше вызывать его один раз в конце.</li></ul></div>
           </div>
         </section>
 
@@ -258,8 +266,8 @@ class PartRepository extends ServiceEntityRepository
           <span class="chip">Порождающий</span>
           <h2>03 · Factory<small>Создание объекта по правилам в одном месте</small></h2>
           <div class="pair">
-            <div><h4>Задача</h4><p>Сумма заказа хранится то в рублях, то в копейках, то строкой. Где-то забыли умножить на 100 — и клиенту выставили счёт в 100 раз меньше.</p></div>
-            <div><h4>Решение</h4><p>Закрытый конструктор и <strong>именованные фабричные методы</strong>: объект можно создать только корректным способом, а название метода объясняет, что передаётся.</p></div>
+            <div><h3>Задача</h3><p>Сумма заказа хранится то в рублях, то в копейках, то строкой. Где-то забыли умножить на 100 — и клиенту выставили счёт в 100 раз меньше.</p></div>
+            <div><h3>Решение</h3><p>Закрытый конструктор и <strong>именованные фабричные методы</strong>: объект можно создать только корректным способом, а название метода объясняет, что передаётся.</p></div>
           </div>
 <pre data-file="src/Money/Money.php"><code class="language-php">namespace App\Money;
 
@@ -295,8 +303,8 @@ $total = Money::fromRubles(1499.90)->add(Money::fromKopecks(30000));</code></pre
     App\Payment\PaymentClient:
         factory: ['@App\Payment\PaymentClientFactory', 'create']</code></pre>
           <div class="pair">
-            <div class="good"><h4>Когда применять</h4><ul><li>Объект можно создать несколькими способами.</li><li>При создании нужно проверить данные или выбрать реализацию.</li></ul></div>
-            <div class="bad"><h4>Подводные камни</h4><ul><li>Не делайте фабрику ради фабрики: если хватает <code>new</code> с понятными аргументами — используйте <code>new</code>.</li></ul></div>
+            <div class="good"><h3>Когда применять</h3><ul><li>Объект можно создать несколькими способами.</li><li>При создании нужно проверить данные или выбрать реализацию.</li></ul></div>
+            <div class="bad"><h3>Подводные камни</h3><ul><li>Не делайте фабрику ради фабрики: если хватает <code>new</code> с понятными аргументами — используйте <code>new</code>.</li></ul></div>
           </div>
         </section>
 
@@ -305,8 +313,8 @@ $total = Money::fromRubles(1499.90)->add(Money::fromKopecks(30000));</code></pre
           <span class="chip">Порождающий</span>
           <h2>04 · Builder<small>Пошаговая сборка сложного объекта</small></h2>
           <div class="pair">
-            <div><h4>Задача</h4><p>Каталог фильтруется по марке, цене, наличию и бренду, и любой фильтр может быть не задан. Склеивать строку запроса через <code>if</code> — путь к ошибкам и SQL-инъекциям.</p></div>
-            <div><h4>Решение</h4><p>Собирать запрос по шагам: каждый метод добавляет одно условие и возвращает сам объект. Так устроены Doctrine <code>QueryBuilder</code> и <code>FormBuilder</code> в Symfony.</p></div>
+            <div><h3>Задача</h3><p>Каталог фильтруется по марке, цене, наличию и бренду, и любой фильтр может быть не задан. Склеивать строку запроса через <code>if</code> — путь к ошибкам и SQL-инъекциям.</p></div>
+            <div><h3>Решение</h3><p>Собирать запрос по шагам: каждый метод добавляет одно условие и возвращает сам объект. Так устроены Doctrine <code>QueryBuilder</code> и <code>FormBuilder</code> в Symfony.</p></div>
           </div>
 <pre data-file="src/Repository/PartRepository.php"><code class="language-php">public function search(PartFilter $filter): array
 {
@@ -328,8 +336,8 @@ $total = Money::fromRubles(1499.90)->add(Money::fromKopecks(30000));</code></pre
         ->getResult();
 }</code></pre>
           <div class="pair">
-            <div class="good"><h4>Когда применять</h4><ul><li>У объекта много необязательных параметров.</li><li>Удобно для тестовых данных: <code>OrderBuilder::new()-&gt;paid()-&gt;withItems(3)-&gt;build()</code>.</li></ul></div>
-            <div class="bad"><h4>Подводные камни</h4><ul><li>Параметры передавайте через <code>setParameter()</code>, а не склейкой строк: иначе SQL-инъекция.</li></ul></div>
+            <div class="good"><h3>Когда применять</h3><ul><li>У объекта много необязательных параметров.</li><li>Удобно для тестовых данных: <code>OrderBuilder::new()-&gt;paid()-&gt;withItems(3)-&gt;build()</code>.</li></ul></div>
+            <div class="bad"><h3>Подводные камни</h3><ul><li>Параметры передавайте через <code>setParameter()</code>, а не склейкой строк: иначе SQL-инъекция.</li></ul></div>
           </div>
         </section>
 
@@ -338,8 +346,8 @@ $total = Money::fromRubles(1499.90)->add(Money::fromKopecks(30000));</code></pre
           <span class="chip">Структурный</span>
           <h2>05 · Decorator<small>Новое поведение без изменения исходного класса</small></h2>
           <div class="pair">
-            <div><h4>Задача</h4><p>Сервис курсов валют ходит во внешний API на каждый запрос. API медленный и с лимитами. Добавлять кеш прямо в сервис — смешивать две ответственности.</p></div>
-            <div><h4>Решение</h4><p>Обернуть сервис в декоратор с тем же интерфейсом. Декоратор отдаёт значение из кеша, а при промахе зовёт оригинал. Symfony подставит декоратор везде вместо оригинала.</p></div>
+            <div><h3>Задача</h3><p>Сервис курсов валют ходит во внешний API на каждый запрос. API медленный и с лимитами. Добавлять кеш прямо в сервис — смешивать две ответственности.</p></div>
+            <div><h3>Решение</h3><p>Обернуть сервис в декоратор с тем же интерфейсом. Декоратор отдаёт значение из кеша, а при промахе зовёт оригинал. Symfony подставит декоратор везде вместо оригинала.</p></div>
           </div>
 <pre data-file="src/Currency/CachedExchangeRates.php"><code class="language-php">namespace App\Currency;
 
@@ -365,8 +373,8 @@ final class CachedExchangeRates implements ExchangeRatesInterface
     }
 }</code></pre>
           <div class="pair">
-            <div class="good"><h4>Когда применять</h4><ul><li>Кеш, логирование, повторные попытки, метрики вокруг существующего сервиса.</li><li>Когда исходный класс чужой или его нельзя менять.</li></ul></div>
-            <div class="bad"><h4>Подводные камни</h4><ul><li>Декоратор обязан реализовать <strong>весь</strong> интерфейс, даже методы, которые просто проксирует.</li><li>Цепочка из трёх-четырёх декораторов усложняет отладку — следите за порядком (<code>priority</code>).</li></ul></div>
+            <div class="good"><h3>Когда применять</h3><ul><li>Кеш, логирование, повторные попытки, метрики вокруг существующего сервиса.</li><li>Когда исходный класс чужой или его нельзя менять.</li></ul></div>
+            <div class="bad"><h3>Подводные камни</h3><ul><li>Декоратор обязан реализовать <strong>весь</strong> интерфейс, даже методы, которые просто проксирует.</li><li>Цепочка из трёх-четырёх декораторов усложняет отладку — следите за порядком (<code>priority</code>).</li></ul></div>
           </div>
         </section>
 
@@ -375,8 +383,8 @@ final class CachedExchangeRates implements ExchangeRatesInterface
           <span class="chip">Структурный</span>
           <h2>06 · Adapter<small>Приводит чужой интерфейс к вашему</small></h2>
           <div class="pair">
-            <div><h4>Задача</h4><p>SMS отправляет старый SDK провайдера с неудобным методом <code>sendMessage($sender, $phone, $text)</code>. Через полгода провайдера сменят, а вызовы SDK уже по всему коду.</p></div>
-            <div><h4>Решение</h4><p>Код зависит от своего интерфейса <code>SmsSenderInterface</code>. Адаптер реализует его и внутри переводит вызов на язык SDK. Смена провайдера — это новый адаптер, остальной код не трогаем.</p></div>
+            <div><h3>Задача</h3><p>SMS отправляет старый SDK провайдера с неудобным методом <code>sendMessage($sender, $phone, $text)</code>. Через полгода провайдера сменят, а вызовы SDK уже по всему коду.</p></div>
+            <div><h3>Решение</h3><p>Код зависит от своего интерфейса <code>SmsSenderInterface</code>. Адаптер реализует его и внутри переводит вызов на язык SDK. Смена провайдера — это новый адаптер, остальной код не трогаем.</p></div>
           </div>
 <pre data-file="src/Notification/LegacySmsAdapter.php"><code class="language-php">namespace App\Notification;
 
@@ -402,8 +410,8 @@ final class LegacySmsAdapter implements SmsSenderInterface
     }
 }</code></pre>
           <div class="pair">
-            <div class="good"><h4>Когда применять</h4><ul><li>Интеграции: платёжки, SMS, службы доставки, внешние API.</li><li>Когда хочется изолировать код от библиотеки, которую могут заменить.</li></ul></div>
-            <div class="bad"><h4>Подводные камни</h4><ul><li>Адаптер переводит интерфейс, а не добавляет логику. Если появилась логика — это уже сервис.</li><li>Переводите и ошибки: исключения SDK превращайте в свои.</li></ul></div>
+            <div class="good"><h3>Когда применять</h3><ul><li>Интеграции: платёжки, SMS, службы доставки, внешние API.</li><li>Когда хочется изолировать код от библиотеки, которую могут заменить.</li></ul></div>
+            <div class="bad"><h3>Подводные камни</h3><ul><li>Адаптер переводит интерфейс, а не добавляет логику. Если появилась логика — это уже сервис.</li><li>Переводите и ошибки: исключения SDK превращайте в свои.</li></ul></div>
           </div>
         </section>
 
@@ -412,8 +420,8 @@ final class LegacySmsAdapter implements SmsSenderInterface
           <span class="chip">Поведенческий</span>
           <h2>07 · Strategy<small>Взаимозаменяемые алгоритмы за общим интерфейсом</small></h2>
           <div class="pair">
-            <div><h4>Задача</h4><p>Стоимость доставки считается по-разному: курьер, самовывоз, транспортная компания. Метод с <code>switch</code> на 200 строк растёт с каждым новым способом.</p></div>
-            <div><h4>Решение</h4><p>Каждый способ — отдельный класс-стратегия. Symfony сам находит все стратегии по тегу и складывает их в локатор, а калькулятор выбирает нужную по ключу.</p></div>
+            <div><h3>Задача</h3><p>Стоимость доставки считается по-разному: курьер, самовывоз, транспортная компания. Метод с <code>switch</code> на 200 строк растёт с каждым новым способом.</p></div>
+            <div><h3>Решение</h3><p>Каждый способ — отдельный класс-стратегия. Symfony сам находит все стратегии по тегу и складывает их в локатор, а калькулятор выбирает нужную по ключу.</p></div>
           </div>
 <pre data-file="src/Delivery/DeliveryStrategy.php"><code class="language-php">namespace App\Delivery;
 
@@ -465,8 +473,8 @@ final class DeliveryCalculator
 }</code></pre>
           <p>Новый способ доставки — это один новый класс с <code>#[AsTaggedItem]</code>. Калькулятор менять не нужно.</p>
           <div class="pair">
-            <div class="good"><h4>Когда применять</h4><ul><li>Доставка, оплата, скидки, экспорт в разные форматы.</li><li>Когда в коде растёт <code>switch</code> по типу.</li></ul></div>
-            <div class="bad"><h4>Подводные камни</h4><ul><li>Локатор создаёт стратегии лениво — только при <code>get()</code>. Если нужны все сразу, используйте <code>#[AutowireIterator]</code>.</li><li>Для двух вариантов, которые никогда не расширятся, обычный <code>if</code> проще.</li></ul></div>
+            <div class="good"><h3>Когда применять</h3><ul><li>Доставка, оплата, скидки, экспорт в разные форматы.</li><li>Когда в коде растёт <code>switch</code> по типу.</li></ul></div>
+            <div class="bad"><h3>Подводные камни</h3><ul><li>Локатор создаёт стратегии лениво — только при <code>get()</code>. Если нужны все сразу, используйте <code>#[AutowireIterator]</code>.</li><li>Для двух вариантов, которые никогда не расширятся, обычный <code>if</code> проще.</li></ul></div>
           </div>
         </section>
 
@@ -475,8 +483,8 @@ final class DeliveryCalculator
           <span class="chip">Поведенческий</span>
           <h2>08 · Observer<small>EventDispatcher: «что-то случилось» — и все заинтересованные узнают</small></h2>
           <div class="pair">
-            <div><h4>Задача</h4><p>После оплаты заказа нужно отправить письмо, списать остатки, начислить бонусы и уведомить склад. Метод оплаты знает обо всех этих сервисах и превращается в свалку.</p></div>
-            <div><h4>Решение</h4><p>Оплата только сообщает о событии <code>OrderPaid</code>. Каждый слушатель подписывается сам и делает свою часть. Новая реакция — новый слушатель, без правки оплаты.</p></div>
+            <div><h3>Задача</h3><p>После оплаты заказа нужно отправить письмо, списать остатки, начислить бонусы и уведомить склад. Метод оплаты знает обо всех этих сервисах и превращается в свалку.</p></div>
+            <div><h3>Решение</h3><p>Оплата только сообщает о событии <code>OrderPaid</code>. Каждый слушатель подписывается сам и делает свою часть. Новая реакция — новый слушатель, без правки оплаты.</p></div>
           </div>
 <pre data-file="src/Order/Event/OrderPaid.php"><code class="language-php">namespace App\Order\Event;
 
@@ -507,8 +515,8 @@ final class ReserveStockOnOrderPaid
     }
 }</code></pre>
           <div class="pair">
-            <div class="good"><h4>Когда применять</h4><ul><li>Побочные действия, которые не влияют на результат основной операции.</li><li>Расширение чужого кода: события ядра Symfony (<code>kernel.request</code>, <code>kernel.exception</code>).</li></ul></div>
-            <div class="bad"><h4>Подводные камни</h4><ul><li>Слушатели выполняются <strong>синхронно</strong>: медленное письмо задержит ответ пользователю. Тяжёлое — в Messenger (следующий паттерн).</li><li>Неочевидный порядок: при зависимостях задавайте <code>priority</code>.</li></ul></div>
+            <div class="good"><h3>Когда применять</h3><ul><li>Побочные действия, которые не влияют на результат основной операции.</li><li>Расширение чужого кода: события ядра Symfony (<code>kernel.request</code>, <code>kernel.exception</code>).</li></ul></div>
+            <div class="bad"><h3>Подводные камни</h3><ul><li>Слушатели выполняются <strong>синхронно</strong>: медленное письмо задержит ответ пользователю. Тяжёлое — в Messenger (следующий паттерн).</li><li>Неочевидный порядок: при зависимостях задавайте <code>priority</code>.</li></ul></div>
           </div>
         </section>
 
@@ -517,8 +525,8 @@ final class ReserveStockOnOrderPaid
           <span class="chip">Поведенческий</span>
           <h2>09 · Command<small>Messenger: действие как объект, который можно выполнить позже</small></h2>
           <div class="pair">
-            <div><h4>Задача</h4><p>Генерация PDF-счёта и отправка письма занимают 3–5 секунд. Пользователь ждёт, а при сбое почтового сервера заказ падает с ошибкой.</p></div>
-            <div><h4>Решение</h4><p>Упаковать действие в объект-команду с данными и отдать в шину. Обработчик выполнит его — сразу или в фоне через очередь, с повторами при сбоях.</p></div>
+            <div><h3>Задача</h3><p>Генерация PDF-счёта и отправка письма занимают 3–5 секунд. Пользователь ждёт, а при сбое почтового сервера заказ падает с ошибкой.</p></div>
+            <div><h3>Решение</h3><p>Упаковать действие в объект-команду с данными и отдать в шину. Обработчик выполнит его — сразу или в фоне через очередь, с повторами при сбоях.</p></div>
           </div>
 <pre data-file="src/Invoice/SendInvoice.php"><code class="language-php">namespace App\Invoice;
 
@@ -555,8 +563,8 @@ $bus->dispatch(new SendInvoice($order->getId()));</code></pre>
         routing:
             App\Invoice\SendInvoice: async</code></pre>
           <div class="pair">
-            <div class="good"><h4>Когда применять</h4><ul><li>Долгие и ненадёжные операции: письма, PDF, вызовы внешних API.</li><li>Когда одно действие запускают из разных мест: контроллер, консоль, крон.</li></ul></div>
-            <div class="bad"><h4>Подводные камни</h4><ul><li>Нужен запущенный воркер: <code>php bin/console messenger:consume async</code>.</li><li>Обработчик может выполниться повторно — делайте его идемпотентным.</li></ul></div>
+            <div class="good"><h3>Когда применять</h3><ul><li>Долгие и ненадёжные операции: письма, PDF, вызовы внешних API.</li><li>Когда одно действие запускают из разных мест: контроллер, консоль, крон.</li></ul></div>
+            <div class="bad"><h3>Подводные камни</h3><ul><li>Нужен запущенный воркер: <code>php bin/console messenger:consume async</code>.</li><li>Обработчик может выполниться повторно — делайте его идемпотентным.</li></ul></div>
           </div>
         </section>
 
@@ -565,8 +573,8 @@ $bus->dispatch(new SendInvoice($order->getId()));</code></pre>
           <span class="chip">Поведенческий</span>
           <h2>10 · Chain of Responsibility<small>Цепочка обработчиков, каждый решает — обработать или передать дальше</small></h2>
           <div class="pair">
-            <div><h4>Задача</h4><p>Для каждой команды в шине нужно писать в лог время выполнения, а ошибки отправлять в мониторинг. Добавлять это в каждый обработчик — копипаста.</p></div>
-            <div><h4>Решение</h4><p>Middleware Messenger — это цепочка: каждое звено делает свою часть и передаёт сообщение следующему через <code>$stack-&gt;next()</code>. Так же устроены HTTP-middleware и Voters в Security.</p></div>
+            <div><h3>Задача</h3><p>Для каждой команды в шине нужно писать в лог время выполнения, а ошибки отправлять в мониторинг. Добавлять это в каждый обработчик — копипаста.</p></div>
+            <div><h3>Решение</h3><p>Middleware Messenger — это цепочка: каждое звено делает свою часть и передаёт сообщение следующему через <code>$stack-&gt;next()</code>. Так же устроены HTTP-middleware и Voters в Security.</p></div>
           </div>
 <pre data-file="src/Messenger/TimingMiddleware.php"><code class="language-php">namespace App\Messenger;
 
@@ -600,8 +608,8 @@ final class TimingMiddleware implements MiddlewareInterface
                 middleware:
                     - App\Messenger\TimingMiddleware</code></pre>
           <div class="pair">
-            <div class="good"><h4>Когда применять</h4><ul><li>Сквозная логика вокруг множества операций: логи, транзакции, проверка прав.</li><li>Последовательные проверки, где любая может остановить процесс.</li></ul></div>
-            <div class="bad"><h4>Подводные камни</h4><ul><li>Забыли вызвать <code>$stack-&gt;next()</code> — сообщение молча не обработается.</li><li>Порядок звеньев важен: middleware выполняются в порядке объявления.</li></ul></div>
+            <div class="good"><h3>Когда применять</h3><ul><li>Сквозная логика вокруг множества операций: логи, транзакции, проверка прав.</li><li>Последовательные проверки, где любая может остановить процесс.</li></ul></div>
+            <div class="bad"><h3>Подводные камни</h3><ul><li>Забыли вызвать <code>$stack-&gt;next()</code> — сообщение молча не обработается.</li><li>Порядок звеньев важен: middleware выполняются в порядке объявления.</li></ul></div>
           </div>
         </section>
 

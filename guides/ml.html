@@ -13,16 +13,22 @@
   <meta property="og:title" content="Машинное обучение для разработчика — Владимир">
   <meta property="og:description" content="Как обучаются модели, первая модель на scikit-learn, метрики, переобучение, компьютерное зрение и как встроить модель в веб-сервис.">
   <meta property="og:url" content="https://bezdomnyibox.github.io/guides/ml.html">
-  <meta property="og:image" content="https://bezdomnyibox.github.io/og/guides.png">
+  <meta property="og:image" content="https://bezdomnyibox.github.io/og/guides.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Машинное обучение для разработчика — Владимир">
   <meta name="twitter:card" content="summary_large_image">
   <!-- /og -->
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%235b4cf0'/><text x='16' y='21' font-family='monospace' font-size='13' font-weight='700' fill='white' text-anchor='middle'>&lt;/&gt;</text></svg>">
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#5b4cf0">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"></noscript>
   <link rel="stylesheet" href="../styles.css">
   <link rel="stylesheet" href="../docs.css">
   <script src="../theme.js"></script>
@@ -46,7 +52,7 @@
 
     <div class="guide">
       <aside class="toc">
-        <h4>Содержание</h4>
+        <p class="toc-title">Содержание</p>
         <ol><li><a href="#basics">Что такое машинное обучение</a></li><li><a href="#data">Данные и разбиение</a></li><li><a href="#model">Первая модель</a></li><li><a href="#metrics">Метрики качества</a></li><li><a href="#overfitting">Переобучение и кросс-валидация</a></li><li><a href="#cv">Компьютерное зрение и нейросети</a></li><li><a href="#deploy">Модель в веб-сервисе</a></li><li><a href="#process">Как устроен ML-проект</a></li></ol>
       </aside>
 
@@ -165,7 +171,7 @@ def predict(customer: Customer):
         <section class="lesson" id="process">
           <h2><span>08</span>Как устроен ML-проект</h2>
           <ul><li><strong>Постановка:</strong> что предсказываем и какая метрика важна бизнесу.</li><li><strong>Данные:</strong> сбор, очистка, пропуски, выбросы.</li><li><strong>Бейзлайн:</strong> простая модель или даже правило «как в прошлом месяце» — точка отсчёта.</li><li><strong>Итерации:</strong> признаки, модели, подбор параметров — каждый шаг сравнивается с бейзлайном.</li><li><strong>Внедрение и мониторинг:</strong> данные со временем меняются, качество модели нужно отслеживать.</li></ul>
-          <div class="tiles"><div class="good"><h4>Запомнить</h4><ul><li>Тестовая выборка откладывается до обучения и используется один раз.</li><li>Подготовка данных — внутри <code>Pipeline</code>.</li><li>Метрика выбирается под задачу; accuracy подходит не всегда.</li><li>Начинайте с простого бейзлайна.</li></ul></div><div class="bad"><h4>Частые ошибки</h4><ul><li>Утечка данных: признак, который «знает» ответ (например, дата повторного заказа).</li><li>Масштабирование на всех данных до разбиения на train и test.</li><li>Accuracy на несбалансированных классах.</li><li>Сразу нейросеть там, где хватит логистической регрессии.</li></ul></div></div>
+          <div class="tiles"><div class="good"><h3>Запомнить</h3><ul><li>Тестовая выборка откладывается до обучения и используется один раз.</li><li>Подготовка данных — внутри <code>Pipeline</code>.</li><li>Метрика выбирается под задачу; accuracy подходит не всегда.</li><li>Начинайте с простого бейзлайна.</li></ul></div><div class="bad"><h3>Частые ошибки</h3><ul><li>Утечка данных: признак, который «знает» ответ (например, дата повторного заказа).</li><li>Масштабирование на всех данных до разбиения на train и test.</li><li>Accuracy на несбалансированных классах.</li><li>Сразу нейросеть там, где хватит логистической регрессии.</li></ul></div></div>
         </section>
         <section class="lesson" id="next">
           <h2>Что дальше</h2>

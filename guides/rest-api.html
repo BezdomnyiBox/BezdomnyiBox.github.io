@@ -13,16 +13,22 @@
   <meta property="og:title" content="HTTP и REST API для бэкендера — Владимир">
   <meta property="og:description" content="Как устроен HTTP, как проектировать ресурсы, коды ответов, формат ошибок, аутентификация и CORS — с примерами на Symfony.">
   <meta property="og:url" content="https://bezdomnyibox.github.io/guides/rest-api.html">
-  <meta property="og:image" content="https://bezdomnyibox.github.io/og/guides.png">
+  <meta property="og:image" content="https://bezdomnyibox.github.io/og/guides.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="HTTP и REST API для бэкендера — Владимир">
   <meta name="twitter:card" content="summary_large_image">
   <!-- /og -->
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%235b4cf0'/><text x='16' y='21' font-family='monospace' font-size='13' font-weight='700' fill='white' text-anchor='middle'>&lt;/&gt;</text></svg>">
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#5b4cf0">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"></noscript>
   <link rel="stylesheet" href="../styles.css">
   <link rel="stylesheet" href="../docs.css">
   <script src="../theme.js"></script>
@@ -46,7 +52,7 @@
 
     <div class="guide">
       <aside class="toc">
-        <h4>Содержание</h4>
+        <p class="toc-title">Содержание</p>
         <ol><li><a href="#http">Запрос и ответ</a></li><li><a href="#methods">Методы</a></li><li><a href="#codes">Коды ответов</a></li><li><a href="#design">Проектирование ресурсов</a></li><li><a href="#symfony">Эндпоинты на Symfony</a></li><li><a href="#errors">Формат ошибок</a></li><li><a href="#auth">Аутентификация</a></li><li><a href="#cors">CORS и безопасность</a></li></ol>
       </aside>
 
@@ -151,7 +157,7 @@ Access-Control-Allow-Methods: GET, POST, PATCH, DELETE
 Access-Control-Allow-Headers: Content-Type, Authorization
 Access-Control-Allow-Credentials: true</code></pre>
           <p>В Symfony CORS удобно настраивать бандлом <strong>NelmioCorsBundle</strong>.</p>
-          <div class="tiles"><div class="good"><h4>Запомнить</h4><ul><li>Ресурс — существительное, действие — метод.</li><li>Правильный код статуса важнее текста сообщения.</li><li><code>POST</code> не идемпотентен — для платежей нужен <code>Idempotency-Key</code>.</li><li>Единый формат ошибок (Problem Details).</li></ul></div><div class="bad"><h4>Частые ошибки</h4><ul><li><code>200 OK</code> с <code>{"error": "..."}</code> в теле.</li><li>Глаголы в URL: <code>/api/getOrders</code>, <code>/api/deleteOrder</code>.</li><li><code>Access-Control-Allow-Origin: *</code> для API с личными данными.</li><li>Стектрейсы и SQL в ответах на продакшене.</li></ul></div></div>
+          <div class="tiles"><div class="good"><h3>Запомнить</h3><ul><li>Ресурс — существительное, действие — метод.</li><li>Правильный код статуса важнее текста сообщения.</li><li><code>POST</code> не идемпотентен — для платежей нужен <code>Idempotency-Key</code>.</li><li>Единый формат ошибок (Problem Details).</li></ul></div><div class="bad"><h3>Частые ошибки</h3><ul><li><code>200 OK</code> с <code>{"error": "..."}</code> в теле.</li><li>Глаголы в URL: <code>/api/getOrders</code>, <code>/api/deleteOrder</code>.</li><li><code>Access-Control-Allow-Origin: *</code> для API с личными данными.</li><li>Стектрейсы и SQL в ответах на продакшене.</li></ul></div></div>
         </section>
         <section class="lesson" id="next">
           <h2>Что дальше</h2>

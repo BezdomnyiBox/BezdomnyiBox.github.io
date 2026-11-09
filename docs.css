@@ -2,7 +2,7 @@
 
 .guide { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 48px; padding-top: 48px; }
 .toc { position: sticky; top: 84px; align-self: start; font-size: 14px; max-height: calc(100vh - 100px); overflow-y: auto; }
-.toc h4 { font-size: 13px; font-weight: 400; color: var(--muted); margin-bottom: 12px; }
+.toc .toc-title { font-size: 13px; font-weight: 400; color: var(--muted); margin-bottom: 12px; }
 .toc ol { padding-left: 28px;display: flex; flex-direction: column; gap: 8px; }
 .toc a { color: var(--muted); }
 .toc a:hover { color: var(--text); }
@@ -39,8 +39,8 @@ pre[data-file]::before {
 }
 
 /* Подсветка синтаксиса (Prism) через токены темы */
-:root { --tk-comment: #8a8d96; --tk-keyword: #a626a4; --tk-string: #3f8f3f; --tk-func: #4f5bd5; --tk-var: #c2410c; --tk-type: #b45309; }
-:root[data-theme="dark"] { --tk-comment: #7d808a; --tk-keyword: #d19af5; --tk-string: #9fd88f; --tk-func: #8fa8ff; --tk-var: #fdab73; --tk-type: #f5c97a; }
+:root { --tk-comment: #62666f; --tk-keyword: #a626a4; --tk-string: #3f8f3f; --tk-func: #4f5bd5; --tk-var: #c2410c; --tk-type: #b45309; }
+:root[data-theme="dark"] { --tk-comment: #9a9ca6; --tk-keyword: #d19af5; --tk-string: #9fd88f; --tk-func: #8fa8ff; --tk-var: #fdab73; --tk-type: #f5c97a; }
 .token.comment, .token.prolog, .token.doctype { color: var(--tk-comment); font-style: italic; }
 .token.keyword, .token.boolean, .token.important, .token.atrule { color: var(--tk-keyword); }
 .token.string, .token.char, .token.attr-value { color: var(--tk-string); }
@@ -70,9 +70,11 @@ pre[data-file]::before {
 /* Плитки «Запомнить / Частые ошибки» */
 .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-top: 20px; }
 .tiles > div { background: var(--tile); border-radius: var(--radius-lg); padding: 22px 24px; }
-.tiles h4 { font-size: 13px; font-weight: 500; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 8px; }
-.tiles .good h4 { color: #22b07d; }
-.tiles .bad h4 { color: #e0692b; }
+.tiles h3 { margin: 0 0 8px; font-size: 13px; font-weight: 500; text-transform: uppercase; letter-spacing: .08em; }
+.tiles .good h3 { color: #0f7a52; }
+:root[data-theme="dark"] .tiles .good h3 { color: #5fd3a5; }
+.tiles .bad h3 { color: #b84a17; }
+:root[data-theme="dark"] .tiles .bad h3 { color: #ff9a6b; }
 .lesson .tiles ul { margin: 0; padding-left: 18px; }
 .lesson .tiles li { color: var(--text); font-size: 15px; max-width: none; }
 .lesson .tiles li + li { margin-top: 6px; }

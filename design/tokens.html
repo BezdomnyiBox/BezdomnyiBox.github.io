@@ -13,16 +13,22 @@
   <meta property="og:title" content="Дизайн-токены и дизайн-система — Владимир">
   <meta property="og:description" content="Что такое токены, как их называть и разделять на уровни, как через них сделать темы — на примере токенов этого сайта.">
   <meta property="og:url" content="https://bezdomnyibox.github.io/design/tokens.html">
-  <meta property="og:image" content="https://bezdomnyibox.github.io/og/design.png">
+  <meta property="og:image" content="https://bezdomnyibox.github.io/og/design.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Дизайн-токены и дизайн-система — Владимир">
   <meta name="twitter:card" content="summary_large_image">
   <!-- /og -->
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%235b4cf0'/><text x='16' y='21' font-family='monospace' font-size='13' font-weight='700' fill='white' text-anchor='middle'>&lt;/&gt;</text></svg>">
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#5b4cf0">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"></noscript>
   <link rel="stylesheet" href="../styles.css">
   <link rel="stylesheet" href="../docs.css">
   <script src="../theme.js"></script>
@@ -57,7 +63,7 @@
 
     <div class="guide">
       <aside class="toc">
-        <h4>Содержание</h4>
+        <p class="toc-title">Содержание</p>
         <ol><li><a href="#what">Что такое дизайн-токены</a></li><li><a href="#levels">Три уровня токенов</a></li><li><a href="#site">Токены этого сайта</a></li><li><a href="#naming">Как называть токены</a></li><li><a href="#themes">Темы через токены</a></li><li><a href="#format">Токены в JSON и Figma</a></li><li><a href="#system">Из чего состоит дизайн-система</a></li></ol>
       </aside>
 
@@ -143,7 +149,7 @@
           <h2><span>07</span>Из чего состоит дизайн-система</h2>
           <ul><li><strong>Токены</strong> — цвета, типографика, отступы, радиусы, тени, анимации.</li><li><strong>Компоненты</strong> — кнопки, поля, карточки, модальные окна со всеми состояниями.</li><li><strong>Паттерны</strong> — как из компонентов собирать формы, таблицы, пустые состояния.</li><li><strong>Гайдлайны</strong> — когда что использовать, тон текстов, доступность.</li><li><strong>Документация</strong> — витрина компонентов (например, Storybook) с примерами кода.</li></ul>
           <p>Посмотрите, как устроены открытые дизайн-системы: <strong>Material Design 3</strong> от Google, <strong>Gravity UI</strong> от Яндекса, <strong>Human Interface Guidelines</strong> от Apple.</p>
-          <div class="tiles"><div class="good"><h4>Запомнить</h4><ul><li>Компоненты используют только семантические токены.</li><li>Имя токена — про назначение, а не про значение.</li><li>Тема = другой набор значений тех же токенов.</li><li>Один источник правды для дизайна и кода.</li></ul></div><div class="bad"><h4>Частые ошибки</h4><ul><li>Цвета и отступы «на глаз» прямо в компонентах.</li><li>Токен <code>--gray-500</code> в стилях кнопки.</li><li>Тёмная тема копированием всех стилей.</li><li>Сотни токенов, которые никто не использует.</li></ul></div></div>
+          <div class="tiles"><div class="good"><h3>Запомнить</h3><ul><li>Компоненты используют только семантические токены.</li><li>Имя токена — про назначение, а не про значение.</li><li>Тема = другой набор значений тех же токенов.</li><li>Один источник правды для дизайна и кода.</li></ul></div><div class="bad"><h3>Частые ошибки</h3><ul><li>Цвета и отступы «на глаз» прямо в компонентах.</li><li>Токен <code>--gray-500</code> в стилях кнопки.</li><li>Тёмная тема копированием всех стилей.</li><li>Сотни токенов, которые никто не использует.</li></ul></div></div>
         </section>
         <section class="lesson" id="next">
           <h2>Что дальше</h2>
