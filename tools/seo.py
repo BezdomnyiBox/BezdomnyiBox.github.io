@@ -22,7 +22,7 @@ OG_BLOCK = re.compile(r"\n[ \t]*<!-- og: .*?<!-- /og -->", re.S)
 
 def pages():
     yield from sorted(ROOT.glob("*.html"))
-    for folder in ("guides", "design"):
+    for folder in ("projects", "guides", "design"):
         yield from sorted((ROOT / folder).glob("*.html"))
 
 

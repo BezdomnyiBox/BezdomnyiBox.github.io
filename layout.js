@@ -70,6 +70,7 @@
           '<li><a href="' + base + 'design/colors.html">Цвет и палитры</a></li>' +
         '</ul></div>' +
         '<div><h4>Обо мне</h4><ul>' +
+          '<li><a href="' + base + 'projects/crm.html">Проект: мини-CRM</a></li>' +
           '<li>' + ext(LINKS.resume, 'Резюме') + '</li>' +
           '<li>' + ext(LINKS.github, 'Репозитории на GitHub') + '</li>' +
           '<li>' + ext(LINKS.source, 'Исходный код сайта') + '</li>' +

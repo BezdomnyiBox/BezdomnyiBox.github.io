@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Мини-CRM «Объекты и задачи» — Владимир</title>
+  <meta name="description" content="Кейс: мини-CRM для строительной компании на React, TypeScript и Supabase. Правила доступа живут в самой базе — RLS, функции и триггеры, проверено 99 тестами и 31 проверкой на живом проекте.">
+  <!-- og: создаётся tools/seo.py, не редактируйте вручную -->
+  <link rel="canonical" href="https://bezdomnyibox.github.io/projects/crm.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Владимир — fullstack-разработчик">
+  <meta property="og:locale" content="ru_RU">
+  <meta property="og:title" content="Мини-CRM «Объекты и задачи» — Владимир">
+  <meta property="og:description" content="Кейс: мини-CRM для строительной компании на React, TypeScript и Supabase. Правила доступа живут в самой базе — RLS, функции и триггеры, проверено 99 тестами и 31 проверкой на живом проекте.">
+  <meta property="og:url" content="https://bezdomnyibox.github.io/projects/crm.html">
+  <meta property="og:image" content="https://bezdomnyibox.github.io/og/cover.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Мини-CRM «Объекты и задачи» — Владимир">
+  <meta name="twitter:card" content="summary_large_image">
+  <!-- /og -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%235b4cf0'/><text x='16' y='21' font-family='monospace' font-size='13' font-weight='700' fill='white' text-anchor='middle'>&lt;/&gt;</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="../docs.css">
+  <script src="../theme.js"></script>
+  <script src="../layout.js" data-base="../" data-page="home" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js" defer></script>
+  <style>
+    .case-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+    .case-actions .pill.ghost { background: rgba(255, 255, 255, .14); color: #fff; }
+    .demo-note { font-size: 14px; opacity: .8; margin-top: 12px; }
+
+    .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-top: 24px; }
+    .stats > div { background: var(--tile); border-radius: var(--radius-lg); padding: 22px 24px; }
+    .stats b { display: block; font-size: 38px; font-weight: 600; letter-spacing: -.03em; line-height: 1; color: var(--accent); }
+    .stats span { display: block; margin-top: 10px; font-size: 14px; color: var(--muted); }
+
+    .lesson table { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 14px; }
+    .lesson th, .lesson td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+    .lesson th { font-weight: 500; color: var(--muted); font-size: 13px; }
+    .lesson td:first-child { white-space: nowrap; }
+    .lesson td code { white-space: nowrap; }
+    .table-wrap { overflow-x: auto; }
+
+    /* Схема статусов */
+    .flow { margin-top: 18px; overflow-x: auto; background: var(--tile); border-radius: var(--radius-lg); padding: 18px; }
+    .flow svg { display: block; width: 100%; height: auto; }
+    @media (max-width: 700px) { .flow svg { min-width: 620px; } }   /* на телефоне схема прокручивается, а не сжимается до нечитаемого */
+    .flow .node rect { fill: var(--bg); stroke: var(--line); stroke-width: 1.5; }
+    .flow .node text { fill: var(--text); font: 500 15px Onest, sans-serif; text-anchor: middle; }
+    .flow .node.done rect { fill: color-mix(in srgb, #22b07d 18%, var(--bg)); stroke: #22b07d; }
+    .flow .node.rework rect { fill: color-mix(in srgb, #e0692b 16%, var(--bg)); stroke: #e0692b; }
+    .flow .edge { fill: none; stroke: var(--muted); stroke-width: 1.8; }
+    .flow .lbl { font: 500 12px Onest, sans-serif; text-anchor: middle; }
+    .flow .lbl.exec { fill: #2f7fd4; }
+    .flow .lbl.mgr { fill: var(--accent); }
+    :root[data-theme="dark"] .flow .lbl.exec { fill: #7ab6f5; }
+    .flow-legend { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 10px; font-size: 13px; color: var(--muted); }
+    .flow-legend i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; }
+
+    /* Слои защиты */
+    .layers { display: flex; flex-direction: column; gap: 8px; margin-top: 18px; }
+    .layers .req { font: 500 13px "JetBrains Mono", monospace; color: var(--muted); padding-left: 4px; }
+    .layer { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 14px; align-items: start; background: var(--tile); border-radius: 18px; padding: 16px 18px; border-left: 4px solid var(--c); }
+    .layer > span { width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; font-weight: 600; color: #fff; background: var(--c); }
+    .layer b { display: block; font-weight: 500; color: var(--text); }
+    .layer p { margin: 4px 0 0; font-size: 14px; color: var(--muted); max-width: none; }
+    .layer.ui { --c: #9a9ca6; border-left-style: dashed; }
+
+    .tree { font: 13px/1.6 "JetBrains Mono", monospace; }
+  </style>
+</head>
+<body>
+  <header class="site-header" data-layout="header"></header>
+
+  <main class="wrap">
+    <div class="doc-hero" style="--hero-bg: radial-gradient(50% 90% at 88% 12%, rgba(242, 157, 22, .55) 0%, transparent 60%), linear-gradient(135deg, #10202f, #1d4f7a 55%, #2f7fd4)">
+      <div>
+        <div class="crumbs"><a href="../index.html#tech">Проекты</a> / React · TypeScript · Supabase</div>
+        <h1>Мини-CRM <b>«Объекты и задачи»</b></h1>
+        <p>Руководитель создаёт объекты-стройки и ставит задачи, исполнители берут их в работу и сдают на проверку. Главное — все правила доступа живут в самой базе данных: обойти их, обратившись к API напрямую, нельзя.</p>
+        <div class="hero-facts"><span>React 19 · TypeScript</span><span>Supabase · PostgreSQL</span><span>RLS, функции, триггеры</span></div>
+        <div class="case-actions">
+          <a class="pill" href="https://crm-objects-tasks-dusky.vercel.app" target="_blank" rel="noopener">Открыть демо ↗</a>
+          <a class="pill ghost" href="https://github.com/BezdomnyiBox/crm-objects-tasks" target="_blank" rel="noopener">Код на GitHub ↗</a>
+          <a class="pill ghost" href="https://t.me/BojooYkt" target="_blank" rel="noopener">Получить демо-доступ</a>
+        </div>
+        <p class="demo-note">Регистрация в демо закрыта специально — это часть защиты. Логин и пароль постановщика или исполнителя пришлю в Telegram.</p>
+      </div>
+      <div class="icon i-sql">CRM</div>
+    </div>
+
+    <div class="stats">
+      <div><b>99</b><span>автотестов правил базы — «атаки» от имени гостя, исполнителя и постановщика</span></div>
+      <div><b>31 / 31</b><span>проверка «чёрным ящиком» на живом проекте Supabase пройдена</span></div>
+      <div><b>25 × 3</b><span>все пары статусов проверены для своего исполнителя, чужого и постановщика</span></div>
+      <div><b>0</b><span>секретных ключей во фронтенде, сборке и истории git — проверяет отдельный скрипт</span></div>
+    </div>
+
+    <div class="guide">
+      <aside class="toc">
+        <h4>Содержание</h4>
+        <ol>
+          <li><a href="#task">Задача</a></li>
+          <li><a href="#flow">Жизненный цикл задачи</a></li>
+          <li><a href="#security">Правила живут в базе</a></li>
+          <li><a href="#rights">Кто что может</a></li>
+          <li><a href="#code">Единственная «дверь» для статуса</a></li>
+          <li><a href="#tests">Как это проверено</a></li>
+          <li><a href="#decisions">Решения и компромиссы</a></li>
+          <li><a href="#stack">Стек и структура</a></li>
+          <li><a href="#next">Что дальше</a></li>
+        </ol>
+      </aside>
+
+      <div>
+        <section class="lesson" id="task">
+          <h2><span>01</span>Задача</h2>
+          <p>Строительной компании нужен простой учёт работ: по каждому объекту — список задач, у каждой задачи — ответственный, статус и история. Две роли:</p>
+          <div class="table-wrap"><table>
+            <tr><th>Роль</th><th>Возможности</th></tr>
+            <tr><td><strong>Постановщик</strong></td><td>создаёт, редактирует и удаляет объекты и задачи; назначает исполнителя; принимает работу или возвращает на доработку с обязательным комментарием; видит всё</td></tr>
+            <tr><td><strong>Исполнитель</strong></td><td>видит только <strong>свои</strong> задачи и объекты, где они есть; берёт задачу в работу и отправляет на проверку</td></tr>
+          </table></div>
+          <p>Главное требование заказчика — безопасность: исполнитель не должен ни увидеть, ни изменить чужое, а историю статусов нельзя подделать даже через API.</p>
+        </section>
+
+        <section class="lesson" id="flow">
+          <h2><span>02</span>Жизненный цикл задачи</h2>
+          <p>Разрешено ровно пять переходов. Все остальные запрещены на уровне базы, а не только спрятаны в интерфейсе.</p>
+          <div class="flow">
+            <svg viewBox="0 0 900 250" role="img" aria-label="Схема статусов: Новая, В работе, На проверке, Принята; с проверки задачу можно вернуть на доработку и снова взять в работу">
+              <defs>
+                <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="currentColor" style="fill: var(--muted)"/></marker>
+              </defs>
+              <g class="node"><rect x="20" y="40" width="150" height="52" rx="14"/><text x="95" y="72">Новая</text></g>
+              <g class="node"><rect x="260" y="40" width="150" height="52" rx="14"/><text x="335" y="72">В работе</text></g>
+              <g class="node"><rect x="500" y="40" width="150" height="52" rx="14"/><text x="575" y="72">На проверке</text></g>
+              <g class="node done"><rect x="740" y="40" width="140" height="52" rx="14"/><text x="810" y="72">Принята</text></g>
+              <g class="node rework"><rect x="380" y="176" width="150" height="52" rx="14"/><text x="455" y="208">На доработке</text></g>
+
+              <path class="edge" d="M172 66 H256" marker-end="url(#arr)"/>
+              <path class="edge" d="M412 66 H496" marker-end="url(#arr)"/>
+              <path class="edge" d="M652 66 H736" marker-end="url(#arr)"/>
+              <path class="edge" d="M600 94 V202 H534" marker-end="url(#arr)"/>
+              <path class="edge" d="M378 202 H310 V96" marker-end="url(#arr)"/>
+
+              <text class="lbl exec" x="214" y="30">исполнитель</text>
+              <text class="lbl exec" x="454" y="30">исполнитель</text>
+              <text class="lbl mgr" x="694" y="30">постановщик</text>
+              <text class="lbl mgr" x="690" y="150">постановщик</text>
+              <text class="lbl mgr" x="690" y="166">+ комментарий</text>
+              <text class="lbl exec" x="250" y="150">исполнитель</text>
+            </svg>
+          </div>
+          <div class="flow-legend"><span><i style="background: #2f7fd4"></i>переход назначенного исполнителя</span><span><i style="background: var(--accent)"></i>переход постановщика</span></div>
+          <p>Правила переходов хранятся не в коде, а в таблице <code>task_transitions</code>. Её читает интерфейс, чтобы показать только доступные кнопки, но решение о допуске всегда принимает база.</p>
+        </section>
+
+        <section class="lesson" id="security">
+          <h2><span>03</span>Правила живут в базе</h2>
+          <p>Интерфейс прячет лишние кнопки для удобства, но это не защита: любой может отправить запрос к Supabase напрямую из curl, Postman или консоли браузера. Поэтому каждый запрос проходит через несколько независимых «замков» внутри PostgreSQL:</p>
+          <div class="layers">
+            <div class="req">↓ запрос из браузера, curl или Postman</div>
+            <div class="layer ui"><span>UI</span><div><b>Интерфейс</b><p>Показывает только доступные действия. Удобство, а не защита — его легко обойти.</p></div></div>
+            <div class="layer" style="--c: #2f7fd4"><span>1</span><div><b>Права API (GRANT)</b><p>У гостя нет прав ни на одну таблицу. Вошедший пользователь пишет только в разрешённые <strong>колонки</strong>: в <code>tasks</code> — название, описание, объект и исполнителя, но не статус и не автора.</p></div></div>
+            <div class="layer" style="--c: #7b4cf0"><span>2</span><div><b>RLS — политики строк</b><p>Включены на всех пяти таблицах. Исполнитель физически получает из базы только свои задачи; чужая задача по прямому адресу — «не найдена».</p></div></div>
+            <div class="layer" style="--c: #e8457a"><span>3</span><div><b>Функция <code>change_task_status()</code></b><p>Единственный способ сменить статус. Проверяет, кто вызывает, назначен ли он, разрешён ли переход и есть ли обязательный комментарий.</p></div></div>
+            <div class="layer" style="--c: #22b07d"><span>4</span><div><b>Триггеры</b><p>Страж не даёт изменить статус в обход функции. Журнал статусов только дописывается: изменить или удалить запись нельзя даже владельцу базы.</p></div></div>
+          </div>
+          <p>Служебные функции лежат в схеме <code>private</code>, которую Supabase не публикует наружу. Роль пользователя берётся из <code>app_metadata</code>, которую пишет только администратор, — а не из <code>user_metadata</code>, которую пользователь может править сам.</p>
+        </section>
+
+        <section class="lesson" id="rights">
+          <h2><span>04</span>Кто что может</h2>
+          <div class="table-wrap"><table>
+            <tr><th>Таблица</th><th>Гость</th><th>Исполнитель</th><th>Постановщик</th></tr>
+            <tr><td><code>profiles</code></td><td>—</td><td>себя и постановщиков</td><td>всех</td></tr>
+            <tr><td><code>objects</code></td><td>—</td><td>объекты, где есть его задачи</td><td>все; создаёт, меняет, удаляет</td></tr>
+            <tr><td><code>tasks</code></td><td>—</td><td>только свои</td><td>все; создаёт, меняет, удаляет</td></tr>
+            <tr><td><code>task_status_history</code></td><td>—</td><td>журнал своих задач</td><td>весь; <strong>писать не может никто</strong></td></tr>
+            <tr><td><code>change_task_status()</code></td><td>—</td><td>свои задачи, переходы исполнителя</td><td>любые задачи, переходы постановщика</td></tr>
+          </table></div>
+          <p>Исполнитель не видит других исполнителей: персональных данных наружу уходит меньше, чем допускало ТЗ.</p>
+        </section>
+
+        <section class="lesson" id="code">
+          <h2><span>05</span>Единственная «дверь» для статуса</h2>
+          <p>Сокращённая версия функции из миграции — по шагам видно, что проверяется:</p>
+<pre data-file="supabase/migrations/…_task_workflow.sql"><code class="language-sql">create function public.change_task_status(p_task_id uuid, p_new_status public.task_status, p_comment text default null)
+returns public.tasks
+language plpgsql security definer set search_path = ''
+as $$
+begin
+  -- 1. Кто вызывает: без входа — отказ
+  -- 2. Блокируем строку задачи (for update): два одновременных нажатия не обгонят друг друга.
+  --    Чужая задача для исполнителя выглядит так же, как несуществующая:
+  if not found or (v_role = 'executor' and v_task.executor_id &lt;&gt; v_uid) then
+    raise exception 'Задача не найдена' using errcode = 'P0002';
+  end if;
+  -- 3. Есть ли такой переход в таблице task_transitions — иначе «Переход запрещён»
+  -- 4. Имеет ли право именно этот пользователь (постановщик / назначенный исполнитель)
+  -- 5. Комментарий из одних пробелов и переводов строк считается пустым
+  -- 6. Меняем статус и пишем журнал в одной транзакции
+end;
+$$;</code></pre>
+          <p>А так выглядит попытка обойти функцию с токеном исполнителя:</p>
+<pre><code class="language-bash"># Поменять статус напрямую, минуя функцию
+curl -X PATCH "$URL/rest/v1/tasks?id=eq.&lt;id своей задачи&gt;" \
+  -H "apikey: $KEY" -H "Authorization: Bearer $TOKEN" \
+  -d '{"status": "accepted"}'
+# → permission denied: права на запись в колонку status нет
+
+# Запрещённый переход через функцию: из «Новая» сразу «На проверке»
+curl -X POST "$URL/rest/v1/rpc/change_task_status" ... -d '{"p_new_status": "in_review", ...}'
+# → Переход из «Новая» в «На проверке» запрещён</code></pre>
+        </section>
+
+        <section class="lesson" id="tests">
+          <h2><span>06</span>Как это проверено</h2>
+          <ul>
+            <li><strong>99 автотестов правил базы</strong> (<code>npm run test:db</code>). Миграции применяются к PostgreSQL прямо в памяти (PGlite), без Docker и облака, а запросы выполняются под ролями Supabase — так же, как их выполняет API.</li>
+            <li><strong>Полная матрица переходов:</strong> для всех 25 пар «из какого статуса → в какой» проверены свой исполнитель, чужой исполнитель и постановщик — разрешено ровно то, что в ТЗ.</li>
+            <li><strong>31 проверка на живом проекте</strong> (<code>npm run test:live</code>): обычные HTTP-запросы с публичным ключом, как у любого постороннего клиента. Данные не меняются. Результат — 31 из 31.</li>
+            <li><strong>Поиск секретов</strong> (<code>npm run check:secrets</code>) — в репозитории, сборке и всей истории git. Приложение вообще откажется запускаться, если в него по ошибке подставить секретный ключ.</li>
+            <li><strong>Штатные проверки Supabase</strong> — одно осознанное предупреждение: функция смены статуса выполняется с правами владельца, потому что она и есть единственная «дверь» и сама проверяет, кто вызывает.</li>
+          </ul>
+          <p>Тест нашёл и настоящую ошибку: стандартная обрезка пробелов в PostgreSQL не убирает переводы строк, и «комментарий» из одних Enter проходил проверку. Теперь такой комментарий считается пустым.</p>
+        </section>
+
+        <section class="lesson" id="decisions">
+          <h2><span>07</span>Решения и компромиссы</h2>
+          <ul>
+            <li><strong>Принять задачу может любой постановщик</strong>, а не только автор: в ТЗ указана роль. Ограничение «только автор» — одна строка в функции.</li>
+            <li><strong>Журнал переживает удаление задачи.</strong> У журнала нет внешнего ключа на задачу, поэтому удаление задачи не стирает историю, а исполнителю она становится недоступна.</li>
+            <li><strong>Имя в журнале хранится снимком</strong> на момент действия: переименование или удаление пользователя историю не портит.</li>
+            <li><strong>Новый пользователь — исполнитель</strong> (минимум прав), постановщиком его делает только администратор. Регистрация закрыта.</li>
+            <li><strong>Строка задачи блокируется</strong> при смене статуса: два одновременных нажатия не приведут к гонке.</li>
+          </ul>
+        </section>
+
+        <section class="lesson" id="stack">
+          <h2><span>08</span>Стек и структура</h2>
+          <ul>
+            <li><strong>Фронтенд:</strong> React 19, TypeScript 5.9, Vite, Mantine 8, TanStack Query. При выходе и смене пользователя кэш очищается, чтобы данные одного человека не попали к другому.</li>
+            <li><strong>Бэкенд:</strong> Supabase — PostgreSQL, Auth, REST API. Четыре миграции: схема, профили и помощники, права доступа, жизненный цикл задачи.</li>
+            <li><strong>Тесты:</strong> Node test runner, PGlite, проверки живого API.</li>
+            <li><strong>Деплой:</strong> Vercel; в браузер уходит только публичный ключ.</li>
+          </ul>
+<pre class="tree"><code>supabase/migrations/   схема, роли, RLS, жизненный цикл задачи и журнал
+tests/db/              99 тестов правил базы на PostgreSQL в памяти
+tests/live/            31 проверка живого проекта «чёрным ящиком»
+scripts/               поиск секретов, демо-пользователи со случайными паролями
+src/api/               запросы к Supabase через TanStack Query
+src/auth/              вход, сессия, защита маршрутов
+src/pages/             экраны: объекты, карточки, «Мои задачи», «Все задачи»
+docs/                  объяснение для руководителя, решения, безопасность</code></pre>
+        </section>
+
+        <section class="lesson" id="next">
+          <h2><span>09</span>Что дальше</h2>
+          <p>Что я бы добавил, если бы проект продолжился:</p>
+          <ul>
+            <li>журнал правок полей задачи и аудит удалений;</li>
+            <li>поиск, фильтры по объектам и исполнителям, пагинация, уведомления, фото к задачам;</li>
+            <li>E2E-тесты интерфейса на Playwright (сейчас интерфейс проверен вручную, а права — автотестами базы);</li>
+            <li>заголовок CSP, CAPTCHA и двухфакторная защита входа.</li>
+          </ul>
+          <div class="next-steps">
+            <a class="pill" href="https://crm-objects-tasks-dusky.vercel.app" target="_blank" rel="noopener">Открыть демо ↗</a>
+            <a class="pill ghost" href="https://github.com/BezdomnyiBox/crm-objects-tasks" target="_blank" rel="noopener">Код на GitHub ↗</a>
+            <a class="pill ghost" href="../guides/sql.html">Учебник по SQL</a>
+            <a class="pill ghost" href="../guides/react.html">Учебник по React</a>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <div class="cta">
+      <h2 class="title">Нужна похожая система?</h2>
+      <p class="subtitle">Сделаю внутренний сервис, CRM или личный кабинет с надёжными правами доступа. Демо-доступ к этому проекту — тоже в Telegram.</p>
+      <div class="actions">
+        <a class="pill" href="https://t.me/BojooYkt" target="_blank" rel="noopener">Написать в Telegram</a>
+        <a class="pill" href="https://vladivostok.hh.ru/resume/4f7e2fceff09cc13af0039ed1f6261486c3437" target="_blank" rel="noopener">Резюме на HH.ru</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer" data-layout="footer"></footer>
+</body>
+</html>
