@@ -35,7 +35,6 @@
   <script src="../layout.js" data-base="../" data-page="design" defer></script>
   <style>
     .pal-hero { transition: background .4s; }
-    .pal-hero .icon { transition: background .4s; }
 
     /* Панель управления */
     .pal-controls {
@@ -385,8 +384,10 @@
       // Первый экран и иконка перекрашиваются в цвета палитры
       $('.pal-hero').style.setProperty('--hero-bg', `radial-gradient(50% 90% at 88% 12%, ${toHex(pick(scale, 300))} 0%, transparent 60%), linear-gradient(135deg, ${toHex(pick(scale, 950))}, ${toHex(pick(scale, 700))} 55%, ${toHex(pick(scale, 500))})`);
       const icon = $('.pal-icon');
-      icon.style.background = `linear-gradient(160deg, ${toHex(pick(scale, 300))}, ${toHex(pick(scale, 500))} 55%, ${toHex(pick(scale, 700))})`;
-      icon.style.color = '#fff';
+      // Иконка — жидкое стекло: подкрашиваем его оттенками выбранной шкалы
+      icon.style.setProperty('--tint', toHex(pick(scale, 700)));
+      icon.style.setProperty('--tint-2', toHex(pick(scale, 300)));
+      icon.style.setProperty('--glow', toHex(pick(scale, 500)) + '80');
 
       $('#pick').value = state.hex;
       if (document.activeElement !== $('#hex')) $('#hex').value = state.hex;

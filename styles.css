@@ -239,35 +239,87 @@ p a:not(.pill):not(.btn-outline), li a:not(.pill), .footer-legal a { text-decora
 .card .meta { font-size: 14px; color: var(--muted); }
 .card .meta b { font-weight: 500; color: var(--accent); }
 
-/* ===== Объёмные иконки на CSS ===== */
+/* ===== Иконки из жидкого стекла ===== */
+/* Каждая иконка — толстая стеклянная плитка, подкрашенная своим цветом:
+   --tint   — основной цвет (знак и свет, скопившийся у нижнего края),
+   --tint-2 — светлый оттенок для преломлений по кромке и подсветки снизу,
+   --glow   — цветная тень: свет, прошедший сквозь стекло на подложку.
+   Слои фона сверху вниз: свет сверху, свет у нижнего края, само тонированное стекло. */
 .icon {
+  --tint: #5b4cf0; --tint-2: #b3a9ff;
+  --glyph: color-mix(in srgb, var(--tint) 80%, #000);
+  --top-light: rgba(255, 255, 255, .85);
+  --body-a: color-mix(in srgb, var(--tint-2) 20%, rgba(255, 255, 255, .5));
+  --body-b: color-mix(in srgb, var(--tint) 26%, rgba(255, 255, 255, .2));
+  --band: color-mix(in srgb, var(--tint-2) 22%, rgba(255, 255, 255, .32));
+  --edge: rgba(255, 255, 255, .8);
+  --bevel: rgba(255, 255, 255, .95);
+  --streak: .9;
   width: 46%; aspect-ratio: 1; border-radius: 30%;
   display: grid; place-items: center; position: relative;
-  color: #fff; font-weight: 700; font-size: clamp(28px, 3vw, 40px); letter-spacing: -.03em;
-  text-shadow: 0 2px 0 rgba(0, 0, 0, .18);
+  color: var(--glyph); font-weight: 700; font-size: clamp(28px, 3vw, 40px); letter-spacing: -.03em;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, .8), 0 6px 14px color-mix(in srgb, var(--tint) 45%, transparent);
+  background:
+    radial-gradient(130% 75% at 50% -12%, var(--top-light), transparent 62%),
+    radial-gradient(85% 55% at 50% 112%, color-mix(in srgb, var(--tint-2) 65%, transparent), transparent 72%),
+    linear-gradient(160deg, var(--body-a), var(--body-b));
   box-shadow:
-    inset 0 -10px 18px rgba(0, 0, 0, .22),
-    inset 0 10px 18px rgba(255, 255, 255, .35),
-    0 18px 30px -10px var(--glow, rgba(0, 0, 0, .35));
+    inset 0 0 0 1.5px var(--edge),                                                       /* тонкая кромка */
+    inset 0 0 0 6px var(--band),                                                         /* толщина стекла: светлая полоса по краю */
+    inset 0 0 0 7px color-mix(in srgb, var(--tint) 14%, transparent),                    /* внутренняя граница фаски */
+    inset 3px 4px 3px -1px var(--bevel),                                                 /* фаска: свет на верхнем левом крае */
+    inset -3px -4px 5px -1px color-mix(in srgb, var(--tint-2) 60%, rgba(255, 255, 255, .3)), /* преломление на нижнем правом */
+    inset 0 -14px 22px -10px color-mix(in srgb, var(--tint) 50%, transparent),           /* свет, скопившийся внизу толщи */
+    0 2px 5px rgba(20, 20, 60, .08),
+    0 22px 36px -14px var(--glow);                                                       /* цветная тень-каустика */
 }
+/* Тёмная тема: дымчатое стекло, светящийся знак */
+:root[data-theme="dark"] .icon {
+  --glyph: color-mix(in srgb, var(--tint-2) 85%, #fff);
+  --top-light: rgba(255, 255, 255, .32);
+  --body-a: color-mix(in srgb, var(--tint-2) 34%, rgba(255, 255, 255, .06));
+  --body-b: color-mix(in srgb, var(--tint) 50%, rgba(8, 8, 16, .4));
+  --band: color-mix(in srgb, var(--tint-2) 22%, rgba(255, 255, 255, .07));
+  --edge: rgba(255, 255, 255, .34);
+  --bevel: rgba(255, 255, 255, .55);
+  --streak: .55;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, .3), 0 0 18px color-mix(in srgb, var(--tint-2) 60%, transparent);
+}
+/* Блик — отражение окна у верхнего края */
 .icon::before {
-  content: ""; position: absolute; top: 8%; left: 14%; width: 46%; height: 26%;
-  border-radius: 50%; background: rgba(255, 255, 255, .35); filter: blur(4px);
+  content: ""; position: absolute; top: 7%; left: 13%; width: 36%; height: 13%;
+  border-radius: 50%; background: rgba(255, 255, 255, .9); filter: blur(2px);
+  transform: rotate(-14deg); opacity: var(--streak);
 }
+/* Радужный ободок: свет раскладывается на кромке, как в призме. Маска оставляет только полоску в 1.5px */
+.icon::after {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1.5px; pointer-events: none;
+  background: conic-gradient(from 210deg, rgba(255, 255, 255, .95), color-mix(in srgb, var(--tint-2) 80%, transparent), rgba(255, 170, 215, .75), rgba(150, 215, 255, .75), rgba(255, 240, 170, .7), rgba(255, 255, 255, .95));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  opacity: var(--rainbow, .9);
+}
+:root[data-theme="dark"] .icon { --rainbow: .55; }
 .icon.round { border-radius: 50%; }
-.icon svg { width: 62%; height: 62%; position: relative; }
-.i-php   { background: linear-gradient(160deg, #a5a9e8, #6c70b8 60%, #4f5394); --glow: rgba(90, 95, 170, .6); }
-.i-sf    { background: linear-gradient(160deg, #6b6b73, #26262b 60%, #0d0d10); --glow: rgba(0, 0, 0, .55); }
-.i-react { background: linear-gradient(160deg, #3a3f4b, #20232a 60%, #121418); --glow: rgba(30, 160, 200, .55); }
-.i-ts    { background: linear-gradient(160deg, #5aa7f2, #2f7fd4 55%, #1d5fae); --glow: rgba(47, 127, 212, .6); }
-.i-css   { background: linear-gradient(160deg, #b9a8ff, #7b4cf0 55%, #5b2fc4); --glow: rgba(123, 76, 240, .6); }
-.i-link  { background: linear-gradient(160deg, #7ee0b5, #22b07d 55%, #13855c); --glow: rgba(34, 176, 125, .55); }
-.i-docker { background: linear-gradient(160deg, #7fd0ff, #2496ed 55%, #1d63ed); --glow: rgba(36, 150, 237, .6); }
-.i-sql   { background: linear-gradient(160deg, #ffd48a, #f29d16 55%, #c46f00); --glow: rgba(242, 157, 22, .55); }
-.i-ml    { background: linear-gradient(160deg, #ff9dbd, #e8457a 55%, #b0204f); --glow: rgba(232, 69, 122, .55); }
-.i-git   { background: linear-gradient(160deg, #ffa58a, #f05033 55%, #c2361c); --glow: rgba(240, 80, 51, .55); }
-.i-ai    { background: linear-gradient(160deg, #c9a8ff, #8f5cf0 50%, #d6458f); --glow: rgba(143, 92, 240, .6); }
-.i-soon  { background: linear-gradient(160deg, #e7e8ec, #c9cbd2); color: #8a8d96; text-shadow: none; --glow: rgba(0, 0, 0, .15); }
+.icon svg {
+  width: 62%; height: 62%; position: relative;
+  filter: drop-shadow(0 1px 0 rgba(255, 255, 255, .6)) drop-shadow(0 4px 8px color-mix(in srgb, var(--tint) 45%, transparent));
+}
+.i-react svg { stroke: var(--glyph); }
+.i-react svg circle { fill: var(--glyph); }
+.i-php    { --tint: #575ca6; --tint-2: #a5a9e8; --glow: rgba(90, 95, 170, .5); }
+.i-sf     { --tint: #2a2a31; --tint-2: #a3a3ad; --glow: rgba(20, 20, 30, .35); }
+.i-react  { --tint: #0f86a8; --tint-2: #61dafb; --glow: rgba(30, 160, 200, .5); }
+.i-ts     { --tint: #2f7fd4; --tint-2: #7dbcf7; --glow: rgba(47, 127, 212, .5); }
+.i-css    { --tint: #6a3fe0; --tint-2: #b9a8ff; --glow: rgba(123, 76, 240, .5); }
+.i-link   { --tint: #13855c; --tint-2: #7ee0b5; --glow: rgba(34, 176, 125, .45); }
+.i-docker { --tint: #1d6ae0; --tint-2: #7fd0ff; --glow: rgba(36, 150, 237, .5); }
+.i-sql    { --tint: #b86400; --tint-2: #ffc861; --glow: rgba(242, 157, 22, .45); }
+.i-ml     { --tint: #c42a5d; --tint-2: #ff9dbd; --glow: rgba(232, 69, 122, .45); }
+.i-git    { --tint: #cc3d1d; --tint-2: #ffa58a; --glow: rgba(240, 80, 51, .45); }
+.i-ai     { --tint: #7c4ae8; --tint-2: #e48ad0; --glow: rgba(143, 92, 240, .5); }
+.i-soon   { --tint: #7d808a; --tint-2: #d9dbe1; --glow: rgba(0, 0, 0, .12); }
 
 /* ===== Блок с призывом к действию: дымчатое стекло с цветной подсветкой ===== */
 .cta {
