@@ -14,10 +14,10 @@
     source: 'https://github.com/BezdomnyiBox/BezdomnyiBox.github.io'
   };
 
-  // Счётчик посещений Яндекс Метрики. Впишите номер счётчика из metrika.yandex.ru,
-  // например 98765432. 0 — счётчик выключен. Вебвизор и карта кликов не включаются:
-  // считаются только посещения, источники переходов и клики по внешним ссылкам.
-  var YANDEX_METRIKA = 0;
+  // Счётчик посещений Яндекс Метрики (номер из metrika.yandex.ru). 0 — счётчик выключен.
+  // Считаются посещения, источники переходов, карта кликов и переходы по внешним ссылкам.
+  // Вебвизор (запись действий посетителя) не включён.
+  var YANDEX_METRIKA = 114154700;
 
   function current(name) { return page === name ? ' aria-current="page"' : ''; }
   function ext(url, text, cls) {
@@ -115,13 +115,15 @@
     window.ym.l = Date.now();
     var counter = document.createElement('script');
     counter.async = true;
-    counter.src = 'https://mc.yandex.ru/metrika/tag.js';
+    counter.src = 'https://mc.yandex.ru/metrika/tag.js?id=' + YANDEX_METRIKA;
     document.head.appendChild(counter);
     window.ym(YANDEX_METRIKA, 'init', {
-      clickmap: false,
-      trackLinks: true,
+      ssr: true,
+      clickmap: true,
+      referrer: document.referrer,
+      url: location.href,
       accurateTrackBounce: true,
-      webvisor: false
+      trackLinks: true
     });
   }
 })();
