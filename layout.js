@@ -14,10 +14,10 @@
     source: 'https://github.com/BezdomnyiBox/BezdomnyiBox.github.io'
   };
 
-  // Счётчик посещений GoatCounter — без cookies и без сбора персональных данных.
-  // Впишите код сайта после регистрации на goatcounter.com: например, 'bezdomnyibox'
-  // для https://bezdomnyibox.goatcounter.com. Пустая строка — счётчик выключен.
-  var GOATCOUNTER = '';
+  // Счётчик посещений Яндекс Метрики. Впишите номер счётчика из metrika.yandex.ru,
+  // например 98765432. 0 — счётчик выключен. Вебвизор и карта кликов не включаются:
+  // считаются только посещения, источники переходов и клики по внешним ссылкам.
+  var YANDEX_METRIKA = 0;
 
   function current(name) { return page === name ? ' aria-current="page"' : ''; }
   function ext(url, text, cls) {
@@ -96,7 +96,8 @@
       '</div>' +
       '<div class="footer-bottom">' +
         '<div class="footer-contact">@BojooYkt<small>Telegram — самый быстрый способ связаться</small></div>' +
-        '<p class="footer-legal">© 2026 Владимир. Сайт свёрстан вручную на HTML, CSS и чистом JavaScript, без фреймворков. Как он устроен — в <a href="' + base + 'guide.html">учебнике по стилям</a>.</p>' +
+        '<p class="footer-legal">© 2026 Владимир. Сайт свёрстан вручную на HTML, CSS и чистом JavaScript, без фреймворков. Как он устроен — в <a href="' + base + 'guide.html">учебнике по стилям</a>.' +
+          (YANDEX_METRIKA ? ' Посещения считает Яндекс Метрика.' : '') + '</p>' +
       '</div>' +
     '</div>';
 
@@ -106,12 +107,21 @@
   // «Контакты» ведут на блок #contact, а если его на странице нет — на подвал
   if (!document.getElementById('contact')) footerEl.id = 'contact';
 
-  // Считаем только посещения настоящего сайта, а не локального просмотра
-  if (GOATCOUNTER && location.hostname === 'bezdomnyibox.github.io') {
+  // Считаем только посещения настоящего сайта, а не локального просмотра.
+  // Это официальный код Метрики, разложенный по строкам: пока tag.js грузится,
+  // вызовы ym() копятся в очереди, а потом скрипт их выполняет.
+  if (YANDEX_METRIKA && location.hostname === 'bezdomnyibox.github.io') {
+    window.ym = window.ym || function () { (window.ym.a = window.ym.a || []).push(arguments); };
+    window.ym.l = Date.now();
     var counter = document.createElement('script');
     counter.async = true;
-    counter.src = 'https://gc.zgo.at/count.js';
-    counter.setAttribute('data-goatcounter', 'https://' + GOATCOUNTER + '.goatcounter.com/count');
-    document.body.appendChild(counter);
+    counter.src = 'https://mc.yandex.ru/metrika/tag.js';
+    document.head.appendChild(counter);
+    window.ym(YANDEX_METRIKA, 'init', {
+      clickmap: false,
+      trackLinks: true,
+      accurateTrackBounce: true,
+      webvisor: false
+    });
   }
 })();
