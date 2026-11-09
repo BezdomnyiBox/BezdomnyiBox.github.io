@@ -54,37 +54,6 @@
 
     section { padding-top: 88px; }
 
-    /* Главный проект */
-    .featured {
-      display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 32px; align-items: center;
-      padding: 40px; border-radius: var(--radius-xl); background: var(--tile);
-    }
-    .featured small { font-size: 13px; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; }
-    .featured h2 { font-weight: 400; font-size: clamp(28px, 3.6vw, 40px); line-height: 1.1; letter-spacing: -.02em; margin-top: 8px; }
-    .featured h2 b { font-weight: 600; }
-    .featured p { color: var(--muted); margin-top: 14px; max-width: 520px; }
-    .featured .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px; }
-    .featured .chips span { padding: 6px 12px; border-radius: 999px; background: var(--bg); border: 1px solid var(--line); font-size: 13px; }
-    .featured .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
-    .featured .pill.dark { background: var(--text); color: var(--bg); border-color: var(--text); }
-    .f-visual { display: flex; flex-direction: column; gap: 10px; }
-    .f-task { display: flex; align-items: center; justify-content: space-between; gap: 12px; background: var(--bg); border: 1px solid var(--line); border-radius: 16px; padding: 14px 16px; font-size: 14px; }
-    .f-task b { display: block; font-weight: 500; }
-    .f-task small { text-transform: none; letter-spacing: 0; }
-    .f-status { flex: none; padding: 5px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; }
-    .s-work { background: color-mix(in srgb, #2f7fd4 16%, transparent); color: #2f7fd4; }
-    .s-review { background: color-mix(in srgb, #f29d16 20%, transparent); color: #b36b00; }
-    .s-done { background: color-mix(in srgb, #22b07d 18%, transparent); color: #168a60; }
-    .s-rework { background: color-mix(in srgb, #e0692b 18%, transparent); color: #c0501c; }
-    :root[data-theme="dark"] .s-work { color: #7ab6f5; }
-    :root[data-theme="dark"] .s-review { color: #ffc35c; }
-    :root[data-theme="dark"] .s-done { color: #5fd3a5; }
-    :root[data-theme="dark"] .s-rework { color: #ff9a6b; }
-    .f-lock { font: 500 12px "JetBrains Mono", monospace; color: var(--muted); padding-left: 4px; }
-
-    @media (max-width: 860px) {
-      .featured { grid-template-columns: minmax(0, 1fr); padding: 28px 20px; border-radius: var(--radius-lg); }
-    }
     @media (max-width: 640px) {
       .hero { padding: 64px 20px 72px; border-radius: var(--radius-lg); }
       section { padding-top: 64px; }
@@ -107,29 +76,6 @@
         <a class="pill" href="https://t.me/BojooYkt" target="_blank" rel="noopener">Telegram</a>
       </div>
     </div>
-
-    <section id="project">
-      <div class="featured">
-        <div>
-          <small>Главный проект</small>
-          <h2>Мини-CRM <b>для строительной компании</b></h2>
-          <p>Объекты, задачи, исполнители и проверка работы. Все правила доступа живут в самой базе данных, поэтому обойти их через API нельзя. Защиту проверяют 99 автотестов и 31 проверка на живом проекте.</p>
-          <div class="chips"><span>React 19</span><span>TypeScript</span><span>Supabase</span><span>PostgreSQL · RLS</span></div>
-          <div class="actions">
-            <a class="pill dark" href="projects/crm.html">Как это устроено →</a>
-            <a class="pill" href="https://crm-objects-tasks-dusky.vercel.app" target="_blank" rel="noopener">Демо ↗</a>
-            <a class="pill" href="https://github.com/BezdomnyiBox/crm-objects-tasks" target="_blank" rel="noopener">Код ↗</a>
-          </div>
-        </div>
-        <div class="f-visual" aria-hidden="true">
-          <div class="f-task"><div><b>Залить фундамент</b><small>ЖК «Северный» · Игорь Петров</small></div><span class="f-status s-done">Принята</span></div>
-          <div class="f-task"><div><b>Смонтировать опалубку</b><small>ЖК «Северный» · Игорь Петров</small></div><span class="f-status s-review">На проверке</span></div>
-          <div class="f-task"><div><b>Проложить кабель</b><small>Склад на Луговой · Мария Козлова</small></div><span class="f-status s-rework">На доработке</span></div>
-          <div class="f-task"><div><b>Установить окна</b><small>ЖК «Северный» · Игорь Петров</small></div><span class="f-status s-work">В работе</span></div>
-          <div class="f-lock">🔒 статус меняет только change_task_status()</div>
-        </div>
-      </div>
-    </section>
 
     <section id="tech">
       <h2 class="title">Технологии и примеры на них</h2>
