@@ -4,14 +4,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Учебник по стилям — Владимир</title>
-  <meta name="description" content="Разбор CSS-приёмов, на которых построен сайт: токены, тёмная тема, градиенты, объёмные иконки, сетки, шапка и подвал.">
+  <meta name="description" content="Разбор CSS-приёмов, на которых построен сайт: токены, тёмная тема, жидкое стекло (Liquid Glass), градиенты, объёмные иконки, сетки, шапка и подвал.">
   <!-- og: создаётся tools/seo.py, не редактируйте вручную -->
   <link rel="canonical" href="https://bezdomnyibox.github.io/guide.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Владимир — fullstack-разработчик">
   <meta property="og:locale" content="ru_RU">
   <meta property="og:title" content="Учебник по стилям — Владимир">
-  <meta property="og:description" content="Разбор CSS-приёмов, на которых построен сайт: токены, тёмная тема, градиенты, объёмные иконки, сетки, шапка и подвал.">
+  <meta property="og:description" content="Разбор CSS-приёмов, на которых построен сайт: токены, тёмная тема, жидкое стекло (Liquid Glass), градиенты, объёмные иконки, сетки, шапка и подвал.">
   <meta property="og:url" content="https://bezdomnyibox.github.io/guide.html">
   <meta property="og:image" content="https://bezdomnyibox.github.io/og/guides.jpg">
   <meta property="og:image:width" content="1200">
@@ -47,9 +47,7 @@
     }
     .demo-radius { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
     .demo-radius div { width: 88px; height: 88px; background: var(--tile); display: grid; place-items: end center; padding-bottom: 8px; font-size: 12px; color: var(--muted); }
-    .demo-tabs { display: flex; padding: 4px; gap: 4px; background: var(--tile); border-radius: 999px; }
-    .demo-tabs button { border: 0; background: transparent; cursor: pointer; font: 500 14px/1 Onest, sans-serif; color: var(--text); padding: 12px 20px; border-radius: 999px; }
-    .demo-tabs button[aria-selected="true"] { background: var(--bg); box-shadow: 0 2px 8px rgba(20, 20, 40, .12); }
+    .demo .tabs { margin: 0; }
     .icon3d {
       width: 96px; aspect-ratio: 1; border-radius: 30%; display: grid; place-items: center; position: relative;
       color: #fff; font: 700 32px/1 Onest, sans-serif; text-shadow: 0 2px 0 rgba(0, 0, 0, .18);
@@ -63,7 +61,28 @@
     .demo-grid { width: 100%; display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 12px; }
     .demo-grid div { height: 64px; border-radius: 12px; background: var(--tile); }
     .demo-blur { position: relative; width: 100%; height: 140px; border-radius: 16px; overflow: hidden; background: repeating-linear-gradient(45deg, #5b4cf0 0 14px, #e05cf5 14px 28px); }
-    .demo-blur div { position: absolute; inset: 0 0 auto 0; height: 52px; background: var(--header-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); display: flex; align-items: center; padding: 0 16px; font-weight: 600; }
+    .demo-blur div {
+      position: absolute; top: 12px; left: 12px; right: 12px; height: 52px; border-radius: 999px;
+      background: var(--glass-sheen), var(--header-bg); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur);
+      border: 1px solid var(--glass-edge); box-shadow: var(--glass-rim), var(--glass-shadow);
+      display: flex; align-items: center; padding: 0 20px; font-weight: 600;
+    }
+    /* Демо «жидкого стекла»: одна и та же панель по шагам поверх цветных пятен */
+    .glass-steps { width: 100%; display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; }
+    .glass-stage {
+      position: relative; height: 150px; border-radius: 18px; overflow: hidden; display: grid; place-items: center; border: 1px solid var(--line);
+      background:
+        radial-gradient(40% 55% at 20% 25%, #a78bfa, transparent 70%),
+        radial-gradient(40% 55% at 80% 30%, #7dd3fc, transparent 70%),
+        radial-gradient(45% 60% at 60% 90%, #f4a4d4, transparent 70%),
+        var(--bg);
+    }
+    .glass-stage .pane { width: 74%; height: 56%; border-radius: 16px; }
+    .glass-stage .g1 { background: var(--glass); }
+    .glass-stage .g2 { background: var(--glass); border: 1px solid var(--glass-edge); }
+    .glass-stage .g3 { background: var(--glass-sheen), var(--glass); border: 1px solid var(--glass-edge); box-shadow: var(--glass-rim); }
+    .glass-stage .g4 { background: var(--glass-sheen), var(--glass); border: 1px solid var(--glass-edge); box-shadow: var(--glass-rim), var(--glass-shadow); }
+    .glass-stage + span { display: block; margin-top: 6px; font-size: 12px; color: var(--muted); text-align: center; }
   </style>
 </head>
 <body>
@@ -78,11 +97,12 @@
         <li><a href="#type">Типографика</a></li>
         <li><a href="#radius">Скругления и блоки</a></li>
         <li><a href="#gradient">Градиент первого экрана</a></li>
+        <li><a href="#glass">Жидкое стекло</a></li>
         <li><a href="#pills">Кнопки-пилюли</a></li>
         <li><a href="#tabs">Сегментированный переключатель</a></li>
         <li><a href="#icons">Объёмные иконки на CSS</a></li>
         <li><a href="#grid">Адаптивная сетка</a></li>
-        <li><a href="#header">Липкая шапка с размытием</a></li>
+        <li><a href="#header">Плавающая стеклянная шапка</a></li>
         <li><a href="#footer">Подвал</a></li>
       </ol>
     </aside>
@@ -90,7 +110,7 @@
     <main>
       <div class="intro">
         <h1>Учебник по стилям: <b>как устроен этот сайт</b></h1>
-        <p>Стиль вдохновлён лендингом Яндекс Практикума: светлая основа, крупные скругления, цветные акцентные блоки и объёмные иконки. Здесь разобран каждый приём — с живым примером и кодом, который можно взять себе.</p>
+        <p>Раскладка вдохновлена лендингом Яндекс Практикума: крупные скругления, цветные акцентные блоки и объёмные иконки. Поверхности сделаны в стиле <strong>Liquid Glass</strong> — полупрозрачное «жидкое стекло» поверх мягких цветных пятен. Здесь разобран каждый приём — с живым примером и кодом, который можно взять себе.</p>
       </div>
 
       <section class="lesson" id="tokens">
@@ -99,20 +119,23 @@
         <div class="demo">
           <div class="swatch"><div style="background: var(--bg)"></div><span>--bg</span></div>
           <div class="swatch"><div style="background: var(--tile)"></div><span>--tile</span></div>
+          <div class="swatch"><div style="background: var(--glass-sheen), var(--glass)"></div><span>--glass</span></div>
           <div class="swatch"><div style="background: var(--text)"></div><span>--text</span></div>
           <div class="swatch"><div style="background: var(--muted)"></div><span>--muted</span></div>
           <div class="swatch"><div style="background: var(--accent)"></div><span>--accent</span></div>
         </div>
 <pre><code>:root {
-  --bg: #ffffff;
-  --tile: #f2f3f5;      /* фон плиток и серых блоков */
-  --text: #1a1a1f;      /* не чисто чёрный — мягче для глаз */
-  --muted: #6b6f7a;     /* второстепенный текст */
+  --bg: #eef0f6;                         /* основа под цветными пятнами */
+  --tile: rgba(255, 255, 255, .55);      /* полупрозрачные плитки */
+  --text: #1a1a1f;                       /* не чисто чёрный — мягче для глаз */
+  --muted: #5c606b;                      /* второстепенный текст */
   --accent: #5b4cf0;
+  --glass: rgba(255, 255, 255, .55);     /* заливка стекла */
+  --glass-edge: rgba(255, 255, 255, .85);/* светлая кромка */
   --radius-xl: 32px;
 }
 
-.card .tile { background: var(--tile); border-radius: var(--radius-lg); }</code></pre>
+.card .tile { background: var(--glass); border-radius: var(--radius-lg); }</code></pre>
       </section>
 
       <section class="lesson" id="theme">
@@ -125,8 +148,9 @@
           <li>Скрипт подключён в <code>&lt;head&gt;</code> без <code>defer</code>: тема ставится до отрисовки, поэтому страница не «мигает» белым.</li>
         </ul>
 <pre><code>:root[data-theme="dark"] {
-  --bg: #121214;
-  --tile: #1e1f23;
+  --bg: #0b0b11;
+  --glass: rgba(255, 255, 255, .06);   /* дымчатое стекло */
+  --glass-edge: rgba(255, 255, 255, .14);
   --text: #ececf0;
   --accent: #8f83ff;   /* в тёмной теме акцент светлее, чтобы читался */
   color-scheme: dark;  /* тёмные скроллбары и поля ввода */
@@ -186,37 +210,81 @@ h1 b { font-weight: 600; }</code></pre>
         <p>Слои перечисляются через запятую, и <strong>первый лежит сверху</strong>.</p>
       </section>
 
+      <section class="lesson" id="glass">
+        <h2><span>06</span>Жидкое стекло (Liquid Glass)</h2>
+        <p>Стекло видно, только когда за ним что-то есть. Поэтому под всем сайтом лежит зафиксированный слой с <strong>мягкими цветными пятнами</strong>, а плитки, шапка, кнопки и оглавление — полупрозрачные панели поверх него. Сама панель собирается из четырёх слоёв:</p>
+        <div class="demo">
+          <div class="glass-steps">
+            <div><div class="glass-stage"><div class="pane g1"></div></div><span>1. Полупрозрачная заливка</span></div>
+            <div><div class="glass-stage"><div class="pane g2"></div></div><span>2. Светлая кромка</span></div>
+            <div><div class="glass-stage"><div class="pane g3"></div></div><span>3. Блик и отсвет</span></div>
+            <div><div class="glass-stage"><div class="pane g4"></div></div><span>4. Мягкая тень</span></div>
+          </div>
+        </div>
+<pre><code>body::before {                         /* цветные пятна под всем сайтом */
+  content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background:
+    radial-gradient(38% 46% at 6% 10%, var(--glow-1), transparent 70%),
+    radial-gradient(34% 42% at 94% 16%, var(--glow-2), transparent 70%),
+    radial-gradient(42% 50% at 88% 90%, var(--glow-3), transparent 70%);
+}
+
+.glass {
+  background:
+    linear-gradient(160deg, rgba(255, 255, 255, .6), transparent 45%),  /* 3: блик сверху-слева */
+    var(--glass);                                                       /* 1: заливка */
+  border: 1px solid var(--glass-edge);                                  /* 2: кромка */
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .95),    /* 3: тонкий отсвет по верхнему краю */
+    0 14px 34px -16px rgba(52, 38, 120, .3);   /* 4: тень с оттенком фона, а не чёрная */
+}</code></pre>
+        <ul>
+          <li><strong>Размытие <code>backdrop-filter</code> — только там, где под стеклом движется контент:</strong> в шапке и на кнопках поверх картинок. Пятна фона и так размытые, а размытие на каждой плитке заметно нагружает видеокарту.</li>
+          <li><strong>Светлая тема</strong> — молочное стекло с тёмным текстом. <strong>Тёмная</strong> — дымчатое стекло, у кнопок снизу цветное свечение: <code>inset 0 -10px 18px -10px</code> цвета акцента.</li>
+          <li><strong>Контраст проверяется по итоговому цвету</strong> — заливка плюс то, что под ней. Поэтому второстепенный текст здесь чуть темнее, чем на белом фоне.</li>
+          <li>Если в системе включено «Уменьшить прозрачность», медиазапрос <code>prefers-reduced-transparency</code> делает стекло обычными плотными панелями.</li>
+        </ul>
+      </section>
+
       <section class="lesson" id="pills">
-        <h2><span>06</span>Кнопки-пилюли</h2>
-        <p>Основные действия — белые кнопки с полностью круглыми краями. При наведении кнопка <strong>приподнимается на 1px и получает тень</strong>: это даёт ощущение физической кнопки.</p>
+        <h2><span>07</span>Кнопки-пилюли</h2>
+        <p>Основные действия — «капли» стекла с полностью круглыми краями: светлый отсвет сверху, лёгкое цветное свечение снизу и мягкая тень. При наведении кнопка <strong>приподнимается на 1px, а тень растёт</strong>: это даёт ощущение физической кнопки.</p>
         <div class="demo">
           <a class="pill" href="#pills">Обычная</a>
-          <a class="pill ghost" href="#pills">Серая (ghost)</a>
-          <a class="btn-outline" href="#pills">В рамке, как в шапке</a>
+          <a class="pill ghost" href="#pills">Прозрачная (ghost)</a>
+          <a class="btn-outline" href="#pills">Как «Резюме» в шапке</a>
         </div>
 <pre><code>.pill {
   padding: 12px 22px;
   border-radius: 999px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, .95), rgba(255, 255, 255, .7));
+  border: 1px solid rgba(255, 255, 255, .9);
+  box-shadow:
+    inset 0 1px 0 #fff,                              /* отсвет по верхнему краю */
+    inset 0 -3px 8px -2px rgba(120, 105, 230, .22),  /* свечение снизу, как в толстом стекле */
+    0 8px 20px -10px rgba(40, 30, 110, .45);
+  backdrop-filter: blur(10px) saturate(160%);
   transition: transform .15s, box-shadow .15s;
 }
-.pill:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 18px rgba(20, 20, 40, .12);
-}</code></pre>
+.pill:hover { transform: translateY(-1px); }</code></pre>
       </section>
 
       <section class="lesson" id="tabs">
-        <h2><span>07</span>Сегментированный переключатель</h2>
-        <p>Серая «капсула», внутри кнопки; активная — белая с тенью, будто приподнята. Состояние хранится в <code>aria-selected</code>: этот атрибут нужен экранным читалкам, и он же служит селектором для стилей.</p>
+        <h2><span>08</span>Сегментированный переключатель</h2>
+        <p>Стеклянная дорожка, внутри кнопки; активная — более плотная «капля» стекла с цветной тенью, будто приподнята. Состояние хранится в <code>aria-selected</code>: этот атрибут нужен экранным читалкам, и он же служит селектором для стилей.</p>
         <div class="demo">
-          <div class="demo-tabs" role="tablist">
+          <div class="tabs" role="tablist">
             <button role="tab" aria-selected="true">Все</button>
             <button role="tab" aria-selected="false">Backend</button>
             <button role="tab" aria-selected="false">Frontend</button>
           </div>
         </div>
-<pre><code>.tabs { display: flex; padding: 4px; gap: 4px; background: var(--tile); border-radius: 999px; }
-.tabs button[aria-selected="true"] { background: var(--bg); box-shadow: 0 2px 8px rgba(20, 20, 40, .12); }
+<pre><code>.tabs { display: flex; padding: 5px; gap: 4px; border-radius: 999px; }   /* + рецепт стекла */
+.tabs button[aria-selected="true"] {
+  background: var(--glass-strong);
+  border-color: var(--glass-edge);
+  box-shadow: var(--glass-rim), 0 6px 14px -6px rgba(91, 76, 240, .45);
+}
 
 tabs.forEach(tab => tab.addEventListener('click', () => {
   tabs.forEach(t => t.setAttribute('aria-selected', t === tab));
@@ -225,7 +293,7 @@ tabs.forEach(tab => tab.addEventListener('click', () => {
       </section>
 
       <section class="lesson" id="icons">
-        <h2><span>08</span>Объёмные иконки на CSS</h2>
+        <h2><span>09</span>Объёмные иконки на CSS</h2>
         <p>У Практикума иконки — 3D-рендеры. Здесь тот же эффект собран <strong>одними тенями</strong>, без картинок. По шагам:</p>
         <div class="demo">
           <div class="step"><div class="icon3d s1">TS</div>1. Градиент</div>
@@ -250,7 +318,7 @@ tabs.forEach(tab => tab.addEventListener('click', () => {
       </section>
 
       <section class="lesson" id="grid">
-        <h2><span>09</span>Адаптивная сетка</h2>
+        <h2><span>10</span>Адаптивная сетка</h2>
         <p>Карточки раскладываются одной строкой CSS — <strong>без медиазапросов</strong>. Браузер сам решает, сколько колонок шириной от 260px поместится, и растягивает их на всю ширину. Измените ширину окна, чтобы увидеть, как перестраивается пример.</p>
         <div class="demo"><div class="demo-grid"><div></div><div></div><div></div><div></div><div></div></div></div>
 <pre><code>.grid {
@@ -261,25 +329,27 @@ tabs.forEach(tab => tab.addEventListener('click', () => {
       </section>
 
       <section class="lesson" id="header">
-        <h2><span>10</span>Липкая шапка с размытием</h2>
-        <p>Шапка как у сервисов Яндекса: логотип слева, ссылки и кнопка в рамке справа. Она <strong>прилипает к верху</strong> при прокрутке, а фон под ней размывается, как матовое стекло.</p>
+        <h2><span>11</span>Плавающая стеклянная шапка</h2>
+        <p>Шапка — стеклянная капсула с отступом от краёв: логотип слева, ссылки и кнопки справа, текущий раздел подсвечен «каплей». Она <strong>прилипает к верху</strong> при прокрутке, а контент под ней размывается.</p>
         <div class="demo"><div class="demo-blur"><div>Шапка поверх контента</div></div></div>
-<pre><code>.site-header {
-  position: sticky; top: 0; z-index: 20;
-  background: var(--header-bg);          /* полупрозрачный фон */
-  backdrop-filter: saturate(180%) blur(12px);
-  border-bottom: 1px solid var(--line);
+<pre><code>.site-header { position: sticky; top: 0; z-index: 20; padding-top: 10px; }
+.site-header .wrap {
+  height: 56px; border-radius: 999px;
+  background: var(--header-bg);                   /* полупрозрачный фон */
+  backdrop-filter: blur(18px) saturate(170%);     /* размытие того, что под шапкой */
+  border: 1px solid var(--glass-edge);
+  box-shadow: var(--glass-rim), var(--glass-shadow);
 }</code></pre>
         <p><code>position: sticky</code> лучше, чем <code>fixed</code>: шапка остаётся в потоке документа, и под неё не нужно делать отступ.</p>
       </section>
 
       <section class="lesson" id="footer">
-        <h2><span>11</span>Подвал</h2>
+        <h2><span>12</span>Подвал</h2>
         <p>Подвал повторяет структуру Практикума:</p>
         <ul>
-          <li><strong>Верхняя строка:</strong> логотип слева, серые кнопки-пилюли соцсетей справа.</li>
+          <li><strong>Верхняя строка:</strong> логотип слева, стеклянные кнопки-пилюли соцсетей справа.</li>
           <li><strong>Колонки ссылок:</strong> маленький серый заголовок, под ним список. Колонки строятся той же сеткой <code>auto-fit</code>.</li>
-          <li><strong>Промоблок:</strong> серая скруглённая плашка с призывом к действию.</li>
+          <li><strong>Промоблок:</strong> стеклянная скруглённая плашка с призывом к действию.</li>
           <li><strong>Нижняя строка:</strong> крупный контакт слева, мелкий служебный текст справа.</li>
         </ul>
 <pre><code>.footer-cols {
@@ -287,7 +357,7 @@ tabs.forEach(tab => tab.addEventListener('click', () => {
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 32px;
 }
-.footer-cols h4 { font-size: 13px; font-weight: 400; color: var(--muted); }</code></pre>
+.footer-cols .footer-h { font-size: 13px; font-weight: 400; color: var(--muted); }</code></pre>
         <p>Посмотреть на него можно внизу этой страницы.</p>
       </section>
     </main>
@@ -296,8 +366,8 @@ tabs.forEach(tab => tab.addEventListener('click', () => {
   <footer class="site-footer" data-layout="footer"></footer>
 
   <script>
-    // Переключатель в демо урока 07
-    document.querySelectorAll('.demo-tabs').forEach(group => {
+    // Переключатель в демо урока 08
+    document.querySelectorAll('.demo .tabs').forEach(group => {
       const btns = group.querySelectorAll('button');
       btns.forEach(b => b.addEventListener('click', () => btns.forEach(x => x.setAttribute('aria-selected', x === b))));
     });

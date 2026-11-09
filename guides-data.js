@@ -108,7 +108,7 @@ window.OWN_GUIDES = [
   },
   {
     title: 'Учебник по стилям',
-    description: 'Как свёрстан этот сайт: токены, тёмная тема, градиенты, объёмные иконки на CSS.',
+    description: 'Как свёрстан этот сайт: токены, тёмная тема, жидкое стекло (Liquid Glass), объёмные иконки на CSS.',
     url: 'guide.html',
     category: 'CSS',
     icon: 'css',

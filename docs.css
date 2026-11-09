@@ -1,7 +1,13 @@
 /* Вёрстка учебников: оглавление слева, уроки справа. Подключается после styles.css. */
 
 .guide { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 48px; padding-top: 48px; }
-.toc { position: sticky; top: 84px; align-self: start; font-size: 14px; max-height: calc(100vh - 100px); overflow-y: auto; }
+/* Оглавление — стеклянная панель, которая едет вместе со страницей */
+.toc {
+  position: sticky; top: 88px; align-self: start; font-size: 14px; max-height: calc(100vh - 108px); overflow-y: auto;
+  padding: 18px 18px 18px 6px; border-radius: 20px;
+  background: var(--glass-sheen), var(--glass); border: 1px solid var(--glass-edge); box-shadow: var(--glass-rim), var(--glass-shadow);
+}
+.toc .toc-title { padding-left: 14px; }
 .toc .toc-title { font-size: 13px; font-weight: 400; color: var(--muted); margin-bottom: 12px; }
 .toc ol { padding-left: 28px;display: flex; flex-direction: column; gap: 8px; }
 .toc a { color: var(--muted); }
@@ -11,7 +17,7 @@
 .intro h1 b { font-weight: 600; }
 .intro p { color: var(--muted); font-size: 18px; margin-top: 16px; max-width: 680px; }
 
-.lesson { padding-top: 56px; scroll-margin-top: 72px; }
+.lesson { padding-top: 56px; scroll-margin-top: 80px; }
 .lesson h2 { font-weight: 500; font-size: 26px; letter-spacing: -.01em; }
 .lesson h2 span { color: var(--accent); margin-right: 8px; }
 .lesson h3 { font-weight: 500; font-size: 18px; margin-top: 24px; }
@@ -25,7 +31,8 @@ code { font: 14px/1.5 "JetBrains Mono", monospace; }
 p code, li code { background: var(--tile); padding: 1px 6px; border-radius: 6px; color: var(--text); font-size: 13px; }
 pre {
   margin-top: 16px; padding: 20px; overflow-x: auto;
-  background: var(--tile); border-radius: 16px; border: 1px solid var(--line);
+  background: var(--glass-sheen), var(--glass); border-radius: 16px; border: 1px solid var(--glass-edge);
+  box-shadow: var(--glass-rim);
 }
 pre[data-file] { position: relative; padding-top: 44px; }
 pre[data-file]::before {
@@ -64,12 +71,19 @@ pre[data-file]::before {
 .doc-hero h1 b { font-weight: 600; }
 .doc-hero p { font-size: 18px; opacity: .85; max-width: 620px; margin-top: 16px; }
 .hero-facts { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 28px; }
-.hero-facts span { padding: 7px 14px; border-radius: 999px; background: rgba(255, 255, 255, .14); font-size: 14px; }
+.hero-facts span {
+  padding: 7px 14px; border-radius: 999px; font-size: 14px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, .24), rgba(255, 255, 255, .08));
+  border: 1px solid rgba(255, 255, 255, .28); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .4);
+}
 .doc-hero .icon { width: 160px; font-size: 48px; }
 
 /* Плитки «Запомнить / Частые ошибки» */
 .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-top: 20px; }
-.tiles > div { background: var(--tile); border-radius: var(--radius-lg); padding: 22px 24px; }
+.tiles > div {
+  border-radius: var(--radius-lg); padding: 22px 24px;
+  background: var(--glass-sheen), var(--glass); border: 1px solid var(--glass-edge); box-shadow: var(--glass-rim), var(--glass-shadow);
+}
 .tiles h3 { margin: 0 0 8px; font-size: 13px; font-weight: 500; text-transform: uppercase; letter-spacing: .08em; }
 .tiles .good h3 { color: #0f7a52; }
 :root[data-theme="dark"] .tiles .good h3 { color: #5fd3a5; }

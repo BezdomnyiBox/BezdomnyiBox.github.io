@@ -1,16 +1,34 @@
 /* ===== Дизайн-токены: светлая тема ===== */
+/* Стиль Liquid Glass: полупрозрачные «стеклянные» поверхности поверх мягкого цветного фона.
+   Стекло = полупрозрачная заливка + светлая кромка + блик по верхнему краю + мягкая тень. */
 :root {
-  --bg: #ffffff;
+  --bg: #eef0f6;
   --surface: #ffffff;
-  --tile: #f2f3f5;
-  --line: #e3e4e8;
+  --tile: rgba(255, 255, 255, .55);
+  --line: rgba(30, 30, 70, .11);
   --text: #1a1a1f;
-  --muted: #6b6f7a;
-  --cta-bg: #2b2b30;
+  --muted: #5c606b;
+  --cta-bg: #1b1a26;
   --cta-text: #ffffff;
   --accent: #5b4cf0;
-  --header-bg: rgba(255, 255, 255, .85);
-  --shadow: 0 6px 18px rgba(20, 20, 40, .12);
+  --header-bg: rgba(255, 255, 255, .58);
+  --shadow: 0 10px 26px -10px rgba(40, 30, 110, .30);
+
+  /* Стекло */
+  --glass: rgba(255, 255, 255, .55);
+  --glass-strong: rgba(255, 255, 255, .82);
+  --glass-edge: rgba(255, 255, 255, .85);
+  --glass-sheen: linear-gradient(160deg, rgba(255, 255, 255, .6), rgba(255, 255, 255, 0) 45%);
+  --glass-rim: inset 0 1px 0 rgba(255, 255, 255, .95), inset 0 -1px 1px rgba(255, 255, 255, .4);
+  --glass-shadow: 0 14px 34px -16px rgba(52, 38, 120, .30), 0 2px 6px -2px rgba(52, 38, 120, .08);
+  --glass-blur: blur(18px) saturate(170%);
+
+  /* Цветные пятна фона, сквозь которые «просвечивает» стекло */
+  --glow-1: rgba(167, 139, 250, .42);
+  --glow-2: rgba(125, 211, 252, .38);
+  --glow-3: rgba(244, 164, 212, .36);
+  --glow-4: rgba(134, 239, 172, .26);
+
   --radius-xl: 32px;
   --radius-lg: 24px;
   --radius-sm: 10px;
@@ -19,18 +37,36 @@
 
 /* ===== Тёмная тема: переопределяем только токены ===== */
 :root[data-theme="dark"] {
-  --bg: #121214;
-  --surface: #1e1f23;
-  --tile: #1e1f23;
-  --line: #2e2f35;
+  --bg: #0b0b11;
+  --surface: #17171f;
+  --tile: rgba(255, 255, 255, .055);
+  --line: rgba(255, 255, 255, .10);
   --text: #ececf0;
-  --muted: #9a9ca6;
-  --cta-bg: #1e1f23;
+  --muted: #a2a4ae;
+  --cta-bg: #14141c;
   --cta-text: #ececf0;
   --accent: #8f83ff;
-  --header-bg: rgba(18, 18, 20, .8);
-  --shadow: 0 6px 18px rgba(0, 0, 0, .45);
+  --header-bg: rgba(22, 22, 30, .55);
+  --shadow: 0 10px 26px -10px rgba(0, 0, 0, .7);
+
+  --glass: rgba(255, 255, 255, .06);
+  --glass-strong: rgba(255, 255, 255, .12);
+  --glass-edge: rgba(255, 255, 255, .14);
+  --glass-sheen: linear-gradient(160deg, rgba(255, 255, 255, .10), rgba(255, 255, 255, 0) 45%);
+  --glass-rim: inset 0 1px 0 rgba(255, 255, 255, .22), inset 0 -1px 1px rgba(255, 255, 255, .05);
+  --glass-shadow: 0 18px 40px -18px rgba(0, 0, 0, .8);
+
+  --glow-1: rgba(124, 92, 255, .30);
+  --glow-2: rgba(56, 189, 248, .17);
+  --glow-3: rgba(236, 72, 153, .18);
+  --glow-4: rgba(52, 211, 153, .10);
   color-scheme: dark;
+}
+
+/* Если в системе включено «Уменьшить прозрачность» — стекло становится обычными плотными панелями */
+@media (prefers-reduced-transparency: reduce) {
+  :root { --glass: #ffffff; --tile: #f6f6f9; --glass-strong: #ffffff; --header-bg: #ffffff; --glass-blur: none; }
+  :root[data-theme="dark"] { --glass: #1b1b23; --tile: #1b1b23; --glass-strong: #23232d; --header-bg: #16161e; }
 }
 
 * { box-sizing: border-box; margin: 0; }
@@ -42,94 +78,162 @@ body {
   -webkit-font-smoothing: antialiased;
   transition: background-color .25s, color .25s;
 }
+/* Мягкие цветные пятна под всем сайтом: без них стеклу нечего преломлять.
+   Слой зафиксирован и не перерисовывается при прокрутке. */
+body::before {
+  content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background:
+    radial-gradient(38% 46% at 6% 10%, var(--glow-1), transparent 70%),
+    radial-gradient(34% 42% at 94% 16%, var(--glow-2), transparent 70%),
+    radial-gradient(42% 50% at 88% 90%, var(--glow-3), transparent 70%),
+    radial-gradient(38% 46% at 10% 94%, var(--glow-4), transparent 70%);
+}
 a { color: inherit; text-decoration: none; }
 /* Ссылки внутри текста отличаются не только цветом — это требование доступности */
 p a:not(.pill):not(.btn-outline), li a:not(.pill), .footer-legal a { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
 .footer-cols li a, .toc li a, .site-nav a { text-decoration: none; }
 .wrap { max-width: 1200px; margin: 0 auto; padding: 0 16px; }
 
-/* ===== Шапка ===== */
+/* ===== Стеклянная поверхность — общий рецепт ===== */
+.glass, .tabs, .card .tile, .ai-note, .footer-promo, .stats > div, .skills > div {
+  background: var(--glass-sheen), var(--glass);
+  border: 1px solid var(--glass-edge);
+  box-shadow: var(--glass-rim), var(--glass-shadow);
+}
+
+/* ===== Шапка: плавающая стеклянная капсула ===== */
 .site-header {
   position: sticky; top: 0; z-index: 20;
-  background: var(--header-bg);
-  backdrop-filter: saturate(180%) blur(12px);
-  -webkit-backdrop-filter: saturate(180%) blur(12px);
-  border-bottom: 1px solid var(--line);
-  min-height: 61px; /* место под шапку, пока layout.js её не отрисовал */
+  padding-top: 10px;
+  min-height: 66px; /* место под шапку, пока layout.js её не отрисовал */
 }
-.site-header .wrap { display: flex; align-items: center; gap: 24px; height: 60px; }
+.site-header .wrap {
+  display: flex; align-items: center; gap: 24px; height: 56px;
+  width: calc(100% - 24px); max-width: 1168px; padding: 0 8px 0 18px;
+  border-radius: 999px;
+  background: var(--glass-sheen), var(--header-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-edge);
+  box-shadow: var(--glass-rim), var(--glass-shadow);
+}
 .logo { display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 19px; letter-spacing: -.01em; }
 .logo i {
-  width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center;
-  background: var(--accent); color: #fff; font: 700 12px/1 monospace; font-style: normal;
+  width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center;
+  background: radial-gradient(circle at 35% 25%, #b3a9ff, #5b4cf0 55%, #3d30b8);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, .6), inset 0 -2px 4px rgba(0, 0, 0, .25), 0 4px 10px -3px rgba(91, 76, 240, .6);
+  color: #fff; font: 700 12px/1 monospace; font-style: normal;
 }
-.site-nav { display: flex; gap: 24px; margin-left: auto; font-size: 14px; }
-.site-nav a { color: var(--text); opacity: .8; transition: opacity .15s; }
-.site-nav a:hover, .site-nav a[aria-current="page"] { opacity: 1; }
-.site-nav a[aria-current="page"] { font-weight: 500; }
-.header-actions { display: flex; align-items: center; gap: 8px; }
+.site-nav { display: flex; gap: 2px; margin-left: auto; font-size: 14px; }
+.site-nav a {
+  color: var(--text); opacity: .8; padding: 8px 14px; border-radius: 999px; border: 1px solid transparent;
+  transition: opacity .15s, background-color .15s;
+}
+.site-nav a:hover { opacity: 1; background: var(--glass); }
+.site-nav a[aria-current="page"] {
+  opacity: 1; font-weight: 500;
+  background: var(--glass-strong); border-color: var(--glass-edge);
+  box-shadow: var(--glass-rim), 0 4px 12px -6px rgba(52, 38, 120, .35);
+}
+.header-actions { display: flex; align-items: center; gap: 6px; }
 
-/* Кнопка в рамке, как «В каталог» */
+/* Кнопка «Резюме» в шапке — стеклянная капсула */
 .btn-outline {
-  display: inline-flex; align-items: center; height: 36px; padding: 0 14px;
-  border: 1px solid var(--text); border-radius: 8px;
+  display: inline-flex; align-items: center; height: 40px; padding: 0 16px;
+  border-radius: 999px; border: 1px solid var(--glass-edge);
+  background: var(--glass-strong); box-shadow: var(--glass-rim);
   font-size: 14px; font-weight: 500; transition: background-color .15s, color .15s;
 }
 .btn-outline:hover { background: var(--text); color: var(--bg); }
 
-/* Переключатель темы */
+/* Переключатель темы — круглая стеклянная кнопка */
 .theme-toggle {
-  width: 36px; height: 36px; border-radius: 8px; cursor: pointer;
+  width: 40px; height: 40px; border-radius: 50%; cursor: pointer;
   display: grid; place-items: center;
-  background: transparent; color: var(--text); border: 1px solid var(--line);
+  background: var(--glass); color: var(--text); border: 1px solid var(--glass-edge);
+  box-shadow: var(--glass-rim);
   transition: background-color .15s;
 }
-.theme-toggle:hover { background: var(--tile); }
+.theme-toggle:hover { background: var(--glass-strong); }
 .theme-toggle svg { width: 18px; height: 18px; }
 .theme-toggle .moon { display: none; }
 :root[data-theme="dark"] .theme-toggle .sun { display: none; }
 :root[data-theme="dark"] .theme-toggle .moon { display: block; }
 
-/* ===== Кнопки-пилюли ===== */
+/* ===== Кнопки-пилюли: «капля» жидкого стекла ===== */
+/* Светлая тема — молочное стекло с тёмным текстом; тёмная — дымчатое стекло
+   с цветным свечением снизу, как подсветка под толстым стеклом */
 .pill {
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;
   padding: 12px 22px; border-radius: 999px;
   font-weight: 500; font-size: 15px; white-space: nowrap;
-  background: #fff; color: #1a1a1f; border: 1px solid #e3e4e8;
+  color: #1a1a1f;
+  background: linear-gradient(180deg, rgba(255, 255, 255, .95), rgba(255, 255, 255, .7));
+  border: 1px solid rgba(255, 255, 255, .9);
+  box-shadow:
+    inset 0 1px 0 #fff,
+    inset 0 -3px 8px -2px rgba(120, 105, 230, .22),
+    0 8px 20px -10px rgba(40, 30, 110, .45);
+  backdrop-filter: blur(10px) saturate(160%);
+  -webkit-backdrop-filter: blur(10px) saturate(160%);
   transition: transform .15s, box-shadow .15s;
 }
-.pill:hover { transform: translateY(-1px); box-shadow: var(--shadow); }
+.pill:hover {
+  transform: translateY(-1px);
+  box-shadow: inset 0 1px 0 #fff, inset 0 -3px 8px -2px rgba(120, 105, 230, .3), 0 14px 26px -12px rgba(40, 30, 110, .55);
+}
+:root[data-theme="dark"] .pill {
+  color: #fff;
+  background: linear-gradient(180deg, rgba(255, 255, 255, .2), rgba(255, 255, 255, .07));
+  border-color: rgba(255, 255, 255, .26);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .45),
+    inset 0 -10px 18px -10px rgba(143, 131, 255, .75),
+    0 10px 24px -12px rgba(0, 0, 0, .8);
+}
+:root[data-theme="dark"] .pill:hover {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .5), inset 0 -12px 20px -10px rgba(143, 131, 255, .95), 0 14px 28px -12px rgba(91, 76, 240, .55);
+}
 .pill.sm { padding: 7px 14px; font-size: 14px; }
-.pill.ghost { background: var(--tile); color: var(--text); border-color: transparent; }
+.pill.ghost, :root[data-theme="dark"] .pill.ghost {
+  color: var(--text);
+  background: var(--glass-sheen), var(--glass);
+  border-color: var(--glass-edge);
+  box-shadow: var(--glass-rim), 0 6px 16px -10px rgba(40, 30, 110, .35);
+}
 
 /* ===== Заголовки секций ===== */
 .title { text-align: center; font-weight: 400; font-size: clamp(28px, 4vw, 44px); line-height: 1.15; letter-spacing: -.02em; }
 .subtitle { text-align: center; color: var(--muted); margin-top: 12px; font-size: 17px; }
 
-/* ===== Сегментированный переключатель ===== */
+/* ===== Сегментированный переключатель: стеклянная дорожка и «капля» выбора ===== */
 .tabs {
   display: flex; width: fit-content; max-width: 100%; overflow-x: auto;
-  margin: 32px auto 40px; padding: 4px; gap: 4px;
-  background: var(--tile); border-radius: 999px;
+  margin: 32px auto 40px; padding: 5px; gap: 4px;
+  border-radius: 999px;
   scrollbar-width: none; /* на узком экране вкладки прокручиваются, но без полосы */
 }
 .tabs::-webkit-scrollbar { display: none; }
 .tabs button {
-  border: 0; background: transparent; cursor: pointer; white-space: nowrap;
+  border: 1px solid transparent; background: transparent; cursor: pointer; white-space: nowrap;
   font: 500 14px/1 Onest, sans-serif; color: var(--text);
-  padding: 12px 20px; border-radius: 999px;
+  padding: 11px 20px; border-radius: 999px; transition: background-color .2s, box-shadow .2s;
 }
-.tabs button[aria-selected="true"] { background: var(--bg); box-shadow: 0 2px 8px rgba(20, 20, 40, .12); }
+.tabs button:hover { background: var(--glass); }
+.tabs button[aria-selected="true"] {
+  background: var(--glass-strong); border-color: var(--glass-edge);
+  box-shadow: var(--glass-rim), 0 6px 14px -6px rgba(91, 76, 240, .45);
+}
 
 /* ===== Карточки с плиткой ===== */
 .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
 .card { display: flex; flex-direction: column; gap: 4px; }
 .card[hidden] { display: none; }
 .card .tile {
-  aspect-ratio: 4 / 3; border-radius: var(--radius-lg); background: var(--tile);
-  display: grid; place-items: center; margin-bottom: 12px; transition: transform .2s;
+  aspect-ratio: 4 / 3; border-radius: var(--radius-lg);
+  display: grid; place-items: center; margin-bottom: 12px; transition: transform .2s, box-shadow .2s;
 }
-.card:hover .tile { transform: scale(1.02); }
+.card:hover .tile { transform: scale(1.02); box-shadow: var(--glass-rim), 0 22px 40px -18px rgba(52, 38, 120, .45); }
 .card .cat { font-size: 13px; color: var(--muted); }
 .card h3 { font-size: 18px; font-weight: 500; line-height: 1.3; }
 .card .meta { font-size: 14px; color: var(--muted); }
@@ -165,11 +269,17 @@ p a:not(.pill):not(.btn-outline), li a:not(.pill), .footer-legal a { text-decora
 .i-ai    { background: linear-gradient(160deg, #c9a8ff, #8f5cf0 50%, #d6458f); --glow: rgba(143, 92, 240, .6); }
 .i-soon  { background: linear-gradient(160deg, #e7e8ec, #c9cbd2); color: #8a8d96; text-shadow: none; --glow: rgba(0, 0, 0, .15); }
 
-/* ===== Тёмный блок с призывом к действию ===== */
+/* ===== Блок с призывом к действию: дымчатое стекло с цветной подсветкой ===== */
 .cta {
   margin-top: 88px; border-radius: var(--radius-xl);
-  background: var(--cta-bg); color: var(--cta-text); text-align: center;
-  padding: 72px 24px; border: 1px solid var(--line);
+  background:
+    radial-gradient(55% 110% at 0% 100%, rgba(124, 92, 255, .5), transparent 60%),
+    radial-gradient(45% 90% at 100% 0%, rgba(56, 189, 248, .32), transparent 60%),
+    radial-gradient(40% 80% at 85% 110%, rgba(236, 72, 153, .35), transparent 60%),
+    var(--cta-bg);
+  color: var(--cta-text); text-align: center;
+  padding: 72px 24px; border: 1px solid rgba(255, 255, 255, .12);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .2), 0 30px 60px -32px rgba(30, 20, 90, .6);
 }
 .cta .subtitle { color: inherit; opacity: .7; }
 .cta .actions { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
@@ -178,7 +288,6 @@ p a:not(.pill):not(.btn-outline), li a:not(.pill), .footer-legal a { text-decora
 .ai-note {
   display: flex; align-items: center; gap: 16px 20px; flex-wrap: wrap;
   margin-top: 24px; padding: 20px 24px; border-radius: var(--radius-lg);
-  background: var(--tile); border: 1px solid var(--line);
 }
 .ai-note .spark {
   width: 44px; height: 44px; flex: none; border-radius: 14px; display: grid; place-items: center;
@@ -200,7 +309,7 @@ p a:not(.pill):not(.btn-outline), li a:not(.pill), .footer-legal a { text-decora
 .footer-cols a:hover { color: var(--accent); }
 .footer-promo {
   display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap;
-  background: var(--tile); border-radius: var(--radius-lg); padding: 32px;
+  border-radius: var(--radius-lg); padding: 32px;
 }
 .footer-promo h3 { font-weight: 400; font-size: clamp(22px, 3vw, 30px); line-height: 1.2; letter-spacing: -.01em; }
 .footer-promo p { color: var(--muted); margin-top: 8px; font-size: 15px; }
@@ -212,6 +321,15 @@ p a:not(.pill):not(.btn-outline), li a:not(.pill), .footer-legal a { text-decora
 
 @media (max-width: 640px) {
   .cta { margin-top: 64px; padding: 56px 20px; border-radius: var(--radius-lg); }
+}
+
+/* ===== Большие цветные блоки — как толстое цветное стекло ===== */
+.hero, .hero-sm, .hero-design, .hero-ai, .doc-hero, .sw-promo, .case-promo {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .45),
+    inset 0 0 0 1px rgba(255, 255, 255, .12),
+    inset 0 -28px 56px -28px rgba(255, 255, 255, .2),
+    0 30px 60px -32px rgba(60, 40, 160, .55);
 }
 
 @media (max-width: 720px) {
