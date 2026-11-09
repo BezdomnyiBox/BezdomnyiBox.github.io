@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Как устроен LLM API — Владимир</title>
+  <meta name="description" content="Сообщения и роли, токены и окно контекста, параметры генерации, стоимость, задержка и надёжность — всё, что нужно бэкенд-разработчику перед первым запросом к модели.">
+  <!-- og: создаётся tools/seo.py, не редактируйте вручную -->
+  <link rel="canonical" href="https://bezdomnyibox.github.io/ai/llm-api.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Владимир — fullstack-разработчик">
+  <meta property="og:locale" content="ru_RU">
+  <meta property="og:title" content="Как устроен LLM API — Владимир">
+  <meta property="og:description" content="Сообщения и роли, токены и окно контекста, параметры генерации, стоимость, задержка и надёжность — всё, что нужно бэкенд-разработчику перед первым запросом к модели.">
+  <meta property="og:url" content="https://bezdomnyibox.github.io/ai/llm-api.html">
+  <meta property="og:image" content="https://bezdomnyibox.github.io/og/ai.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Как устроен LLM API — Владимир">
+  <meta name="twitter:card" content="summary_large_image">
+  <!-- /og -->
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#5b4cf0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"></noscript>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="../docs.css">
+  <script src="../theme.js"></script>
+  <script src="../layout.js" data-base="../" data-page="ai" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js" defer></script>
+</head>
+<body>
+  <header class="site-header" data-layout="header"></header>
+
+  <main class="wrap">
+    <div class="doc-hero" style="--hero-bg: radial-gradient(50% 90% at 88% 12%, rgba(143, 125, 255, .5) 0%, transparent 60%), linear-gradient(135deg, #0f131a, #1d3a6b 55%, #5b4cf0)">
+      <div>
+        <div class="crumbs"><a href="../ai.html">AI и LLM</a> / Основы</div>
+        <h1>Как устроен <b>LLM API</b></h1>
+        <p>Сообщения и роли, токены и окно контекста, параметры генерации, стоимость, задержка и надёжность — всё, что нужно бэкенд-разработчику перед первым запросом к модели.</p>
+        <div class="hero-facts"><span>7 уроков</span><span>~15 минут</span><span>OpenRouter · HTTP</span></div>
+      </div>
+      <div class="icon i-ts">API</div>
+    </div>
+
+    <div class="guide">
+      <aside class="toc">
+        <p class="toc-title">Содержание</p>
+        <ol><li><a href="#model">Модель — это функция от текста</a></li><li><a href="#roles">Роли сообщений</a></li><li><a href="#tokens">Токены и окно контекста</a></li><li><a href="#params">Параметры генерации</a></li><li><a href="#choice">Как выбрать модель</a></li><li><a href="#reliability">Надёжность: таймауты и повторы</a></li><li><a href="#ux">Ответ пользователю</a></li></ol>
+      </aside>
+
+      <div>
+        <section class="lesson" id="model">
+          <h2><span>01</span>Модель — это функция от текста</h2>
+          <p>Языковая модель получает список сообщений и возвращает следующее сообщение. Она <strong>ничего не помнит</strong> между запросами: историю диалога каждый раз отправляет ваше приложение.</p>
+          <pre data-file="Запрос к OpenRouter"><code class="language-http">POST https://openrouter.ai/api/v1/chat/completions
+Authorization: Bearer &lt;ключ из переменной окружения&gt;
+Content-Type: application/json
+
+{
+  "model": "anthropic/claude-haiku-5.5",
+  "messages": [
+    { "role": "system", "content": "Ты помощник магазина автозапчастей. Отвечай коротко, на «вы»." },
+    { "role": "user", "content": "Есть масляный фильтр на Solaris?" }
+  ],
+  "max_tokens": 300,
+  "temperature": 0.3
+}</code></pre>
+          <pre data-file="Ответ"><code class="language-json">{
+  "choices": [{
+    "message": { "role": "assistant", "content": "Подскажите, пожалуйста, год выпуска и объём двигателя." },
+    "finish_reason": "stop"
+  }],
+  "usage": { "prompt_tokens": 48, "completion_tokens": 21 }
+}</code></pre>
+          <p>OpenRouter — это шлюз: один ключ и один формат запроса для моделей разных компаний. Сменить модель — значит поменять одну строку <code>model</code>.</p>
+        </section>
+        <section class="lesson" id="roles">
+          <h2><span>02</span>Роли сообщений</h2>
+          <ul><li><strong>system</strong> — правила поведения: кто ассистент, как отвечать, чего не делать. Читается моделью в начале каждого запроса.</li><li><strong>user</strong> — сообщения клиента.</li><li><strong>assistant</strong> — прошлые ответы модели. Их нужно отправлять обратно, иначе модель «забудет» разговор.</li><li><strong>tool</strong> — результаты вызова ваших инструментов (подробно — в гайде про tool calling).</li></ul>
+          <p>Системный промпт — это не секрет и не защита. Пользователь может уговорить модель пересказать его, поэтому ключи, пароли и внутренние правила доступа туда не кладут.</p>
+        </section>
+        <section class="lesson" id="tokens">
+          <h2><span>03</span>Токены и окно контекста</h2>
+          <ul><li>Модель читает и пишет <strong>токенами</strong> — кусками слов. Русский текст обычно занимает больше токенов, чем такой же английский.</li><li><strong>Окно контекста</strong> — сколько токенов модель видит за раз: системный промпт, вся история, описания инструментов и ответ.</li><li>Каждый новый ход отправляет <strong>всю историю заново</strong>, поэтому длинный диалог дорожает с каждым сообщением.</li><li>Стоимость = входные токены × цена входа + выходные токены × цена выхода. Выход обычно в несколько раз дороже входа.</li></ul>
+          <p>Длинную историю обрезают или сжимают: оставляют последние N сообщений, а старые заменяют кратким пересказом.</p>
+        </section>
+        <section class="lesson" id="params">
+          <h2><span>04</span>Параметры генерации</h2>
+          <ul><li><code>temperature</code> — степень случайности. 0–0,3 для фактов и работы с инструментами, выше — для творческих текстов.</li><li><code>max_tokens</code> — потолок длины ответа. Защищает от бесконечного текста и неожиданных счетов.</li><li><strong>Модели с рассуждением</strong> (reasoning) сначала «думают» скрытым текстом — отвечают точнее в сложных задачах, но дольше и дороже.</li></ul>
+          <p>Из практики: в чате поддержки замена модели с рассуждением на быструю модель без него сократила время ответа с 20–46 до ~16 секунд вместе с вызовами инструментов — качества для подбора запчастей хватило.</p>
+        </section>
+        <section class="lesson" id="choice">
+          <h2><span>05</span>Как выбрать модель</h2>
+          <ul><li><strong>Скорость важнее ума</strong> в чатах с клиентами: каждые лишние 10 секунд ожидания теряют собеседника.</li><li><strong>Надёжный вызов инструментов</strong> — главное требование для ассистента, который ищет данные. Проверяйте на своих сценариях, а не по рейтингам.</li><li><strong>Цена</strong> считается на реальных диалогах: средняя длина истории × число сообщений в день.</li><li>Держите 2–3 запасные модели в конфиге закомментированными — переключение займёт минуту.</li></ul>
+        </section>
+        <section class="lesson" id="reliability">
+          <h2><span>06</span>Надёжность: таймауты и повторы</h2>
+          <p>Модели отвечают секундами, а провайдеры иногда отдают 429 (слишком много запросов) или 5xx. Запрос должен иметь таймаут и повторы с паузой:</p>
+          <pre data-file="config/packages/framework.yaml"><code class="language-yaml">framework:
+    http_client:
+        scoped_clients:
+            openrouter.client:
+                base_uri: 'https://openrouter.ai/'
+                timeout: 60
+                retry_failed:
+                    http_codes:
+                        429: true
+                        502: true
+                        503: true
+                        504: true
+                    max_retries: 2</code></pre>
+          <p>Повторять можно только запрос к модели. Если инструмент уже создал заявку или заказ, повтор всего хода создаст дубль — такие действия должны быть идемпотентными.</p>
+        </section>
+        <section class="lesson" id="ux">
+          <h2><span>07</span>Ответ пользователю</h2>
+          <ul><li><strong>Стриминг</strong> — показывать ответ по мере генерации. Ощущается в разы быстрее, даже если полное время то же.</li><li><strong>Структурированные данные отдельно от текста:</strong> карточки товаров, кнопки быстрых ответов. Модель не должна перепечатывать цены — она может ошибиться в цифре.</li><li><strong>Понятные ошибки:</strong> «Не удалось получить ответ, попробуйте ещё раз» вместо зависшего индикатора.</li></ul>
+          <div class="tiles"><div class="good"><h3>Запомнить</h3><ul><li>Модель не помнит прошлое — историю хранит приложение.</li><li>Системный промпт не секрет.</li><li>Низкая temperature для фактов и инструментов.</li><li>Таймауты, повторы и потолок токенов.</li></ul></div><div class="bad"><h3>Частые ошибки</h3><ul><li>Ключ API во фронтенде или в промпте.</li><li>Бесконечная история без обрезки.</li><li>Повтор хода, который уже создал заказ.</li><li>Выбор модели по рейтингу, а не на своих сценариях.</li></ul></div></div>
+        </section>
+        <section class="lesson" id="next">
+          <h2>Что дальше</h2>
+          <p>Следующий шаг — научить модель пользоваться вашими данными через инструменты.</p>
+          <div class="next-steps"><a class="pill" href="../ai.html">Весь раздел «AI и LLM»</a><a class="pill ghost" href="tool-calling.html">Вызов инструментов</a><a class="pill ghost" href="../projects/ai-assistant.html">Кейс: AI-ассистент</a><a class="pill ghost" href="https://openrouter.ai/docs" target="_blank" rel="noopener">Документация OpenRouter ↗</a></div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer" data-layout="footer"></footer>
+</body>
+</html>

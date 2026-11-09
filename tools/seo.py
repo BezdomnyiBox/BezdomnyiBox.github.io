@@ -22,7 +22,7 @@ OG_BLOCK = re.compile(r"\n[ \t]*<!-- og: .*?<!-- /og -->", re.S)
 
 def pages():
     yield from sorted(ROOT.glob("*.html"))
-    for folder in ("projects", "guides", "design"):
+    for folder in ("projects", "guides", "design", "ai"):
         yield from sorted((ROOT / folder).glob("*.html"))
 
 
@@ -39,6 +39,8 @@ def image_of(rel):
         return "og/design.jpg"
     if rel.startswith("guide"):
         return "og/guides.jpg"
+    if rel.startswith("ai") or rel == "projects/ai-assistant.html":
+        return "og/ai.jpg"
     return "og/cover.jpg"
 
 

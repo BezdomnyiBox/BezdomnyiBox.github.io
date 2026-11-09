@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI и LLM — Владимир</title>
+  <meta name="description" content="Как подключить языковую модель к бэкенду: API и выбор модели, вызов инструментов, безопасность, тестирование и Symfony AI. Плюс кейс — AI-ассистент для магазина автозапчастей.">
+  <!-- og: создаётся tools/seo.py, не редактируйте вручную -->
+  <link rel="canonical" href="https://bezdomnyibox.github.io/ai.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Владимир — fullstack-разработчик">
+  <meta property="og:locale" content="ru_RU">
+  <meta property="og:title" content="AI и LLM — Владимир">
+  <meta property="og:description" content="Как подключить языковую модель к бэкенду: API и выбор модели, вызов инструментов, безопасность, тестирование и Symfony AI. Плюс кейс — AI-ассистент для магазина автозапчастей.">
+  <meta property="og:url" content="https://bezdomnyibox.github.io/ai.html">
+  <meta property="og:image" content="https://bezdomnyibox.github.io/og/ai.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="AI и LLM — Владимир">
+  <meta name="twitter:card" content="summary_large_image">
+  <!-- /og -->
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#5b4cf0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@500&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@500&display=swap"></noscript>
+  <link rel="stylesheet" href="styles.css">
+  <script src="theme.js"></script>
+  <script src="layout.js" data-base="" data-page="ai" defer></script>
+  <style>
+    .hero-ai {
+      position: relative; overflow: hidden; margin-top: 16px; border-radius: var(--radius-xl);
+      padding: 80px 24px 88px; text-align: center; color: #fff;
+      background:
+        radial-gradient(45% 80% at 14% 18%, rgba(255, 143, 179, .6) 0%, transparent 60%),
+        radial-gradient(45% 80% at 86% 86%, rgba(97, 218, 251, .5) 0%, transparent 60%),
+        linear-gradient(135deg, #160f2e, #3d2a8a 55%, #6a3fe0);
+    }
+    .hero-ai h1 { font-weight: 400; font-size: clamp(34px, 5.5vw, 60px); line-height: 1.08; letter-spacing: -.02em; }
+    .hero-ai h1 b { font-weight: 600; }
+    .hero-ai p { font-size: 18px; opacity: .85; max-width: 640px; margin: 18px auto 0; }
+    .hero-ai .actions { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+    .hero-ai .chat { display: inline-flex; flex-direction: column; gap: 8px; margin-top: 36px; text-align: left; max-width: 100%; }
+    .hero-ai .chat span { font: 500 13px/1.45 "JetBrains Mono", monospace; padding: 8px 12px; border-radius: 12px; background: rgba(255, 255, 255, .12); border: 1px solid rgba(255, 255, 255, .22); overflow-wrap: anywhere; }
+    .hero-ai .chat span:nth-child(2) { margin-left: 28px; background: rgba(95, 211, 163, .2); }
+    .hero-ai .chat span:nth-child(3) { margin-left: 56px; }
+    section { padding-top: 72px; }
+
+    .case-promo {
+      display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 24px;
+      margin-top: 24px; padding: 32px; border-radius: var(--radius-xl); color: #fff;
+      background: radial-gradient(45% 90% at 90% 20%, rgba(255, 143, 179, .45), transparent 60%), linear-gradient(135deg, #0f131a, #2b1d4f 50%, #8f3fb8);
+    }
+    .case-promo small { font-size: 13px; opacity: .75; text-transform: uppercase; letter-spacing: .08em; }
+    .case-promo h2 { font-weight: 400; font-size: clamp(24px, 3.4vw, 36px); line-height: 1.15; letter-spacing: -.02em; margin-top: 6px; }
+    .case-promo h2 b { font-weight: 600; }
+    .case-promo p { opacity: .8; margin-top: 8px; max-width: 600px; }
+    .case-promo .tools { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 14px; }
+    .case-promo .tools span { font: 500 12px "JetBrains Mono", monospace; padding: 4px 8px; border-radius: 8px; background: rgba(255, 255, 255, .14); }
+
+    .skills { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-top: 24px; }
+    .skills > div { background: var(--tile); border-radius: var(--radius-lg); padding: 22px 24px; }
+    .skills h3 { font-size: 17px; font-weight: 500; }
+    .skills p { margin-top: 6px; font-size: 14px; color: var(--muted); }
+
+    @media (max-width: 640px) {
+      .hero-ai { padding: 56px 20px 64px; border-radius: var(--radius-lg); }
+      .hero-ai .chat span:nth-child(n+2) { margin-left: 0; }
+      .case-promo { grid-template-columns: minmax(0, 1fr); padding: 24px 20px; border-radius: var(--radius-lg); }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header" data-layout="header"></header>
+
+  <main class="wrap">
+    <div class="hero-ai">
+      <h1>AI и LLM: <b>модель, которая работает с вашими данными</b></h1>
+      <p>Как подключить языковую модель к бэкенду так, чтобы она искала по каталогу, проверяла заказы и передавала заявки — без выдуманных цен и с проверкой прав в коде.</p>
+      <div class="actions">
+        <a class="pill" href="projects/ai-assistant.html">Кейс: AI-ассистент</a>
+        <a class="pill" href="#guides">Гайды</a>
+      </div>
+      <div class="chat" aria-hidden="true">
+        <span>клиент: Есть масляный фильтр на Solaris?</span>
+        <span>→ find_parts({ "article": "26300-35505" })</span>
+        <span>ассистент: Есть два варианта, оба в вашем пункте выдачи.</span>
+      </div>
+    </div>
+
+    <a class="case-promo" href="projects/ai-assistant.html">
+      <div>
+        <small>Кейс · коммерческий проект</small>
+        <h2>AI-ассистент <b>для магазина автозапчастей</b></h2>
+        <p>Symfony AI, OpenRouter и девять инструментов бэкенда. Пошаговая демонстрация: как модель вызывает инструменты и как контекст клиента защищён от подмены.</p>
+        <div class="tools" aria-hidden="true">
+          <span>find_parts</span><span>find_pickup_points</span><span>get_order_by_number</span><span>get_branch_schedule</span><span>create_manager_lead</span>
+        </div>
+      </div>
+      <span class="pill">Смотреть кейс →</span>
+    </a>
+
+    <div class="skills">
+      <div><h3>Подключение к данным</h3><p>Вызов инструментов: поиск по каталогу, заказы, справка, заявки менеджерам.</p></div>
+      <div><h3>Безопасность</h3><p>Права в коде инструментов, подписанный контекст клиента, ключи вне логов.</p></div>
+      <div><h3>Скорость и надёжность</h3><p>Выбор модели по задержке, таймауты, повторы, лимит вызовов за ход.</p></div>
+      <div><h3>Тесты</h3><p>Скриптованная модель, записанные ответы и живые диалоги по флагу.</p></div>
+    </div>
+
+    <section id="guides">
+      <h2 class="title">Гайды</h2>
+      <p class="subtitle">Пять коротких гайдов по порядку — от первого запроса к модели до ассистента на Symfony.</p>
+      <div class="grid" style="margin-top: 28px">
+        <a class="card" href="ai/llm-api.html">
+          <div class="tile"><div class="icon i-ts">API</div></div>
+          <span class="cat">Шаг 1 · Основы</span>
+          <h3>Как устроен LLM API</h3>
+          <span class="meta">Роли сообщений, токены и контекст, параметры, выбор модели, таймауты и повторы</span>
+        </a>
+        <a class="card" href="ai/tool-calling.html">
+          <div class="tile"><div class="icon i-react">fn()</div></div>
+          <span class="cat">Шаг 2 · Tool calling</span>
+          <h3>Вызов инструментов и агенты</h3>
+          <span class="meta">Цикл вызова, описания, результаты, побочные эффекты, когда агент не нужен</span>
+        </a>
+        <a class="card" href="ai/llm-security.html">
+          <div class="tile"><div class="icon i-ml">🔒</div></div>
+          <span class="cat">Шаг 3 · Безопасность</span>
+          <h3>Безопасность LLM-приложений</h3>
+          <span class="meta">Промпт-инъекции, подмена контекста, права в инструментах, утечки, лимиты</span>
+        </a>
+        <a class="card" href="ai/llm-testing.html">
+          <div class="tile"><div class="icon i-link">✓</div></div>
+          <span class="cat">Шаг 4 · Тесты</span>
+          <h3>Тестирование LLM-функций</h3>
+          <span class="meta">Пирамида тестов: без модели, скриптованная модель, кассеты, живые диалоги, evals</span>
+        </a>
+        <a class="card" href="ai/symfony-ai.html">
+          <div class="tile"><div class="icon i-sf">sf</div></div>
+          <span class="cat">Шаг 5 · PHP · Symfony</span>
+          <h3>Symfony AI на практике</h3>
+          <span class="meta">Пакеты, агент и чат в конфиге, инструменты на атрибутах, контекст и история</span>
+        </a>
+        <a class="card" href="projects/ai-assistant.html">
+          <div class="tile"><div class="icon i-ai">AI</div></div>
+          <span class="cat">Кейс</span>
+          <h3>AI-ассистент для магазина</h3>
+          <span class="meta">Всё из гайдов вместе: архитектура, инструменты, защита и тесты</span>
+        </a>
+      </div>
+    </section>
+
+    <div class="cta">
+      <h2 class="title">Нужен AI-ассистент для вашего сайта?</h2>
+      <p class="subtitle">Подключу LLM к вашим данным: поиск по каталогу, статусы заказов, заявки менеджерам — с проверкой прав и тестами.</p>
+      <div class="actions">
+        <a class="pill" href="https://t.me/BojooYkt" target="_blank" rel="noopener">Написать в Telegram</a>
+        <a class="pill" href="https://vladivostok.hh.ru/resume/4f7e2fceff09cc13af0039ed1f6261486c3437" target="_blank" rel="noopener">Резюме на HH.ru</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer" data-layout="footer"></footer>
+</body>
+</html>

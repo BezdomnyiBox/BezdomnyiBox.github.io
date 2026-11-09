@@ -48,7 +48,7 @@
       main: {
         kicker: 'Портфолио',
         title: 'Fullstack-<br><b>разработчик</b>',
-        chips: ['PHP · Symfony', 'React · TypeScript', 'Гайды', 'Дизайн'],
+        chips: ['PHP · Symfony', 'React · TypeScript', 'AI и LLM', 'Гайды', 'Дизайн'],
         icon: { text: '&lt;/&gt;', bg: 'linear-gradient(160deg, #a99bff, #5b4cf0 55%, #3d30b8)' },
       },
       guides: {
@@ -62,6 +62,12 @@
         title: 'Шрифты, законы<br><b>и 29 стилей</b>',
         chips: ['Глассморфизм', 'Неон', 'Нео-брутализм', 'Y2K', 'Material You'],
         icon: { text: 'Aa', bg: 'linear-gradient(160deg, #ff9dbd, #e8457a 55%, #b0204f)' },
+      },
+      ai: {
+        kicker: 'Раздел «AI и LLM»',
+        title: 'Модель + ваши<br><b>данные и API</b>',
+        chips: ['Tool calling', 'Symfony AI', 'OpenRouter', 'Безопасность', 'Тесты'],
+        icon: { text: 'AI', bg: 'linear-gradient(160deg, #c9a8ff, #8f5cf0 50%, #d6458f)' },
       },
     };
     const v = VARIANTS[new URLSearchParams(location.search).get('v')] || VARIANTS.main;

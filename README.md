@@ -11,16 +11,17 @@
 | `index.html` | Главная: технологии и примеры |
 | `guides.html` | Страница «Гайды» — карточки строятся из `guides-data.js` |
 | `guides-data.js` | **Список гайдов и полезных ссылок** — сюда добавлять новые |
-| `projects/*.html` | Кейсы проектов (мини-CRM) |
+| `projects/*.html` | Кейсы проектов: мини-CRM, AI-ассистент |
 | `guides/*.html` | Учебники по технологиям |
 | `design.html`, `design/*.html` | Раздел «Дизайн»: гайды, галерея стилей, переключатель стилей |
+| `ai.html`, `ai/*.html` | Раздел «AI и LLM»: гайды по LLM API, вызову инструментов, безопасности, тестам и Symfony AI |
 | `guide.html` | Учебник по стилям сайта |
 | `404.html` | Страница «не найдено» (пути в ней абсолютные) |
 | `layout.js` | Общие шапка и подвал для всех страниц |
 | `styles.css` | Общие стили и цвета светлой и тёмной темы |
 | `docs.css` | Вёрстка учебников: оглавление, уроки, подсветка кода |
 | `theme.js` | Переключатель темы |
-| `og/*.png` | Обложки для превью ссылок в Telegram, HH и соцсетях |
+| `og/*.jpg` | Обложки для превью ссылок в Telegram, HH и соцсетях |
 | `sitemap.xml`, `robots.txt` | Для поисковиков; `sitemap.xml` собирается скриптом |
 | `tools/` | Генератор учебников, Open Graph-теги, обложки — см. [tools/README.md](tools/README.md) |
 
@@ -35,7 +36,7 @@
   url: 'https://...',
   category: 'PHP',
   icon: 'php',
-  color: 'php' // php | sf | react | ts | css | docker | sql | ml | git | link
+  color: 'php' // php | sf | react | ts | css | docker | sql | ml | git | link | ai
 },
 ```
 

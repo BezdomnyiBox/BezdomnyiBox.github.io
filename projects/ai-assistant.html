@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI-ассистент для магазина автозапчастей — Владимир</title>
+  <meta name="description" content="Кейс: чат-ассистент на Symfony AI и OpenRouter. Девять инструментов бэкенда — поиск запчастей, пункты выдачи, статус заказа, график, заявка менеджеру; контекст клиента с защитой от подмены и тесты на четырёх уровнях.">
+  <!-- og: создаётся tools/seo.py, не редактируйте вручную -->
+  <link rel="canonical" href="https://bezdomnyibox.github.io/projects/ai-assistant.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Владимир — fullstack-разработчик">
+  <meta property="og:locale" content="ru_RU">
+  <meta property="og:title" content="AI-ассистент для магазина автозапчастей — Владимир">
+  <meta property="og:description" content="Кейс: чат-ассистент на Symfony AI и OpenRouter. Девять инструментов бэкенда — поиск запчастей, пункты выдачи, статус заказа, график, заявка менеджеру; контекст клиента с защитой от подмены и тесты на четырёх уровнях.">
+  <meta property="og:url" content="https://bezdomnyibox.github.io/projects/ai-assistant.html">
+  <meta property="og:image" content="https://bezdomnyibox.github.io/og/ai.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="AI-ассистент для магазина автозапчастей — Владимир">
+  <meta name="twitter:card" content="summary_large_image">
+  <!-- /og -->
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#5b4cf0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"></noscript>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="../docs.css">
+  <script src="../theme.js"></script>
+  <script src="../layout.js" data-base="../" data-page="ai" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js" defer></script>
+  <style>
+    .case-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+    .case-actions .pill.ghost { background: rgba(255, 255, 255, .14); color: #fff; }
+    .demo-note { font-size: 14px; opacity: .8; margin-top: 12px; }
+
+    .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-top: 24px; }
+    .stats > div { background: var(--tile); border-radius: var(--radius-lg); padding: 22px 24px; }
+    .stats b { display: block; font-size: 38px; font-weight: 600; letter-spacing: -.03em; line-height: 1; color: var(--accent); }
+    .stats span { display: block; margin-top: 10px; font-size: 14px; color: var(--muted); }
+
+    .lesson table { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 14px; }
+    .lesson th, .lesson td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+    .lesson th { font-weight: 500; color: var(--muted); font-size: 13px; }
+    .lesson td:first-child { white-space: nowrap; }
+    .table-wrap { overflow-x: auto; }
+
+    /* Цвета участников: светлая и тёмная тема */
+    .a-client { --c: #1d63b8; }
+    .a-site   { --c: #5f636e; }
+    .a-api    { --c: #6a3fe0; }
+    .a-model  { --c: #b8285a; }
+    .a-tool   { --c: #12784f; }
+    .a-bad    { --c: #b8321a; }
+    :root[data-theme="dark"] .a-client { --c: #7ab6f5; }
+    :root[data-theme="dark"] .a-site   { --c: #a9adb8; }
+    :root[data-theme="dark"] .a-api    { --c: #b9a8ff; }
+    :root[data-theme="dark"] .a-model  { --c: #ff8fb3; }
+    :root[data-theme="dark"] .a-tool   { --c: #5fd3a3; }
+    :root[data-theme="dark"] .a-bad    { --c: #ff9a85; }
+
+    /* Пошаговая демонстрация */
+    .sim { background: var(--tile); border-radius: var(--radius-lg); padding: 18px; margin-top: 18px; }
+    .sim-bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+    .sim-bar button { font: inherit; font-size: 14px; border: 1px solid var(--line); background: var(--bg); color: var(--text); border-radius: 999px; padding: 8px 14px; cursor: pointer; }
+    .sim-bar button[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: #fff; }
+    :root[data-theme="dark"] .sim-bar button[aria-pressed="true"] { color: #14151a; }   /* светлый акцент тёмной темы — тёмный текст для контраста */
+    .sim-bar .replay { margin-left: auto; }
+    .sim-intro { margin: 14px 0 0; font-size: 14px; color: var(--muted); max-width: none; }
+    .sim-steps { list-style: none; padding: 0; margin: 14px 0 0; display: flex; flex-direction: column; gap: 8px; }
+    .sim-step { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 12px; background: var(--bg); border-radius: 14px; padding: 12px 14px; border-left: 4px solid var(--c); transition: opacity .35s ease, transform .35s ease; }
+    .sim-step.wait { opacity: 0; transform: translateY(6px); }
+    .sim-step .who { font-size: 12px; font-weight: 600; color: var(--c); text-transform: uppercase; letter-spacing: .04em; padding-top: 3px; }
+    .sim-step p { margin: 0; font-size: 15px; color: var(--text); max-width: none; }
+    .sim-step pre.sim-code { margin: 8px 0 0; padding: 8px 10px; border-radius: 10px; background: var(--tile); font: 12.5px/1.5 "JetBrains Mono", monospace; color: var(--text); white-space: pre-wrap; word-break: break-word; }
+    .sim-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+    .sim-chips span { font-size: 13px; border-radius: 10px; padding: 6px 10px; background: var(--tile); color: var(--text); }
+    .sim-chips span.btn { border: 1px solid var(--accent); background: transparent; border-radius: 999px; }
+    @media (max-width: 560px) { .sim-step { grid-template-columns: minmax(0, 1fr); gap: 4px; } }
+    @media (prefers-reduced-motion: reduce) { .sim-step { transition: none; } }
+
+    /* Слои архитектуры */
+    .layers { display: flex; flex-direction: column; gap: 8px; margin-top: 18px; }
+    .layers .req { font: 500 13px "JetBrains Mono", monospace; color: var(--muted); padding-left: 4px; }
+    .layer { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 14px; align-items: start; background: var(--tile); border-radius: 18px; padding: 16px 18px; border-left: 4px solid var(--c); }
+    .layer > span { width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; font-weight: 600; color: #fff; background: var(--c); font-size: 14px; }
+    :root[data-theme="dark"] .layer > span { color: #14151a; }
+    .layer b { display: block; font-weight: 500; color: var(--text); }
+    .layer p { margin: 4px 0 0; font-size: 14px; color: var(--muted); max-width: none; }
+  </style>
+</head>
+<body>
+  <header class="site-header" data-layout="header"></header>
+
+  <main class="wrap">
+    <div class="doc-hero" style="--hero-bg: radial-gradient(50% 90% at 88% 12%, rgba(255, 143, 179, .5) 0%, transparent 60%), linear-gradient(135deg, #160f2e, #3d2a8a 55%, #8f3fb8)">
+      <div>
+        <div class="crumbs"><a href="../ai.html">AI и LLM</a> / PHP · Symfony AI · OpenRouter</div>
+        <h1>AI-ассистент <b>для магазина автозапчастей</b></h1>
+        <p>Чат на сайте подбирает запчасти по артикулу, находит пункты выдачи, сообщает статус заказа и передаёт заявку менеджеру. Модель ведёт разговор, а цены, наличие и статусы берёт только из инструментов бэкенда.</p>
+        <div class="hero-facts"><span>Symfony 7.4 · PHP 8.2</span><span>Symfony AI · OpenRouter</span><span>Tool calling · 9 инструментов</span></div>
+        <div class="case-actions">
+          <a class="pill" href="#flow">Как это работает</a>
+          <a class="pill ghost" href="../ai.html">Гайды по LLM</a>
+          <a class="pill ghost" href="https://t.me/BojooYkt" target="_blank" rel="noopener">Обсудить в Telegram</a>
+        </div>
+        <p class="demo-note">Коммерческий проект, код закрыт. Здесь — архитектура и упрощённые примеры, написанные для этой страницы; название магазина и внутренние детали опущены.</p>
+      </div>
+      <div class="icon i-ai">AI</div>
+    </div>
+
+    <div class="stats">
+      <div><b>9</b><span>инструментов бэкенда — модель берёт цены, наличие и статусы только из них</span></div>
+      <div><b>~16 с</b><span>ответ вместе с вызовами инструментов вместо 20–46 с у модели с рассуждением</span></div>
+      <div><b>8</b><span>максимум вызовов инструментов за ход — агент не зациклится и не потратит лишнего</span></div>
+      <div><b>21</b><span>тест на четырёх уровнях: от юнит-тестов до живых диалогов с моделью</span></div>
+    </div>
+
+    <div class="guide">
+      <aside class="toc">
+        <p class="toc-title">Содержание</p>
+        <ol>
+          <li><a href="#task">Задача</a></li>
+          <li><a href="#flow">Путь одного сообщения</a></li>
+          <li><a href="#arch">Архитектура</a></li>
+          <li><a href="#tools">Инструменты</a></li>
+          <li><a href="#context">Контекст клиента</a></li>
+          <li><a href="#security">Защита от подмены</a></li>
+          <li><a href="#model">Модель и надёжность</a></li>
+          <li><a href="#tests">Как это проверено</a></li>
+          <li><a href="#next">Что дальше</a></li>
+        </ol>
+      </aside>
+
+      <div>
+        <section class="lesson" id="task">
+          <h2><span>01</span>Задача</h2>
+          <p>Магазину автозапчастей нужен ассистент на сайте, который снимет с менеджеров типовые вопросы: есть ли деталь и сколько стоит, где ближайший пункт выдачи и до скольки он работает, где мой заказ. Сложное — передать человеку, не теряя то, что клиент уже рассказал.</p>
+          <ul>
+            <li><strong>Никаких выдуманных цен.</strong> Модель не знает остатков и прайса — всё берётся из базы через инструменты.</li>
+            <li><strong>Чужие данные недоступны.</strong> Статус заказа — только тому, чей это заказ, даже если запрос отправлен в обход сайта.</li>
+            <li><strong>Быстро.</strong> Клиент в чате не ждёт минуту: ответ вместе с поиском — за секунды.</li>
+            <li><strong>Модель можно сменить</strong> одной строкой конфигурации, не переписывая код.</li>
+          </ul>
+        </section>
+
+        <section class="lesson" id="flow">
+          <h2><span>02</span>Путь одного сообщения</h2>
+          <p>Выберите сценарий — шаги покажут, кто что делает: клиент, сайт, контроллер, модель и инструменты. Данные в примерах вымышленные.</p>
+          <div class="sim" id="sim">
+            <div class="sim-bar" role="group" aria-label="Сценарий">
+              <button type="button" data-s="order" aria-pressed="true">Статус заказа</button>
+              <button type="button" data-s="spoof" aria-pressed="false">Попытка подмены</button>
+              <button type="button" data-s="part" aria-pressed="false">Запчасть и менеджер</button>
+              <button type="button" class="replay">↻ Повторить</button>
+            </div>
+            <p class="sim-intro" id="sim-intro"></p>
+            <ol class="sim-steps" id="sim-steps"></ol>
+            <noscript><p class="sim-intro">Для пошаговой демонстрации нужен JavaScript. Коротко: сайт передаёт контекст клиента с секретом, модель просит вызвать инструмент, инструмент проверяет права и возвращает факты, модель пишет ответ.</p></noscript>
+          </div>
+        </section>
+
+        <section class="lesson" id="arch">
+          <h2><span>03</span>Архитектура</h2>
+          <div class="layers">
+            <div class="req">↓ сообщение из виджета чата на сайте</div>
+            <div class="layer a-site"><span>1</span><div><b>Сервер сайта</b><p>Добавляет контекст — кто в чате: id пользователя, телефон или гостевой id — и подписывает запрос секретом в заголовке <code>X-Ai-Site-Secret</code>.</p></div></div>
+            <div class="layer a-api"><span>2</span><div><b>Контроллер <code>POST /api/ai/chat</code></b><p>Проверяет секрет, валидирует запрос, обновляет профиль чата. Без ключа модели отвечает <code>503</code>, при сбое провайдера — <code>502</code> с понятным текстом.</p></div></div>
+            <div class="layer a-api"><span>3</span><div><b>Чат — <code>symfony/ai-chat</code></b><p>Достаёт историю диалога из базы через своё хранилище сообщений и дописывает в неё новые ходы.</p></div></div>
+            <div class="layer a-model"><span>4</span><div><b>Агент и модель через OpenRouter</b><p>Агент отправляет модели историю, системный промпт и описания инструментов. Модель отвечает текстом или просьбой вызвать инструмент — до 8 вызовов за ход.</p></div></div>
+            <div class="layer a-tool"><span>5</span><div><b>Инструменты — 9 PHP-сервисов</b><p>Ищут в базе магазина, проверяют права и возвращают модели короткий текст с фактами. Карточки товаров и кнопки быстрых ответов кладут отдельно.</p></div></div>
+            <div class="req">↑ ответ: текст модели + карточки товаров + кнопки быстрых ответов</div>
+          </div>
+        </section>
+
+        <section class="lesson" id="tools">
+          <h2><span>04</span>Инструменты</h2>
+          <p>Каждый инструмент — сервис с атрибутом <code>#[AsTool]</code>. Описание объясняет модели, когда его вызывать, а проверки живут в коде.</p>
+          <div class="table-wrap"><table>
+            <tr><th>Инструмент</th><th>Что делает</th></tr>
+            <tr><td><code>find_parts</code></td><td>Цена, наличие и срок по артикулу в выбранном пункте выдачи. Карточки уходят на фронтенд отдельно, модели — краткая сводка.</td></tr>
+            <tr><td><code>find_pickup_points</code></td><td>Пункты выдачи в городе. Выбранный пункт сохраняется только после подтверждения клиента.</td></tr>
+            <tr><td><code>get_branch_schedule</code></td><td>Часы работы пункта на сегодня и его телефон.</td></tr>
+            <tr><td><code>get_order_by_number</code></td><td>Статус заказа — только если телефон собеседника совпадает с телефоном в заказе.</td></tr>
+            <tr><td><code>save_qualification</code></td><td>Запоминает в профиле чата имя, город, пункт выдачи, VIN и что ищет клиент.</td></tr>
+            <tr><td><code>search_help</code></td><td>Ответы из справки магазина: гарантия, возврат, выбор пункта.</td></tr>
+            <tr><td><code>get_customer_profile</code></td><td>Клиент в основной базе: последние заказы и сохранённые автомобили.</td></tr>
+            <tr><td><code>get_recent_conversations</code></td><td>Последние обращения клиента в других каналах — чтобы не переспрашивать.</td></tr>
+            <tr><td><code>create_manager_lead</code></td><td>Заявка менеджеру с телефоном и комментарием — когда ассистент не может закрыть вопрос сам.</td></tr>
+          </table></div>
+<pre data-file="Пример: инструмент статуса заказа (упрощённо)"><code class="language-php">#[AsTool(
+    name: 'get_order_by_number',
+    description: 'Статус одного заказа по номеру. Телефон подтверждает, что заказ принадлежит клиенту. '
+        .'Если телефон уже известен из профиля, параметр phone не нужен.',
+)]
+final class GetOrderByNumberTool
+{
+    public function __invoke(string $orderNumber, ?string $phone = null): string
+    {
+        $phone = PhoneNormalizer::normalize($phone ?? $this->context->profile()?->getPhone());
+        if ($phone === null) {
+            return 'Телефон не известен. Попроси клиента назвать телефон из заказа.';
+        }
+
+        $order = $this->orders->findByNumber($orderNumber);
+        if ($order === null) {
+            return 'Заказ с таким номером не найден.';
+        }
+
+        if (!in_array($phone, $order->phones(), true)) {
+            return 'Телефон не совпадает с заказом. Детали заказа не сообщай.';
+        }
+
+        return sprintf('Заказ №%s: %s, пункт выдачи: %s', $order->number(), $order->statusLabel(), $order->branchAddress());
+    }
+}</code></pre>
+        </section>
+
+        <section class="lesson" id="context">
+          <h2><span>05</span>Контекст клиента</h2>
+          <p>Если клиент вошёл на сайт, ассистент не должен спрашивать его телефон. Поэтому сайт передаёт контекст, а бэкенд хранит <strong>профиль чата</strong>:</p>
+          <ul>
+            <li><strong>Профиль в базе</strong>: телефон и id с сайта, имя, город, выбранный пункт выдачи, VIN и что ищет клиент. Переживает перезагрузку страницы.</li>
+            <li><strong>Контекст запроса</strong> — сервис, который контроллер заполняет до вызова модели. Инструменты берут телефон оттуда, поэтому он для модели необязательный аргумент.</li>
+            <li><strong>Процессор входа агента</strong> перед каждым вызовом добавляет известные данные профиля в начало истории — модель не переспрашивает город и машину.</li>
+            <li><strong>Быстрые ответы и карточки</strong> инструменты кладут в отдельные списки, которые уходят на фронтенд рядом с текстом: кнопки «Да, этот пункт», карточки с ценой из базы.</li>
+          </ul>
+        </section>
+
+        <section class="lesson" id="security">
+          <h2><span>06</span>Защита от подмены контекста</h2>
+          <p>Контекст приходит в теле запроса, а тело может прислать кто угодно — через curl или консоль браузера, с чужим телефоном. Поэтому контроллер доверяет контексту, только если запрос подписан секретом, который знает лишь сервер сайта:</p>
+<pre data-file="Контроллер чата (упрощённо)"><code class="language-php">$payload = $request->toArray();
+
+if (!$this->isTrustedSite($request)) {
+    // Без секрета context — просто поле из запроса, а не личность клиента
+    unset($payload['context']);
+}
+
+private function isTrustedSite(Request $request): bool
+{
+    $provided = (string) $request->headers->get('X-Ai-Site-Secret', '');
+
+    // hash_equals сравнивает за постоянное время: секрет не подобрать по задержке ответа
+    return $this->siteSecret !== '' && $provided !== '' && hash_equals($this->siteSecret, $provided);
+}</code></pre>
+          <ul>
+            <li><strong>Права — в коде инструментов, а не в промпте.</strong> Уговорить модель можно, обойти <code>if</code> в PHP — нет. Отказ инструмент возвращает текстом, и модель передаёт его клиенту.</li>
+            <li><strong>Ключ API не попадает в логи:</strong> перед записью ошибки он заменяется на <code>[redacted]</code>.</li>
+            <li><strong>Лимит вызовов</strong> инструментов за ход защищает от зацикливания и лишних расходов.</li>
+            <li><strong>Модель не перепечатывает цены</strong>: карточки идут из базы отдельно от её текста.</li>
+          </ul>
+          <p>Подробнее о рисках LLM-приложений — в гайде «<a href="../ai/llm-security.html">Безопасность LLM-приложений</a>».</p>
+        </section>
+
+        <section class="lesson" id="model">
+          <h2><span>07</span>Модель, скорость и надёжность</h2>
+          <ul>
+            <li><strong>Быстрая модель без рассуждения.</strong> Исходная модель «думала» перед ответом, и клиент ждал 20–46 секунд. Быстрая модель отвечает за ~16 секунд вместе с вызовами инструментов — для подбора запчастей точности хватает.</li>
+            <li><strong>Смена модели — одна строка.</strong> OpenRouter даёт единый API к разным провайдерам; в конфиге закомментированы запасные варианты с пометками о скорости и цене.</li>
+            <li><strong>Таймаут 60 секунд и два повтора</strong> на ответы 429 и 5xx — через отдельный HTTP-клиент Symfony только для OpenRouter.</li>
+            <li><strong>Общий нормализатор телефонов</strong> вместо копий в каждом инструменте: «8 900…», «+7 (900)…» и «900…» приводятся к одному виду.</li>
+          </ul>
+        </section>
+
+        <section class="lesson" id="tests">
+          <h2><span>08</span>Как это проверено</h2>
+          <p>LLM отвечает по-разному, стоит денег и работает секундами, поэтому большинство тестов обходится без настоящей модели:</p>
+          <div class="table-wrap"><table>
+            <tr><th>Уровень</th><th>Что проверяет</th></tr>
+            <tr><td><strong>Юнит-тесты</strong></td><td>Разбор запроса чата (пустое сообщение, подмена id сессии, кривой контекст), нормализация телефонов и инструмент заказа — 8 сценариев, включая «телефон не совпал — детали не утекли».</td></tr>
+            <tr><td><strong>Контракт агента</strong></td><td>Настоящий агент Symfony AI с инструментом, но модель — скриптованная подмена. Проверяет цепочку «модель → инструмент → модель» и что отказ по безопасности доходит до ответа без изменений.</td></tr>
+            <tr><td><strong>Кассеты</strong></td><td>Записанные ответы OpenRouter проигрываются без сети. Пока кассета не записана, тест помечается пропущенным, а не падает.</td></tr>
+            <tr><td><strong>Живые диалоги</strong></td><td>Многоходовые разговоры с настоящей моделью и инструментами. Запускаются только явно: <code>AI_LIVE_TESTS=1</code> и ключ в окружении.</td></tr>
+          </table></div>
+          <p>Подход подробно — в гайде «<a href="../ai/llm-testing.html">Тестирование LLM-функций</a>».</p>
+        </section>
+
+        <section class="lesson" id="next">
+          <h2><span>09</span>Что дальше</h2>
+          <p>Что я бы добавил следующим:</p>
+          <ul>
+            <li>стриминг ответа — текст появляется по мере генерации;</li>
+            <li>поиск по справке через векторное хранилище (RAG) — заготовка в конфигурации уже есть;</li>
+            <li>записать кассеты и прогонять их в CI, набор оценок качества (evals) перед сменой модели;</li>
+            <li>подтверждение телефона кодом из SMS перед показом персональных данных;</li>
+            <li>учёт стоимости диалогов и лимиты на сессию.</li>
+          </ul>
+          <div class="next-steps">
+            <a class="pill" href="../ai.html">Раздел «AI и LLM»</a>
+            <a class="pill ghost" href="../ai/tool-calling.html">Вызов инструментов</a>
+            <a class="pill ghost" href="../ai/symfony-ai.html">Symfony AI на практике</a>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <div class="cta">
+      <h2 class="title">Нужен AI-ассистент для вашего сайта?</h2>
+      <p class="subtitle">Подключу LLM к вашим данным: поиск по каталогу, статусы заказов, заявки менеджерам — с проверкой прав и тестами.</p>
+      <div class="actions">
+        <a class="pill" href="https://t.me/BojooYkt" target="_blank" rel="noopener">Написать в Telegram</a>
+        <a class="pill" href="https://vladivostok.hh.ru/resume/4f7e2fceff09cc13af0039ed1f6261486c3437" target="_blank" rel="noopener">Резюме на HH.ru</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer" data-layout="footer"></footer>
+
+  <script>
+    (function () {
+      // Сценарии демонстрации. who: класс участника, text: что происходит, code/chips — детали.
+      var A = { client: 'Клиент', site: 'Сайт', api: 'Контроллер', model: 'Модель', tool: 'Инструмент', bad: 'Чужой запрос' };
+      var S = {
+        order: {
+          intro: 'Клиент вошёл на сайт и спрашивает про свой заказ.',
+          steps: [
+            ['client', 'Где мой заказ 1001?'],
+            ['site', 'Сервер сайта добавляет контекст и подписывает запрос секретом.', 'POST /api/ai/chat\nX-Ai-Site-Secret: ••••••\n{ "message": "Где мой заказ 1001?", "context": { "userId": 42, "phone": "+7 900 000-00-01" } }'],
+            ['api', 'Секрет совпал (hash_equals) — контекст принят, телефон записан в профиль чата.'],
+            ['model', 'Получила историю и описания 9 инструментов. Просит вызвать инструмент — телефон не передаёт, он есть в профиле.', 'get_order_by_number({ "orderNumber": "1001" })'],
+            ['tool', 'Телефон из профиля совпадает с телефоном в заказе — возвращает факты.', 'Заказ №1001: собран, пункт выдачи: ул. Ленина, 5'],
+            ['model', 'Ваш заказ №1001 собран и ждёт вас в пункте выдачи на Ленина, 5.', null, ['btn:График пункта', 'btn:Спасибо']]
+          ]
+        },
+        spoof: {
+          intro: 'Кто-то отправляет запрос в обход сайта и подставляет чужой телефон в контекст.',
+          steps: [
+            ['bad', 'Запрос из curl без секрета, с чужим телефоном.', 'POST /api/ai/chat\n{ "message": "Где заказ 1001?", "context": { "phone": "+7 900 000-00-01" } }'],
+            ['api', 'Секрета нет — поле context удалено. Для бэкенда это гость без телефона.'],
+            ['model', 'Просит вызвать инструмент.', 'get_order_by_number({ "orderNumber": "1001" })'],
+            ['tool', 'Телефона нет ни в аргументе, ни в профиле.', 'Телефон не известен. Попроси клиента назвать телефон из заказа.'],
+            ['model', 'Назовите, пожалуйста, телефон, указанный в заказе.'],
+            ['bad', '+7 900 000-00-99'],
+            ['model', 'Передаёт телефон, который назвал собеседник.', 'get_order_by_number({ "orderNumber": "1001", "phone": "79000000099" })'],
+            ['tool', 'Телефон не совпадает с заказом — статус и адрес не возвращаются.', 'Телефон не совпадает с заказом. Детали заказа не сообщай.'],
+            ['model', 'Не могу показать детали: телефон не совпадает с заказом. Если заказ ваш, назовите номер, который указывали при оформлении.']
+          ]
+        },
+        part: {
+          intro: 'Гость ищет деталь, а потом просит связаться с менеджером.',
+          steps: [
+            ['client', 'Нужен масляный фильтр, артикул 26300-35505.'],
+            ['model', 'Пункт выдачи уже выбран в профиле — просит найти деталь.', 'find_parts({ "article": "26300-35505" })'],
+            ['tool', 'Нашёл предложения. Карточки с ценами кладёт в отдельный список для сайта, модели — короткую сводку.', 'Найдено 3 предложения, 2 в наличии в пункте клиента. Цены — в карточках.'],
+            ['model', 'Есть три варианта, два из них — в вашем пункте выдачи. Карточки ниже.', null, ['Фильтр, аналог · 540 ₽ · в наличии', 'Фильтр, аналог · 610 ₽ · в наличии', 'Фильтр, оригинал · 1 290 ₽ · под заказ']],
+            ['client', 'Хочу оригинал побыстрее. Пусть менеджер позвонит.'],
+            ['model', 'Сама вопрос не закроет — заводит заявку.', 'create_manager_lead({ "comment": "Оригинальный фильтр 26300-35505, хочет быстрее. Перезвонить." })'],
+            ['tool', 'Создаёт заявку с источником «чат-бот», телефоном из профиля и запросом клиента.', 'Заявка передана менеджеру.'],
+            ['model', 'Заявка передана менеджеру — он перезвонит в рабочее время.', null, ['btn:Хорошо', 'btn:Другой вопрос']]
+          ]
+        }
+      };
+
+      var root = document.getElementById('sim');
+      var list = document.getElementById('sim-steps');
+      var intro = document.getElementById('sim-intro');
+      var buttons = root.querySelectorAll('[data-s]');
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var current = 'order';
+      var timers = [];
+
+      function el(tag, cls, text) {
+        var e = document.createElement(tag);
+        if (cls) e.className = cls;
+        if (text != null) e.textContent = text;
+        return e;
+      }
+
+      function render(name, animate) {
+        timers.forEach(clearTimeout);
+        timers = [];
+        current = name;
+        buttons.forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.s === name)); });
+        intro.textContent = S[name].intro;
+        list.textContent = '';
+        S[name].steps.forEach(function (s, i) {
+          var li = el('li', 'sim-step a-' + s[0] + (animate ? ' wait' : ''));
+          li.appendChild(el('span', 'who', A[s[0]]));
+          var body = el('div');
+          body.appendChild(el('p', null, s[1]));
+          if (s[2]) body.appendChild(el('pre', 'sim-code', s[2]));
+          if (s[3]) {
+            var chips = el('div', 'sim-chips');
+            s[3].forEach(function (c) {
+              var isBtn = c.indexOf('btn:') === 0;
+              chips.appendChild(el('span', isBtn ? 'btn' : null, isBtn ? c.slice(4) : c));
+            });
+            body.appendChild(chips);
+          }
+          li.appendChild(body);
+          list.appendChild(li);
+          if (animate) timers.push(setTimeout(function () { li.classList.remove('wait'); }, 150 + i * 750));
+        });
+      }
+
+      buttons.forEach(function (b) {
+        b.addEventListener('click', function () { render(b.dataset.s, !reduce); });
+      });
+      root.querySelector('.replay').addEventListener('click', function () { render(current, !reduce); });
+
+      // Без анимации видно сразу; анимация запускается, когда блок доезжает до экрана
+      render('order', false);
+      if (!reduce && 'IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function (entries) {
+          if (entries[0].isIntersecting) { io.disconnect(); render(current, true); }
+        }, { rootMargin: '0px 0px -35% 0px' });   // блок высокий: ждём, пока его верх поднимется в верхние 65% экрана
+        io.observe(root);
+      }
+    })();
+  </script>
+</body>
+</html>

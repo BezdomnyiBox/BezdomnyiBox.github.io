@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Тестирование LLM-функций — Владимир</title>
+  <meta name="description" content="Как тестировать то, что отвечает по-разному, стоит денег и работает секундами: пирамида тестов от обычных юнит-тестов до живых диалогов и оценок качества.">
+  <!-- og: создаётся tools/seo.py, не редактируйте вручную -->
+  <link rel="canonical" href="https://bezdomnyibox.github.io/ai/llm-testing.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Владимир — fullstack-разработчик">
+  <meta property="og:locale" content="ru_RU">
+  <meta property="og:title" content="Тестирование LLM-функций — Владимир">
+  <meta property="og:description" content="Как тестировать то, что отвечает по-разному, стоит денег и работает секундами: пирамида тестов от обычных юнит-тестов до живых диалогов и оценок качества.">
+  <meta property="og:url" content="https://bezdomnyibox.github.io/ai/llm-testing.html">
+  <meta property="og:image" content="https://bezdomnyibox.github.io/og/ai.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Тестирование LLM-функций — Владимир">
+  <meta name="twitter:card" content="summary_large_image">
+  <!-- /og -->
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#5b4cf0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"></noscript>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="../docs.css">
+  <script src="../theme.js"></script>
+  <script src="../layout.js" data-base="../" data-page="ai" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js" defer></script>
+</head>
+<body>
+  <header class="site-header" data-layout="header"></header>
+
+  <main class="wrap">
+    <div class="doc-hero" style="--hero-bg: radial-gradient(50% 90% at 88% 12%, rgba(150, 240, 200, .45) 0%, transparent 60%), linear-gradient(135deg, #0b3d2e, #13855c 55%, #1d4f7a)">
+      <div>
+        <div class="crumbs"><a href="../ai.html">AI и LLM</a> / Тесты</div>
+        <h1>Тестирование <b>LLM-функций</b></h1>
+        <p>Как тестировать то, что отвечает по-разному, стоит денег и работает секундами: пирамида тестов от обычных юнит-тестов до живых диалогов и оценок качества.</p>
+        <div class="hero-facts"><span>6 уроков</span><span>~12 минут</span><span>PHPUnit</span></div>
+      </div>
+      <div class="icon i-link">✓</div>
+    </div>
+
+    <div class="guide">
+      <aside class="toc">
+        <p class="toc-title">Содержание</p>
+        <ol><li><a href="#pyramid">Пирамида тестов</a></li><li><a href="#unit">Инструменты — обычные классы</a></li><li><a href="#contract">Контракт агента с поддельной моделью</a></li><li><a href="#replay">Записанные ответы (кассеты)</a></li><li><a href="#live">Живые диалоги</a></li><li><a href="#evals">Оценки качества (evals)</a></li></ol>
+      </aside>
+
+      <div>
+        <section class="lesson" id="pyramid">
+          <h2><span>01</span>Пирамида тестов</h2>
+          <p>У LLM-фич три проблемы: ответы недетерминированы, каждый вызов стоит денег, а прогон идёт секундами. Поэтому основание пирамиды — тесты <strong>без модели</strong>, а настоящая модель — только наверху:</p>
+          <ul><li><strong>Обычный код</strong> — юнит-тесты: валидация запроса, нормализация телефона, каждый инструмент как PHP-класс.</li><li><strong>Контракт агента</strong> — настоящий агент и инструменты против поддельной модели со скриптованными ответами.</li><li><strong>Повтор записанных ответов</strong> (кассеты) — реальный ответ провайдера, проигранный без сети.</li><li><strong>Живые диалоги</strong> — настоящая модель, включаются вручную.</li><li><strong>Оценки качества</strong> (evals) — набор сценариев и проверок при смене модели или промпта.</li></ul>
+        </section>
+        <section class="lesson" id="unit">
+          <h2><span>02</span>Инструменты — обычные классы</h2>
+          <p>Инструмент — это функция с входом и выходом, его тестируют без всякой модели. Особенно важны отказы:</p>
+          <pre data-file="tests/Unit/Ai/GetOrderByNumberToolTest.php"><code class="language-php">public function testRefusesWhenPhoneDoesNotMatchOrder(): void
+{
+    $tool = $this-&gt;toolWithOrder(number: 1001, phone: '79000000001');
+
+    $result = ($tool)(orderNumber: '1001', phone: '+7 900 000-00-99');
+
+    self::assertStringContainsString('Телефон не совпадает', $result);
+    self::assertStringNotContainsString('Статус', $result);   // статус не утёк
+}
+
+public function testExtractsNumberFromFreeText(): void
+{
+    $tool = $this-&gt;toolWithOrder(number: 1001, phone: '79000000001');
+
+    self::assertStringContainsString('Заказ №1001', ($tool)('заказ №1001', '89000000001'));
+}</code></pre>
+        </section>
+        <section class="lesson" id="contract">
+          <h2><span>03</span>Контракт агента с поддельной моделью</h2>
+          <p>Цепочка «модель просит инструмент → библиотека вызывает PHP-класс → результат уходит обратно модели» проверяется с моделью, которая отвечает по сценарию. Так дёшево и одинаково при каждом прогоне.</p>
+          <pre><code class="language-php">public function testToolRefusalReachesFinalAnswerUnchanged(): void
+{
+    $model = new ScriptedModel([
+        ToolCall::of('get_order_by_number', ['orderNumber' =&gt; '1001', 'phone' =&gt; '79000000099']),
+        fn (array $toolResults) =&gt; 'Не могу показать детали: ' . $toolResults[0],   // финальный ответ
+    ]);
+    $agent = $this-&gt;agentWith($model, tools: [$this-&gt;orderTool]);
+
+    $answer = $agent-&gt;call('Где мой заказ 1001? Мой телефон 79000000099');
+
+    self::assertStringContainsString('Телефон не совпадает', $answer);
+}</code></pre>
+          <p><code>ScriptedModel</code> здесь — тестовая подмена платформы: очередь заранее заданных ответов вместо HTTP-запросов.</p>
+        </section>
+        <section class="lesson" id="replay">
+          <h2><span>04</span>Записанные ответы (кассеты)</h2>
+          <ul><li>Один раз прогоняем сценарий против настоящего API и записываем HTTP-ответы в файл.</li><li>В обычных прогонах подменяем HTTP-клиент: ответы берутся из файла — без сети и без оплаты.</li><li><strong>Перед коммитом вычищаем ключи</strong> из записанного файла.</li><li>Если кассеты ещё нет, тест помечается пропущенным, а не падает.</li></ul>
+          <p>Кассеты ловят регрессии в разборе ответа провайдера — например, когда библиотека или формат ответа обновились.</p>
+        </section>
+        <section class="lesson" id="live">
+          <h2><span>05</span>Живые диалоги</h2>
+          <p>Многоходовые разговоры с настоящей моделью и настоящими инструментами показывают, как ассистент ведёт себя целиком. Но они тратят токены и могут создать реальные записи — поэтому выключены по умолчанию:</p>
+          <pre><code class="language-bash">AI_LIVE_TESTS=1 OPENROUTER_API_KEY=... php bin/phpunit tests/Integration/Ai/AssistantLiveDialogueTest.php --testdox</code></pre>
+          <ul><li>Ключ передаётся явно, а в конфигурации тестов по умолчанию пустой — случайный прогон ничего не потратит.</li><li>Транскрипт печатается по ходу теста — удобно читать глазами.</li><li>Запускайте на тестовой базе: инструменты могут создать заявку.</li></ul>
+        </section>
+        <section class="lesson" id="evals">
+          <h2><span>06</span>Оценки качества (evals)</h2>
+          <p>Перед сменой модели или правкой промпта прогоните набор типичных диалогов и проверьте не точный текст, а <strong>свойства ответа</strong>:</p>
+          <ul><li>вызван нужный инструмент с нужными аргументами;</li><li>в ответе нет цен, которых не вернул инструмент;</li><li>ассистент не назвал статус чужого заказа;</li><li>ответ на русском и короче N символов.</li></ul>
+          <div class="tiles"><div class="good"><h3>Запомнить</h3><ul><li>Больше всего тестов — без модели.</li><li>Отказы инструментов тестируются первыми.</li><li>Живые тесты — только по явному флагу.</li><li>Проверяйте свойства ответа, а не точный текст.</li></ul></div><div class="bad"><h3>Частые ошибки</h3><ul><li>Каждый прогон CI ходит в платный API.</li><li>Ключ в записанной кассете.</li><li>assertEquals на текст ответа модели.</li><li>Смена модели без прогона сценариев.</li></ul></div></div>
+        </section>
+        <section class="lesson" id="next">
+          <h2>Что дальше</h2>
+          <p>Посмотрите, как всё это собрано вместе в Symfony.</p>
+          <div class="next-steps"><a class="pill" href="../ai.html">Весь раздел «AI и LLM»</a><a class="pill ghost" href="symfony-ai.html">Symfony AI на практике</a><a class="pill ghost" href="../projects/ai-assistant.html">Кейс: AI-ассистент</a></div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer" data-layout="footer"></footer>
+</body>
+</html>

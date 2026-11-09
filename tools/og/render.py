@@ -15,7 +15,7 @@ from PIL import Image
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 TEMPLATE = (ROOT / "tools" / "og" / "cover.html").as_uri()
 OUT = ROOT / "og"
-VARIANTS = {"main": "cover.jpg", "guides": "guides.jpg", "design": "design.jpg"}
+VARIANTS = {"main": "cover.jpg", "guides": "guides.jpg", "design": "design.jpg", "ai": "ai.jpg"}
 QUALITY = 85
 
 CANDIDATES = [

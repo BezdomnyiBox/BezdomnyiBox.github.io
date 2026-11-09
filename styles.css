@@ -162,6 +162,7 @@ p a:not(.pill):not(.btn-outline), li a:not(.pill), .footer-legal a { text-decora
 .i-sql   { background: linear-gradient(160deg, #ffd48a, #f29d16 55%, #c46f00); --glow: rgba(242, 157, 22, .55); }
 .i-ml    { background: linear-gradient(160deg, #ff9dbd, #e8457a 55%, #b0204f); --glow: rgba(232, 69, 122, .55); }
 .i-git   { background: linear-gradient(160deg, #ffa58a, #f05033 55%, #c2361c); --glow: rgba(240, 80, 51, .55); }
+.i-ai    { background: linear-gradient(160deg, #c9a8ff, #8f5cf0 50%, #d6458f); --glow: rgba(143, 92, 240, .6); }
 .i-soon  { background: linear-gradient(160deg, #e7e8ec, #c9cbd2); color: #8a8d96; text-shadow: none; --glow: rgba(0, 0, 0, .15); }
 
 /* ===== Тёмный блок с призывом к действию ===== */

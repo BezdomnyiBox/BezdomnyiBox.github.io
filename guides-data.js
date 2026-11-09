@@ -6,7 +6,7 @@
 //   url         — ссылка: свой учебник ("guides/имя.html") или внешний сайт ("https://...")
 //   category    — подпись над названием (например, "PHP · Symfony")
 //   icon        — текст на иконке (2–3 символа)
-//   color       — цвет иконки: php | sf | react | ts | css | docker | sql | ml | git | link
+//   color       — цвет иконки: php | sf | react | ts | css | docker | sql | ml | git | link | ai
 
 // Учебники, написанные для этого сайта
 window.OWN_GUIDES = [
@@ -80,6 +80,30 @@ window.OWN_GUIDES = [
     url: 'guides/ml.html',
     category: 'Data · ML',
     icon: 'ML',
+    color: 'ml'
+  },
+  {
+    title: 'AI и LLM: пять гайдов',
+    description: 'LLM API, вызов инструментов, безопасность, тестирование и Symfony AI — на примере реального ассистента.',
+    url: 'ai.html',
+    category: 'AI · LLM',
+    icon: 'AI',
+    color: 'ai'
+  },
+  {
+    title: 'Вызов инструментов и агенты',
+    description: 'Как модель вызывает функции бэкенда: цикл, описания, результаты, побочные эффекты.',
+    url: 'ai/tool-calling.html',
+    category: 'AI · LLM',
+    icon: 'fn()',
+    color: 'react'
+  },
+  {
+    title: 'Безопасность LLM-приложений',
+    description: 'Промпт-инъекции, подмена контекста клиента, права в инструментах, утечки ключей.',
+    url: 'ai/llm-security.html',
+    category: 'AI · LLM',
+    icon: '🔒',
     color: 'ml'
   },
   {

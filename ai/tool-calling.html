@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Вызов инструментов и агенты — Владимир</title>
+  <meta name="description" content="Как модель «нажимает кнопки» в вашем бэкенде: цикл вызова инструментов, описания, которые модель понимает, результаты, побочные эффекты и когда агент не нужен.">
+  <!-- og: создаётся tools/seo.py, не редактируйте вручную -->
+  <link rel="canonical" href="https://bezdomnyibox.github.io/ai/tool-calling.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Владимир — fullstack-разработчик">
+  <meta property="og:locale" content="ru_RU">
+  <meta property="og:title" content="Вызов инструментов и агенты — Владимир">
+  <meta property="og:description" content="Как модель «нажимает кнопки» в вашем бэкенде: цикл вызова инструментов, описания, которые модель понимает, результаты, побочные эффекты и когда агент не нужен.">
+  <meta property="og:url" content="https://bezdomnyibox.github.io/ai/tool-calling.html">
+  <meta property="og:image" content="https://bezdomnyibox.github.io/og/ai.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Вызов инструментов и агенты — Владимир">
+  <meta name="twitter:card" content="summary_large_image">
+  <!-- /og -->
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#5b4cf0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"></noscript>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="../docs.css">
+  <script src="../theme.js"></script>
+  <script src="../layout.js" data-base="../" data-page="ai" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js" defer></script>
+  <style>
+    .loop { display: flex; flex-direction: column; gap: 8px; margin-top: 16px; }
+    .loop div { display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 12px; align-items: center; background: var(--tile); border-radius: 14px; padding: 12px 16px; color: var(--text); font-size: 15px; }
+    .loop b { width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; background: var(--accent); color: #fff; font-weight: 600; }
+    :root[data-theme="dark"] .loop b { color: #14151a; }
+    .loop div.back { margin-left: 46px; background: color-mix(in srgb, var(--accent) 10%, var(--tile)); }
+    .loop small { color: var(--muted); font-size: 13px; }
+  </style>
+</head>
+<body>
+  <header class="site-header" data-layout="header"></header>
+
+  <main class="wrap">
+    <div class="doc-hero" style="--hero-bg: radial-gradient(50% 90% at 88% 12%, rgba(97, 218, 251, .45) 0%, transparent 60%), linear-gradient(135deg, #0f131a, #1a2a40 55%, #2f7fd4)">
+      <div>
+        <div class="crumbs"><a href="../ai.html">AI и LLM</a> / Tool calling</div>
+        <h1>Вызов инструментов <b>и агенты</b></h1>
+        <p>Как модель «нажимает кнопки» в вашем бэкенде: цикл вызова инструментов, описания, которые модель понимает, результаты, побочные эффекты и когда агент не нужен.</p>
+        <div class="hero-facts"><span>7 уроков</span><span>~15 минут</span><span>JSON Schema · PHP</span></div>
+      </div>
+      <div class="icon i-react">fn()</div>
+    </div>
+
+    <div class="guide">
+      <aside class="toc">
+        <p class="toc-title">Содержание</p>
+        <ol><li><a href="#why">Зачем инструменты</a></li><li><a href="#loop">Цикл вызова</a></li><li><a href="#descriptions">Описание — это промпт</a></li><li><a href="#results">Что возвращать</a></li><li><a href="#effects">Инструменты с побочными эффектами</a></li><li><a href="#php">Инструмент на Symfony AI</a></li><li><a href="#agents">Когда агент не нужен</a></li></ol>
+      </aside>
+
+      <div>
+        <section class="lesson" id="why">
+          <h2><span>01</span>Зачем инструменты</h2>
+          <p>Модель не знает ваших цен, остатков и заказов — и <strong>не должна их придумывать</strong>. Инструмент (tool) — это функция вашего бэкенда, которую модель может попросить вызвать. Решает, когда звать, модель; выполняет — ваш код.</p>
+          <ul><li>поиск товара по артикулу, пункты выдачи, график работы;</li><li>статус заказа, профиль клиента, прошлые обращения;</li><li>действия: сохранить данные клиента, передать заявку менеджеру.</li></ul>
+        </section>
+        <section class="lesson" id="loop">
+          <h2><span>02</span>Цикл вызова</h2>
+          <div class="loop">
+            <div><b>1</b><span>Приложение отправляет модели историю и <strong>описания инструментов</strong></span></div>
+            <div><b>2</b><span>Модель отвечает не текстом, а просьбой: «вызови <code>get_order_by_number</code> с номером 1001»</span></div>
+            <div><b>3</b><span>Ваш код выполняет функцию — с проверками прав — и получает результат</span></div>
+            <div><b>4</b><span>Результат отправляется модели сообщением с ролью <code>tool</code></span></div>
+            <div class="back"><b>↻</b><span>Модель может позвать ещё инструмент — шаги 2–4 повторяются <small>(ограничьте число повторов)</small></span></div>
+            <div><b>5</b><span>Модель пишет финальный ответ клиенту на основе результатов</span></div>
+          </div>
+          <pre data-file="Описание инструмента в запросе"><code class="language-json">"tools": [{
+  "type": "function",
+  "function": {
+    "name": "get_order_by_number",
+    "description": "Статус заказа по номеру. Телефон обязателен: без совпадения статус не сообщается.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "orderNumber": { "type": "string", "description": "Номер заказа из сообщения клиента" },
+        "phone": { "type": "string" }
+      },
+      "required": ["orderNumber"]
+    }
+  }
+}]</code></pre>
+          <pre data-file="Ответ модели — просьба вызвать инструмент"><code class="language-json">{
+  "role": "assistant",
+  "tool_calls": [{
+    "id": "call_1",
+    "type": "function",
+    "function": { "name": "get_order_by_number", "arguments": "{\"orderNumber\": \"1001\"}" }
+  }]
+}</code></pre>
+        </section>
+        <section class="lesson" id="descriptions">
+          <h2><span>03</span>Описание — это промпт</h2>
+          <p>Модель выбирает инструмент только по названию и описанию. Хорошее описание отвечает на три вопроса: <strong>что делает, когда вызывать, чего не делать</strong>.</p>
+          <pre><code class="language-text">❌ "Ищет заказ."
+
+✅ "Проверяет статус одного заказа по номеру и телефону. Используй, когда клиент
+   называет номер заказа, а не просит всю историю. Без совпадения телефона статус
+   не сообщай. Если телефон уже известен из профиля, параметр phone не нужен."</code></pre>
+          <ul><li>Называйте инструменты глаголом и объектом: <code>find_parts</code>, <code>create_manager_lead</code>.</li><li>Дублируйте ключевые правила в системном промпте: «цену и наличие бери только из инструментов».</li><li>Меньше инструментов — меньше ошибок выбора. Десяток узких лучше одного «универсального».</li></ul>
+        </section>
+        <section class="lesson" id="results">
+          <h2><span>04</span>Что возвращать</h2>
+          <ul><li><strong>Короткий текст с фактами</strong>, а не весь объект из базы: модели нужно 4 строки, а не 40 полей.</li><li><strong>Ошибки — тоже текстом</strong>, который подсказывает следующий шаг: «Телефон не совпадает с заказом — попроси клиента назвать телефон из заказа». Исключение оборвёт весь диалог.</li><li><strong>Данные для интерфейса — отдельно.</strong> Карточки товаров инструмент кладёт в отдельный список, который уходит на фронтенд рядом с текстом. Модель не перепечатывает цены и не может в них ошибиться.</li></ul>
+        </section>
+        <section class="lesson" id="effects">
+          <h2><span>05</span>Инструменты с побочными эффектами</h2>
+          <p>Чтение безопасно, а запись — нет: модель может позвать инструмент дважды или не вовремя.</p>
+          <ul><li>Пишущие инструменты (заявка менеджеру, сохранение данных) — только после явного согласия клиента. Это правило — и в описании, и в промпте.</li><li>Делайте их <strong>идемпотентными</strong>: повторный вызов с теми же данными не создаёт дубль.</li><li>Ограничьте число вызовов за ход (<code>max_tool_calls</code>): защита от зацикливания и лишних расходов.</li><li>Права — в коде инструмента, а не в промпте (подробно — в гайде про безопасность).</li></ul>
+        </section>
+        <section class="lesson" id="php">
+          <h2><span>06</span>Инструмент на Symfony AI</h2>
+          <p>В Symfony AI инструмент — обычный сервис с атрибутом <code>#[AsTool]</code>. Схему параметров библиотека строит из сигнатуры <code>__invoke()</code>:</p>
+          <pre data-file="src/Ai/Tool/GetBranchScheduleTool.php"><code class="language-php">use Symfony\AI\Agent\Toolbox\Attribute\AsTool;
+
+#[AsTool(
+    name: 'get_branch_schedule',
+    description: 'Часы работы и телефон пункта выдачи по его id. Вызывай, когда клиент спрашивает, когда пункт открыт.',
+)]
+final class GetBranchScheduleTool
+{
+    public function __construct(private readonly BranchRepository $branches) {}
+
+    public function __invoke(int $branchId): string
+    {
+        $branch = $this-&gt;branches-&gt;find($branchId);
+        if ($branch === null) {
+            return 'Пункт выдачи не найден. Уточни у клиента адрес.';
+        }
+
+        return "Пункт: {$branch-&gt;getAddress()}\nЧасы работы: {$branch-&gt;getSchedule()}\nТелефон: {$branch-&gt;getPhone()}";
+    }
+}</code></pre>
+        </section>
+        <section class="lesson" id="agents">
+          <h2><span>07</span>Когда агент не нужен</h2>
+          <p>Агент — это модель, которая сама решает, какие инструменты звать и в каком порядке. Это гибко, но непредсказуемо и дороже.</p>
+          <ul><li>Если шаги всегда одинаковые (классифицировать письмо → извлечь поля → сохранить) — пишите <strong>обычный код</strong>, а модель зовите на отдельных шагах.</li><li>Агент оправдан, когда путь зависит от разговора: клиент может спросить про заказ, а потом про запчасть и график.</li></ul>
+          <div class="tiles"><div class="good"><h3>Запомнить</h3><ul><li>Модель просит — ваш код выполняет и проверяет права.</li><li>Описание инструмента: что, когда и чего не делать.</li><li>Результат — короткий текст, ошибки — тоже текст.</li><li>Лимит вызовов и идемпотентные пишущие инструменты.</li></ul></div><div class="bad"><h3>Частые ошибки</h3><ul><li>Один «универсальный» инструмент на всё.</li><li>Возврат огромных JSON-объектов модели.</li><li>Цены и наличие, которые модель «вспомнила» сама.</li><li>Проверка прав в промпте вместо кода.</li></ul></div></div>
+        </section>
+        <section class="lesson" id="next">
+          <h2>Что дальше</h2>
+          <p>Инструменты дают модели доступ к данным — значит, пора разобраться, как её не обмануть.</p>
+          <div class="next-steps"><a class="pill" href="../ai.html">Весь раздел «AI и LLM»</a><a class="pill ghost" href="llm-security.html">Безопасность LLM</a><a class="pill ghost" href="symfony-ai.html">Symfony AI на практике</a><a class="pill ghost" href="../projects/ai-assistant.html">Кейс: AI-ассистент</a></div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer" data-layout="footer"></footer>
+</body>
+</html>

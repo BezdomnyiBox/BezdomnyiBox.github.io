@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Symfony AI на практике — Владимир</title>
+  <meta name="description" content="Пакеты, конфигурация агента и чата, инструменты на атрибутах, контекст запроса, история в базе и карточки товаров рядом с ответом — по шагам.">
+  <!-- og: создаётся tools/seo.py, не редактируйте вручную -->
+  <link rel="canonical" href="https://bezdomnyibox.github.io/ai/symfony-ai.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Владимир — fullstack-разработчик">
+  <meta property="og:locale" content="ru_RU">
+  <meta property="og:title" content="Symfony AI на практике — Владимир">
+  <meta property="og:description" content="Пакеты, конфигурация агента и чата, инструменты на атрибутах, контекст запроса, история в базе и карточки товаров рядом с ответом — по шагам.">
+  <meta property="og:url" content="https://bezdomnyibox.github.io/ai/symfony-ai.html">
+  <meta property="og:image" content="https://bezdomnyibox.github.io/og/ai.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Symfony AI на практике — Владимир">
+  <meta name="twitter:card" content="summary_large_image">
+  <!-- /og -->
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#5b4cf0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"></noscript>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="../docs.css">
+  <script src="../theme.js"></script>
+  <script src="../layout.js" data-base="../" data-page="ai" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js" defer></script>
+</head>
+<body>
+  <header class="site-header" data-layout="header"></header>
+
+  <main class="wrap">
+    <div class="doc-hero" style="--hero-bg: radial-gradient(50% 90% at 88% 12%, rgba(143, 125, 255, .5) 0%, transparent 60%), linear-gradient(135deg, #17171c, #22222b 55%, #3d30b8)">
+      <div>
+        <div class="crumbs"><a href="../ai.html">AI и LLM</a> / PHP · Symfony</div>
+        <h1>Symfony AI <b>на практике</b></h1>
+        <p>Пакеты, конфигурация агента и чата, инструменты на атрибутах, контекст запроса, история в базе и карточки товаров рядом с ответом — по шагам.</p>
+        <div class="hero-facts"><span>7 уроков</span><span>~15 минут</span><span>Symfony 7 · PHP 8.2+</span></div>
+      </div>
+      <div class="icon i-sf">sf</div>
+    </div>
+
+    <div class="guide">
+      <aside class="toc">
+        <p class="toc-title">Содержание</p>
+        <ol><li><a href="#packages">Пакеты</a></li><li><a href="#config">Агент и чат в конфигурации</a></li><li><a href="#tools">Инструменты на атрибутах</a></li><li><a href="#context">Контекст запроса</a></li><li><a href="#history">История диалога</a></li><li><a href="#channels">Карточки и кнопки рядом с текстом</a></li><li><a href="#ops">Эксплуатация</a></li></ol>
+      </aside>
+
+      <div>
+        <section class="lesson" id="packages">
+          <h2><span>01</span>Пакеты</h2>
+          <p>Symfony AI — набор компонентов для работы с моделями: платформы (провайдеры), агент с инструментами, чат с хранением истории и бандл для конфигурации.</p>
+          <pre><code class="language-bash">composer require symfony/ai-bundle symfony/ai-agent symfony/ai-chat symfony/ai-open-router-platform</code></pre>
+          <p>Компоненты пока в версиях 0.x, и API между ними меняется. Фиксируйте версии в <code>composer.json</code> и читайте журнал изменений перед обновлением.</p>
+        </section>
+        <section class="lesson" id="config">
+          <h2><span>02</span>Агент и чат в конфигурации</h2>
+          <pre data-file="config/packages/ai.yaml"><code class="language-yaml">ai:
+    platform:
+        openrouter:
+            api_key: '%env(OPENROUTER_API_KEY)%'
+            http_client: openrouter.client       # клиент с таймаутом и повторами
+
+    agent:
+        assistant:
+            platform: 'ai.platform.openrouter'
+            model: 'anthropic/claude-haiku-5.5'
+            prompt: |
+                Ты — помощник магазина автозапчастей. Отвечай коротко, по-русски, на «вы».
+                Цену, наличие и адрес бери только из инструментов.
+            tools: true                          # все сервисы с #[AsTool]
+            max_tool_calls: 8                    # защита от зацикливания
+
+    chat:
+        assistant:
+            agent: 'ai.agent.assistant'
+            message_store: 'App\Ai\ChatMessageStore'   # своя история в базе</code></pre>
+        </section>
+        <section class="lesson" id="tools">
+          <h2><span>03</span>Инструменты на атрибутах</h2>
+          <p>Любой сервис с <code>#[AsTool]</code> попадает в набор инструментов агента. Параметры <code>__invoke()</code> превращаются в JSON-схему, а описание — в подсказку модели.</p>
+          <pre><code class="language-php">#[AsTool(
+    name: 'find_parts',
+    description: 'Цена и наличие запчасти по артикулу в выбранном пункте выдачи. Карточки клиент видит отдельно — не придумывай другие цены.',
+)]
+final class FindPartsTool
+{
+    public function __invoke(string $article, ?string $brand = null): string { /* … */ }
+}</code></pre>
+        </section>
+        <section class="lesson" id="context">
+          <h2><span>04</span>Контекст запроса</h2>
+          <p>Инструментам нужно знать, кто в чате, но модель не должна передавать это аргументом. Решение — сервис-контекст: контроллер заполняет его перед вызовом модели, инструменты читают.</p>
+          <pre><code class="language-php">final class ChatContext
+{
+    private ?ChatProfile $profile = null;
+
+    public function set(ChatProfile $profile): void { $this-&gt;profile = $profile; }
+    public function profile(): ?ChatProfile { return $this-&gt;profile; }
+}
+
+// в инструменте: телефон из аргумента, если клиент назвал его в чате, иначе — из профиля
+$phone = PhoneNormalizer::normalize($phone ?? $this-&gt;context-&gt;profile()?-&gt;getPhone());</code></pre>
+          <p>Профиль чата хранится в базе: телефон с сайта, выбранный пункт выдачи, имя, город, VIN — всё, что ассистент узнал за разговор. Чтобы модель не переспрашивала, <strong>процессор входа</strong> агента (<code>InputProcessorInterface</code>) перед каждым вызовом добавляет эти данные в начало истории.</p>
+        </section>
+        <section class="lesson" id="history">
+          <h2><span>05</span>История диалога</h2>
+          <p>Компонент чата сам добавляет новое сообщение к истории и отправляет её агенту. Историю храним в своей таблице через <code>MessageStoreInterface</code>:</p>
+          <pre><code class="language-php">use Symfony\AI\Chat\ChatInterface;
+use Symfony\AI\Platform\Message\Message;
+
+$this-&gt;context-&gt;set($profile);                       // кто в чате — для инструментов
+$answer = $this-&gt;chat-&gt;submit(Message::ofUser($request-&gt;message));
+
+return [
+    'reply' =&gt; trim((string) $answer-&gt;asText()),
+    'products' =&gt; $this-&gt;offers-&gt;all(),              // карточки, которые положил find_parts
+    'options' =&gt; $this-&gt;replyOptions-&gt;all(),         // кнопки быстрых ответов
+];</code></pre>
+        </section>
+        <section class="lesson" id="channels">
+          <h2><span>06</span>Карточки и кнопки рядом с текстом</h2>
+          <p>Инструменты кладут структурированные данные в «мешки» (сервисы, живущие один запрос), а контроллер отдаёт их фронтенду рядом с текстом ответа:</p>
+          <ul><li><strong>Карточки товаров</strong> — цена и наличие из базы, а не пересказ модели.</li><li><strong>Быстрые ответы</strong> — кнопки «Да, этот пункт», «Другой город» под сообщением.</li><li>Модель в тексте только комментирует: «Есть два варианта, оба в вашем пункте выдачи».</li></ul>
+        </section>
+        <section class="lesson" id="ops">
+          <h2><span>07</span>Эксплуатация</h2>
+          <ul><li>Если ключ не задан, эндпоинт отвечает <code>503 «Ассистент не настроен»</code>, а не падает.</li><li>Ошибки провайдера → <code>502</code> с понятным текстом; ключ в логах маскируется.</li><li>Модель меняется одной строкой конфига — держите запасные варианты закомментированными с пометками о скорости и цене.</li></ul>
+          <div class="tiles"><div class="good"><h3>Запомнить</h3><ul><li>Фиксируйте версии пакетов 0.x.</li><li>Инструменты — сервисы с #[AsTool].</li><li>Личность клиента — из контекста запроса.</li><li>Карточки и кнопки — отдельно от текста.</li></ul></div><div class="bad"><h3>Частые ошибки</h3><ul><li>Обновление symfony/ai-* без чтения изменений.</li><li>Телефон клиента как обязательный аргумент модели.</li><li>История диалога только в памяти процесса.</li><li>Цены в тексте ответа модели.</li></ul></div></div>
+        </section>
+        <section class="lesson" id="next">
+          <h2>Что дальше</h2>
+          <p>Как это всё работает вместе в реальном ассистенте — в кейсе.</p>
+          <div class="next-steps"><a class="pill" href="../ai.html">Весь раздел «AI и LLM»</a><a class="pill ghost" href="../projects/ai-assistant.html">Кейс: AI-ассистент</a><a class="pill ghost" href="https://symfony.com/doc/current/ai/index.html" target="_blank" rel="noopener">Документация Symfony AI ↗</a></div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer" data-layout="footer"></footer>
+</body>
+</html>

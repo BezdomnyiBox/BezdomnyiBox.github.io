@@ -2,8 +2,8 @@
 
 Запуск из корня сайта:  python -X utf8 tools/guides/gen.py
 
-Контент учебников лежит рядом, в dev1.py, dev2.py (гайды по технологиям, папка guides/)
-и design1.py, design2.py (гайды раздела «Дизайн», папка design/). После генерации
+Контент учебников лежит рядом, в dev1.py, dev2.py (гайды по технологиям, папка guides/),
+design1.py, design2.py (раздел «Дизайн», папка design/) и ai1.py (раздел «AI и LLM», папка ai/). После генерации
 скрипт обновляет Open Graph-теги и sitemap.xml (tools/seo.py).
 guides/symfony-patterns.html написан вручную и генератором не затрагивается.
 """
@@ -13,6 +13,7 @@ import re
 import sys
 import textwrap
 
+import ai1
 import design1
 import design2
 import dev1
@@ -21,6 +22,9 @@ import dev2
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "tools"))
 import seo  # noqa: E402
+
+BACK = {"design": "Весь раздел «Дизайн»", "ai": "Весь раздел «AI и LLM»"}
+
 
 def inline(s):
     parts = s.split("`")
@@ -130,7 +134,7 @@ def page(g):
         <section class="lesson" id="next">
           <h2>Что дальше</h2>
           <p>{inline(g['next'])}</p>
-          <div class="next-steps"><a class="pill" href="{parent_url}">{"Весь раздел «Дизайн»" if page_key == "design" else "Все гайды"}</a>{links}</div>
+          <div class="next-steps"><a class="pill" href="{parent_url}">{BACK.get(page_key, "Все гайды")}</a>{links}</div>
         </section>
       </div>
     </div>
@@ -143,7 +147,7 @@ def page(g):
 
 
 if __name__ == "__main__":
-    for g in dev1.GUIDES + dev2.GUIDES + design1.GUIDES + design2.GUIDES:
+    for g in dev1.GUIDES + dev2.GUIDES + design1.GUIDES + design2.GUIDES + ai1.GUIDES:
         out = ROOT / g.get("folder", "guides")
         out.mkdir(exist_ok=True)
         (out / f"{g['slug']}.html").write_text(page(g), encoding="utf-8", newline="\n")

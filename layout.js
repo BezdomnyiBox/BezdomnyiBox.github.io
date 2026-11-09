@@ -1,7 +1,7 @@
 // Общие шапка и подвал для всех страниц.
 // Подключение: <script src="layout.js" data-base="" data-page="home" defer></script>
 //   data-base — путь до корня сайта ("" для корня, "../" для страниц в папках guides/ и design/)
-//   data-page — какой пункт меню подсветить: home | guides | design
+//   data-page — какой пункт меню подсветить: home | guides | design | ai
 (function () {
   var script = document.currentScript;
   var base = script.dataset.base || '';
@@ -31,6 +31,7 @@
         '<a href="' + base + 'index.html#tech">Технологии</a>' +
         '<a href="' + base + 'guides.html"' + current('guides') + '>Гайды</a>' +
         '<a href="' + base + 'design.html"' + current('design') + '>Дизайн</a>' +
+        '<a href="' + base + 'ai.html"' + current('ai') + '>AI</a>' +
         '<a href="#contact">Контакты</a>' +
       '</nav>' +
       '<div class="header-actions">' +
@@ -74,8 +75,16 @@
           '<li><a href="' + base + 'design/laws.html">Законы дизайна</a></li>' +
           '<li><a href="' + base + 'design/colors.html">Цвет и палитры</a></li>' +
         '</ul></div>' +
+        '<div><p class="footer-h">AI и LLM</p><ul>' +
+          '<li><a href="' + base + 'ai.html">Весь раздел</a></li>' +
+          '<li><a href="' + base + 'projects/ai-assistant.html">Кейс: AI-ассистент</a></li>' +
+          '<li><a href="' + base + 'ai/tool-calling.html">Вызов инструментов</a></li>' +
+          '<li><a href="' + base + 'ai/llm-security.html">Безопасность LLM</a></li>' +
+          '<li><a href="' + base + 'ai/symfony-ai.html">Symfony AI</a></li>' +
+        '</ul></div>' +
         '<div><p class="footer-h">Обо мне</p><ul>' +
           '<li><a href="' + base + 'projects/crm.html">Проект: мини-CRM</a></li>' +
+          '<li><a href="' + base + 'projects/ai-assistant.html">Проект: AI-ассистент</a></li>' +
           '<li>' + ext(LINKS.resume, 'Резюме') + '</li>' +
           '<li>' + ext(LINKS.github, 'Репозитории на GitHub') + '</li>' +
           '<li>' + ext(LINKS.source, 'Исходный код сайта') + '</li>' +
