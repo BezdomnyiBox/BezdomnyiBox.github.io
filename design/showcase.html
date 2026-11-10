@@ -3,20 +3,20 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Витрина: мой Pinterest в шести подачах — Владимир</title>
-  <meta name="description" content="Мои сохранёнки из Pinterest в шести дизайн-подачах: журнал, манга, плёнка, лендинг игры, музей и чертёж. Плюс вся коллекция с фильтром по доскам и просмотром.">
+  <title>Витрина: мой Pinterest в пяти подачах — Владимир</title>
+  <meta name="description" content="Мои сохранёнки из Pinterest в пяти дизайн-подачах: журнал, манга, плёнка, лендинг игры и музей. Плюс вся коллекция с фильтром по доскам и просмотром.">
   <!-- og: создаётся tools/seo.py, не редактируйте вручную -->
   <link rel="canonical" href="https://bezdomnyibox.github.io/design/showcase.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Владимир — fullstack-разработчик">
   <meta property="og:locale" content="ru_RU">
-  <meta property="og:title" content="Витрина: мой Pinterest в шести подачах — Владимир">
-  <meta property="og:description" content="Мои сохранёнки из Pinterest в шести дизайн-подачах: журнал, манга, плёнка, лендинг игры, музей и чертёж. Плюс вся коллекция с фильтром по доскам и просмотром.">
+  <meta property="og:title" content="Витрина: мой Pinterest в пяти подачах — Владимир">
+  <meta property="og:description" content="Мои сохранёнки из Pinterest в пяти дизайн-подачах: журнал, манга, плёнка, лендинг игры и музей. Плюс вся коллекция с фильтром по доскам и просмотром.">
   <meta property="og:url" content="https://bezdomnyibox.github.io/design/showcase.html">
   <meta property="og:image" content="https://bezdomnyibox.github.io/og/design.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Витрина: мой Pinterest в шести подачах — Владимир">
+  <meta property="og:image:alt" content="Витрина: мой Pinterest в пяти подачах — Владимир">
   <meta name="twitter:card" content="summary_large_image">
   <!-- /og -->
   <link rel="icon" href="/favicon.ico" sizes="32x32">
@@ -166,34 +166,7 @@
     .art figcaption i { display: block; font-size: 11px; color: #6c6050; }
     @media (max-width: 720px) { .museum { padding: 40px 16px 28px; } .wall { gap: 32px 20px; } .art .pin { width: min(var(--w, 170px), 38vw); } }
 
-    /* ===== 06. Чертёж и открытка ===== */
-    .duo { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 20px; }
-    .blueprint { background-color: #173a6e; color: #dbe8ff; padding: 28px; font-family: "JetBrains Mono", monospace; background-image: linear-gradient(rgba(219, 232, 255, .14) 1px, transparent 1px), linear-gradient(90deg, rgba(219, 232, 255, .14) 1px, transparent 1px), linear-gradient(rgba(219, 232, 255, .06) 1px, transparent 1px), linear-gradient(90deg, rgba(219, 232, 255, .06) 1px, transparent 1px); background-size: 80px 80px, 80px 80px, 16px 16px, 16px 16px; }
-    .bp-drawing { position: relative; margin: 26px 34px 18px; border: 1.5px solid #dbe8ff; padding: 10px; }
-    .bp-drawing .pin { aspect-ratio: 1 / .703; }
-    .bp-drawing .pin img { filter: saturate(.5) contrast(1.05); }
-    .dim { position: absolute; font-size: 11px; color: #9fc1ff; }
-    .dim.top { left: 0; right: 0; top: -22px; text-align: center; border-bottom: 1px solid #9fc1ff; }
-    .dim.side { top: 0; bottom: 0; left: -30px; writing-mode: vertical-rl; transform: rotate(180deg); text-align: center; border-left: 1px solid #9fc1ff; }
-    .bp-stamp { display: grid; grid-template-columns: 1fr auto; border: 1.5px solid #dbe8ff; font-size: 12px; }
-    .bp-stamp > * { padding: 6px 10px; border-right: 1px solid #dbe8ff; border-bottom: 1px solid #dbe8ff; }
-    .bp-stamp b { font-weight: 500; }
-    .postcard { background: #fffaf2; color: #3a2a2a; padding: 22px; display: grid; grid-template-rows: auto 1fr; gap: 16px; font-family: Caveat, cursive; }
-    .pc-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
-    .pc-top strong { font: 700 34px/1 Caveat, cursive; color: #c2305f; }
-    /* марка: картинка целиком, а зубцы только по краю — маска = сплошной центр + «дырявая» рамка */
-    .stamp { width: 78px; flex: none; padding: 6px; background: #fff; filter: drop-shadow(0 1px 2px rgba(0, 0, 0, .25));
-      -webkit-mask: linear-gradient(#000 0 0) content-box, radial-gradient(circle, transparent 2.6px, #000 3px) -4.5px -4.5px / 9px 9px;
-      mask: linear-gradient(#000 0 0) content-box, radial-gradient(circle, transparent 2.6px, #000 3px) -4.5px -4.5px / 9px 9px; }
-    .stamp .pin { aspect-ratio: 3 / 4; }
-    .pc-body { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 18px; }
-    .pc-body .pin { border-radius: 6px; aspect-ratio: 1 / 1.3; box-shadow: 0 10px 20px -10px rgba(120, 40, 60, .5); transform: rotate(-2deg); }
-    .pc-lines { display: flex; flex-direction: column; justify-content: flex-end; gap: 10px; font-size: 22px; line-height: 1.1; }
-    .pc-lines span { border-bottom: 1px solid #d9c5b8; padding-bottom: 4px; }
-    .postmark { position: absolute; right: 70px; top: 40px; width: 86px; height: 86px; border-radius: 50%; border: 2px solid rgba(46, 70, 140, .6); color: #2e468c; display: grid; place-items: center; text-align: center; font: 600 10px/1.2 "JetBrains Mono", monospace; transform: rotate(-14deg); pointer-events: none; }
-    @media (max-width: 860px) { .duo { grid-template-columns: minmax(0, 1fr); } .blueprint { padding: 20px 16px; } .bp-drawing { margin: 26px 8px 18px 30px; } }
-
-    /* ===== 07. Вся коллекция ===== */
+    /* ===== 06. Вся коллекция ===== */
     .masonry { columns: 5 180px; column-gap: 12px; }
     .masonry .pin { break-inside: avoid; margin-bottom: 12px; border-radius: 16px; background: var(--tile); box-shadow: var(--glass-shadow); }
     .masonry .pin[hidden] { display: none; }
@@ -218,9 +191,9 @@
     <div class="doc-hero" style="--hero-bg: radial-gradient(45% 80% at 85% 15%, rgba(232, 69, 122, .55) 0%, transparent 60%), radial-gradient(40% 70% at 10% 90%, rgba(255, 210, 63, .35) 0%, transparent 60%), linear-gradient(135deg, #14101f, #3a1f5c 55%, #8f3fb8)">
       <div>
         <div class="crumbs"><a href="../design.html">Дизайн</a> / Витрина</div>
-        <h1>Мой Pinterest <b>в шести подачах</b></h1>
-        <p>Одни и те же сохранёнки — футбол, аниме, кино, фэнтези, картины — свёрстаны шестью разными способами: журнал, манга, фотоплёнка, лендинг игры, музей и чертёж. Ниже — вся коллекция с фильтром по доскам.</p>
-        <div class="hero-facts"><span>69 пинов · 7 досок</span><span>6 дизайн-подач</span><span>HTML · CSS · JS без библиотек</span></div>
+        <h1>Мой Pinterest <b>в пяти подачах</b></h1>
+        <p>Одни и те же сохранёнки — футбол, аниме, кино, фэнтези, картины — свёрстаны пятью разными способами: журнал, манга, фотоплёнка, лендинг игры и музей. Ниже — вся коллекция с фильтром по доскам.</p>
+        <div class="hero-facts"><span>66 пинов · 5 досок</span><span>5 дизайн-подач</span><span>HTML · CSS · JS без библиотек</span></div>
       </div>
       <div class="icon i-ml" aria-hidden="true">P</div>
     </div>
@@ -363,39 +336,7 @@
       </article>
     </section>
 
-    <!-- 06. Чертёж и открытка -->
-    <section class="show" id="misc" data-fonts="Caveat:wght@500;700">
-      <div class="show-head">
-        <div>
-          <p class="num">Подача 06 · доски «Наука» и «нэчто»</p>
-          <h2>Чертёж <b>и открытка</b></h2>
-          <p>Синька с сеткой, размерными линиями и штампом — и бумажная открытка с маркой, вырезанной маской, и почтовым штемпелем.</p>
-        </div>
-      </div>
-      <div class="duo">
-        <article class="stage blueprint">
-          <div class="bp-drawing">
-            <span class="dim top">← 1200 →</span>
-            <span class="dim side">← 844 →</span>
-            <a class="pin" data-pin="science:0"></a>
-          </div>
-          <div class="bp-stamp">
-            <span><b>Карта математики</b></span><span>Лист 1</span>
-            <span>Источник: доска «Наука»</span><span>М 1:1</span>
-          </div>
-        </article>
-        <article class="stage postcard">
-          <span class="postmark" aria-hidden="true">ПОЧТА<br>08·03<br>2026</span>
-          <div class="pc-top"><strong>С 8 Марта!</strong><div class="stamp"><a class="pin" data-pin="misc:1" tabindex="-1"></a></div></div>
-          <div class="pc-body">
-            <a class="pin" data-pin="misc:1"></a>
-            <div class="pc-lines"><span>Кому: всем, кто листает</span><span>Откуда: мой Pinterest</span><span>С теплом, Владимир</span></div>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <!-- 07. Вся коллекция -->
+    <!-- 06. Вся коллекция -->
     <section class="show" id="all">
       <div class="show-head">
         <div>
@@ -437,7 +378,7 @@
     document.addEventListener('DOMContentLoaded', function () {
       var BOARDS = window.PINS;
       if (!BOARDS) return;
-      var names = { aesthetic: 'эстетика', football: 'футбол', anime: 'онимэ', art: 'рисунки', fantasy: 'Фэнтези рисунки', science: 'Наука', misc: 'нэчто' };
+      var names = { aesthetic: 'эстетика', football: 'футбол', anime: 'онимэ', art: 'рисунки', fantasy: 'Фэнтези рисунки' };
 
       function pinOf(board, i) {
         var p = BOARDS[board].pins[i];
