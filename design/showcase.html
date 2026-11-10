@@ -4,14 +4,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Витрина: мой Pinterest в пяти подачах — Владимир</title>
-  <meta name="description" content="Мои сохранёнки из Pinterest в пяти дизайн-подачах: журнал, манга, плёнка, лендинг игры и музей. Плюс вся коллекция с фильтром по доскам и просмотром.">
+  <meta name="description" content="Мои сохранёнки из Pinterest в пяти дизайн-подачах: журнал, манга, плёнка, лендинг игры и музей. Плюс вся коллекция и 200 картинок из ленты рекомендаций с фильтром и просмотром.">
   <!-- og: создаётся tools/seo.py, не редактируйте вручную -->
   <link rel="canonical" href="https://bezdomnyibox.github.io/design/showcase.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Владимир — fullstack-разработчик">
   <meta property="og:locale" content="ru_RU">
   <meta property="og:title" content="Витрина: мой Pinterest в пяти подачах — Владимир">
-  <meta property="og:description" content="Мои сохранёнки из Pinterest в пяти дизайн-подачах: журнал, манга, плёнка, лендинг игры и музей. Плюс вся коллекция с фильтром по доскам и просмотром.">
+  <meta property="og:description" content="Мои сохранёнки из Pinterest в пяти дизайн-подачах: журнал, манга, плёнка, лендинг игры и музей. Плюс вся коллекция и 200 картинок из ленты рекомендаций с фильтром и просмотром.">
   <meta property="og:url" content="https://bezdomnyibox.github.io/design/showcase.html">
   <meta property="og:image" content="https://bezdomnyibox.github.io/og/design.jpg">
   <meta property="og:image:width" content="1200">
@@ -172,6 +172,8 @@
     .masonry .pin[hidden] { display: none; }
     .masonry .pin img { height: auto; transition: transform .3s; }
     .masonry .pin:hover img { transform: scale(1.03); }
+    .more { display: flex; justify-content: center; margin-top: 12px; }
+    .more[hidden] { display: none; }
 
     /* ===== Просмотр картинки ===== */
     .viewer { border: 0; padding: 0; background: transparent; max-width: min(92vw, 1100px); max-height: 92vh; overflow: visible; color: #fff; }
@@ -192,15 +194,15 @@
       <div>
         <div class="crumbs"><a href="../design.html">Дизайн</a> / Витрина</div>
         <h1>Мой Pinterest <b>в пяти подачах</b></h1>
-        <p>Одни и те же сохранёнки — футбол, аниме, кино, фэнтези, картины — свёрстаны пятью разными способами: журнал, манга, фотоплёнка, лендинг игры и музей. Ниже — вся коллекция с фильтром по доскам.</p>
-        <div class="hero-facts"><span>66 пинов · 5 досок</span><span>5 дизайн-подач</span><span>HTML · CSS · JS без библиотек</span></div>
+        <p>Одни и те же сохранёнки — футбол, аниме, кино, фэнтези, картины — свёрстаны пятью разными способами: журнал, манга, фотоплёнка, лендинг игры и музей. Ниже — вся коллекция и ещё 200 картинок, которые я отобрал из ленты рекомендаций.</p>
+        <div class="hero-facts"><span>66 пинов · 5 досок</span><span>+200 из рекомендаций</span><span>5 дизайн-подач</span><span>HTML · CSS · JS без библиотек</span></div>
       </div>
       <div class="icon i-ml" aria-hidden="true">P</div>
     </div>
 
     <div class="source-note">
       <span aria-hidden="true">ⓘ</span>
-      <p><b>Картинки — из моих досок в Pinterest, права принадлежат их авторам.</b> Они не скопированы на сайт, а загружаются с Pinterest, и каждая ведёт на свой пин. Если вы автор и хотите убрать работу, напишите мне в <a href="https://t.me/BojooYkt" target="_blank" rel="noopener">Telegram</a>.</p>
+      <p><b>Картинки — из моих досок и ленты рекомендаций в Pinterest, права принадлежат их авторам.</b> Они не скопированы на сайт, а загружаются с Pinterest, и каждая ведёт на свой пин. Если вы автор и хотите убрать работу, напишите мне в <a href="https://t.me/BojooYkt" target="_blank" rel="noopener">Telegram</a>.</p>
     </div>
     <noscript><p class="source-note">Картинки подгружаются скриптом — включите JavaScript, чтобы увидеть витрину.</p></noscript>
 
@@ -349,6 +351,20 @@
       <div class="masonry" id="masonry"></div>
     </section>
 
+    <!-- 07. Из рекомендаций -->
+    <section class="show" id="recs">
+      <div class="show-head">
+        <div>
+          <p class="num">Лента рекомендаций</p>
+          <h2>200 картинок <b>из рекомендаций</b></h2>
+          <p>Pinterest подбирает ленту по моим сохранёнкам. Я пролистал 410 рекомендаций, убрал мемы, рекламу, скриншоты с текстом и фото случайных людей, а остальное разложил по шести темам.</p>
+        </div>
+      </div>
+      <div class="tabs" role="tablist" id="recTabs"></div>
+      <div class="masonry" id="recGrid"></div>
+      <div class="more" hidden><button class="pill ghost" type="button" id="recMore">Показать ещё</button></div>
+    </section>
+
     <div class="cta">
       <h2 class="title">Нужна витрина для вашего контента?</h2>
       <p class="subtitle">Соберу галерею, лендинг или журнальную вёрстку под ваши фотографии и бренд.</p>
@@ -383,20 +399,28 @@
       function pinOf(board, i) {
         var p = BOARDS[board].pins[i];
         var alt = p[3] && /[a-zа-яё]{2,}/i.test(p[3]) ? p[3] : 'Пин из доски «' + names[board] + '»';
-        return { id: p[0], src: window.PIN_IMG + p[1], ratio: p[2], alt: alt, board: board };
+        return { id: p[0], path: p[1], ratio: p[2], alt: alt };
+      }
+      // Картинка из рекомендаций: rec:номер
+      function recOf(i) {
+        var p = window.RECS.pins[i];
+        var alt = p[3] && /[a-zа-яё]{2,}/i.test(p[3]) ? p[3] : 'Из рекомендаций · ' + window.RECS.themes[p[4]];
+        return { id: p[0], path: p[1], ratio: p[2], alt: alt };
       }
 
       // Каждая ссылка с data-pin получает адрес пина и картинку с Pinterest
       function fill(a) {
         var parts = a.dataset.pin.split(':');
-        var p = pinOf(parts[0], +parts[1]);
+        var p = parts[0] === 'rec' ? recOf(+parts[1]) : pinOf(parts[0], +parts[1]);
+        var full = window.PIN_IMG + p.path;
         a.href = window.PIN_URL + p.id + '/';
         a.target = '_blank';
         a.rel = 'noopener';
-        a.dataset.full = p.src;
+        a.dataset.full = full;
         a.dataset.cap = p.alt;
         var img = document.createElement('img');
-        img.src = p.src;
+        // в сетках хватает миниатюры 474px, полный размер — в окне просмотра
+        img.src = a.dataset.group ? 'https://i.pinimg.com/474x/' + p.path : full;
         img.alt = p.alt;
         img.loading = 'lazy';
         img.decoding = 'async';
@@ -437,6 +461,76 @@
         });
       });
 
+      // Из рекомендаций: свои вкладки по темам и «Показать ещё» по 40 картинок
+      var recGrid = document.getElementById('recGrid');
+      var recTabs = document.getElementById('recTabs');
+      var recMore = document.getElementById('recMore');
+      var STEP = 40, shown = STEP, recFilter = 'all';
+      function recTab(filter, label) {
+        var b = document.createElement('button');
+        b.setAttribute('role', 'tab');
+        b.setAttribute('aria-selected', String(filter === 'all'));
+        b.dataset.filter = filter;
+        b.textContent = label;
+        recTabs.appendChild(b);
+      }
+      function applyRecs() {
+        var total = 0;
+        recGrid.querySelectorAll('.pin').forEach(function (a) {
+          var match = recFilter === 'all' || a.dataset.theme === recFilter;
+          if (match) total++;
+          a.hidden = !match || total > shown;
+        });
+        recMore.parentNode.hidden = total <= shown;
+        recMore.textContent = 'Показать ещё ' + Math.min(STEP, total - shown) + ' · осталось ' + (total - shown);
+      }
+      function initRecs() {
+        var RECS = window.RECS;
+        if (!RECS) { document.getElementById('recs').hidden = true; return; }
+        var counts = {};
+        RECS.pins.forEach(function (p, i) {
+          counts[p[4]] = (counts[p[4]] || 0) + 1;
+          var a = document.createElement('a');
+          a.className = 'pin';
+          a.dataset.pin = 'rec:' + i;
+          a.dataset.group = 'recs';
+          a.dataset.theme = p[4];
+          fill(a);
+          a.querySelector('img').style.aspectRatio = '1 / ' + p[2];
+          recGrid.appendChild(a);
+        });
+        recTab('all', 'Все · ' + RECS.pins.length);
+        Object.keys(RECS.themes).forEach(function (t) { recTab(t, RECS.themes[t] + ' · ' + counts[t]); });
+        recTabs.addEventListener('click', function (e) {
+          var btn = e.target.closest('button');
+          if (!btn) return;
+          recTabs.querySelectorAll('button').forEach(function (t) { t.setAttribute('aria-selected', String(t === btn)); });
+          recFilter = btn.dataset.filter;
+          shown = STEP;
+          applyRecs();
+        });
+        recMore.addEventListener('click', function () { shown += STEP; applyRecs(); });
+        applyRecs();
+      }
+      // Данные подборки и 200 карточек грузим, только когда блок близко: первая загрузка страницы остаётся лёгкой
+      function loadRecs() {
+        var s = document.createElement('script');
+        s.src = 'recs.js';
+        s.onload = initRecs;
+        s.onerror = function () { document.getElementById('recs').hidden = true; };
+        document.head.appendChild(s);
+      }
+      if ('IntersectionObserver' in window) {
+        var recIO = new IntersectionObserver(function (entries) {
+          if (!entries.some(function (e) { return e.isIntersecting; })) return;
+          recIO.disconnect();
+          loadRecs();
+        }, { rootMargin: '800px 0px' });
+        recIO.observe(document.getElementById('recs'));
+      } else {
+        loadRecs();
+      }
+
       // Искры над лендингом игры
       var embers = document.querySelector('.embers');
       for (var k = 0; k < 26; k++) {
@@ -467,7 +561,7 @@
         var a = e.target.closest('a.pin[data-pin]');
         if (!a || e.ctrlKey || e.metaKey || e.shiftKey || e.button !== 0 || !viewer.showModal) return;
         e.preventDefault();
-        var scope = a.dataset.group ? masonry : a.closest('.show');
+        var scope = a.closest('.show');
         list = Array.prototype.filter.call(scope.querySelectorAll('a.pin[data-pin]'), function (x) { return !x.hidden && x.tabIndex !== -1; });
         if (list.indexOf(a) === -1) list = [a];
         show(list.indexOf(a));
