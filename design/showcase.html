@@ -1,0 +1,546 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Витрина: мой Pinterest в шести подачах — Владимир</title>
+  <meta name="description" content="Мои сохранёнки из Pinterest в шести дизайн-подачах: журнал, манга, плёнка, лендинг игры, музей и чертёж. Плюс вся коллекция с фильтром по доскам и просмотром.">
+  <!-- og: создаётся tools/seo.py, не редактируйте вручную -->
+  <link rel="canonical" href="https://bezdomnyibox.github.io/design/showcase.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Владимир — fullstack-разработчик">
+  <meta property="og:locale" content="ru_RU">
+  <meta property="og:title" content="Витрина: мой Pinterest в шести подачах — Владимир">
+  <meta property="og:description" content="Мои сохранёнки из Pinterest в шести дизайн-подачах: журнал, манга, плёнка, лендинг игры, музей и чертёж. Плюс вся коллекция с фильтром по доскам и просмотром.">
+  <meta property="og:url" content="https://bezdomnyibox.github.io/design/showcase.html">
+  <meta property="og:image" content="https://bezdomnyibox.github.io/og/design.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Витрина: мой Pinterest в шести подачах — Владимир">
+  <meta name="twitter:card" content="summary_large_image">
+  <!-- /og -->
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#5b4cf0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://i.pinimg.com">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"></noscript>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="../docs.css">
+  <script src="../theme.js"></script>
+  <script src="../fonts.js" defer></script>
+  <script src="../layout.js" data-base="../" data-page="design" defer></script>
+  <script src="pins.js" defer></script>
+  <style>
+    /* ===== Общее для подач ===== */
+    .source-note { display: flex; gap: 14px; align-items: flex-start; margin-top: 24px; padding: 18px 22px; border-radius: var(--radius-lg); background: var(--glass-sheen), var(--glass); border: 1px solid var(--glass-edge); box-shadow: var(--glass-rim); font-size: 14px; color: var(--muted); }
+    .source-note b { color: var(--text); font-weight: 500; }
+    .show { padding-top: 88px; scroll-margin-top: 80px; }
+    .show-head { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px 24px; align-items: end; margin-bottom: 24px; }
+    .show-head .num { font: 500 13px "JetBrains Mono", monospace; color: var(--accent); letter-spacing: .04em; }
+    .show-head h2 { font-weight: 400; font-size: clamp(28px, 4vw, 40px); letter-spacing: -.02em; line-height: 1.1; margin-top: 4px; }
+    .show-head h2 b { font-weight: 600; }
+    .show-head p { color: var(--muted); margin-top: 8px; max-width: 640px; }
+    .stage { border-radius: var(--radius-xl); overflow: hidden; position: relative; box-shadow: 0 30px 60px -34px rgba(30, 20, 80, .55); }
+    .pin { display: block; position: relative; overflow: hidden; color: inherit; text-decoration: none; }
+    .pin img { display: block; width: 100%; height: 100%; object-fit: cover; }
+    .pin:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+    @media (max-width: 720px) { .show-head { grid-template-columns: minmax(0, 1fr); } .stage { border-radius: var(--radius-lg); } }
+
+    /* ===== 01. Журнал ===== */
+    .mag { background: #f3efe6; color: #141414; display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); font-family: "PT Serif", Georgia, serif; }
+    .mag-cover { position: relative; min-height: 640px; }
+    .mag-cover .pin { position: absolute; inset: 0; }
+    .mag-cover::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, rgba(0, 0, 0, .55), transparent 28%, transparent 62%, rgba(0, 0, 0, .75)); }
+    .mag-mast { position: absolute; z-index: 1; top: 22px; left: 26px; right: 26px; color: #fff; pointer-events: none; }
+    .mag-mast strong { display: block; font: 700 clamp(56px, 9vw, 112px)/.85 Oswald, Impact, sans-serif; letter-spacing: -.02em; text-transform: uppercase; }
+    .mag-mast span { display: flex; justify-content: space-between; margin-top: 8px; font: 500 12px Oswald, sans-serif; letter-spacing: .2em; text-transform: uppercase; border-top: 1px solid rgba(255, 255, 255, .6); padding-top: 6px; }
+    .mag-lines { position: absolute; z-index: 1; left: 26px; right: 26px; bottom: 24px; color: #fff; pointer-events: none; }
+    .mag-lines p { font: italic 400 15px/1.35 "PT Serif", serif; max-width: 260px; }
+    .mag-lines b { display: block; font: 700 34px/1 Oswald, sans-serif; text-transform: uppercase; color: #ffd23f; margin-bottom: 6px; }
+    .mag-spread { padding: 40px 40px 36px; display: flex; flex-direction: column; gap: 18px; }
+    .mag-kicker { font: 500 12px Oswald, sans-serif; letter-spacing: .24em; text-transform: uppercase; color: #c8102e; border-bottom: 2px solid #141414; padding-bottom: 8px; }
+    .mag-title { font: 700 clamp(40px, 5vw, 64px)/.95 Oswald, Impact, sans-serif; text-transform: uppercase; letter-spacing: -.01em; }
+    .mag-lead { font-size: 17px; line-height: 1.55; columns: 2 220px; column-gap: 24px; }
+    .mag-lead::first-letter { float: left; font: 700 64px/.8 Oswald, sans-serif; margin: 6px 8px 0 0; color: #c8102e; }
+    .mag-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-top: auto; }
+    .mag-grid figure { margin: 0; }
+    .mag-grid .pin { aspect-ratio: 3 / 4; filter: grayscale(1) contrast(1.1); transition: filter .3s; }
+    .mag-grid .pin:hover, .mag-grid .pin:focus-visible { filter: none; }
+    .mag-grid figcaption { font: 500 11px Oswald, sans-serif; letter-spacing: .14em; text-transform: uppercase; margin-top: 6px; }
+    .mag-quote { margin: 0; padding: 14px 0 0; border-top: 1px solid #141414; font: italic 400 20px/1.35 "PT Serif", serif; }
+    @media (max-width: 860px) { .mag { grid-template-columns: minmax(0, 1fr); } .mag-cover { min-height: 520px; } .mag-spread { padding: 28px 20px; } .mag-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+    /* ===== 02. Манга ===== */
+    .manga { background: #fbfaf6; color: #111; padding: 22px; font-family: Neucha, "Comic Sans MS", cursive; }
+    .manga-top { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; border-bottom: 3px solid #111; padding-bottom: 10px; margin-bottom: 14px; }
+    .manga-top strong { font: 700 clamp(22px, 3vw, 32px) Oswald, sans-serif; text-transform: uppercase; letter-spacing: .02em; }
+    .manga-top span { font-size: 18px; }
+    .manga-page { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); grid-auto-rows: 120px; gap: 10px; }
+    .panel { position: relative; border: 3px solid #111; background: #fff; overflow: hidden; }
+    .panel .pin { position: absolute; inset: 0; }
+    .panel .pin img { filter: grayscale(1) contrast(1.25); transition: filter .35s; }
+    .panel:hover .pin img, .panel .pin:focus-visible img { filter: none; }
+    /* скринтон: точки поверх картинки, как в печатной манге */
+    .panel::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(rgba(0, 0, 0, .35) 1px, transparent 1.4px) 0 0 / 5px 5px; mix-blend-mode: multiply; opacity: .55; transition: opacity .35s; }
+    .panel:hover::after { opacity: 0; }
+    .p1 { grid-column: span 4; grid-row: span 3; clip-path: polygon(0 0, 100% 0, 96% 100%, 0 100%); }
+    .p2 { grid-column: span 2; grid-row: span 2; }
+    .p3 { grid-column: span 2; grid-row: span 2; clip-path: polygon(8% 0, 100% 0, 100% 100%, 0 100%); }
+    .p4 { grid-column: span 2; grid-row: span 2; }
+    .p5 { grid-column: span 2; grid-row: span 2; clip-path: polygon(0 0, 100% 0, 100% 92%, 0 100%); }
+    .p6 { grid-column: span 2; grid-row: span 3; }
+    .p7 { grid-column: span 4; grid-row: span 2; }
+    .p8 { grid-column: span 2; grid-row: span 2; }
+    .p9 { grid-column: span 4; grid-row: span 2; }
+    .speed { position: absolute; inset: 0; pointer-events: none; background: repeating-conic-gradient(from 0deg at 70% 40%, rgba(0, 0, 0, .1) 0 1deg, transparent 1deg 6deg); mix-blend-mode: multiply; }
+    .bubble { position: absolute; z-index: 2; background: #fff; color: #111; border: 2.5px solid #111; border-radius: 50% / 46%; padding: 10px 16px; font-size: 18px; line-height: 1.15; text-align: center; pointer-events: none; max-width: 70%; }
+    .bubble::after { content: ""; position: absolute; left: 22%; bottom: -14px; width: 18px; height: 16px; background: #fff; border-right: 2.5px solid #111; border-bottom: 2.5px solid #111; transform: skewX(35deg) rotate(10deg); }
+    .sfx { position: absolute; z-index: 2; pointer-events: none; font: 700 clamp(30px, 4vw, 52px)/1 Oswald, Impact, sans-serif; color: #fff; -webkit-text-stroke: 2px #111; transform: rotate(-12deg); letter-spacing: .02em; }
+    .caption-box { position: absolute; z-index: 2; left: 10px; top: 10px; background: #111; color: #fff; padding: 4px 10px; font-size: 15px; pointer-events: none; }
+    @media (max-width: 720px) {
+      .manga { padding: 14px; }
+      .manga-page { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: 110px; }
+      .p1, .p7, .p9 { grid-column: span 2; }
+      .p2, .p3, .p4, .p5, .p6, .p8 { grid-column: span 1; }
+      .bubble { font-size: 15px; padding: 6px 10px; }
+    }
+
+    /* ===== 03. Плёнка ===== */
+    .film { background: #121110; color: #e9e2d0; padding: 30px 0 26px; }
+    .film-strip { display: flex; gap: 0; overflow-x: auto; scroll-snap-type: x mandatory; padding: 0 24px; scrollbar-width: thin; scrollbar-color: #5a5348 transparent; }
+    .frame { flex: none; width: clamp(220px, 28vw, 300px); scroll-snap-align: center; background: #1c1a17; padding: 30px 10px; position: relative; }
+    /* перфорация сверху и снизу */
+    .frame::before, .frame::after { content: ""; position: absolute; left: 0; right: 0; height: 18px; background: radial-gradient(circle at 50% 50%, #121110 4.5px, transparent 5px) 0 0 / 24px 18px repeat-x; }
+    .frame::before { top: 6px; }
+    .frame::after { bottom: 6px; }
+    .frame .pin { aspect-ratio: 3 / 4; border-radius: 4px; }
+    .frame .pin img { filter: grayscale(.85) sepia(.25) contrast(1.05) brightness(.9); transition: filter .5s; }
+    .frame .pin:hover img, .frame .pin:focus-visible img { filter: none; }
+    .frame .pin::after { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .35; mix-blend-mode: overlay; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+    .frame-meta { display: flex; justify-content: space-between; margin-top: 8px; font: 500 11px "JetBrains Mono", monospace; color: #e8a33d; letter-spacing: .08em; }
+    .film-foot { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 18px 24px 0; font: 400 14px "JetBrains Mono", monospace; color: #b5ad9a; }
+    .film-foot b { color: #e9e2d0; font-weight: 500; }
+
+    /* ===== 04. Лендинг игры ===== */
+    .game { background: #0b0908; color: #efe6d6; font-family: Onest, sans-serif; }
+    .game-hero { position: relative; min-height: 560px; display: grid; align-items: end; padding: 48px; isolation: isolate; }
+    .game-hero .pin { position: absolute; inset: 0; z-index: -2; }
+    .game-hero .pin img { object-position: 50% 30%; }
+    .game-hero::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; background: radial-gradient(70% 60% at 50% 30%, transparent, rgba(11, 9, 8, .6)), linear-gradient(180deg, rgba(11, 9, 8, .35), transparent 30%, rgba(11, 9, 8, .92) 85%); }
+    .game-hero h3 { font: 400 clamp(48px, 8vw, 96px)/.95 "Ruslan Display", Georgia, serif; color: #f4e7c9; text-shadow: 0 0 30px rgba(255, 120, 40, .45); letter-spacing: .02em; }
+    .game-hero p { max-width: 520px; margin-top: 14px; font-size: 17px; color: #d8cbb3; }
+    .game-cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
+    .game-btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 26px; border-radius: 4px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; font-size: 13px; text-decoration: none; }
+    .game-btn.primary { background: linear-gradient(180deg, #e0622a, #9a2f10); color: #fff6e8; box-shadow: 0 0 0 1px #f0a061 inset, 0 10px 30px -8px rgba(224, 98, 42, .7); }
+    .game-btn.ghost { color: #efe6d6; box-shadow: 0 0 0 1px rgba(239, 230, 214, .45) inset; }
+    .embers { position: absolute; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
+    .embers i { position: absolute; bottom: -10px; width: 4px; height: 4px; border-radius: 50%; background: #ffb066; box-shadow: 0 0 8px 2px rgba(255, 120, 40, .8); opacity: 0; animation: ember linear infinite; }
+    @keyframes ember { 0% { transform: translate(0, 0); opacity: 0; } 10% { opacity: 1; } 100% { transform: translate(var(--dx, 30px), -520px); opacity: 0; } }
+    .game-classes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; padding: 0 48px 48px; }
+    .class-card { position: relative; border-radius: 6px; overflow: hidden; aspect-ratio: 3 / 4; border: 1px solid rgba(240, 160, 97, .35); }
+    .class-card .pin { position: absolute; inset: 0; }
+    .class-card .pin img { transition: transform .5s; }
+    .class-card:hover .pin img { transform: scale(1.06); }
+    .class-card div { position: absolute; left: 0; right: 0; bottom: 0; padding: 40px 16px 14px; background: linear-gradient(transparent, rgba(11, 9, 8, .95)); pointer-events: none; }
+    .class-card b { display: block; font: 400 24px "Ruslan Display", serif; color: #f4e7c9; }
+    .class-card span { font-size: 13px; color: #c4b69c; }
+    @media (max-width: 720px) { .game-hero { padding: 28px 20px; min-height: 480px; } .game-classes { grid-template-columns: minmax(0, 1fr); padding: 0 20px 24px; } .class-card { aspect-ratio: 16 / 10; } }
+    @media (prefers-reduced-motion: reduce) { .embers { display: none; } }
+
+    /* ===== 05. Музей ===== */
+    .museum { background: radial-gradient(120% 70% at 50% 0%, #efe7da, #d9cdb9); color: #2b241b; padding: 56px 40px 40px; }
+    .wall { display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-end; gap: 44px 40px; }
+    .art { margin: 0; text-align: center; position: relative; }
+    /* луч света над картиной */
+    .art::before { content: ""; position: absolute; left: 50%; top: -60px; width: 140%; height: 70%; transform: translateX(-50%); pointer-events: none; background: radial-gradient(50% 60% at 50% 0%, rgba(255, 248, 225, .9), transparent 70%); }
+    .art .frame-wood { position: relative; padding: 14px; background: linear-gradient(135deg, #6b4a2b, #3e2914 50%, #7a5532); box-shadow: inset 0 0 0 2px #b08452, inset 0 0 0 5px #3a2612, 0 22px 30px -14px rgba(40, 25, 10, .55); }
+    .art .mat { background: #fbf8f1; padding: 16px; box-shadow: inset 0 1px 6px rgba(0, 0, 0, .25); }
+    .art .pin { width: var(--w, 170px); aspect-ratio: var(--ar, 3 / 4); }
+    .art figcaption { margin-top: 16px; display: inline-block; background: #faf6ec; padding: 6px 12px; font: 400 13px/1.35 "PT Serif", serif; box-shadow: 0 2px 4px rgba(0, 0, 0, .15); }
+    .art figcaption i { display: block; font-size: 11px; color: #6c6050; }
+    @media (max-width: 720px) { .museum { padding: 40px 16px 28px; } .wall { gap: 32px 20px; } .art .pin { width: min(var(--w, 170px), 38vw); } }
+
+    /* ===== 06. Чертёж и открытка ===== */
+    .duo { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 20px; }
+    .blueprint { background-color: #173a6e; color: #dbe8ff; padding: 28px; font-family: "JetBrains Mono", monospace; background-image: linear-gradient(rgba(219, 232, 255, .14) 1px, transparent 1px), linear-gradient(90deg, rgba(219, 232, 255, .14) 1px, transparent 1px), linear-gradient(rgba(219, 232, 255, .06) 1px, transparent 1px), linear-gradient(90deg, rgba(219, 232, 255, .06) 1px, transparent 1px); background-size: 80px 80px, 80px 80px, 16px 16px, 16px 16px; }
+    .bp-drawing { position: relative; margin: 26px 34px 18px; border: 1.5px solid #dbe8ff; padding: 10px; }
+    .bp-drawing .pin { aspect-ratio: 1 / .703; }
+    .bp-drawing .pin img { filter: saturate(.5) contrast(1.05); }
+    .dim { position: absolute; font-size: 11px; color: #9fc1ff; }
+    .dim.top { left: 0; right: 0; top: -22px; text-align: center; border-bottom: 1px solid #9fc1ff; }
+    .dim.side { top: 0; bottom: 0; left: -30px; writing-mode: vertical-rl; transform: rotate(180deg); text-align: center; border-left: 1px solid #9fc1ff; }
+    .bp-stamp { display: grid; grid-template-columns: 1fr auto; border: 1.5px solid #dbe8ff; font-size: 12px; }
+    .bp-stamp > * { padding: 6px 10px; border-right: 1px solid #dbe8ff; border-bottom: 1px solid #dbe8ff; }
+    .bp-stamp b { font-weight: 500; }
+    .postcard { background: #fffaf2; color: #3a2a2a; padding: 22px; display: grid; grid-template-rows: auto 1fr; gap: 16px; font-family: Caveat, cursive; }
+    .pc-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+    .pc-top strong { font: 700 34px/1 Caveat, cursive; color: #c2305f; }
+    /* марка: картинка целиком, а зубцы только по краю — маска = сплошной центр + «дырявая» рамка */
+    .stamp { width: 78px; flex: none; padding: 6px; background: #fff; filter: drop-shadow(0 1px 2px rgba(0, 0, 0, .25));
+      -webkit-mask: linear-gradient(#000 0 0) content-box, radial-gradient(circle, transparent 2.6px, #000 3px) -4.5px -4.5px / 9px 9px;
+      mask: linear-gradient(#000 0 0) content-box, radial-gradient(circle, transparent 2.6px, #000 3px) -4.5px -4.5px / 9px 9px; }
+    .stamp .pin { aspect-ratio: 3 / 4; }
+    .pc-body { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 18px; }
+    .pc-body .pin { border-radius: 6px; aspect-ratio: 1 / 1.3; box-shadow: 0 10px 20px -10px rgba(120, 40, 60, .5); transform: rotate(-2deg); }
+    .pc-lines { display: flex; flex-direction: column; justify-content: flex-end; gap: 10px; font-size: 22px; line-height: 1.1; }
+    .pc-lines span { border-bottom: 1px solid #d9c5b8; padding-bottom: 4px; }
+    .postmark { position: absolute; right: 70px; top: 40px; width: 86px; height: 86px; border-radius: 50%; border: 2px solid rgba(46, 70, 140, .6); color: #2e468c; display: grid; place-items: center; text-align: center; font: 600 10px/1.2 "JetBrains Mono", monospace; transform: rotate(-14deg); pointer-events: none; }
+    @media (max-width: 860px) { .duo { grid-template-columns: minmax(0, 1fr); } .blueprint { padding: 20px 16px; } .bp-drawing { margin: 26px 8px 18px 30px; } }
+
+    /* ===== 07. Вся коллекция ===== */
+    .masonry { columns: 5 180px; column-gap: 12px; }
+    .masonry .pin { break-inside: avoid; margin-bottom: 12px; border-radius: 16px; background: var(--tile); box-shadow: var(--glass-shadow); }
+    .masonry .pin[hidden] { display: none; }
+    .masonry .pin img { height: auto; transition: transform .3s; }
+    .masonry .pin:hover img { transform: scale(1.03); }
+
+    /* ===== Просмотр картинки ===== */
+    .viewer { border: 0; padding: 0; background: transparent; max-width: min(92vw, 1100px); max-height: 92vh; overflow: visible; color: #fff; }
+    .viewer::backdrop { background: rgba(8, 8, 14, .82); backdrop-filter: blur(6px); }
+    .viewer-body { display: grid; justify-items: center; gap: 12px; }
+    .viewer img { max-width: min(92vw, 1100px); max-height: 78vh; border-radius: 14px; box-shadow: 0 30px 80px rgba(0, 0, 0, .6); background: #222; }
+    .viewer-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 10px; font-size: 14px; }
+    .viewer-bar .cap { opacity: .85; max-width: 52ch; text-align: center; }
+    .viewer button { width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(255, 255, 255, .3); background: rgba(255, 255, 255, .12); color: #fff; font-size: 20px; cursor: pointer; }
+    .viewer button:hover { background: rgba(255, 255, 255, .22); }
+  </style>
+</head>
+<body>
+  <header class="site-header" data-layout="header"></header>
+
+  <main class="wrap">
+    <div class="doc-hero" style="--hero-bg: radial-gradient(45% 80% at 85% 15%, rgba(232, 69, 122, .55) 0%, transparent 60%), radial-gradient(40% 70% at 10% 90%, rgba(255, 210, 63, .35) 0%, transparent 60%), linear-gradient(135deg, #14101f, #3a1f5c 55%, #8f3fb8)">
+      <div>
+        <div class="crumbs"><a href="../design.html">Дизайн</a> / Витрина</div>
+        <h1>Мой Pinterest <b>в шести подачах</b></h1>
+        <p>Одни и те же сохранёнки — футбол, аниме, кино, фэнтези, картины — свёрстаны шестью разными способами: журнал, манга, фотоплёнка, лендинг игры, музей и чертёж. Ниже — вся коллекция с фильтром по доскам.</p>
+        <div class="hero-facts"><span>69 пинов · 7 досок</span><span>6 дизайн-подач</span><span>HTML · CSS · JS без библиотек</span></div>
+      </div>
+      <div class="icon i-ml" aria-hidden="true">P</div>
+    </div>
+
+    <div class="source-note">
+      <span aria-hidden="true">ⓘ</span>
+      <p><b>Картинки — из моих досок в Pinterest, права принадлежат их авторам.</b> Они не скопированы на сайт, а загружаются с Pinterest, и каждая ведёт на свой пин. Если вы автор и хотите убрать работу, напишите мне в <a href="https://t.me/BojooYkt" target="_blank" rel="noopener">Telegram</a>.</p>
+    </div>
+    <noscript><p class="source-note">Картинки подгружаются скриптом — включите JavaScript, чтобы увидеть витрину.</p></noscript>
+
+    <!-- 01. Журнал -->
+    <section class="show" id="magazine" data-fonts="Oswald:wght@500;700|PT Serif:ital,wght@0,400;0,700;1,400">
+      <div class="show-head">
+        <div>
+          <p class="num">Подача 01 · доска «футбол»</p>
+          <h2>Журнальная <b>вёрстка</b></h2>
+          <p>Обложка с мастхедом поверх фото, колонки с буквицей, чёрно-белые снимки, которые оживают при наведении. Шрифты Oswald и PT Serif.</p>
+        </div>
+        <a class="pill ghost sm" data-board="football" target="_blank" rel="noopener">Доска в Pinterest ↗</a>
+      </div>
+      <article class="stage mag">
+        <div class="mag-cover">
+          <a class="pin" data-pin="football:1"></a>
+          <div class="mag-mast"><strong>Легенды</strong><span><em>№ 10</em><em>Ноябрь 2026</em></span></div>
+          <div class="mag-lines"><b>25 кадров</b><p>Моя доска о футболе: улица, стадион, номер на спине</p></div>
+        </div>
+        <div class="mag-spread">
+          <p class="mag-kicker">Тема номера</p>
+          <h3 class="mag-title">Номер десять</h3>
+          <p class="mag-lead">Футбол в этой доске — не таблица результатов, а кадры: сутулая спина под номером на футболке, тишина перед штрафным, радость, которую не сыграть. Я собирал их годами — здесь они свёрстаны как журнальный разворот: крупная обложка, колонки текста и полоса снимков.</p>
+          <div class="mag-grid">
+            <figure><a class="pin" data-pin="football:11"></a><figcaption>Марадона</figcaption></figure>
+            <figure><a class="pin" data-pin="football:6"></a><figcaption>Номер 10</figcaption></figure>
+            <figure><a class="pin" data-pin="football:24"></a><figcaption>Кака</figcaption></figure>
+            <figure><a class="pin" data-pin="football:9"></a><figcaption>Педри</figcaption></figure>
+          </div>
+          <blockquote class="mag-quote">«Лучшие кадры футбола случаются не в момент гола, а за секунду до него».</blockquote>
+        </div>
+      </article>
+    </section>
+
+    <!-- 02. Манга -->
+    <section class="show" id="manga" data-fonts="Neucha|Oswald:wght@500;700">
+      <div class="show-head">
+        <div>
+          <p class="num">Подача 02 · доска «онимэ»</p>
+          <h2>Страница <b>манги</b></h2>
+          <p>Сетка панелей со скошенными краями, скринтон из точек, линии скорости, облачка и звуки. При наведении панель «раскрашивается».</p>
+        </div>
+        <a class="pill ghost sm" data-board="anime" target="_blank" rel="noopener">Доска в Pinterest ↗</a>
+      </div>
+      <article class="stage manga">
+        <div class="manga-top"><strong>Глава 1. Запад за морем</strong><span>стр. 12</span></div>
+        <div class="manga-page">
+          <div class="panel p1"><a class="pin" data-pin="anime:0"></a><span class="caption-box">Где-то далеко на западе…</span></div>
+          <div class="panel p2"><a class="pin" data-pin="anime:17"></a><div class="bubble" style="right: 8px; bottom: 16px">Опять опоздал?</div></div>
+          <div class="panel p3"><a class="pin" data-pin="anime:13"></a><span class="speed"></span></div>
+          <div class="panel p4"><a class="pin" data-pin="anime:6"></a><span class="sfx" style="left: 12px; bottom: 14px">ДОН!</span></div>
+          <div class="panel p5"><a class="pin" data-pin="anime:16"></a><div class="bubble" style="left: 10px; top: 12px">Это предел?</div></div>
+          <div class="panel p6"><a class="pin" data-pin="anime:19"></a><span class="speed"></span></div>
+          <div class="panel p7"><a class="pin" data-pin="anime:11"></a><span class="caption-box">А в городе тем временем…</span></div>
+          <div class="panel p8"><a class="pin" data-pin="anime:20"></a></div>
+          <div class="panel p9"><a class="pin" data-pin="anime:10"></a><span class="caption-box">…есть земля по имени Винланд</span><span class="sfx" style="right: 18px; bottom: 14px; top: auto; transform: rotate(8deg)">ШШШ…</span></div>
+        </div>
+      </article>
+    </section>
+
+    <!-- 03. Плёнка -->
+    <section class="show" id="film">
+      <div class="show-head">
+        <div>
+          <p class="num">Подача 03 · доска «эстетика»</p>
+          <h2>Фото<b>плёнка</b></h2>
+          <p>Лента с перфорацией и прокруткой по кадрам: снимки выцветшие, с зерном, и проявляются при наведении. Маркировка кадров — как на краю настоящей плёнки.</p>
+        </div>
+        <a class="pill ghost sm" data-board="aesthetic" target="_blank" rel="noopener">Доска в Pinterest ↗</a>
+      </div>
+      <article class="stage film">
+        <div class="film-strip" tabindex="0" aria-label="Плёнка: листайте кадры">
+          <div class="frame"><a class="pin" data-pin="aesthetic:0"></a><div class="frame-meta"><span>▸ 1A</span><span>ПЛЁНКА 400</span></div></div>
+          <div class="frame"><a class="pin" data-pin="aesthetic:1"></a><div class="frame-meta"><span>▸ 2A</span><span>00:12:04</span></div></div>
+          <div class="frame"><a class="pin" data-pin="aesthetic:2"></a><div class="frame-meta"><span>▸ 3A</span><span>ПЛЁНКА 400</span></div></div>
+          <div class="frame"><a class="pin" data-pin="aesthetic:3"></a><div class="frame-meta"><span>▸ 4A</span><span>00:31:47</span></div></div>
+          <div class="frame"><a class="pin" data-pin="aesthetic:4"></a><div class="frame-meta"><span>▸ 5A</span><span>ПЛЁНКА 400</span></div></div>
+          <div class="frame"><a class="pin" data-pin="art:2"></a><div class="frame-meta"><span>▸ 6A</span><span>00:58:10</span></div></div>
+          <div class="frame"><a class="pin" data-pin="anime:8"></a><div class="frame-meta"><span>▸ 7A</span><span>ПЛЁНКА 400</span></div></div>
+        </div>
+        <div class="film-foot"><span><b>7 кадров</b> · листайте вбок</span><span>Настроение: японское кино 2000-х, ночное море, тихое поле</span></div>
+      </article>
+    </section>
+
+    <!-- 04. Лендинг игры -->
+    <section class="show" id="game" data-fonts="Ruslan Display">
+      <div class="show-head">
+        <div>
+          <p class="num">Подача 04 · доска «Фэнтези рисунки»</p>
+          <h2>Лендинг <b>вымышленной игры</b></h2>
+          <p>Арт на весь экран с виньеткой, тлеющие искры на чистом CSS, акцентная кнопка и карточки классов героев. Игра и названия выдуманы.</p>
+        </div>
+        <a class="pill ghost sm" data-board="fantasy" target="_blank" rel="noopener">Доска в Pinterest ↗</a>
+      </div>
+      <article class="stage game">
+        <div class="game-hero">
+          <a class="pin" data-pin="fantasy:2" tabindex="-1"></a>
+          <div class="embers" aria-hidden="true"></div>
+          <div>
+            <h3>Пепел и сталь</h3>
+            <p>Город пал, но над руинами всё ещё стоит страж. Соберите отряд и поднимитесь на стену, пока не догорел последний костёр.</p>
+            <div class="game-cta">
+              <a class="game-btn primary" data-board="fantasy" target="_blank" rel="noopener">⚔ Смотреть арт</a>
+              <a class="game-btn ghost" href="#classes">Классы героев</a>
+            </div>
+          </div>
+        </div>
+        <div class="game-classes" id="classes">
+          <div class="class-card"><a class="pin" data-pin="fantasy:0"></a><div><b>Паладин</b><span>Свет против тьмы</span></div></div>
+          <div class="class-card"><a class="pin" data-pin="fantasy:1"></a><div><b>Бездна</b><span>Магия чёрных звёзд</span></div></div>
+          <div class="class-card"><a class="pin" data-pin="fantasy:3"></a><div><b>Багровый рыцарь</b><span>Клинок и клятва</span></div></div>
+        </div>
+      </article>
+    </section>
+
+    <!-- 05. Музей -->
+    <section class="show" id="museum" data-fonts="PT Serif:ital,wght@0,400;0,700;1,400">
+      <div class="show-head">
+        <div>
+          <p class="num">Подача 05 · доска «рисунки»</p>
+          <h2>Зал <b>музея</b></h2>
+          <p>Стена с тёплым светом, деревянные рамы с паспарту и таблички под картинами — всё нарисовано градиентами и тенями, без картинок интерфейса.</p>
+        </div>
+        <a class="pill ghost sm" data-board="art" target="_blank" rel="noopener">Доска в Pinterest ↗</a>
+      </div>
+      <article class="stage museum">
+        <div class="wall">
+          <figure class="art" style="--w: 150px"><div class="frame-wood"><div class="mat"><a class="pin" data-pin="art:0"></a></div></div><figcaption>Звёздный сад<i>из доски «рисунки»</i></figcaption></figure>
+          <figure class="art" style="--w: 200px; --ar: 1 / 1.33"><div class="frame-wood"><div class="mat"><a class="pin" data-pin="art:3"></a></div></div><figcaption>Странник<i>из доски «рисунки»</i></figcaption></figure>
+          <figure class="art" style="--w: 150px"><div class="frame-wood"><div class="mat"><a class="pin" data-pin="art:4"></a></div></div><figcaption>Кот и рамен<i>из доски «рисунки»</i></figcaption></figure>
+          <figure class="art" style="--w: 130px; --ar: 1 / 1.6"><div class="frame-wood"><div class="mat"><a class="pin" data-pin="art:1"></a></div></div><figcaption>Тепло<i>из доски «рисунки»</i></figcaption></figure>
+        </div>
+      </article>
+    </section>
+
+    <!-- 06. Чертёж и открытка -->
+    <section class="show" id="misc" data-fonts="Caveat:wght@500;700">
+      <div class="show-head">
+        <div>
+          <p class="num">Подача 06 · доски «Наука» и «нэчто»</p>
+          <h2>Чертёж <b>и открытка</b></h2>
+          <p>Синька с сеткой, размерными линиями и штампом — и бумажная открытка с маркой, вырезанной маской, и почтовым штемпелем.</p>
+        </div>
+      </div>
+      <div class="duo">
+        <article class="stage blueprint">
+          <div class="bp-drawing">
+            <span class="dim top">← 1200 →</span>
+            <span class="dim side">← 844 →</span>
+            <a class="pin" data-pin="science:0"></a>
+          </div>
+          <div class="bp-stamp">
+            <span><b>Карта математики</b></span><span>Лист 1</span>
+            <span>Источник: доска «Наука»</span><span>М 1:1</span>
+          </div>
+        </article>
+        <article class="stage postcard">
+          <span class="postmark" aria-hidden="true">ПОЧТА<br>08·03<br>2026</span>
+          <div class="pc-top"><strong>С 8 Марта!</strong><div class="stamp"><a class="pin" data-pin="misc:1" tabindex="-1"></a></div></div>
+          <div class="pc-body">
+            <a class="pin" data-pin="misc:1"></a>
+            <div class="pc-lines"><span>Кому: всем, кто листает</span><span>Откуда: мой Pinterest</span><span>С теплом, Владимир</span></div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- 07. Вся коллекция -->
+    <section class="show" id="all">
+      <div class="show-head">
+        <div>
+          <p class="num">Вся коллекция</p>
+          <h2>Все <b>сохранёнки</b></h2>
+          <p>Колонки на CSS, фильтр по доскам и просмотр в полный размер: стрелки ← → листают, Esc закрывает.</p>
+        </div>
+      </div>
+      <div class="tabs" role="tablist" id="boardTabs"><button role="tab" aria-selected="true" data-filter="all">Все</button></div>
+      <div class="masonry" id="masonry"></div>
+    </section>
+
+    <div class="cta">
+      <h2 class="title">Нужна витрина для вашего контента?</h2>
+      <p class="subtitle">Соберу галерею, лендинг или журнальную вёрстку под ваши фотографии и бренд.</p>
+      <div class="actions">
+        <a class="pill" href="https://t.me/BojooYkt" target="_blank" rel="noopener">Написать в Telegram</a>
+        <a class="pill" href="../design.html">Весь раздел «Дизайн»</a>
+      </div>
+    </div>
+  </main>
+
+  <dialog class="viewer" id="viewer" aria-label="Просмотр картинки">
+    <div class="viewer-body">
+      <img id="viewerImg" alt="">
+      <div class="viewer-bar">
+        <button type="button" id="prevBtn" aria-label="Предыдущая">←</button>
+        <span class="cap" id="viewerCap"></span>
+        <a class="pill sm" id="viewerLink" target="_blank" rel="noopener">Открыть на Pinterest ↗</a>
+        <button type="button" id="nextBtn" aria-label="Следующая">→</button>
+        <button type="button" id="closeBtn" aria-label="Закрыть">✕</button>
+      </div>
+    </div>
+  </dialog>
+
+  <footer class="site-footer" data-layout="footer"></footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var BOARDS = window.PINS;
+      if (!BOARDS) return;
+      var names = { aesthetic: 'эстетика', football: 'футбол', anime: 'онимэ', art: 'рисунки', fantasy: 'Фэнтези рисунки', science: 'Наука', misc: 'нэчто' };
+
+      function pinOf(board, i) {
+        var p = BOARDS[board].pins[i];
+        var alt = p[3] && /[a-zа-яё]{2,}/i.test(p[3]) ? p[3] : 'Пин из доски «' + names[board] + '»';
+        return { id: p[0], src: window.PIN_IMG + p[1], ratio: p[2], alt: alt, board: board };
+      }
+
+      // Каждая ссылка с data-pin получает адрес пина и картинку с Pinterest
+      function fill(a) {
+        var parts = a.dataset.pin.split(':');
+        var p = pinOf(parts[0], +parts[1]);
+        a.href = window.PIN_URL + p.id + '/';
+        a.target = '_blank';
+        a.rel = 'noopener';
+        a.dataset.full = p.src;
+        a.dataset.cap = p.alt;
+        var img = document.createElement('img');
+        img.src = p.src;
+        img.alt = p.alt;
+        img.loading = 'lazy';
+        img.decoding = 'async';
+        img.referrerPolicy = 'no-referrer';
+        img.width = 736;
+        img.height = Math.round(736 * p.ratio);
+        a.appendChild(img);
+      }
+      document.querySelectorAll('[data-pin]').forEach(fill);
+      document.querySelectorAll('[data-board]').forEach(function (a) { a.href = BOARDS[a.dataset.board].url; });
+
+      // Вся коллекция: колонки + вкладки по доскам
+      var masonry = document.getElementById('masonry');
+      var tabs = document.getElementById('boardTabs');
+      Object.keys(BOARDS).forEach(function (board) {
+        var b = document.createElement('button');
+        b.setAttribute('role', 'tab');
+        b.setAttribute('aria-selected', 'false');
+        b.dataset.filter = board;
+        b.textContent = names[board] + ' · ' + BOARDS[board].pins.length;
+        tabs.appendChild(b);
+        BOARDS[board].pins.forEach(function (_, i) {
+          var a = document.createElement('a');
+          a.className = 'pin';
+          a.dataset.pin = board + ':' + i;
+          a.dataset.group = 'all';
+          fill(a);
+          a.querySelector('img').style.aspectRatio = '1 / ' + BOARDS[board].pins[i][2];
+          masonry.appendChild(a);
+        });
+      });
+      tabs.addEventListener('click', function (e) {
+        var btn = e.target.closest('button');
+        if (!btn) return;
+        tabs.querySelectorAll('button').forEach(function (t) { t.setAttribute('aria-selected', String(t === btn)); });
+        masonry.querySelectorAll('.pin').forEach(function (a) {
+          a.hidden = btn.dataset.filter !== 'all' && a.dataset.pin.split(':')[0] !== btn.dataset.filter;
+        });
+      });
+
+      // Искры над лендингом игры
+      var embers = document.querySelector('.embers');
+      for (var k = 0; k < 26; k++) {
+        var i = document.createElement('i');
+        i.style.left = (Math.random() * 100).toFixed(1) + '%';
+        i.style.animationDuration = (5 + Math.random() * 6).toFixed(1) + 's';
+        i.style.animationDelay = (-Math.random() * 10).toFixed(1) + 's';
+        i.style.setProperty('--dx', ((Math.random() - .5) * 120).toFixed(0) + 'px');
+        i.style.transform = 'scale(' + (.5 + Math.random()).toFixed(2) + ')';
+        embers.appendChild(i);
+      }
+
+      // Просмотр в полный размер: клик по картинке открывает окно, стрелки листают
+      var viewer = document.getElementById('viewer');
+      var vImg = document.getElementById('viewerImg');
+      var vCap = document.getElementById('viewerCap');
+      var vLink = document.getElementById('viewerLink');
+      var list = [], pos = 0;
+      function show(n) {
+        pos = (n + list.length) % list.length;
+        var a = list[pos];
+        vImg.src = a.dataset.full;
+        vImg.alt = a.dataset.cap;
+        vCap.textContent = a.dataset.cap + ' · ' + (pos + 1) + ' из ' + list.length;
+        vLink.href = a.href;
+      }
+      document.addEventListener('click', function (e) {
+        var a = e.target.closest('a.pin[data-pin]');
+        if (!a || e.ctrlKey || e.metaKey || e.shiftKey || e.button !== 0 || !viewer.showModal) return;
+        e.preventDefault();
+        var scope = a.dataset.group ? masonry : a.closest('.show');
+        list = Array.prototype.filter.call(scope.querySelectorAll('a.pin[data-pin]'), function (x) { return !x.hidden && x.tabIndex !== -1; });
+        if (list.indexOf(a) === -1) list = [a];
+        show(list.indexOf(a));
+        viewer.showModal();
+      });
+      document.getElementById('prevBtn').onclick = function () { show(pos - 1); };
+      document.getElementById('nextBtn').onclick = function () { show(pos + 1); };
+      document.getElementById('closeBtn').onclick = function () { viewer.close(); };
+      viewer.addEventListener('click', function (e) { if (e.target === viewer) viewer.close(); });
+      viewer.addEventListener('keydown', function (e) {
+        if (e.key === 'ArrowLeft') show(pos - 1);
+        if (e.key === 'ArrowRight') show(pos + 1);
+      });
+    });
+  </script>
+</body>
+</html>

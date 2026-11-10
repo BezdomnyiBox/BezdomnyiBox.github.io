@@ -68,6 +68,7 @@
         '</ul></div>' +
         '<div><p class="footer-h">Дизайн</p><ul>' +
           '<li><a href="' + base + 'design.html">Весь раздел</a></li>' +
+          '<li><a href="' + base + 'design/showcase.html">Витрина из Pinterest</a></li>' +
           '<li><a href="' + base + 'design/switcher.html">Переключатель стилей</a></li>' +
           '<li><a href="' + base + 'design/styles.html">Галерея стилей</a></li>' +
           '<li><a href="' + base + 'design/palette.html">Генератор палитры</a></li>' +

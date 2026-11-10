@@ -141,6 +141,14 @@
     .sw-chips { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 14px; }
     .sw-chips span { width: 28px; height: 28px; border-radius: 8px; border: 2px solid rgba(255, 255, 255, .5); }
 
+    /* Промо витрины: веер из пинов */
+    .pin-promo { background: radial-gradient(45% 90% at 90% 20%, rgba(232, 69, 122, .45), transparent 60%), linear-gradient(135deg, #14101f, #3a1f5c 55%, #8f3fb8); }
+    .pin-fan { display: flex; margin-top: 16px; }
+    .pin-fan img { width: 64px; height: 86px; object-fit: cover; border-radius: 10px; border: 2px solid rgba(255, 255, 255, .7); box-shadow: 0 8px 18px -8px rgba(0, 0, 0, .6); background: #2a2340; }
+    .pin-fan img + img { margin-left: -14px; }
+    .pin-fan img:nth-child(odd) { transform: rotate(-5deg); }
+    .pin-fan img:nth-child(even) { transform: rotate(4deg) translateY(4px); }
+
     @media (max-width: 640px) {
       .hero-design { padding: 56px 20px 64px; border-radius: var(--radius-lg); }
       .sw-promo { grid-template-columns: minmax(0, 1fr); padding: 24px 20px; border-radius: var(--radius-lg); }
@@ -158,6 +166,7 @@
       <h1>Дизайн: <b>шрифты, законы и стили</b></h1>
       <p>Основы, которые делают интерфейс аккуратным, семь гайдов и галерея из двадцати девяти стилей с живыми примерами и анимациями.</p>
       <div class="actions">
+        <a class="pill" href="design/showcase.html">Витрина из Pinterest</a>
         <a class="pill" href="design/switcher.html">Переключатель стилей</a>
         <a class="pill" href="design/styles.html">Галерея стилей</a>
         <a class="pill" href="#guides">Гайды</a>
@@ -180,6 +189,22 @@
         </div>
       </div>
       <span class="pill">Попробовать →</span>
+    </a>
+
+    <a class="sw-promo pin-promo" href="design/showcase.html">
+      <div>
+        <small>Витрина</small>
+        <h2>Мой Pinterest — <b>в шести подачах</b></h2>
+        <p>Мои сохранёнки, свёрстанные журналом, мангой, фотоплёнкой, лендингом игры, музеем и чертежом. Плюс вся коллекция с фильтром и просмотром.</p>
+        <div class="pin-fan" aria-hidden="true">
+          <img src="https://i.pinimg.com/236x/7e/96/3a/7e963a5e28da73616c04bc55bed11a19.jpg" alt="" loading="lazy" referrerpolicy="no-referrer">
+          <img src="https://i.pinimg.com/236x/aa/f8/e2/aaf8e2640b1d5d7dc6fbc7ab5d4df34c.jpg" alt="" loading="lazy" referrerpolicy="no-referrer">
+          <img src="https://i.pinimg.com/236x/e5/35/ac/e535acc7423945a1c9eba70f3edf684d.jpg" alt="" loading="lazy" referrerpolicy="no-referrer">
+          <img src="https://i.pinimg.com/236x/d7/18/5f/d7185f8c98db2e90e2c402e68da844ba.jpg" alt="" loading="lazy" referrerpolicy="no-referrer">
+          <img src="https://i.pinimg.com/236x/b9/58/7e/b9587ea8cebc87ab716b387c6a797fdd.jpg" alt="" loading="lazy" referrerpolicy="no-referrer">
+        </div>
+      </div>
+      <span class="pill">Смотреть →</span>
     </a>
 
     <div class="tabs" role="tablist">
