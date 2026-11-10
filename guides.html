@@ -87,7 +87,7 @@
         return `<a class="card" data-kind="${kind}" href="${esc(g.url)}"${external ? ' target="_blank" rel="noopener"' : ''}>
           <div class="tile"><div class="icon i-${esc(g.color || 'link')}">${esc(g.icon || '↗')}</div></div>
           <span class="cat">${esc(g.category || '')}</span>
-          <h3>${esc(g.title)}</h3>
+          <h2>${esc(g.title)}</h2>
           <span class="desc">${esc(g.description || '')}</span>
           <span class="meta">${external ? '<b>Внешний сайт ↗</b>' : '<b>Читать учебник →</b>'}</span>
         </a>`;

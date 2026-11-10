@@ -235,7 +235,7 @@ p a:not(.pill):not(.btn-outline), li a:not(.pill), .footer-legal a { text-decora
 }
 .card:hover .tile { transform: scale(1.02); box-shadow: var(--glass-rim), 0 22px 40px -18px rgba(52, 38, 120, .45); }
 .card .cat { font-size: 13px; color: var(--muted); }
-.card h3 { font-size: 18px; font-weight: 500; line-height: 1.3; }
+.card h2, .card h3 { font-size: 18px; font-weight: 500; line-height: 1.3; }   /* h2 — где карточки идут сразу после h1 */
 .card .meta { font-size: 14px; color: var(--muted); }
 .card .meta b { font-weight: 500; color: var(--accent); }
 
