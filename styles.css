@@ -29,6 +29,16 @@
   --glow-3: rgba(244, 164, 212, .36);
   --glow-4: rgba(134, 239, 172, .26);
 
+  /* Фон больших блоков — «северное сияние»: глубокая сине-бирюзовая основа и мягкая подсветка.
+     Одинаковый в обеих темах: на нём всегда белый текст. */
+  --aurora-base: linear-gradient(135deg, #061923, #0b3444 52%, #0e5a5c);
+  --aurora-deep: linear-gradient(135deg, #0b1219, #0b3444 55%, #0e5a5c);
+  --aurora:
+    radial-gradient(55% 85% at 12% 18%, rgba(45, 212, 191, .5) 0%, transparent 60%),
+    radial-gradient(50% 80% at 90% 88%, rgba(56, 189, 248, .42) 0%, transparent 60%),
+    radial-gradient(38% 60% at 78% 0%, rgba(186, 230, 253, .28) 0%, transparent 60%),
+    var(--aurora-base);
+
   --radius-xl: 32px;
   --radius-lg: 24px;
   --radius-sm: 10px;
@@ -325,13 +335,13 @@ p a:not(.pill):not(.btn-outline), li a:not(.pill), .footer-legal a { text-decora
 .cta {
   margin-top: 88px; border-radius: var(--radius-xl);
   background:
-    radial-gradient(55% 110% at 0% 100%, rgba(124, 92, 255, .5), transparent 60%),
+    radial-gradient(55% 110% at 0% 100%, rgba(45, 212, 191, .42), transparent 60%),
     radial-gradient(45% 90% at 100% 0%, rgba(56, 189, 248, .32), transparent 60%),
-    radial-gradient(40% 80% at 85% 110%, rgba(236, 72, 153, .35), transparent 60%),
+    radial-gradient(40% 80% at 85% 110%, rgba(59, 130, 246, .3), transparent 60%),
     var(--cta-bg);
   color: var(--cta-text); text-align: center;
   padding: 72px 24px; border: 1px solid rgba(255, 255, 255, .12);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .2), 0 30px 60px -32px rgba(30, 20, 90, .6);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .2), 0 30px 60px -32px rgba(6, 40, 50, .6);
 }
 .cta .subtitle { color: inherit; opacity: .7; }
 .cta .actions { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin-top: 32px; }

@@ -37,9 +37,7 @@
       position: relative; overflow: hidden; margin-top: 16px; border-radius: var(--radius-xl);
       padding: 80px 24px 88px; text-align: center; color: #fff;
       background:
-        radial-gradient(45% 80% at 14% 18%, rgba(255, 143, 179, .6) 0%, transparent 60%),
-        radial-gradient(45% 80% at 86% 86%, rgba(97, 218, 251, .5) 0%, transparent 60%),
-        linear-gradient(135deg, #160f2e, #3d2a8a 55%, #6a3fe0);
+        var(--aurora);
     }
     .hero-ai h1 { font-weight: 400; font-size: clamp(34px, 5.5vw, 60px); line-height: 1.08; letter-spacing: -.02em; }
     .hero-ai h1 b { font-weight: 600; }
@@ -54,7 +52,7 @@
     .case-promo {
       display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 24px;
       margin-top: 24px; padding: 32px; border-radius: var(--radius-xl); color: #fff;
-      background: radial-gradient(45% 90% at 90% 20%, rgba(255, 143, 179, .45), transparent 60%), linear-gradient(135deg, #0f131a, #2b1d4f 50%, #8f3fb8);
+      background: radial-gradient(45% 90% at 90% 20%, rgba(56, 189, 248, .4), transparent 60%), var(--aurora-deep);
     }
     .case-promo small { font-size: 13px; opacity: .75; text-transform: uppercase; letter-spacing: .08em; }
     .case-promo h2 { font-weight: 400; font-size: clamp(24px, 3.4vw, 36px); line-height: 1.15; letter-spacing: -.02em; margin-top: 6px; }

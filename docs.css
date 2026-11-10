@@ -63,7 +63,7 @@ pre[data-file]::before {
   border-radius: var(--radius-xl); color: #fff;
   padding: 64px 48px 72px;
   display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 32px;
-  background: var(--hero-bg, linear-gradient(135deg, #4b3ee0, #b14cf0));
+  background: var(--hero-bg, var(--aurora));
 }
 .doc-hero .crumbs { font-size: 14px; opacity: .75; margin-bottom: 20px; }
 .doc-hero .crumbs a:hover { text-decoration: underline; }

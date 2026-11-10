@@ -39,7 +39,7 @@ COLORS = {
     "lead": "Как построить палитру из одного цвета, подобрать гармонию, выбрать нейтральные и смысловые цвета и правильно сделать тёмную тему.",
     "facts": ["7 уроков", "~15 минут", "OKLCH и CSS"],
     "icon": "Co", "color": "ml",
-    "bg": "radial-gradient(50% 90% at 88% 12%, rgba(255, 211, 25, .45) 0%, transparent 60%), radial-gradient(45% 80% at 10% 90%, rgba(111, 227, 192, .45) 0%, transparent 60%), linear-gradient(135deg, #4a0d2c, #8c1c48 50%, #5b4cf0)",
+    "bg": "radial-gradient(50% 90% at 88% 12%, rgba(255, 211, 25, .45) 0%, transparent 60%), radial-gradient(45% 80% at 10% 90%, rgba(111, 227, 192, .45) 0%, transparent 60%), linear-gradient(135deg, #4a0d2c, #8c1c48 50%, #d0563a)",
     "head_extra": COLORS_HEAD,
     "sections": [
         ("models", "Цветовые модели", [
@@ -186,7 +186,7 @@ MOTION = {
     "lead": "Зачем нужна анимация, какую длительность и кривую выбрать, что анимировать без тормозов и когда анимация мешает.",
     "facts": ["7 уроков", "~15 минут", "CSS и JS"],
     "icon": "Mo", "color": "ts",
-    "bg": "radial-gradient(50% 90% at 88% 12%, rgba(125, 249, 255, .45) 0%, transparent 60%), linear-gradient(135deg, #0b2f6b, #2f7fd4 55%, #7b4cf0)",
+    "bg": "radial-gradient(50% 90% at 88% 12%, rgba(125, 249, 255, .45) 0%, transparent 60%), linear-gradient(135deg, #0b2f6b, #2f7fd4 55%, #14a3a0)",
     "head_extra": MOTION_HEAD,
     "sections": [
         ("why", "Зачем нужна анимация", [
@@ -632,7 +632,7 @@ TOKENS = {
     "lead": "Что такое токены, как их называть и разделять на уровни, как через них сделать темы — на примере токенов этого сайта.",
     "facts": ["7 уроков", "~15 минут", "CSS и JSON"],
     "icon": "{ }", "color": "sql",
-    "bg": "radial-gradient(50% 90% at 88% 12%, rgba(255, 196, 90, .45) 0%, transparent 60%), linear-gradient(135deg, #2b1d4f, #4b3ee0 55%, #c46f00)",
+    "bg": "radial-gradient(50% 90% at 88% 12%, rgba(255, 196, 90, .45) 0%, transparent 60%), linear-gradient(135deg, #10283a, #1d5f7a 55%, #c46f00)",
     "head_extra": TOKENS_HEAD,
     "sections": [
         ("what", "Что такое дизайн-токены", [

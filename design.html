@@ -38,10 +38,10 @@
       position: relative; overflow: hidden; margin-top: 16px; border-radius: var(--radius-xl);
       padding: 80px 24px 88px; text-align: center; color: #fff;
       background:
-        radial-gradient(45% 80% at 12% 20%, rgba(255, 122, 224, .75) 0%, transparent 60%),
-        radial-gradient(45% 80% at 88% 85%, rgba(111, 227, 192, .65) 0%, transparent 60%),
-        radial-gradient(40% 70% at 70% 0%, rgba(255, 211, 25, .55) 0%, transparent 60%),
-        linear-gradient(135deg, #2b1d4f, #4b3ee0 60%, #7b4cf0);
+        radial-gradient(45% 80% at 12% 20%, rgba(74, 222, 128, .5) 0%, transparent 60%),
+        radial-gradient(45% 80% at 88% 85%, rgba(103, 232, 249, .55) 0%, transparent 60%),
+        radial-gradient(40% 70% at 70% 0%, rgba(186, 230, 253, .35) 0%, transparent 60%),
+        var(--aurora-base);
     }
     .hero-design h1 { font-weight: 400; font-size: clamp(34px, 5.5vw, 60px); line-height: 1.08; letter-spacing: -.02em; }
     .hero-design h1 b { font-weight: 600; }
@@ -132,7 +132,7 @@
     .sw-promo {
       display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 24px;
       margin-top: 24px; padding: 32px; border-radius: var(--radius-xl); color: #fff;
-      background: radial-gradient(45% 90% at 90% 20%, rgba(125, 249, 255, .45), transparent 60%), linear-gradient(135deg, #0f131a, #2b1d4f 50%, #5b4cf0);
+      background: radial-gradient(45% 90% at 90% 20%, rgba(125, 249, 255, .45), transparent 60%), var(--aurora-deep);
     }
     .sw-promo small { font-size: 13px; opacity: .75; text-transform: uppercase; letter-spacing: .08em; }
     .sw-promo h2 { font-weight: 400; font-size: clamp(24px, 3.4vw, 36px); line-height: 1.15; letter-spacing: -.02em; margin-top: 6px; }
@@ -142,7 +142,7 @@
     .sw-chips span { width: 28px; height: 28px; border-radius: 8px; border: 2px solid rgba(255, 255, 255, .5); }
 
     /* Промо витрины: веер из пинов */
-    .pin-promo { background: radial-gradient(45% 90% at 90% 20%, rgba(232, 69, 122, .45), transparent 60%), linear-gradient(135deg, #14101f, #3a1f5c 55%, #8f3fb8); }
+    .pin-promo { background: radial-gradient(45% 90% at 90% 20%, rgba(45, 212, 191, .45), transparent 60%), var(--aurora-deep); }
     .pin-fan { display: flex; margin-top: 16px; }
     .pin-fan img { width: 64px; height: 86px; object-fit: cover; border-radius: 10px; border: 2px solid rgba(255, 255, 255, .7); box-shadow: 0 8px 18px -8px rgba(0, 0, 0, .6); background: #2a2340; }
     .pin-fan img + img { margin-left: -14px; }

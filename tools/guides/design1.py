@@ -64,7 +64,7 @@ FONTS = {
     "lead": "Как выбрать шрифт с кириллицей, собрать пару, настроить размеры и интервалы и правильно подключить веб-шрифты.",
     "facts": ["8 уроков", "~15 минут", "Google Fonts"],
     "icon": "Aa", "color": "css",
-    "bg": "radial-gradient(50% 90% at 88% 12%, rgba(255, 214, 140, .4) 0%, transparent 60%), linear-gradient(135deg, #2b1d4f, #4b3ee0 55%, #7b4cf0)",
+    "bg": "radial-gradient(50% 90% at 88% 12%, rgba(255, 214, 140, .4) 0%, transparent 60%), linear-gradient(135deg, #062a36, #0b4a5a 55%, #0f766e)",
     "head_extra": FONTS_HEAD,
     "sections": [
         ("kinds", "Виды шрифтов", [
